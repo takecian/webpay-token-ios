@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		474C1CF618CA835D00D69CCB /* TestWebpay.m in Sources */ = {isa = PBXBuildFile; fileRef = 474C1CF518CA835D00D69CCB /* TestWebpay.m */; };
 		4764A07918C7EB04006C9E4E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4764A07818C7EB04006C9E4E /* Foundation.framework */; };
 		4764A07B18C7EB04006C9E4E /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4764A07A18C7EB04006C9E4E /* CoreGraphics.framework */; };
 		4764A07D18C7EB04006C9E4E /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4764A07C18C7EB04006C9E4E /* UIKit.framework */; };
@@ -17,7 +18,7 @@
 		4764A09218C7EB04006C9E4E /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4764A09118C7EB04006C9E4E /* XCTest.framework */; };
 		4764A09318C7EB04006C9E4E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4764A07818C7EB04006C9E4E /* Foundation.framework */; };
 		4764A09418C7EB04006C9E4E /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4764A07C18C7EB04006C9E4E /* UIKit.framework */; };
-		4764A09C18C7EB04006C9E4E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4764A09A18C7EB04006C9E4E /* InfoPlist.strings */; };
+		47B8514518CA7D86003A1ECA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 47B8514318CA7D86003A1ECA /* InfoPlist.strings */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -31,6 +32,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		474C1CF518CA835D00D69CCB /* TestWebpay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TestWebpay.m; path = WebpayTests/TestWebpay.m; sourceTree = SOURCE_ROOT; };
 		4764A07518C7EB04006C9E4E /* Webpay.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Webpay.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4764A07818C7EB04006C9E4E /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		4764A07A18C7EB04006C9E4E /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -45,7 +47,7 @@
 		4764A09018C7EB04006C9E4E /* WebpayTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WebpayTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4764A09118C7EB04006C9E4E /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		4764A09918C7EB04006C9E4E /* WebpayTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; name = "WebpayTests-Info.plist"; path = "WebpayTests/WebpayTests-Info.plist"; sourceTree = "<group>"; };
-		4764A09B18C7EB04006C9E4E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		47B8514418CA7D86003A1ECA /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = InfoPlist.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -129,6 +131,7 @@
 			isa = PBXGroup;
 			children = (
 				4764A09818C7EB04006C9E4E /* Supporting Files */,
+				474C1CF518CA835D00D69CCB /* TestWebpay.m */,
 			);
 			name = WebpayTests;
 			path = "webpay-token-iosTests";
@@ -138,10 +141,19 @@
 			isa = PBXGroup;
 			children = (
 				4764A09918C7EB04006C9E4E /* WebpayTests-Info.plist */,
-				4764A09A18C7EB04006C9E4E /* InfoPlist.strings */,
+				47B8514218CA7D86003A1ECA /* en.lproj */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
+		};
+		47B8514218CA7D86003A1ECA /* en.lproj */ = {
+			isa = PBXGroup;
+			children = (
+				47B8514318CA7D86003A1ECA /* InfoPlist.strings */,
+			);
+			name = en.lproj;
+			path = WebpayTests/en.lproj;
+			sourceTree = SOURCE_ROOT;
 		};
 /* End PBXGroup section */
 
@@ -227,7 +239,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4764A09C18C7EB04006C9E4E /* InfoPlist.strings in Resources */,
+				47B8514518CA7D86003A1ECA /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -247,6 +259,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				474C1CF618CA835D00D69CCB /* TestWebpay.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -270,13 +283,12 @@
 			path = WebpayExample;
 			sourceTree = "<group>";
 		};
-		4764A09A18C7EB04006C9E4E /* InfoPlist.strings */ = {
+		47B8514318CA7D86003A1ECA /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				4764A09B18C7EB04006C9E4E /* en */,
+				47B8514418CA7D86003A1ECA /* en */,
 			);
 			name = InfoPlist.strings;
-			path = WebpayTests;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -384,19 +396,19 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/webpay-token-ios.app/webpay-token-ios";
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Webpay.app/Webpay";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "webpay-token-ios/webpay-token-ios-Prefix.pch";
+				GCC_PREFIX_HEADER = "WebpayExample/Webpay-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = "webpay-token-iosTests/WebpayTests-Info.plist";
+				INFOPLIST_FILE = "WebpayTests/WebpayTests-Info.plist";
 				PRODUCT_NAME = WebpayTests;
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
@@ -407,15 +419,15 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/webpay-token-ios.app/webpay-token-ios";
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Webpay.app/Webpay";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "webpay-token-ios/webpay-token-ios-Prefix.pch";
-				INFOPLIST_FILE = "webpay-token-iosTests/WebpayTests-Info.plist";
+				GCC_PREFIX_HEADER = "WebpayExample/Webpay-Prefix.pch";
+				INFOPLIST_FILE = "WebpayTests/WebpayTests-Info.plist";
 				PRODUCT_NAME = WebpayTests;
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
