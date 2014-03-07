@@ -39,12 +39,12 @@
 		4764A08218C7EB04006C9E4E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		4764A08418C7EB04006C9E4E /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		4764A08618C7EB04006C9E4E /* Webpay-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Webpay-Prefix.pch"; sourceTree = "<group>"; };
-		4764A08718C7EB04006C9E4E /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		4764A08818C7EB04006C9E4E /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		4764A08A18C7EB04006C9E4E /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		4764A08718C7EB04006C9E4E /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = WebpayExample/AppDelegate.h; sourceTree = "<group>"; };
+		4764A08818C7EB04006C9E4E /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = WebpayExample/AppDelegate.m; sourceTree = "<group>"; };
+		4764A08A18C7EB04006C9E4E /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = WebpayExample/Images.xcassets; sourceTree = "<group>"; };
 		4764A09018C7EB04006C9E4E /* WebpayTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WebpayTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4764A09118C7EB04006C9E4E /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
-		4764A09918C7EB04006C9E4E /* WebpayTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "WebpayTests-Info.plist"; sourceTree = "<group>"; };
+		4764A09918C7EB04006C9E4E /* WebpayTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; name = "WebpayTests-Info.plist"; path = "WebpayTests/WebpayTests-Info.plist"; sourceTree = "<group>"; };
 		4764A09B18C7EB04006C9E4E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -275,6 +275,7 @@
 				4764A09B18C7EB04006C9E4E /* en */,
 			);
 			name = InfoPlist.strings;
+			path = WebpayTests;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
