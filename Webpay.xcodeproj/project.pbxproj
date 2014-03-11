@@ -19,6 +19,8 @@
 		4764A09318C7EB04006C9E4E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4764A07818C7EB04006C9E4E /* Foundation.framework */; };
 		4764A09418C7EB04006C9E4E /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4764A07C18C7EB04006C9E4E /* UIKit.framework */; };
 		47B8514518CA7D86003A1ECA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 47B8514318CA7D86003A1ECA /* InfoPlist.strings */; };
+		47D9BC1718CFBF080020BF55 /* WPYCreditCard.m in Sources */ = {isa = PBXBuildFile; fileRef = 47D9BC1618CFBF080020BF55 /* WPYCreditCard.m */; };
+		47D9BC1818CFBF080020BF55 /* WPYCreditCard.m in Sources */ = {isa = PBXBuildFile; fileRef = 47D9BC1618CFBF080020BF55 /* WPYCreditCard.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,6 +50,8 @@
 		4764A09118C7EB04006C9E4E /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		4764A09918C7EB04006C9E4E /* WebpayTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; name = "WebpayTests-Info.plist"; path = "WebpayTests/WebpayTests-Info.plist"; sourceTree = "<group>"; };
 		47B8514418CA7D86003A1ECA /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = InfoPlist.strings; sourceTree = "<group>"; };
+		47D9BC1518CFBF080020BF55 /* WPYCreditCard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WPYCreditCard.h; path = Webpay/WPYCreditCard.h; sourceTree = "<group>"; };
+		47D9BC1618CFBF080020BF55 /* WPYCreditCard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WPYCreditCard.m; path = Webpay/WPYCreditCard.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -78,6 +82,7 @@
 			isa = PBXGroup;
 			children = (
 				4764A07E18C7EB04006C9E4E /* WebpayExample */,
+				47D9BC1418CFBEE70020BF55 /* Webpay */,
 				4764A09718C7EB04006C9E4E /* WebpayTests */,
 				4764A07718C7EB04006C9E4E /* Frameworks */,
 				4764A07618C7EB04006C9E4E /* Products */,
@@ -154,6 +159,15 @@
 			name = en.lproj;
 			path = WebpayTests/en.lproj;
 			sourceTree = SOURCE_ROOT;
+		};
+		47D9BC1418CFBEE70020BF55 /* Webpay */ = {
+			isa = PBXGroup;
+			children = (
+				47D9BC1518CFBF080020BF55 /* WPYCreditCard.h */,
+				47D9BC1618CFBF080020BF55 /* WPYCreditCard.m */,
+			);
+			name = Webpay;
+			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
@@ -251,6 +265,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4764A08918C7EB04006C9E4E /* AppDelegate.m in Sources */,
+				47D9BC1718CFBF080020BF55 /* WPYCreditCard.m in Sources */,
 				4764A08518C7EB04006C9E4E /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -260,6 +275,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				474C1CF618CA835D00D69CCB /* TestWebpay.m in Sources */,
+				47D9BC1818CFBF080020BF55 /* WPYCreditCard.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
