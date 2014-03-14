@@ -8,27 +8,29 @@
 
 #import <XCTest/XCTest.h>
 
+#import "WPYCreditCard.h"
+
 @interface WPYCreditCardTest : XCTestCase
 
 @end
 
 @implementation WPYCreditCardTest
+{
+    WPYCreditCard *_creditCard;
+}
 
 - (void)setUp
 {
     [super setUp];
-    // Put setup code here. This method is called before the invocation of each test method in the class.
+    
+    _creditCard = [[WPYCreditCard alloc] init];
 }
 
 - (void)tearDown
 {
-    // Put teardown code here. This method is called after the invocation of each test method in the class.
+    _creditCard = nil;
+    
     [super tearDown];
-}
-
-- (void)testExample
-{
-    XCTFail(@"No implementation for \"%s\"", __PRETTY_FUNCTION__);
 }
 
 @end
