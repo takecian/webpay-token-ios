@@ -31,6 +31,8 @@ typedef NS_ENUM(NSUInteger, WPYMonth) {
 @property(nonatomic, assign) WPYMonth expiryMonth;
 @property(nonatomic, assign) NSUInteger expiryYear;
 
+- (NSString *)brandName;
+
 // validate each property
 - (BOOL)validateName:(id *)ioValue error:(NSError * __autoreleasing *)outError;
 - (BOOL)validateNumber:(id *)ioValue error:(NSError * __autoreleasing *)outError;
