@@ -10,8 +10,28 @@
 
 FOUNDATION_EXPORT NSString *const WPYErrorDomain;
 
+// https://webpay.jp/docs/api/curl
+// Webpay returns 3 types of errors: card error, invalid request error, and api error
+// error code 1xx is assigned to card error, 2xx to invalid request error, and 3xx to api error
+
 NS_ENUM(int, WPYErrorCode){
-    WPYCardError = 1,
-    WPYInvalidRequestError,
-    WPYAPIError
+    // card errors
+    WPYInvalidNumber = 100,
+    WPYIncorrectNumber = 101,
+    WPYInvalideName = 102,
+    WPYInvalidExpiryMonth = 103,
+    WPYInvalidExpiryYear = 104,
+    WPYInvalidExpiry = 105,
+    WPYIncorrectExpiry = 106,
+    WPYInvalidCvc = 107,
+    WPYIncorrectCvc = 108,
+    WPYCardDeclined = 109,
+    WPYMissing = 110,
+    WPYProcessingError = 111,
+    
+    // invalid request error
+    WPYInvalidRequestError = 200,
+    
+    // api error
+    WPYAPIError = 300
 };
