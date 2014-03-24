@@ -145,7 +145,7 @@
 {
     NSError *error;
     NSString *name = @"Yohei Okada";
-    [_creditCard validateName:&name error:&error];
+    XCTAssertTrue([_creditCard validateName:&name error:&error], @"It should validate name.");
     XCTAssertNil(error, @"Error object should be nil.");
 }
 
