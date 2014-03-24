@@ -18,7 +18,7 @@ typedef NS_ENUM(int, WPYErrorCode){
     // card errors
     WPYInvalidNumber = 100,
     WPYIncorrectNumber = 101,
-    WPYInvalideName = 102,
+    WPYInvalidName = 102,
     WPYInvalidExpiryMonth = 103,
     WPYInvalidExpiryYear = 104,
     WPYInvalidExpiry = 105,
