@@ -94,6 +94,62 @@
 
 #pragma mark - property validation
 
+#pragma mark validateName
+- (void)testValidateNameAcceptsNilAsErrorArgument
+{
+    NSString *name = nil;
+    XCTAssertNoThrow([_creditCard validateName:&name error:nil], @"Second argument should accept nil.");
+}
+
+- (void)testNilName
+{
+    NSString *name = nil;
+    XCTAssertFalse([_creditCard validateName:&name error:nil], @"It should invalidate nil name.");
+}
+
+- (void)testNilNameReturnsExpectedError
+{
+    NSError *error;
+    NSString *name = nil;
+    [_creditCard validateName:&name error:&error];
+    XCTAssertNotNil(error, @"Error object should not be nil.");
+    XCTAssertEqual([error domain], WPYErrorDomain, @"Error domain should be WPYErrorDomain.");
+    XCTAssertEqual([error code], WPYInvalidName, @"Error code should be WPYInvalidName.");
+    XCTAssertEqual([error localizedDescription], @"Card error: invalid name.", @"It should return expected localized description.");
+    NSDictionary *userInfo = [error userInfo];
+    NSString *failureReason = [userInfo objectForKey:NSLocalizedFailureReasonErrorKey];
+    XCTAssertEqual(failureReason, @"Name should not be nil.", @"It should return expected failure reason.");
+}
+
+- (void)testEmptyStrAsName
+{
+    NSString *name = @"    ";
+    XCTAssertFalse([_creditCard validateName:&name error:nil], @"It should invalidate empty string for a name");
+}
+
+- (void)testEmptyStrAsNameReturnsExpectedError
+{
+    NSError *error;
+    NSString *name = @"   ";
+    [_creditCard validateName:&name error:&error];
+    XCTAssertNotNil(error, @"Error object should not be nil.");
+    XCTAssertEqual([error domain], WPYErrorDomain, @"Error domain should be WPYErrorDomain.");
+    XCTAssertEqual([error code], WPYInvalidName, @"Error code should be WPYInvalidName.");
+    XCTAssertEqual([error localizedDescription], @"Card error: invalid name.", @"It should return expected localized description.");
+    NSDictionary *userInfo = [error userInfo];
+    NSString *failureReason = [userInfo objectForKey:NSLocalizedFailureReasonErrorKey];
+    XCTAssertEqual(failureReason, @"Name should not be empty.", @"It should return expected failure reason.");
+}
+
+- (void)testValidName
+{
+    NSError *error;
+    NSString *name = @"Yohei Okada";
+    [_creditCard validateName:&name error:&error];
+    XCTAssertNil(error, @"Error object should be nil.");
+}
+
+
 #pragma mark validateCvc
 - (void)testValidateCvcAcceptsNilAsErrorArgument
 {

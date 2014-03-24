@@ -86,6 +86,27 @@ static BOOL isMatchWithRegex(NSString *string, NSString *regex)
 }
 
 #pragma mark validation methods
+- (BOOL)validateName:(__autoreleasing id *)ioValue error:(NSError *__autoreleasing *)outError
+{
+    if (*ioValue == nil)
+    {
+        NSString *failureReason = NSLocalizedStringFromTable(@"Name should not be nil.", WPYLocalizedStringTable, nil);
+        handleValidationError(outError, WPYInvalidName, failureReason);
+        return NO;
+    }
+    
+    NSString *trimmedStr = [(NSString *) *ioValue stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    NSUInteger trimmedStrLength = [trimmedStr length];
+    if (trimmedStrLength == 0)
+    {
+        NSString *failureReason = NSLocalizedStringFromTable(@"Name should not be empty.", WPYLocalizedStringTable, nil);
+        handleValidationError(outError, WPYInvalidName, failureReason);
+        return NO;
+    }
+    
+    return YES;
+}
+
 - (BOOL)validateCvc:(id *)ioValue error:(NSError * __autoreleasing *)outError
 {
     if (*ioValue == nil)
