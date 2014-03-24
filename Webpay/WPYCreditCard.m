@@ -36,6 +36,12 @@ static BOOL isNumericOnlyString(NSString *string)
     return [setOfNumbers isSupersetOfSet: setFromString];
 }
 
+static BOOL isMatchWithRegex(NSString *string, NSString *regex)
+{
+    NSRange range = [string rangeOfString:regex options:NSRegularExpressionSearch];
+    return range.location != NSNotFound;
+}
+
 - (NSString *)brandName
 {
     NSString *cardNum = self.number;
@@ -45,32 +51,32 @@ static BOOL isNumericOnlyString(NSString *string)
     }
     else
     {
-        if ([self isMatchWithRegex:@"4[0-9]{12}(?:[0-9]{3})?" string:cardNum])
+        if (isMatchWithRegex(cardNum, @"4[0-9]{12}(?:[0-9]{3})?"))
         {
             return @"Visa";
         }
 
-        if ([self isMatchWithRegex:@"3[47][0-9]{13}" string:cardNum])
+        if (isMatchWithRegex(cardNum, @"3[47][0-9]{13}"))
         {
             return @"American Express";
         }
         
-        if ([self isMatchWithRegex:@"5[1-5][0-9]{14}" string:cardNum])
+        if (isMatchWithRegex(cardNum, @"5[1-5][0-9]{14}"))
         {
             return @"MasterCard";
         }
 
-        if ([self isMatchWithRegex:@"6(?:011|5[0-9]{2})[0-9]{12}" string:cardNum])
+        if (isMatchWithRegex(cardNum, @"6(?:011|5[0-9]{2})[0-9]{12}"))
         {
             return @"Discover";
         }
 
-        if ([self isMatchWithRegex:@"(?:2131|1800|35\\d{3})\\d{11}" string:cardNum])
+        if (isMatchWithRegex(cardNum, @"(?:2131|1800|35\\d{3})\\d{11}"))
         {
             return @"JCB";
         }
         
-        if ([self isMatchWithRegex:@"3(?:0[0-5]|[68][0-9])[0-9]{11}" string:cardNum])
+        if (isMatchWithRegex(cardNum, @"3(?:0[0-5]|[68][0-9])[0-9]{11}"))
         {
             return @"Diners";
         }
@@ -130,15 +136,6 @@ static BOOL isNumericOnlyString(NSString *string)
     }
     
     return YES;
-}
-
-
-#pragma mark private methods
-- (BOOL)isMatchWithRegex:(NSString *)regex string:(NSString *)string
-{
-    NSRange range = [string rangeOfString:regex options:NSRegularExpressionSearch];
-    return range.location != NSNotFound;
-    
 }
 
 @end
