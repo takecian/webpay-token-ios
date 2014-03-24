@@ -267,8 +267,10 @@
     NSString *amexCardNumber = @"378282246310005";
     _creditCard.number = amexCardNumber;
     
+    NSError *error;
     NSString *cvc = @"1234";
-    XCTAssertTrue([_creditCard validateCvc:&cvc error:nil], @"It should validate 4 digits cvc for amex card.");
+    XCTAssertTrue([_creditCard validateCvc:&cvc error: &error], @"It should validate 4 digits cvc for amex card.");
+    XCTAssertNil(error, @"It should populate error object.");
     
 }
 
@@ -277,8 +279,10 @@
     NSString *masterCardNumber = @"5555555555554444";
     _creditCard.number = masterCardNumber;
     
+    NSError *error;
     NSString *cvc = @"123";
-    XCTAssertTrue([_creditCard validateCvc:&cvc error:nil], @"It should validate 3 digits cvc for non amex card.");
+    XCTAssertTrue([_creditCard validateCvc:&cvc error: &error], @"It should validate 3 digits cvc for non amex card.");
+    XCTAssertNil(error, @"It should populate error object.");
 }
 
 - (void)testNonAmexCardWithFourDigits
