@@ -33,7 +33,7 @@ NSString * LocalizedDescriptionFromErrorCode(WPYErrorCode errorCode)
         case WPYIncorrectExpiry:
             return NSLocalizedStringFromTable(@"", WPYLocalizedStringTable, nil);
         case WPYInvalidCvc:
-            return NSLocalizedStringFromTable(@"", WPYLocalizedStringTable, nil);
+            return NSLocalizedStringFromTable(@"Card error: cvc is invalid.", WPYLocalizedStringTable, nil);
         case WPYIncorrectCvc:
             return NSLocalizedStringFromTable(@"", WPYLocalizedStringTable, nil);
         case WPYCardDeclined:

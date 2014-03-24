@@ -7,8 +7,34 @@
 //
 
 #import "WPYCreditCard.h"
+#import "WPYErrors.h"
 
 @implementation WPYCreditCard
+
+static NSError *createNSError(WPYErrorCode errorCode, NSString *failureReason)
+{
+    NSString *localizedDescription = LocalizedDescriptionFromErrorCode(errorCode);
+    NSDictionary *userInfo = @{
+        NSLocalizedDescriptionKey: localizedDescription,
+        NSLocalizedFailureReasonErrorKey: failureReason
+    };
+    return [[NSError alloc] initWithDomain:WPYErrorDomain code:errorCode userInfo:userInfo];
+}
+
+static void handleValidationError(NSError * __autoreleasing * error, WPYErrorCode errorCode, NSString *failureReason)
+{
+    if (error)
+    {
+        *error = createNSError(errorCode, failureReason);
+    }
+}
+
+static BOOL isNumericOnlyString(NSString *string)
+{
+    NSCharacterSet *setOfNumbers = [NSCharacterSet decimalDigitCharacterSet];
+    NSCharacterSet *setFromString = [NSCharacterSet characterSetWithCharactersInString: string];
+    return [setOfNumbers isSupersetOfSet: setFromString];
+}
 
 - (NSString *)brandName
 {
@@ -53,12 +79,66 @@
     }
 }
 
+#pragma mark validation methods
+- (BOOL)validateCvc:(id *)ioValue error:(NSError * __autoreleasing *)outError
+{
+    if (*ioValue == nil)
+    {
+        NSString *failureReason = NSLocalizedStringFromTable(@"cvc should not be nil.", WPYLocalizedStringTable, nil);
+        handleValidationError(outError, WPYInvalidCvc, failureReason);
+        return NO;
+    }
+    
+    NSString *trimmedValueString = [(NSString *) *ioValue stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    NSUInteger trimmedStrLength = [trimmedValueString length];
+    
+    // reject non-numeric string
+    if (!(isNumericOnlyString(trimmedValueString)))
+    {
+        NSString *failureReason = NSLocalizedStringFromTable(@"cvc should be numeric only.", WPYLocalizedStringTable, nil);
+        handleValidationError(outError, WPYInvalidCvc, failureReason);
+        return NO;
+    }
+    
+    NSString *brand = [self brandName];
+    BOOL isAmex = [brand isEqualToString:@"American Express"];
+    
+    if (!brand)
+    {
+        if (trimmedStrLength < 3 || trimmedStrLength > 4)
+        {
+            NSString *failureReason = NSLocalizedStringFromTable(@"cvc should be 3 or 4 digits.", WPYLocalizedStringTable, nil);
+            handleValidationError(outError, WPYInvalidCvc, failureReason);
+            return NO;
+        }
+    }
+    else
+    {
+        if (isAmex && trimmedStrLength != 4)
+        {
+            NSString *failureReason = NSLocalizedStringFromTable(@"cvc for amex card should be 4 digits.", WPYLocalizedStringTable, nil);
+            handleValidationError(outError, WPYInvalidCvc, failureReason);
+            return NO;
+        }
+        
+        if (!isAmex && trimmedStrLength != 3)
+        {
+            NSString *failureReason = NSLocalizedStringFromTable(@"cvc for non amex card should be 3 digits.", WPYLocalizedStringTable, nil);
+            handleValidationError(outError, WPYInvalidCvc, failureReason);
+            return NO;
+        }
+    }
+    
+    return YES;
+}
+
+
 #pragma mark private methods
 - (BOOL)isMatchWithRegex:(NSString *)regex string:(NSString *)string
 {
     NSRange range = [string rangeOfString:regex options:NSRegularExpressionSearch];
     return range.location != NSNotFound;
+    
 }
-
 
 @end

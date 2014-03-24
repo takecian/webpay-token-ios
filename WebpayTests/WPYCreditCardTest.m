@@ -9,6 +9,7 @@
 #import <XCTest/XCTest.h>
 
 #import "WPYCreditCard.h"
+#import "WPYErrors.h"
 
 @interface WPYCreditCardTest : XCTestCase
 
@@ -89,6 +90,161 @@
     XCTAssertEqual([_creditCard brandName], @"Unknown", @"it should be recognized as unknown");
 }
 
+#pragma mark - property validation
+#pragma mark validateCvc
+- (void)testValidateCvcAcceptsNilAsErrorArgument
+{
+    NSString *cvc = nil;
+    XCTAssertNoThrow([_creditCard validateCvc:&cvc error:nil], @"Second argument should accept nil.");
+}
 
+- (void)testNilCvc
+{
+    NSError *error;
+    NSString *cvc = nil;
+    XCTAssertFalse([_creditCard validateCvc:&cvc error: &error], @"Nil cvc should be invalidated.");
+}
 
+- (void)testNilCvcReturnsExpectedError
+{
+    NSError *error;
+    NSString *cvc = nil;
+    [_creditCard validateCvc:&cvc error:&error];
+    XCTAssertNotNil(error, @"Error object should not be nil.");
+    XCTAssertEqual([error domain], WPYErrorDomain, @"Error domain should be WPYErrorDomain.");
+    XCTAssertEqual([error code], WPYInvalidCvc, @"Error code should be WPYInvalidCvc.");
+    XCTAssertEqual([error localizedDescription], @"Card error: cvc is invalid.", @"It should return expected localized description.");
+    NSDictionary *userInfo = [error userInfo];
+    NSString *failureReason = [userInfo objectForKey:NSLocalizedFailureReasonErrorKey];
+    XCTAssertEqual(failureReason, @"cvc should not be nil.", @"It should return expected failure reason.");
+}
+
+- (void)testNonNumericCvc
+{
+    NSString *cvc = @"1a4";
+    XCTAssertFalse([_creditCard validateCvc:&cvc error:nil], @"It should invalidate non numeric cvc.");
+}
+
+- (void)testNonNumericCvcReturnsExpectedError
+{
+    NSError *error;
+    NSString *cvc = @"1a5";
+    [_creditCard validateCvc:&cvc error:&error];
+    XCTAssertNotNil(error, @"Error object should not be nil.");
+    XCTAssertEqual([error domain], WPYErrorDomain, @"Error domain should be WPYErrorDomain.");
+    XCTAssertEqual([error code], WPYInvalidCvc, @"Error code should be WPYInvalidCvc.");
+    XCTAssertEqual([error localizedDescription], @"Card error: cvc is invalid.", @"It should return expected localized description.");
+    NSDictionary *userInfo = [error userInfo];
+    NSString *failureReason = [userInfo objectForKey:NSLocalizedFailureReasonErrorKey];
+    XCTAssertEqual(failureReason, @"cvc should be numeric only.", @"It should return expected failure reason.");
+}
+
+- (void)testTwoDigitsCvc
+{
+    NSString *cvc = @"12";
+    XCTAssertFalse([_creditCard validateCvc:&cvc error:nil], @"It should invalidate 2 digits cvc.");
+}
+
+- (void)testThreeDigitsCvc
+{
+    NSString *cvc = @"123";
+    XCTAssertTrue([_creditCard validateCvc:&cvc error:nil], @"It should validate 3 digits cvc.");
+}
+
+- (void)testFourDigitsCvc
+{
+    NSString *cvc = @"1234";
+    XCTAssertTrue([_creditCard validateCvc:&cvc error:nil], @"It should validate 4 digits cvc.");
+}
+
+- (void)testFiveDigitsCvc
+{
+    NSString *cvc = @"12345";
+    XCTAssertFalse([_creditCard validateCvc:&cvc error:nil], @"It should invalidate 5 digits cvc.");
+}
+
+- (void)testInvalidDigitsReturnsExpectedError
+{
+    NSError *error;
+    NSString *cvc = @"12";
+    [_creditCard validateCvc:&cvc error:&error];
+    XCTAssertNotNil(error, @"Error object should not be nil.");
+    XCTAssertEqual([error domain], WPYErrorDomain, @"Error domain should be WPYErrorDomain.");
+    XCTAssertEqual([error code], WPYInvalidCvc, @"Error code should be WPYInvalidCvc.");
+    XCTAssertEqual([error localizedDescription], @"Card error: cvc is invalid.", @"It should return expected localized description.");
+    NSDictionary *userInfo = [error userInfo];
+    NSString *failureReason = [userInfo objectForKey:NSLocalizedFailureReasonErrorKey];
+    XCTAssertEqual(failureReason, @"cvc should be 3 or 4 digits.", @"It should return expected failure reason.");
+}
+
+- (void)testAmexWithThreeDigits
+{
+    NSString *amexCardNumber = @"378282246310005";
+    _creditCard.number = amexCardNumber;
+    
+    NSString *cvc = @"123";
+    XCTAssertFalse([_creditCard validateCvc:&cvc error:nil], @"It should invalidate 3 digits cvc for amex card.");
+}
+
+- (void)testAmexWithThreeDigitsReturnsExpectedError
+{
+    NSError *error;
+    NSString *amexCardNumber = @"378282246310005";
+    _creditCard.number = amexCardNumber;
+    
+    NSString *cvc = @"123";
+    [_creditCard validateCvc:&cvc error:&error];
+    XCTAssertNotNil(error, @"Error object should not be nil.");
+    XCTAssertEqual([error domain], WPYErrorDomain, @"Error domain should be WPYErrorDomain.");
+    XCTAssertEqual([error code], WPYInvalidCvc, @"Error code should be WPYInvalidCvc.");
+    XCTAssertEqual([error localizedDescription], @"Card error: cvc is invalid.", @"It should return expected localized description.");
+    NSDictionary *userInfo = [error userInfo];
+    NSString *failureReason = [userInfo objectForKey:NSLocalizedFailureReasonErrorKey];
+    XCTAssertEqual(failureReason, @"cvc for amex card should be 4 digits.", @"It should return expected failure reason.");
+}
+
+- (void)testAmexWithFourDigits
+{
+    NSString *amexCardNumber = @"378282246310005";
+    _creditCard.number = amexCardNumber;
+    
+    NSString *cvc = @"1234";
+    XCTAssertTrue([_creditCard validateCvc:&cvc error:nil], @"It should validate 4 digits cvc for amex card.");
+    
+}
+
+- (void)testNonAmexCardWithThreeDigits
+{
+    NSString *masterCardNumber = @"5555555555554444";
+    _creditCard.number = masterCardNumber;
+    
+    NSString *cvc = @"123";
+    XCTAssertTrue([_creditCard validateCvc:&cvc error:nil], @"It should validate 3 digits cvc for non amex card.");
+}
+
+- (void)testNonAmexCardWithFourDigits
+{
+    NSString *masterCardNumber = @"5555555555554444";
+    _creditCard.number = masterCardNumber;
+    
+    NSString *cvc = @"1234";
+    XCTAssertFalse([_creditCard validateCvc:&cvc error:nil], @"It should invalidate 4 digits cvc for non amex card.");
+}
+
+- (void)testNonAmexCardWithFourDigitsReturnsExpectedError
+{
+    NSError *error;
+    NSString *masterCardNumber = @"5555555555554444";
+    _creditCard.number = masterCardNumber;
+    
+    NSString *cvc = @"1234";
+    [_creditCard validateCvc:&cvc error:&error];
+    XCTAssertNotNil(error, @"Error object should not be nil.");
+    XCTAssertEqual([error domain], WPYErrorDomain, @"Error domain should be WPYErrorDomain.");
+    XCTAssertEqual([error code], WPYInvalidCvc, @"Error code should be WPYInvalidCvc.");
+    XCTAssertEqual([error localizedDescription], @"Card error: cvc is invalid.", @"It should return expected localized description.");
+    NSDictionary *userInfo = [error userInfo];
+    NSString *failureReason = [userInfo objectForKey:NSLocalizedFailureReasonErrorKey];
+    XCTAssertEqual(failureReason, @"cvc for non amex card should be 3 digits.", @"It should return expected failure reason.");
+}
 @end
