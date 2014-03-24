@@ -10,6 +10,8 @@
 
 FOUNDATION_EXPORT NSString *const WPYErrorDomain;
 
+FOUNDATION_EXPORT NSString *const WPYLocalizedStringTable;
+
 // https://webpay.jp/docs/api/curl
 // Webpay returns 3 types of errors: card error, invalid request error, and api error
 // error code 1xx is assigned to card error, 2xx to invalid request error, and 3xx to api error

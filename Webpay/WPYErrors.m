@@ -12,7 +12,7 @@
 // https://developer.apple.com/library/ios/documentation/Cocoa/Conceptual/ProgrammingWithObjectiveC/ErrorHandling/ErrorHandling.html
 NSString *const WPYErrorDomain = @"com.webpay.webpay-token-ios";
 
-static NSString *const WPYLocalizedStringTable = @"WebpayiOSTokenizer";
+NSString *const WPYLocalizedStringTable = @"WebpayiOSTokenizer";
 
 NSString * LocalizedDescriptionFromErrorCode(WPYErrorCode errorCode)
 {
