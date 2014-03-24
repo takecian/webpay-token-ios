@@ -90,7 +90,10 @@
     XCTAssertEqual([_creditCard brandName], @"Unknown", @"It should be recognized as unknown.");
 }
 
+
+
 #pragma mark - property validation
+
 #pragma mark validateCvc
 - (void)testValidateCvcAcceptsNilAsErrorArgument
 {
@@ -113,7 +116,7 @@
     XCTAssertNotNil(error, @"Error object should not be nil.");
     XCTAssertEqual([error domain], WPYErrorDomain, @"Error domain should be WPYErrorDomain.");
     XCTAssertEqual([error code], WPYInvalidCvc, @"Error code should be WPYInvalidCvc.");
-    XCTAssertEqual([error localizedDescription], @"Card error: cvc is invalid.", @"It should return expected localized description.");
+    XCTAssertEqual([error localizedDescription], @"Card error: invalid cvc.", @"It should return expected localized description.");
     NSDictionary *userInfo = [error userInfo];
     NSString *failureReason = [userInfo objectForKey:NSLocalizedFailureReasonErrorKey];
     XCTAssertEqual(failureReason, @"cvc should not be nil.", @"It should return expected failure reason.");
@@ -133,7 +136,7 @@
     XCTAssertNotNil(error, @"Error object should not be nil.");
     XCTAssertEqual([error domain], WPYErrorDomain, @"Error domain should be WPYErrorDomain.");
     XCTAssertEqual([error code], WPYInvalidCvc, @"Error code should be WPYInvalidCvc.");
-    XCTAssertEqual([error localizedDescription], @"Card error: cvc is invalid.", @"It should return expected localized description.");
+    XCTAssertEqual([error localizedDescription], @"Card error: invalid cvc.", @"It should return expected localized description.");
     NSDictionary *userInfo = [error userInfo];
     NSString *failureReason = [userInfo objectForKey:NSLocalizedFailureReasonErrorKey];
     XCTAssertEqual(failureReason, @"cvc should be numeric only.", @"It should return expected failure reason.");
@@ -171,7 +174,7 @@
     XCTAssertNotNil(error, @"Error object should not be nil.");
     XCTAssertEqual([error domain], WPYErrorDomain, @"Error domain should be WPYErrorDomain.");
     XCTAssertEqual([error code], WPYInvalidCvc, @"Error code should be WPYInvalidCvc.");
-    XCTAssertEqual([error localizedDescription], @"Card error: cvc is invalid.", @"It should return expected localized description.");
+    XCTAssertEqual([error localizedDescription], @"Card error: invalid cvc.", @"It should return expected localized description.");
     NSDictionary *userInfo = [error userInfo];
     NSString *failureReason = [userInfo objectForKey:NSLocalizedFailureReasonErrorKey];
     XCTAssertEqual(failureReason, @"cvc should be 3 or 4 digits.", @"It should return expected failure reason.");
@@ -197,7 +200,7 @@
     XCTAssertNotNil(error, @"Error object should not be nil.");
     XCTAssertEqual([error domain], WPYErrorDomain, @"Error domain should be WPYErrorDomain.");
     XCTAssertEqual([error code], WPYInvalidCvc, @"Error code should be WPYInvalidCvc.");
-    XCTAssertEqual([error localizedDescription], @"Card error: cvc is invalid.", @"It should return expected localized description.");
+    XCTAssertEqual([error localizedDescription], @"Card error: invalid cvc.", @"It should return expected localized description.");
     NSDictionary *userInfo = [error userInfo];
     NSString *failureReason = [userInfo objectForKey:NSLocalizedFailureReasonErrorKey];
     XCTAssertEqual(failureReason, @"cvc for amex card should be 4 digits.", @"It should return expected failure reason.");
@@ -242,7 +245,7 @@
     XCTAssertNotNil(error, @"Error object should not be nil.");
     XCTAssertEqual([error domain], WPYErrorDomain, @"Error domain should be WPYErrorDomain.");
     XCTAssertEqual([error code], WPYInvalidCvc, @"Error code should be WPYInvalidCvc.");
-    XCTAssertEqual([error localizedDescription], @"Card error: cvc is invalid.", @"It should return expected localized description.");
+    XCTAssertEqual([error localizedDescription], @"Card error: invalid cvc.", @"It should return expected localized description.");
     NSDictionary *userInfo = [error userInfo];
     NSString *failureReason = [userInfo objectForKey:NSLocalizedFailureReasonErrorKey];
     XCTAssertEqual(failureReason, @"cvc for non amex card should be 3 digits.", @"It should return expected failure reason.");
