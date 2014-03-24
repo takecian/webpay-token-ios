@@ -95,11 +95,11 @@ static BOOL isMatchWithRegex(NSString *string, NSString *regex)
         return NO;
     }
     
-    NSString *trimmedValueString = [(NSString *) *ioValue stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-    NSUInteger trimmedStrLength = [trimmedValueString length];
+    NSString *trimmedStr = [(NSString *) *ioValue stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    NSUInteger trimmedStrLength = [trimmedStr length];
     
     // reject non-numeric string
-    if (!(isNumericOnlyString(trimmedValueString)))
+    if (!(isNumericOnlyString(trimmedStr)))
     {
         NSString *failureReason = NSLocalizedStringFromTable(@"cvc should be numeric only.", WPYLocalizedStringTable, nil);
         handleValidationError(outError, WPYInvalidCvc, failureReason);
