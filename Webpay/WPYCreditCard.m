@@ -159,4 +159,29 @@ static BOOL isMatchWithRegex(NSString *string, NSString *regex)
     return YES;
 }
 
+- (BOOL)validateExpiryMonth:(id *)ioValue error:(NSError * __autoreleasing *)outError
+{
+    if (*ioValue == nil)
+    {
+        NSString *failureReason = NSLocalizedStringFromTable(@"Expiry month should not be nil.", WPYLocalizedStringTable, nil);
+        handleValidationError(outError, WPYInvalidExpiryMonth, failureReason);
+        return NO;
+    }
+    
+    NSUInteger expiryMonth = [(NSNumber *) *ioValue intValue];
+    if (expiryMonth < 1 || expiryMonth > 12 )
+    {
+        NSString *failureReason = NSLocalizedStringFromTable(@"Expiry month should be a number between 1 to 12.", WPYLocalizedStringTable, nil);
+        handleValidationError(outError, WPYInvalidExpiryMonth, failureReason);
+        return NO;
+    }
+    return YES;
+}
+
+
+
+
+
+
+
 @end

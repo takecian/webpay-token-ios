@@ -25,7 +25,7 @@ NSString * LocalizedDescriptionFromErrorCode(WPYErrorCode errorCode)
         case WPYInvalidName:
             return NSLocalizedStringFromTable(@"Card error: invalid name.", WPYLocalizedStringTable, nil);
         case WPYInvalidExpiryMonth:
-            return NSLocalizedStringFromTable(@"", WPYLocalizedStringTable, nil);
+            return NSLocalizedStringFromTable(@"Card error: invalid expiry month.", WPYLocalizedStringTable, nil);
         case WPYInvalidExpiryYear:
             return NSLocalizedStringFromTable(@"", WPYLocalizedStringTable, nil);
         case WPYInvalidExpiry:
