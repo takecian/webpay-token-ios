@@ -42,6 +42,7 @@ static BOOL isMatchWithRegex(NSString *string, NSString *regex)
     return range.location != NSNotFound;
 }
 
+
 - (NSString *)brandName
 {
     NSString *cardNum = self.number;
@@ -175,6 +176,18 @@ static BOOL isMatchWithRegex(NSString *string, NSString *regex)
         handleValidationError(outError, WPYInvalidExpiryMonth, failureReason);
         return NO;
     }
+    return YES;
+}
+
+- (BOOL)validateExpiryYear:(__autoreleasing id *)ioValue error:(NSError *__autoreleasing *)outError
+{
+    if (*ioValue == nil)
+    {
+        NSString *failureReason = NSLocalizedStringFromTable(@"Expiry year should not be nil.", WPYLocalizedStringTable, nil);
+        handleValidationError(outError, WPYInvalidExpiryYear, failureReason);
+        return NO;
+    }
+    
     return YES;
 }
 

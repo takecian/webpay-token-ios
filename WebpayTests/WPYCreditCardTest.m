@@ -383,6 +383,34 @@
     XCTAssertEqual(failureReason, @"Expiry month should be a number between 1 to 12.", @"It should return expected failure reason.");
 }
 
+#pragma mark validateExpiryYear
+- (void)testValidateExpiryYearAcceptsNilAsErrorArgument
+{
+    NSNumber *expiryYear = nil;
+    XCTAssertNoThrow([_creditCard validateExpiryYear:&expiryYear error:nil], @"Second argument should accept nil.");
+}
+
+- (void)testNilExpiryYear
+{
+    NSNumber *expiryYear = nil;
+    XCTAssertFalse([_creditCard validateExpiryYear:&expiryYear error:nil], @"It should invalidate nil expiry year.");
+}
+
+- (void)testNilExpiryYearReturnsExpectedError
+{
+    NSError *error;
+    NSNumber *expiryYear = nil;
+    
+    [_creditCard validateExpiryYear:&expiryYear error:&error];
+    
+    XCTAssertNotNil(error, @"Error object should not be nil.");
+    XCTAssertEqual([error domain], WPYErrorDomain, @"Error domain should be WPYErrorDomain.");
+    XCTAssertEqual([error code], WPYInvalidExpiryYear, @"Error code should be WPYInvalidExpiryYear.");
+    XCTAssertEqual([error localizedDescription], @"Card error: invalid expiry year.", @"It should return expected localized description.");
+    NSDictionary *userInfo = [error userInfo];
+    NSString *failureReason = [userInfo objectForKey:NSLocalizedFailureReasonErrorKey];
+    XCTAssertEqual(failureReason, @"Expiry year should not be nil.", @"It should return expected failure reason.");
+}
 
 
 
