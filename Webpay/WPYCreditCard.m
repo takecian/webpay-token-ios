@@ -42,6 +42,16 @@ static BOOL isMatchWithRegex(NSString *string, NSString *regex)
     return range.location != NSNotFound;
 }
 
+static NSString *removeWhiteSpaces(NSString *string)
+{
+    return [string stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+}
+
+static NSString *removeHyphens(NSString *string)
+{
+    return [[string componentsSeparatedByCharactersInSet:[[NSCharacterSet decimalDigitCharacterSet] invertedSet]] componentsJoinedByString:@""];
+}
+
 
 - (NSString *)brandName
 {
@@ -96,9 +106,8 @@ static BOOL isMatchWithRegex(NSString *string, NSString *regex)
         return NO;
     }
     
-    NSString *trimmedStr = [(NSString *) *ioValue stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-    NSUInteger trimmedStrLength = [trimmedStr length];
-    if (trimmedStrLength == 0)
+    NSString *trimmedStr = removeWhiteSpaces((NSString *) *ioValue);
+    if (trimmedStr.length == 0)
     {
         NSString *failureReason = NSLocalizedStringFromTable(@"Name should not be empty.", WPYLocalizedStringTable, nil);
         handleValidationError(outError, WPYInvalidName, failureReason);
@@ -107,6 +116,7 @@ static BOOL isMatchWithRegex(NSString *string, NSString *regex)
     
     return YES;
 }
+
 
 - (BOOL)validateCvc:(id *)ioValue error:(NSError * __autoreleasing *)outError
 {
@@ -117,8 +127,7 @@ static BOOL isMatchWithRegex(NSString *string, NSString *regex)
         return NO;
     }
     
-    NSString *trimmedStr = [(NSString *) *ioValue stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-    NSUInteger trimmedStrLength = [trimmedStr length];
+    NSString *trimmedStr = removeWhiteSpaces((NSString *) *ioValue);
     
     // reject non-numeric string
     if (!(isNumericOnlyString(trimmedStr)))
@@ -133,7 +142,7 @@ static BOOL isMatchWithRegex(NSString *string, NSString *regex)
     
     if (!brand)
     {
-        if (trimmedStrLength < 3 || trimmedStrLength > 4)
+        if (trimmedStr.length < 3 || trimmedStr.length > 4)
         {
             NSString *failureReason = NSLocalizedStringFromTable(@"cvc should be 3 or 4 digits.", WPYLocalizedStringTable, nil);
             handleValidationError(outError, WPYInvalidCvc, failureReason);
@@ -142,14 +151,14 @@ static BOOL isMatchWithRegex(NSString *string, NSString *regex)
     }
     else
     {
-        if (isAmex && trimmedStrLength != 4)
+        if (isAmex && trimmedStr.length != 4)
         {
             NSString *failureReason = NSLocalizedStringFromTable(@"cvc for amex card should be 4 digits.", WPYLocalizedStringTable, nil);
             handleValidationError(outError, WPYInvalidCvc, failureReason);
             return NO;
         }
         
-        if (!isAmex && trimmedStrLength != 3)
+        if (!isAmex && trimmedStr.length != 3)
         {
             NSString *failureReason = NSLocalizedStringFromTable(@"cvc for non amex card should be 3 digits.", WPYLocalizedStringTable, nil);
             handleValidationError(outError, WPYInvalidCvc, failureReason);
