@@ -19,7 +19,7 @@ NSString * LocalizedDescriptionFromErrorCode(WPYErrorCode errorCode)
     switch (errorCode)
     {
         case WPYInvalidNumber:
-            return NSLocalizedStringFromTable(@"", WPYLocalizedStringTable, nil);
+            return NSLocalizedStringFromTable(@"Card error: invalid number.", WPYLocalizedStringTable, nil);
         case WPYIncorrectNumber:
             return NSLocalizedStringFromTable(@"", WPYLocalizedStringTable, nil);
         case WPYInvalidName:

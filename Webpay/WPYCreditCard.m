@@ -11,6 +11,8 @@
 
 @implementation WPYCreditCard
 
+
+#pragma mark helpers
 static NSError *createNSError(WPYErrorCode errorCode, NSString *failureReason)
 {
     NSString *localizedDescription = LocalizedDescriptionFromErrorCode(errorCode);
@@ -21,6 +23,7 @@ static NSError *createNSError(WPYErrorCode errorCode, NSString *failureReason)
     return [[NSError alloc] initWithDomain:WPYErrorDomain code:errorCode userInfo:userInfo];
 }
 
+
 static void handleValidationError(NSError * __autoreleasing * error, WPYErrorCode errorCode, NSString *failureReason)
 {
     if (error)
@@ -29,6 +32,7 @@ static void handleValidationError(NSError * __autoreleasing * error, WPYErrorCod
     }
 }
 
+
 static BOOL isNumericOnlyString(NSString *string)
 {
     NSCharacterSet *setOfNumbers = [NSCharacterSet decimalDigitCharacterSet];
@@ -36,23 +40,71 @@ static BOOL isNumericOnlyString(NSString *string)
     return [setOfNumbers isSupersetOfSet: setFromString];
 }
 
+
 static BOOL isMatchWithRegex(NSString *string, NSString *regex)
 {
     NSRange range = [string rangeOfString:regex options:NSRegularExpressionSearch];
     return range.location != NSNotFound;
 }
 
-static NSString *removeWhiteSpaces(NSString *string)
+
+// trim whitespace from first and last character
+static NSString *trimWhiteSpaces(NSString *string)
 {
     return [string stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
 }
 
-static NSString *removeHyphens(NSString *string)
+
+// remove all occurences of whitespace
+static NSString *removeWhitespaces(NSString *string)
 {
-    return [[string componentsSeparatedByCharactersInSet:[[NSCharacterSet decimalDigitCharacterSet] invertedSet]] componentsJoinedByString:@""];
+    return [string stringByReplacingOccurrencesOfString:@" " withString:@""];
 }
 
 
+static NSString *removeHyphens(NSString *string)
+{
+    return [string stringByReplacingOccurrencesOfString:@"-" withString:@""];
+}
+
+
+static NSString *reverseString(NSString *string)
+{
+    NSMutableString *reversedString = [NSMutableString stringWithCapacity:string.length];
+    [string enumerateSubstringsInRange:NSMakeRange(0, string.length)
+                               options:(NSStringEnumerationReverse | NSStringEnumerationByComposedCharacterSequences)
+                            usingBlock:^(NSString *substring, NSRange substringRange, NSRange enclosingRange, BOOL *stop){
+                                [reversedString appendString:substring];
+                            }];
+    
+    return reversedString;
+}
+
+
+static BOOL isLuhnValidString(NSString *string)
+{
+    int sum = 0;
+    NSString *reversedStr = reverseString(string);
+    for (int i = 0; i < reversedStr.length; i++)
+    {
+        NSInteger digit = [[NSString stringWithFormat:@"%C", [reversedStr characterAtIndex:i]] intValue];
+        if (i % 2 != 0)
+        {
+            digit *= 2;
+            if (digit > 9)
+            {
+                digit -= 9;
+            }
+        }
+        
+        sum += digit;
+    }
+    
+    return (sum % 10 == 0);
+}
+
+
+#pragma mark public methods
 - (NSString *)brandName
 {
     NSString *cardNum = self.number;
@@ -106,11 +158,49 @@ static NSString *removeHyphens(NSString *string)
         return NO;
     }
     
-    NSString *trimmedStr = removeWhiteSpaces((NSString *) *ioValue);
+    NSString *trimmedStr = trimWhiteSpaces((NSString *) *ioValue);
     if (trimmedStr.length == 0)
     {
         NSString *failureReason = NSLocalizedStringFromTable(@"Name should not be empty.", WPYLocalizedStringTable, nil);
         handleValidationError(outError, WPYInvalidName, failureReason);
+        return NO;
+    }
+    
+    return YES;
+}
+
+
+- (BOOL)validateNumber:(__autoreleasing id *)ioValue error:(NSError *__autoreleasing *)outError
+{
+    if (*ioValue == nil)
+    {
+        NSString *failureReason = NSLocalizedStringFromTable(@"Number should not be nil.", WPYLocalizedStringTable, nil);
+        handleValidationError(outError, WPYInvalidNumber, failureReason);
+        return NO;
+    }
+    
+    NSString *rawStr = (NSString *) *ioValue;
+    NSString *trimmedStr = removeWhitespaces(rawStr);
+    NSString *cleansedStr = removeHyphens(trimmedStr);
+    
+    if (!(isNumericOnlyString(cleansedStr)))
+    {
+        NSString *failureReason = NSLocalizedStringFromTable(@"Number should be numeric only.", WPYLocalizedStringTable, nil);
+        handleValidationError(outError, WPYInvalidNumber, failureReason);
+        return NO;
+    }
+    
+    if (cleansedStr.length < 13 || cleansedStr.length > 16)
+    {
+        NSString *failureReason = NSLocalizedStringFromTable(@"Number should be 13 digits to 16 digits.", WPYLocalizedStringTable, nil);
+        handleValidationError(outError, WPYInvalidNumber, failureReason);
+        return NO;
+    }
+    
+    if (!isLuhnValidString(cleansedStr))
+    {
+        NSString *failureReason = NSLocalizedStringFromTable(@"This number is not Luhn valid string.", WPYLocalizedStringTable, nil);
+        handleValidationError(outError, WPYInvalidNumber, failureReason);
         return NO;
     }
     
@@ -127,9 +217,8 @@ static NSString *removeHyphens(NSString *string)
         return NO;
     }
     
-    NSString *trimmedStr = removeWhiteSpaces((NSString *) *ioValue);
+    NSString *trimmedStr = trimWhiteSpaces((NSString *) *ioValue);
     
-    // reject non-numeric string
     if (!(isNumericOnlyString(trimmedStr)))
     {
         NSString *failureReason = NSLocalizedStringFromTable(@"cvc should be numeric only.", WPYLocalizedStringTable, nil);
@@ -169,6 +258,7 @@ static NSString *removeHyphens(NSString *string)
     return YES;
 }
 
+
 - (BOOL)validateExpiryMonth:(id *)ioValue error:(NSError * __autoreleasing *)outError
 {
     if (*ioValue == nil)
@@ -188,6 +278,7 @@ static NSString *removeHyphens(NSString *string)
     return YES;
 }
 
+
 - (BOOL)validateExpiryYear:(__autoreleasing id *)ioValue error:(NSError *__autoreleasing *)outError
 {
     if (*ioValue == nil)
@@ -199,6 +290,7 @@ static NSString *removeHyphens(NSString *string)
     
     return YES;
 }
+
 
 - (BOOL)validateExpiryYear:(NSUInteger)year month:(WPYMonth)month
 {

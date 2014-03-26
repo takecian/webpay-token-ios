@@ -165,6 +165,159 @@
 }
 
 
+
+#pragma mark validateNumber
+- (void)testValidateNumberAcceptsNilAsErrorArgument
+{
+    NSString *number = @"1";
+    XCTAssertNoThrow([_creditCard validateNumber:&number error:nil], @"Second argument should accept nil.");
+}
+
+- (void)testNilNumber
+{
+    NSString *number = nil;
+    XCTAssertFalse([_creditCard validateNumber:&number error:nil], @"It should invalidate nil number.");
+}
+
+- (void)testNilNumberReturnsExpectedError
+{
+    NSError *error;
+    NSString *number = nil;
+    [_creditCard validateNumber:&number error:&error];
+    
+    XCTAssertNotNil(error, @"Error object should not be nil.");
+    XCTAssertEqual([error domain], WPYErrorDomain, @"Error domain should be WPYErrorDomain.");
+    XCTAssertEqual([error code], WPYInvalidNumber, @"Error code should be WPYInvalidNumber.");
+    XCTAssertEqual([error localizedDescription], @"Card error: invalid number.", @"It should return expected localized description.");
+    NSDictionary *userInfo = [error userInfo];
+    NSString *failureReason = [userInfo objectForKey:NSLocalizedFailureReasonErrorKey];
+    XCTAssertEqual(failureReason, @"Number should not be nil.", @"It should return expected failure reason.");
+}
+
+- (void)testNonNumericNumber
+{
+    NSString *number = @"411111111234abcd1";
+    XCTAssertFalse([_creditCard validateNumber:&number error:nil], @"It should invalidate non numeric number.");
+}
+
+- (void)testNonNumericNumberReturnsExpectedError
+{
+    NSError *error;
+    NSString *number = @"411111111234abcd1";
+    [_creditCard validateNumber:&number error:&error];
+    
+    XCTAssertNotNil(error, @"Error object should not be nil.");
+    XCTAssertEqual([error domain], WPYErrorDomain, @"Error domain should be WPYErrorDomain.");
+    XCTAssertEqual([error code], WPYInvalidNumber, @"Error code should be WPYInvalidNumber.");
+    XCTAssertEqual([error localizedDescription], @"Card error: invalid number.", @"It should return expected localized description.");
+    NSDictionary *userInfo = [error userInfo];
+    NSString *failureReason = [userInfo objectForKey:NSLocalizedFailureReasonErrorKey];
+    XCTAssertEqual(failureReason, @"Number should be numeric only.", @"It should return expected failure reason.");
+}
+
+- (void)testEmptyNumber
+{
+    NSString *number = @"   ";
+    XCTAssertFalse([_creditCard validateNumber:&number error:nil], @"It should invalidate empty string number.");
+}
+
+- (void)testEmptyNumberReturnsExpectedError
+{
+    NSError *error;
+    NSString *number = @"   ";
+    [_creditCard validateNumber:&number error:&error];
+    
+    XCTAssertNotNil(error, @"Error object should not be nil.");
+    XCTAssertEqual([error domain], WPYErrorDomain, @"Error domain should be WPYErrorDomain.");
+    XCTAssertEqual([error code], WPYInvalidNumber, @"Error code should be WPYInvalidNumber.");
+    XCTAssertEqual([error localizedDescription], @"Card error: invalid number.", @"It should return expected localized description.");
+    NSDictionary *userInfo = [error userInfo];
+    NSString *failureReason = [userInfo objectForKey:NSLocalizedFailureReasonErrorKey];
+    XCTAssertEqual(failureReason, @"Number should be 13 digits to 16 digits.", @"It should return expected failure reason.");
+}
+- (void)testNumberWithTwelveDigits
+{
+    NSString *number = @"411111111111";
+    XCTAssertFalse([_creditCard validateNumber:&number error:nil], @"It should invalidate 12 digits card number.");
+}
+
+- (void)testNumberThirteenDigits
+{
+    NSString *number = @"4111111111119";
+    XCTAssertTrue([_creditCard validateNumber:&number error:nil], @"It should validate 13 digits card number.");
+}
+
+- (void)testNumberWithSixteenDigits
+{
+    NSString *number = @"4111111111111111";
+    XCTAssertTrue([_creditCard validateNumber:&number error:nil], @"It should validate 16 digits card number.");
+}
+
+- (void)testNumberWithSeventeenDigits
+{
+    NSString *number = @"41111111111111111";
+    XCTAssertFalse([_creditCard validateNumber:&number error:nil], @"It should invalidate 17 digits card number.");
+}
+
+- (void)testNumberWithInvalidDigitsReturnsExpectedError
+{
+    NSError *error;
+    NSString *number = @"411111111111"; //12 digits
+    [_creditCard validateNumber:&number error:&error];
+    
+    XCTAssertNotNil(error, @"Error object should not be nil.");
+    XCTAssertEqual([error domain], WPYErrorDomain, @"Error domain should be WPYErrorDomain.");
+    XCTAssertEqual([error code], WPYInvalidNumber, @"Error code should be WPYInvalidNumber.");
+    XCTAssertEqual([error localizedDescription], @"Card error: invalid number.", @"It should return expected localized description.");
+    NSDictionary *userInfo = [error userInfo];
+    NSString *failureReason = [userInfo objectForKey:NSLocalizedFailureReasonErrorKey];
+    XCTAssertEqual(failureReason, @"Number should be 13 digits to 16 digits.", @"It should return expected failure reason.");
+}
+
+- (void)testNumberWithSpaces
+{
+    NSString *number = @"4111 1111 1111 1111";
+    XCTAssertTrue([_creditCard validateNumber:&number error:nil], @"It should validate valid card number with spaces.");
+}
+
+- (void)testNumberWithHyphens
+{
+    NSString *number = @"4111-1111-1111-1111";
+    XCTAssertTrue([_creditCard validateNumber:&number error:nil], @"It should validate valid card number with hyphens.");
+}
+
+- (void)testLuhnInvalidNumber
+{
+    NSString *number = @"4111111111111112";
+    XCTAssertFalse([_creditCard validateNumber:&number error:nil], @"It should invaildate numbers that are not luhn valid.");
+}
+
+- (void)testLuhnInvalidNumberReturnsExpectedError
+{
+    NSError *error;
+    NSString *number = @"1234567890123456";
+    [_creditCard validateNumber:&number error:&error];
+    
+    XCTAssertNotNil(error, @"Error object should not be nil.");
+    XCTAssertEqual([error domain], WPYErrorDomain, @"Error domain should be WPYErrorDomain.");
+    XCTAssertEqual([error code], WPYInvalidNumber, @"Error code should be WPYInvalidNumber.");
+    XCTAssertEqual([error localizedDescription], @"Card error: invalid number.", @"It should return expected localized description.");
+    NSDictionary *userInfo = [error userInfo];
+    NSString *failureReason = [userInfo objectForKey:NSLocalizedFailureReasonErrorKey];
+    XCTAssertEqual(failureReason, @"This number is not Luhn valid string.", @"It should return expected failure reason.");
+}
+
+- (void)testValidNumberDoesNotReturnError
+{
+    NSError *error;
+    NSString *number = @"4111 1111 1111 1111";
+    [_creditCard validateNumber:&number error:&error];
+    XCTAssertNil(error, @"Valid number should not cause the method to populate error object.");
+}
+
+
+
+
 #pragma mark validateCvc
 - (void)testValidateCvcAcceptsNilAsErrorArgument
 {
