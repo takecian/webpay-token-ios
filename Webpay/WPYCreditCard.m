@@ -191,7 +191,21 @@ static BOOL isMatchWithRegex(NSString *string, NSString *regex)
     return YES;
 }
 
+- (BOOL)validateExpiryYear:(NSUInteger)year month:(WPYMonth)month
+{
+    // first day of expiry month's next month
+    // i.e if expiry is 2014/2, expiryDate is 2014/3/1
+    NSDateComponents *dateComps = [[NSDateComponents alloc] init];
+    [dateComps setYear:year];
+    [dateComps setMonth:month + 1];
+    [dateComps setDay: 1];
 
+    NSCalendar *gregorianCal = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+    NSDate *expiryDate = [gregorianCal dateFromComponents:dateComps];
+    NSDate *now = [NSDate date];
+
+    return ([now compare: expiryDate] == NSOrderedAscending);
+}
 
 
 

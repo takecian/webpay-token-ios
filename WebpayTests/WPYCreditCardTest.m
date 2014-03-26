@@ -11,6 +11,20 @@
 #import "WPYCreditCard.h"
 #import "WPYErrors.h"
 
+@implementation NSDate(WPYTest)
+//overriding +date method for testing
++ (NSDate *)date
+{
+    NSDateComponents *comps = [[NSDateComponents alloc] init];
+    [comps setYear:2014];
+    [comps setMonth:3];
+    [comps setDay:31];
+    
+    NSCalendar *gregorianCal = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+    return [gregorianCal dateFromComponents:comps];
+}
+@end
+
 @interface WPYCreditCardTest : XCTestCase
 
 @end
@@ -33,6 +47,7 @@
     
     [super tearDown];
 }
+
 
 #pragma mark brandName
 - (void)testBrandNameReturnsNilForEmptyNumber
@@ -413,8 +428,41 @@
 }
 
 
+#pragma mark validateExpiry
+- (void)testWhenExpiryIsOneYearAgo
+{
+    int year = 2013;
+    int month = 3;
+    XCTAssertFalse([_creditCard validateExpiryYear:year month:month], @"It should invalidate if expiry date is a year ago.");
+}
 
+- (void)testWhenExpiryIsOneMonthAgo
+{
+    int year = 2014;
+    int month = 2;
+    XCTAssertFalse([_creditCard validateExpiryYear:year month:month], @"It should invalidate if expiry date is a month a go.");
+}
 
+- (void)testWhenExpiryIsThisMonth
+{
+    int year = 2014;
+    int month = 3;
+    XCTAssertTrue([_creditCard validateExpiryYear:year month:month], @"It should validate if expiry month is this month.");
+}
+
+- (void)testWhenExpiryIsNextMonth
+{
+    int year = 2014;
+    int month = 4;
+    XCTAssertTrue([_creditCard validateExpiryYear:year month:month], @"It should validate if expiry month is next month");
+}
+
+- (void)testWhenExpiryIsNextYear
+{
+    int year = 2015;
+    int month = 3;
+    XCTAssertTrue([_creditCard validateExpiryYear:year month:month], @"It should validate if expiry year is next year.");
+}
 
 
 
