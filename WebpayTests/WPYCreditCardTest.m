@@ -443,7 +443,6 @@
     NSString *cvc = @"1234";
     XCTAssertTrue([_creditCard validateCvc:&cvc error: &error], @"It should validate 4 digits cvc for amex card.");
     XCTAssertNil(error, @"It should not populate error object.");
-    
 }
 
 - (void)testNonAmexCardWithThreeDigits
