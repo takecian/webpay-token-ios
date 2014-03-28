@@ -67,42 +67,42 @@
 {
     NSString *amexCardNumber = @"378282246310005";
     _creditCard.number = amexCardNumber;
-    XCTAssertEqual([_creditCard brandName], @"American Express", @"It should be recognized as amex.");
+    XCTAssertEqualObjects([_creditCard brandName], @"American Express", @"It should be recognized as amex.");
 }
 
 - (void)testBrandNameDiscernsMasterCard
 {
     NSString *masterCardNumber = @"5555555555554444";
     _creditCard.number = masterCardNumber;
-    XCTAssertEqual([_creditCard brandName], @"MasterCard", @"It should be recognized as master card.");
+    XCTAssertEqualObjects([_creditCard brandName], @"MasterCard", @"It should be recognized as master card.");
 }
 
 - (void)testBrandNameDiscernsDiscover
 {
     NSString *discoverCardNumber = @"6011111111111117";
     _creditCard.number = discoverCardNumber;
-    XCTAssertEqual([_creditCard brandName], @"Discover", @"It should be recognized as discover.");
+    XCTAssertEqualObjects([_creditCard brandName], @"Discover", @"It should be recognized as discover.");
 }
 
 - (void)testBrandNameDiscernsJCB
 {
     NSString *JCBCardNumber = @"3530111333300000";
     _creditCard.number = JCBCardNumber;
-    XCTAssertEqual([_creditCard brandName], @"JCB", @"It should be recognized as JCB.");
+    XCTAssertEqualObjects([_creditCard brandName], @"JCB", @"It should be recognized as JCB.");
 }
 
 - (void)testBrandNameDiscernsDiners
 {
     NSString *dinersCardNumber = @"30569309025904";
     _creditCard.number = dinersCardNumber;
-    XCTAssertEqual([_creditCard brandName], @"Diners", @"It should be recognized as diners.");
+    XCTAssertEqualObjects([_creditCard brandName], @"Diners", @"It should be recognized as diners.");
 }
 
 - (void)testBrandNameDicernsUnknown
 {
     NSString *unknownCardNumber = @"9876543210123456";
     _creditCard.number = unknownCardNumber;
-    XCTAssertEqual([_creditCard brandName], @"Unknown", @"It should be recognized as unknown.");
+    XCTAssertEqualObjects([_creditCard brandName], @"Unknown", @"It should be recognized as unknown.");
 }
 
 
@@ -128,12 +128,12 @@
     NSString *name = nil;
     [_creditCard validateName:&name error:&error];
     XCTAssertNotNil(error, @"Error object should not be nil.");
-    XCTAssertEqual([error domain], WPYErrorDomain, @"Error domain should be WPYErrorDomain.");
+    XCTAssertEqualObjects([error domain], WPYErrorDomain, @"Error domain should be WPYErrorDomain.");
     XCTAssertEqual([error code], WPYInvalidName, @"Error code should be WPYInvalidName.");
-    XCTAssertEqual([error localizedDescription], @"Card error: invalid name.", @"It should return expected localized description.");
+    XCTAssertEqualObjects([error localizedDescription], @"Card error: invalid name.", @"It should return expected localized description.");
     NSDictionary *userInfo = [error userInfo];
     NSString *failureReason = [userInfo objectForKey:NSLocalizedFailureReasonErrorKey];
-    XCTAssertEqual(failureReason, @"Name should not be nil.", @"It should return expected failure reason.");
+    XCTAssertEqualObjects(failureReason, @"Name should not be nil.", @"It should return expected failure reason.");
 }
 
 - (void)testEmptyStrAsName
@@ -148,12 +148,12 @@
     NSString *name = @"   ";
     [_creditCard validateName:&name error:&error];
     XCTAssertNotNil(error, @"Error object should not be nil.");
-    XCTAssertEqual([error domain], WPYErrorDomain, @"Error domain should be WPYErrorDomain.");
+    XCTAssertEqualObjects([error domain], WPYErrorDomain, @"Error domain should be WPYErrorDomain.");
     XCTAssertEqual([error code], WPYInvalidName, @"Error code should be WPYInvalidName.");
-    XCTAssertEqual([error localizedDescription], @"Card error: invalid name.", @"It should return expected localized description.");
+    XCTAssertEqualObjects([error localizedDescription], @"Card error: invalid name.", @"It should return expected localized description.");
     NSDictionary *userInfo = [error userInfo];
     NSString *failureReason = [userInfo objectForKey:NSLocalizedFailureReasonErrorKey];
-    XCTAssertEqual(failureReason, @"Name should not be empty.", @"It should return expected failure reason.");
+    XCTAssertEqualObjects(failureReason, @"Name should not be empty.", @"It should return expected failure reason.");
 }
 
 - (void)testValidName
@@ -186,12 +186,12 @@
     [_creditCard validateNumber:&number error:&error];
     
     XCTAssertNotNil(error, @"Error object should not be nil.");
-    XCTAssertEqual([error domain], WPYErrorDomain, @"Error domain should be WPYErrorDomain.");
+    XCTAssertEqualObjects([error domain], WPYErrorDomain, @"Error domain should be WPYErrorDomain.");
     XCTAssertEqual([error code], WPYInvalidNumber, @"Error code should be WPYInvalidNumber.");
-    XCTAssertEqual([error localizedDescription], @"Card error: invalid number.", @"It should return expected localized description.");
+    XCTAssertEqualObjects([error localizedDescription], @"Card error: invalid number.", @"It should return expected localized description.");
     NSDictionary *userInfo = [error userInfo];
     NSString *failureReason = [userInfo objectForKey:NSLocalizedFailureReasonErrorKey];
-    XCTAssertEqual(failureReason, @"Number should not be nil.", @"It should return expected failure reason.");
+    XCTAssertEqualObjects(failureReason, @"Number should not be nil.", @"It should return expected failure reason.");
 }
 
 - (void)testNonNumericNumber
@@ -207,12 +207,12 @@
     [_creditCard validateNumber:&number error:&error];
     
     XCTAssertNotNil(error, @"Error object should not be nil.");
-    XCTAssertEqual([error domain], WPYErrorDomain, @"Error domain should be WPYErrorDomain.");
+    XCTAssertEqualObjects([error domain], WPYErrorDomain, @"Error domain should be WPYErrorDomain.");
     XCTAssertEqual([error code], WPYInvalidNumber, @"Error code should be WPYInvalidNumber.");
-    XCTAssertEqual([error localizedDescription], @"Card error: invalid number.", @"It should return expected localized description.");
+    XCTAssertEqualObjects([error localizedDescription], @"Card error: invalid number.", @"It should return expected localized description.");
     NSDictionary *userInfo = [error userInfo];
     NSString *failureReason = [userInfo objectForKey:NSLocalizedFailureReasonErrorKey];
-    XCTAssertEqual(failureReason, @"Number should be numeric only.", @"It should return expected failure reason.");
+    XCTAssertEqualObjects(failureReason, @"Number should be numeric only.", @"It should return expected failure reason.");
 }
 
 - (void)testEmptyNumber
@@ -228,12 +228,12 @@
     [_creditCard validateNumber:&number error:&error];
     
     XCTAssertNotNil(error, @"Error object should not be nil.");
-    XCTAssertEqual([error domain], WPYErrorDomain, @"Error domain should be WPYErrorDomain.");
+    XCTAssertEqualObjects([error domain], WPYErrorDomain, @"Error domain should be WPYErrorDomain.");
     XCTAssertEqual([error code], WPYInvalidNumber, @"Error code should be WPYInvalidNumber.");
-    XCTAssertEqual([error localizedDescription], @"Card error: invalid number.", @"It should return expected localized description.");
+    XCTAssertEqualObjects([error localizedDescription], @"Card error: invalid number.", @"It should return expected localized description.");
     NSDictionary *userInfo = [error userInfo];
     NSString *failureReason = [userInfo objectForKey:NSLocalizedFailureReasonErrorKey];
-    XCTAssertEqual(failureReason, @"Number should be 13 digits to 16 digits.", @"It should return expected failure reason.");
+    XCTAssertEqualObjects(failureReason, @"Number should be 13 digits to 16 digits.", @"It should return expected failure reason.");
 }
 - (void)testNumberWithTwelveDigits
 {
@@ -266,12 +266,12 @@
     [_creditCard validateNumber:&number error:&error];
     
     XCTAssertNotNil(error, @"Error object should not be nil.");
-    XCTAssertEqual([error domain], WPYErrorDomain, @"Error domain should be WPYErrorDomain.");
+    XCTAssertEqualObjects([error domain], WPYErrorDomain, @"Error domain should be WPYErrorDomain.");
     XCTAssertEqual([error code], WPYInvalidNumber, @"Error code should be WPYInvalidNumber.");
-    XCTAssertEqual([error localizedDescription], @"Card error: invalid number.", @"It should return expected localized description.");
+    XCTAssertEqualObjects([error localizedDescription], @"Card error: invalid number.", @"It should return expected localized description.");
     NSDictionary *userInfo = [error userInfo];
     NSString *failureReason = [userInfo objectForKey:NSLocalizedFailureReasonErrorKey];
-    XCTAssertEqual(failureReason, @"Number should be 13 digits to 16 digits.", @"It should return expected failure reason.");
+    XCTAssertEqualObjects(failureReason, @"Number should be 13 digits to 16 digits.", @"It should return expected failure reason.");
 }
 
 - (void)testNumberWithSpaces
@@ -299,12 +299,12 @@
     [_creditCard validateNumber:&number error:&error];
     
     XCTAssertNotNil(error, @"Error object should not be nil.");
-    XCTAssertEqual([error domain], WPYErrorDomain, @"Error domain should be WPYErrorDomain.");
+    XCTAssertEqualObjects([error domain], WPYErrorDomain, @"Error domain should be WPYErrorDomain.");
     XCTAssertEqual([error code], WPYInvalidNumber, @"Error code should be WPYInvalidNumber.");
-    XCTAssertEqual([error localizedDescription], @"Card error: invalid number.", @"It should return expected localized description.");
+    XCTAssertEqualObjects([error localizedDescription], @"Card error: invalid number.", @"It should return expected localized description.");
     NSDictionary *userInfo = [error userInfo];
     NSString *failureReason = [userInfo objectForKey:NSLocalizedFailureReasonErrorKey];
-    XCTAssertEqual(failureReason, @"This number is not Luhn valid string.", @"It should return expected failure reason.");
+    XCTAssertEqualObjects(failureReason, @"This number is not Luhn valid string.", @"It should return expected failure reason.");
 }
 
 - (void)testValidNumberDoesNotReturnError
@@ -338,12 +338,12 @@
     NSString *cvc = nil;
     [_creditCard validateCvc:&cvc error:&error];
     XCTAssertNotNil(error, @"Error object should not be nil.");
-    XCTAssertEqual([error domain], WPYErrorDomain, @"Error domain should be WPYErrorDomain.");
+    XCTAssertEqualObjects([error domain], WPYErrorDomain, @"Error domain should be WPYErrorDomain.");
     XCTAssertEqual([error code], WPYInvalidCvc, @"Error code should be WPYInvalidCvc.");
-    XCTAssertEqual([error localizedDescription], @"Card error: invalid cvc.", @"It should return expected localized description.");
+    XCTAssertEqualObjects([error localizedDescription], @"Card error: invalid cvc.", @"It should return expected localized description.");
     NSDictionary *userInfo = [error userInfo];
     NSString *failureReason = [userInfo objectForKey:NSLocalizedFailureReasonErrorKey];
-    XCTAssertEqual(failureReason, @"cvc should not be nil.", @"It should return expected failure reason.");
+    XCTAssertEqualObjects(failureReason, @"cvc should not be nil.", @"It should return expected failure reason.");
 }
 
 - (void)testNonNumericCvc
@@ -358,12 +358,12 @@
     NSString *cvc = @"1a5";
     [_creditCard validateCvc:&cvc error:&error];
     XCTAssertNotNil(error, @"Error object should not be nil.");
-    XCTAssertEqual([error domain], WPYErrorDomain, @"Error domain should be WPYErrorDomain.");
+    XCTAssertEqualObjects([error domain], WPYErrorDomain, @"Error domain should be WPYErrorDomain.");
     XCTAssertEqual([error code], WPYInvalidCvc, @"Error code should be WPYInvalidCvc.");
-    XCTAssertEqual([error localizedDescription], @"Card error: invalid cvc.", @"It should return expected localized description.");
+    XCTAssertEqualObjects([error localizedDescription], @"Card error: invalid cvc.", @"It should return expected localized description.");
     NSDictionary *userInfo = [error userInfo];
     NSString *failureReason = [userInfo objectForKey:NSLocalizedFailureReasonErrorKey];
-    XCTAssertEqual(failureReason, @"cvc should be numeric only.", @"It should return expected failure reason.");
+    XCTAssertEqualObjects(failureReason, @"cvc should be numeric only.", @"It should return expected failure reason.");
 }
 
 - (void)testTwoDigitsCvc
@@ -400,12 +400,12 @@
     NSString *cvc = @"12";
     [_creditCard validateCvc:&cvc error:&error];
     XCTAssertNotNil(error, @"Error object should not be nil.");
-    XCTAssertEqual([error domain], WPYErrorDomain, @"Error domain should be WPYErrorDomain.");
+    XCTAssertEqualObjects([error domain], WPYErrorDomain, @"Error domain should be WPYErrorDomain.");
     XCTAssertEqual([error code], WPYInvalidCvc, @"Error code should be WPYInvalidCvc.");
-    XCTAssertEqual([error localizedDescription], @"Card error: invalid cvc.", @"It should return expected localized description.");
+    XCTAssertEqualObjects([error localizedDescription], @"Card error: invalid cvc.", @"It should return expected localized description.");
     NSDictionary *userInfo = [error userInfo];
     NSString *failureReason = [userInfo objectForKey:NSLocalizedFailureReasonErrorKey];
-    XCTAssertEqual(failureReason, @"cvc should be 3 or 4 digits.", @"It should return expected failure reason.");
+    XCTAssertEqualObjects(failureReason, @"cvc should be 3 or 4 digits.", @"It should return expected failure reason.");
 }
 
 - (void)testAmexWithThreeDigits
@@ -426,12 +426,12 @@
     NSString *cvc = @"123";
     [_creditCard validateCvc:&cvc error:&error];
     XCTAssertNotNil(error, @"Error object should not be nil.");
-    XCTAssertEqual([error domain], WPYErrorDomain, @"Error domain should be WPYErrorDomain.");
+    XCTAssertEqualObjects([error domain], WPYErrorDomain, @"Error domain should be WPYErrorDomain.");
     XCTAssertEqual([error code], WPYInvalidCvc, @"Error code should be WPYInvalidCvc.");
-    XCTAssertEqual([error localizedDescription], @"Card error: invalid cvc.", @"It should return expected localized description.");
+    XCTAssertEqualObjects([error localizedDescription], @"Card error: invalid cvc.", @"It should return expected localized description.");
     NSDictionary *userInfo = [error userInfo];
     NSString *failureReason = [userInfo objectForKey:NSLocalizedFailureReasonErrorKey];
-    XCTAssertEqual(failureReason, @"cvc for amex card should be 4 digits.", @"It should return expected failure reason.");
+    XCTAssertEqualObjects(failureReason, @"cvc for amex card should be 4 digits.", @"It should return expected failure reason.");
 }
 
 - (void)testAmexWithFourDigits
@@ -474,12 +474,12 @@
     NSString *cvc = @"1234";
     [_creditCard validateCvc:&cvc error:&error];
     XCTAssertNotNil(error, @"Error object should not be nil.");
-    XCTAssertEqual([error domain], WPYErrorDomain, @"Error domain should be WPYErrorDomain.");
+    XCTAssertEqualObjects([error domain], WPYErrorDomain, @"Error domain should be WPYErrorDomain.");
     XCTAssertEqual([error code], WPYInvalidCvc, @"Error code should be WPYInvalidCvc.");
-    XCTAssertEqual([error localizedDescription], @"Card error: invalid cvc.", @"It should return expected localized description.");
+    XCTAssertEqualObjects([error localizedDescription], @"Card error: invalid cvc.", @"It should return expected localized description.");
     NSDictionary *userInfo = [error userInfo];
     NSString *failureReason = [userInfo objectForKey:NSLocalizedFailureReasonErrorKey];
-    XCTAssertEqual(failureReason, @"cvc for non amex card should be 3 digits.", @"It should return expected failure reason.");
+    XCTAssertEqualObjects(failureReason, @"cvc for non amex card should be 3 digits.", @"It should return expected failure reason.");
 }
 
 
@@ -503,12 +503,12 @@
     [_creditCard validateExpiryMonth:&expiryMonth error: &error];
     
     XCTAssertNotNil(error, @"Error object should not be nil.");
-    XCTAssertEqual([error domain], WPYErrorDomain, @"Error domain should be WPYErrorDomain.");
+    XCTAssertEqualObjects([error domain], WPYErrorDomain, @"Error domain should be WPYErrorDomain.");
     XCTAssertEqual([error code], WPYInvalidExpiryMonth, @"Error code should be WPYInvalidExpiryMonth.");
-    XCTAssertEqual([error localizedDescription], @"Card error: invalid expiry month.", @"It should return expected localized description.");
+    XCTAssertEqualObjects([error localizedDescription], @"Card error: invalid expiry month.", @"It should return expected localized description.");
     NSDictionary *userInfo = [error userInfo];
     NSString *failureReason = [userInfo objectForKey:NSLocalizedFailureReasonErrorKey];
-    XCTAssertEqual(failureReason, @"Expiry month should not be nil.", @"It should return expected failure reason.");
+    XCTAssertEqualObjects(failureReason, @"Expiry month should not be nil.", @"It should return expected failure reason.");
 }
 
 - (void)testWhenExpiryMonthIsZero
@@ -542,12 +542,12 @@
     [_creditCard validateExpiryMonth:&expiryMonth error: &error];
     
     XCTAssertNotNil(error, @"Error object should not be nil.");
-    XCTAssertEqual([error domain], WPYErrorDomain, @"Error domain should be WPYErrorDomain.");
+    XCTAssertEqualObjects([error domain], WPYErrorDomain, @"Error domain should be WPYErrorDomain.");
     XCTAssertEqual([error code], WPYInvalidExpiryMonth, @"Error code should be WPYInvalidExpiryMonth.");
-    XCTAssertEqual([error localizedDescription], @"Card error: invalid expiry month.", @"It should return expected localized description.");
+    XCTAssertEqualObjects([error localizedDescription], @"Card error: invalid expiry month.", @"It should return expected localized description.");
     NSDictionary *userInfo = [error userInfo];
     NSString *failureReason = [userInfo objectForKey:NSLocalizedFailureReasonErrorKey];
-    XCTAssertEqual(failureReason, @"Expiry month should be a number between 1 to 12.", @"It should return expected failure reason.");
+    XCTAssertEqualObjects(failureReason, @"Expiry month should be a number between 1 to 12.", @"It should return expected failure reason.");
 }
 
 #pragma mark validateExpiryYear
@@ -616,6 +616,8 @@
     XCTAssertTrue([_creditCard validateExpiryYear:year month:month], @"It should validate if expiry year is next year.");
 }
 
+
+#pragma mark 
 
 
 
