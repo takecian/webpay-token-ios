@@ -113,7 +113,7 @@
 - (void)testValidateNameAcceptsNilAsErrorArgument
 {
     NSString *name = nil;
-    XCTAssertNoThrow([_creditCard validateName:&name error:nil], @"Second argument should accept nil.");
+    XCTAssertNoThrow([_creditCard validateName:&name error:nil], @"It should not raise exception when nil is passed as error argument.");
 }
 
 - (void)testNilName
@@ -177,7 +177,7 @@
 - (void)testValidateNumberAcceptsNilAsErrorArgument
 {
     NSString *number = @"1";
-    XCTAssertNoThrow([_creditCard validateNumber:&number error:nil], @"Second argument should accept nil.");
+    XCTAssertNoThrow([_creditCard validateNumber:&number error:nil], @"It should not raise exception when nil is passed as error argument.");
 }
 
 - (void)testNilNumber
@@ -329,7 +329,7 @@
 - (void)testValidateCvcAcceptsNilAsErrorArgument
 {
     NSString *cvc = nil;
-    XCTAssertNoThrow([_creditCard validateCvc:&cvc error:nil], @"Second argument should accept nil.");
+    XCTAssertNoThrow([_creditCard validateCvc:&cvc error:nil], @"It should not raise exception when nil is passed as error argument.");
 }
 
 - (void)testNilCvc
@@ -508,7 +508,7 @@
 - (void)testValidateExpiryMonthAcceptsNilAsErrorArgument
 {
     NSNumber *expiryMonth = nil;
-    XCTAssertNoThrow([_creditCard validateExpiryMonth:&expiryMonth error:nil], @"Second argument should accept nil.");
+    XCTAssertNoThrow([_creditCard validateExpiryMonth:&expiryMonth error:nil], @"It should not raise exception when nil is passed as error argument.");
 }
 
 - (void)testNilExpiryMonth
@@ -583,7 +583,7 @@
 - (void)testValidateExpiryYearAcceptsNilAsErrorArgument
 {
     NSNumber *expiryYear = nil;
-    XCTAssertNoThrow([_creditCard validateExpiryYear:&expiryYear error:nil], @"Second argument should accept nil.");
+    XCTAssertNoThrow([_creditCard validateExpiryYear:&expiryYear error:nil], @"It should not raise exception when nil is passed as error argument.");
 }
 
 - (void)testNilExpiryYear
@@ -612,7 +612,7 @@
 #pragma mark validateExpiry
 - (void)testValidateExpiryAcceptsNilAsArgument
 {
-    XCTAssertNoThrow([_creditCard validateExpiryYear:2014 month:12 error:nil], @"It should not raise exception when nil is passed for error argument.");
+    XCTAssertNoThrow([_creditCard validateExpiryYear:2014 month:12 error:nil], @"It should not raise exception when nil is passed as error argument.");
 }
 
 - (void)testWhenExpiryIsOneYearAgo
