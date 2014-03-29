@@ -420,7 +420,7 @@
     XCTAssertEqualObjects(failureReason, @"cvc should be 3 or 4 digits.", @"It should return expected failure reason.");
 }
 
-- (void)testAmexWithThreeDigits
+- (void)testAmexWithThreeDigitsCvc
 {
     NSString *amexCardNumber = @"378282246310005";
     _creditCard.number = amexCardNumber;
@@ -429,7 +429,7 @@
     XCTAssertFalse([_creditCard validateCvc:&cvc error:nil], @"It should invalidate 3 digits cvc for amex card.");
 }
 
-- (void)testAmexWithThreeDigitsReturnsExpectedError
+- (void)testAmexWithThreeDigitsCvcReturnsExpectedError
 {
     NSError *error;
     NSString *amexCardNumber = @"378282246310005";
@@ -446,7 +446,7 @@
     XCTAssertEqualObjects(failureReason, @"cvc for amex card should be 4 digits.", @"It should return expected failure reason.");
 }
 
-- (void)testAmexWithFourDigits
+- (void)testAmexWithFourDigitsCvc
 {
     NSString *amexCardNumber = @"378282246310005";
     _creditCard.number = amexCardNumber;
@@ -456,7 +456,7 @@
     XCTAssertTrue([_creditCard validateCvc:&cvc error: &error], @"It should validate 4 digits cvc for amex card.");
 }
 
-- (void)testNonAmexCardWithThreeDigits
+- (void)testNonAmexCardWithThreeDigitsCvc
 {
     NSString *masterCardNumber = @"5555555555554444";
     _creditCard.number = masterCardNumber;
@@ -466,7 +466,7 @@
     XCTAssertTrue([_creditCard validateCvc:&cvc error: &error], @"It should validate 3 digits cvc for non amex card.");
 }
 
-- (void)testNonAmexCardWithFourDigits
+- (void)testNonAmexCardWithFourDigitsCvc
 {
     NSString *masterCardNumber = @"5555555555554444";
     _creditCard.number = masterCardNumber;
@@ -475,7 +475,7 @@
     XCTAssertFalse([_creditCard validateCvc:&cvc error:nil], @"It should invalidate 4 digits cvc for non amex card.");
 }
 
-- (void)testNonAmexCardWithFourDigitsReturnsExpectedError
+- (void)testNonAmexCardWithFourDigitsCvcReturnsExpectedError
 {
     NSError *error;
     NSString *masterCardNumber = @"5555555555554444";
