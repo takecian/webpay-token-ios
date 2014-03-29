@@ -33,6 +33,28 @@ static void handleValidationError(NSError * __autoreleasing * error, WPYErrorCod
 }
 
 
+static BOOL isLuhnValidString(NSString *string)
+{
+    int sum = 0;
+    NSString *reversedStr = reverseString(string);
+    for (int i = 0; i < reversedStr.length; i++)
+    {
+        NSInteger digit = [[NSString stringWithFormat:@"%C", [reversedStr characterAtIndex:i]] intValue];
+        if (i % 2 != 0)
+        {
+            digit *= 2;
+            if (digit > 9)
+            {
+                digit -= 9;
+            }
+        }
+        
+        sum += digit;
+    }
+    
+    return (sum % 10 == 0);
+}
+
 static BOOL isNumericOnlyString(NSString *string)
 {
     NSCharacterSet *setOfNumbers = [NSCharacterSet decimalDigitCharacterSet];
@@ -56,7 +78,7 @@ static NSString *trimWhiteSpaces(NSString *string)
 
 
 // remove all occurences of whitespace
-static NSString *removeWhitespaces(NSString *string)
+static NSString *removeAllWhitespaces(NSString *string)
 {
     return [string stringByReplacingOccurrencesOfString:@" " withString:@""];
 }
@@ -80,28 +102,6 @@ static NSString *reverseString(NSString *string)
     return reversedString;
 }
 
-
-static BOOL isLuhnValidString(NSString *string)
-{
-    int sum = 0;
-    NSString *reversedStr = reverseString(string);
-    for (int i = 0; i < reversedStr.length; i++)
-    {
-        NSInteger digit = [[NSString stringWithFormat:@"%C", [reversedStr characterAtIndex:i]] intValue];
-        if (i % 2 != 0)
-        {
-            digit *= 2;
-            if (digit > 9)
-            {
-                digit -= 9;
-            }
-        }
-        
-        sum += digit;
-    }
-    
-    return (sum % 10 == 0);
-}
 
 
 #pragma mark public methods
@@ -180,7 +180,7 @@ static BOOL isLuhnValidString(NSString *string)
     }
     
     NSString *rawStr = (NSString *) *ioValue;
-    NSString *trimmedStr = removeWhitespaces(rawStr);
+    NSString *trimmedStr = removeAllWhitespaces(rawStr);
     NSString *cleansedStr = removeHyphens(trimmedStr);
     
     if (!(isNumericOnlyString(cleansedStr)))
@@ -307,6 +307,7 @@ static BOOL isLuhnValidString(NSString *string)
 
     return ([now compare: expiryDate] == NSOrderedAscending);
 }
+
 
 
 
