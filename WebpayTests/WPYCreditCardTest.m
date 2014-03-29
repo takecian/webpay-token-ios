@@ -161,6 +161,13 @@
     NSError *error;
     NSString *name = @"Yohei Okada";
     XCTAssertTrue([_creditCard validateName:&name error:&error], @"It should validate name.");
+}
+
+- (void)testValidNameDoesNotReturnError
+{
+    NSError *error;
+    NSString *name = @"Yohei Okada";
+    [_creditCard validateName:&name error:&error];
     XCTAssertNil(error, @"Error object should be nil.");
 }
 
@@ -274,18 +281,6 @@
     XCTAssertEqualObjects(failureReason, @"Number should be 13 digits to 16 digits.", @"It should return expected failure reason.");
 }
 
-- (void)testNumberWithSpaces
-{
-    NSString *number = @"4111 1111 1111 1111";
-    XCTAssertTrue([_creditCard validateNumber:&number error:nil], @"It should validate valid card number with spaces.");
-}
-
-- (void)testNumberWithHyphens
-{
-    NSString *number = @"4111-1111-1111-1111";
-    XCTAssertTrue([_creditCard validateNumber:&number error:nil], @"It should validate valid card number with hyphens.");
-}
-
 - (void)testLuhnInvalidNumber
 {
     NSString *number = @"4111111111111112";
@@ -305,6 +300,18 @@
     NSDictionary *userInfo = [error userInfo];
     NSString *failureReason = [userInfo objectForKey:NSLocalizedFailureReasonErrorKey];
     XCTAssertEqualObjects(failureReason, @"This number is not Luhn valid string.", @"It should return expected failure reason.");
+}
+
+- (void)testNumberWithSpaces
+{
+    NSString *number = @"4111 1111 1111 1111";
+    XCTAssertTrue([_creditCard validateNumber:&number error:nil], @"It should validate valid card number with spaces.");
+}
+
+- (void)testNumberWithHyphens
+{
+    NSString *number = @"4111-1111-1111-1111";
+    XCTAssertTrue([_creditCard validateNumber:&number error:nil], @"It should validate valid card number with hyphens.");
 }
 
 - (void)testValidNumberDoesNotReturnError
@@ -346,6 +353,13 @@
     XCTAssertEqualObjects(failureReason, @"cvc should not be nil.", @"It should return expected failure reason.");
 }
 
+- (void)testEmptyCvc
+{
+    NSError *error;
+    NSString *cvc = @"   ";
+    XCTAssertFalse([_creditCard validateCvc:&cvc error: &error], @"Empty cvc should be invalidated.");
+}
+
 - (void)testNonNumericCvc
 {
     NSString *cvc = @"1a4";
@@ -377,7 +391,6 @@
     NSError *error;
     NSString *cvc = @"123";
     XCTAssertTrue([_creditCard validateCvc:&cvc error: &error], @"It should validate 3 digits cvc.");
-    XCTAssertNil(error, @"It should not populate error object.");
 }
 
 - (void)testFourDigitsCvc
@@ -385,7 +398,6 @@
     NSError *error;
     NSString *cvc = @"1234";
     XCTAssertTrue([_creditCard validateCvc:&cvc error: &error], @"It should validate 4 digits cvc.");
-    XCTAssertNil(error, @"It should not populate error object.");
 }
 
 - (void)testFiveDigitsCvc
@@ -442,7 +454,6 @@
     NSError *error;
     NSString *cvc = @"1234";
     XCTAssertTrue([_creditCard validateCvc:&cvc error: &error], @"It should validate 4 digits cvc for amex card.");
-    XCTAssertNil(error, @"It should not populate error object.");
 }
 
 - (void)testNonAmexCardWithThreeDigits
@@ -453,7 +464,6 @@
     NSError *error;
     NSString *cvc = @"123";
     XCTAssertTrue([_creditCard validateCvc:&cvc error: &error], @"It should validate 3 digits cvc for non amex card.");
-    XCTAssertNil(error, @"It should not populate error object.");
 }
 
 - (void)testNonAmexCardWithFourDigits
@@ -480,6 +490,17 @@
     NSDictionary *userInfo = [error userInfo];
     NSString *failureReason = [userInfo objectForKey:NSLocalizedFailureReasonErrorKey];
     XCTAssertEqualObjects(failureReason, @"cvc for non amex card should be 3 digits.", @"It should return expected failure reason.");
+}
+
+- (void)testValidCvcDoesNotReturnError
+{
+    NSString *amexCardNumber = @"378282246310005";
+    _creditCard.number = amexCardNumber;
+    
+    NSError *error;
+    NSString *cvc = @"1234";
+    [_creditCard validateCvc:&cvc error: &error];
+    XCTAssertNil(error, @"It should not populate error object.");
 }
 
 
@@ -548,6 +569,14 @@
     NSDictionary *userInfo = [error userInfo];
     NSString *failureReason = [userInfo objectForKey:NSLocalizedFailureReasonErrorKey];
     XCTAssertEqualObjects(failureReason, @"Expiry month should be a number between 1 to 12.", @"It should return expected failure reason.");
+}
+
+- (void)testValidExpiryMonthDoesNotReturnError
+{
+    NSError *error;
+    NSNumber *expiryMonth = [NSNumber numberWithInt:12];
+    [_creditCard validateExpiryMonth:&expiryMonth error:&error];
+    XCTAssertNil(error, @"It should not populate error object for valid expiry month.");
 }
 
 #pragma mark validateExpiryYear
