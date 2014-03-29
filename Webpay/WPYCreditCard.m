@@ -33,6 +33,15 @@ static void handleValidationError(NSError * __autoreleasing * error, WPYErrorCod
 }
 
 
+static BOOL isSupportedBrandByWebpay(NSString *brand)
+{
+    if (!brand || [brand isEqualToString:@"Discover"] || [brand isEqualToString:@"Unknown"])
+    {
+        return NO;
+    }
+    return YES;
+}
+
 static BOOL isLuhnValidString(NSString *string)
 {
     int sum = 0;
@@ -315,7 +324,37 @@ static NSString *reverseString(NSString *string)
 }
 
 
-
+- (BOOL)validate:(NSError * __autoreleasing *)error
+{
+    NSString *name = self.name;
+    NSString *number = self.number;
+    NSString *cvc = self.cvc;
+    NSNumber *expiryYear = [NSNumber numberWithInteger:self.expiryYear];
+    NSNumber *expiryMonth = [NSNumber numberWithInteger:self.expiryMonth];
+    
+    BOOL isValidCard = [self validateName:&name error:error]
+                    && [self validateNumber:&number error:error]
+                    && [self validateCvc:&cvc error:error]
+                    && [self validateExpiryYear:&expiryYear error:error]
+                    && [self validateExpiryMonth:&expiryMonth error:error]
+                    && [self validateExpiryYear:self.expiryYear month:self.expiryMonth error:error];
+    
+    if (!isValidCard)
+    {
+        return NO;
+    }
+    
+    NSString *brand = [self brandName];
+    if (!isSupportedBrandByWebpay(brand))
+    {
+        NSString *failureReason = NSLocalizedStringFromTable(@"This brand is not supported by Webpay.", WPYLocalizedStringTable, nil);
+        handleValidationError(error, WPYInvalidNumber, failureReason);
+        
+        return NO;
+    }
+    
+    return YES;
+}
 
 
 

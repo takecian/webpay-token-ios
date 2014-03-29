@@ -672,6 +672,141 @@
 
 
 #pragma mark validate
+- (void)testValidateWithInvalidName
+{
+    _creditCard.name = @"    ";
+    _creditCard.number = @"4111111111111111";
+    _creditCard.cvc = @"123";
+    _creditCard.expiryYear = 2014;
+    _creditCard.expiryMonth = 12;
+    
+    NSError *error;
+    XCTAssertFalse([_creditCard validate:&error], @"It should invalidate card with invalid name.");
+    
+    XCTAssertNotNil(error, @"Error object should not be nil.");
+    XCTAssertEqualObjects([error domain], WPYErrorDomain, @"Error domain should be WPYErrorDomain.");
+    XCTAssertEqual([error code], WPYInvalidName, @"Error code should be WPYInvalidName.");
+    XCTAssertEqualObjects([error localizedDescription], @"Card error: invalid name.", @"It should return expected localized description.");
+    NSDictionary *userInfo = [error userInfo];
+    NSString *failureReason = [userInfo objectForKey:NSLocalizedFailureReasonErrorKey];
+    XCTAssertEqualObjects(failureReason, @"Name should not be empty.", @"It should return expected failure reason.");
+}
+
+- (void)testValidateWithInvalidNumber
+{
+    _creditCard.name = @"Yohei Okada";
+    _creditCard.number = @"4111111111111112";
+    _creditCard.cvc = @"123";
+    _creditCard.expiryYear = 2014;
+    _creditCard.expiryMonth = 12;
+    
+    NSError *error;
+    XCTAssertFalse([_creditCard validate:&error], @"It should invalidate card with invalid number.");
+    
+    XCTAssertNotNil(error, @"Error object should not be nil.");
+    XCTAssertEqualObjects([error domain], WPYErrorDomain, @"Error domain should be WPYErrorDomain.");
+    XCTAssertEqual([error code], WPYInvalidNumber, @"Error code should be WPYInvalidNumber.");
+    XCTAssertEqualObjects([error localizedDescription], @"Card error: invalid number.", @"It should return expected localized description.");
+    NSDictionary *userInfo = [error userInfo];
+    NSString *failureReason = [userInfo objectForKey:NSLocalizedFailureReasonErrorKey];
+    XCTAssertEqualObjects(failureReason, @"This number is not Luhn valid string.", @"It should return expected failure reason.");
+}
+
+- (void)testValidateWithInvalidCvc
+{
+    _creditCard.name = @"Yohei Okada";
+    _creditCard.number = @"4111111111111111";
+    _creditCard.cvc = @"1234";
+    _creditCard.expiryYear = 2014;
+    _creditCard.expiryMonth = 12;
+    
+    NSError *error;
+    XCTAssertFalse([_creditCard validate:&error], @"It should invalidate card with invalid cvc.");
+    
+    XCTAssertNotNil(error, @"Error object should not be nil.");
+    XCTAssertEqualObjects([error domain], WPYErrorDomain, @"Error domain should be WPYErrorDomain.");
+    XCTAssertEqual([error code], WPYInvalidCvc, @"Error code should be WPYInvalidCvc.");
+    XCTAssertEqualObjects([error localizedDescription], @"Card error: invalid cvc.", @"It should return expected localized description.");
+    NSDictionary *userInfo = [error userInfo];
+    NSString *failureReason = [userInfo objectForKey:NSLocalizedFailureReasonErrorKey];
+    XCTAssertEqualObjects(failureReason, @"cvc for non amex card should be 3 digits.", @"It should return expected failure reason.");
+}
+
+- (void)testValidateWithInvalidExpiryMonth
+{
+    _creditCard.name = @"Yohei Okada";
+    _creditCard.number = @"4111111111111111";
+    _creditCard.cvc = @"123";
+    _creditCard.expiryYear = 2014;
+    _creditCard.expiryMonth = 13;
+    
+    NSError *error;
+    XCTAssertFalse([_creditCard validate:&error], @"It should invalidate card with invalid expiry month.");
+    
+    XCTAssertNotNil(error, @"Error object should not be nil.");
+    XCTAssertEqualObjects([error domain], WPYErrorDomain, @"Error domain should be WPYErrorDomain.");
+    XCTAssertEqual([error code], WPYInvalidExpiryMonth, @"Error code should be WPYInvalidExpiryMonth.");
+    XCTAssertEqualObjects([error localizedDescription], @"Card error: invalid expiry month.", @"It should return expected localized description.");
+    NSDictionary *userInfo = [error userInfo];
+    NSString *failureReason = [userInfo objectForKey:NSLocalizedFailureReasonErrorKey];
+    XCTAssertEqualObjects(failureReason, @"Expiry month should be a number between 1 to 12.", @"It should return expected failure reason.");
+}
+
+- (void)testValidateWithInvalidExpiry
+{
+    _creditCard.name = @"Yohei Okada";
+    _creditCard.number = @"4111111111111111";
+    _creditCard.cvc = @"123";
+    _creditCard.expiryYear = 2010;
+    _creditCard.expiryMonth = 12;
+    
+    NSError *error;
+    XCTAssertFalse([_creditCard validate:&error], @"It should invalidate card with invalid expiry.");
+    
+    XCTAssertNotNil(error, @"Error object should not be nil.");
+    XCTAssertEqualObjects([error domain], WPYErrorDomain, @"Error domain should be WPYErrorDomain.");
+    XCTAssertEqual([error code], WPYInvalidExpiry, @"Error code should be WPYInvalidExpiry.");
+    XCTAssertEqualObjects([error localizedDescription], @"Card error: invalid expiry.", @"It should return expected localized description.");
+    NSDictionary *userInfo = [error userInfo];
+    NSString *failureReason = [userInfo objectForKey:NSLocalizedFailureReasonErrorKey];
+    XCTAssertEqualObjects(failureReason, @"This card is expired.", @"It should return expected failure reason.");
+
+}
+
+- (void)testValidateWithUnsupportedBrand
+{
+    _creditCard.name = @"Yohei Okada";
+    NSString *discoverCardNumber = @"6011111111111117";
+    _creditCard.number = discoverCardNumber;
+    _creditCard.cvc = @"123";
+    _creditCard.expiryYear = 2014;
+    _creditCard.expiryMonth = 12;
+    
+    NSError *error;
+    XCTAssertFalse([_creditCard validate:&error], @"It should invalidate card with unsupported brand.");
+    
+    XCTAssertNotNil(error, @"Error object should not be nil.");
+    XCTAssertEqualObjects([error domain], WPYErrorDomain, @"Error domain should be WPYErrorDomain.");
+    XCTAssertEqual([error code], WPYInvalidNumber, @"Error code should be WPYInvalidNumber.");
+    XCTAssertEqualObjects([error localizedDescription], @"Card error: invalid number.", @"It should return expected localized description.");
+    NSDictionary *userInfo = [error userInfo];
+    NSString *failureReason = [userInfo objectForKey:NSLocalizedFailureReasonErrorKey];
+    XCTAssertEqualObjects(failureReason, @"This brand is not supported by Webpay.", @"It should return expected failure reason.");
+}
+
+- (void)testValidateWithSupportedBrand
+{
+    _creditCard.name = @"Yohei Okada";
+    _creditCard.number = @"30569309025904";
+    _creditCard.cvc = @"123";
+    _creditCard.expiryYear = 2014;
+    _creditCard.expiryMonth = 12;
+    
+    NSError *error;
+    XCTAssertTrue([_creditCard validate:&error], @"It should validate card with supported brand.");
+    XCTAssertNil(error, @"Error object should be nil.");
+}
+
 
 
 @end
