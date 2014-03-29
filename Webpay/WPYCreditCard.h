@@ -41,7 +41,7 @@ typedef NS_ENUM(NSUInteger, WPYMonth) {
 - (BOOL)validateExpiryYear:(id *)ioValue error:(NSError * __autoreleasing *)outError;
 
 // validate expiry
-- (BOOL)validateExpiryYear:(NSUInteger)year month:(WPYMonth)month;
+- (BOOL)validateExpiryYear:(NSUInteger)year month:(WPYMonth)month error:(NSError * __autoreleasing *)error;
 
 // validate the card
 - (BOOL)validate:(NSError * __autoreleasing *)error;

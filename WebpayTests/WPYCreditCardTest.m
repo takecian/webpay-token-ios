@@ -610,44 +610,68 @@
 
 
 #pragma mark validateExpiry
+- (void)testValidateExpiryAcceptsNilAsArgument
+{
+    XCTAssertNoThrow([_creditCard validateExpiryYear:2014 month:12 error:nil], @"It should not raise exception when nil is passed for error argument.");
+}
+
 - (void)testWhenExpiryIsOneYearAgo
 {
     int year = 2013;
     int month = 3;
-    XCTAssertFalse([_creditCard validateExpiryYear:year month:month], @"It should invalidate if expiry date is a year ago.");
+    XCTAssertFalse([_creditCard validateExpiryYear:year month:month error:nil], @"It should invalidate if expiry date is a year ago.");
 }
 
 - (void)testWhenExpiryIsOneMonthAgo
 {
     int year = 2014;
     int month = 2;
-    XCTAssertFalse([_creditCard validateExpiryYear:year month:month], @"It should invalidate if expiry date is a month a go.");
+    XCTAssertFalse([_creditCard validateExpiryYear:year month:month error:nil], @"It should invalidate if expiry date is a month a go.");
 }
 
 - (void)testWhenExpiryIsThisMonth
 {
     int year = 2014;
     int month = 3;
-    XCTAssertTrue([_creditCard validateExpiryYear:year month:month], @"It should validate if expiry month is this month.");
+    XCTAssertTrue([_creditCard validateExpiryYear:year month:month error:nil], @"It should validate if expiry month is this month.");
 }
 
 - (void)testWhenExpiryIsNextMonth
 {
     int year = 2014;
     int month = 4;
-    XCTAssertTrue([_creditCard validateExpiryYear:year month:month], @"It should validate if expiry month is next month");
+    XCTAssertTrue([_creditCard validateExpiryYear:year month:month error:nil], @"It should validate if expiry month is next month");
 }
 
 - (void)testWhenExpiryIsNextYear
 {
     int year = 2015;
     int month = 3;
-    XCTAssertTrue([_creditCard validateExpiryYear:year month:month], @"It should validate if expiry year is next year.");
+    XCTAssertTrue([_creditCard validateExpiryYear:year month:month error:nil], @"It should validate if expiry year is next year.");
+}
+
+- (void)testExpiredDateReturnsExpectedError
+{
+    NSError *error;
+    [_creditCard validateExpiryYear:2010 month:3 error:&error];
+    XCTAssertNotNil(error, @"Error object should not be nil.");
+    XCTAssertEqualObjects([error domain], WPYErrorDomain, @"Error domain should be WPYErrorDomain.");
+    XCTAssertEqual([error code], WPYInvalidExpiry, @"Error code should be WPYInvalidName.");
+    XCTAssertEqualObjects([error localizedDescription], @"Card error: invalid expiry.", @"It should return expected localized description.");
+    NSDictionary *userInfo = [error userInfo];
+    NSString *failureReason = [userInfo objectForKey:NSLocalizedFailureReasonErrorKey];
+    XCTAssertEqualObjects(failureReason, @"This card is expired.", @"It should return expected failure reason.");
+}
+
+- (void)testValidExpiryDoesNotReturnError
+{
+    NSError *error;
+    [_creditCard validateExpiryYear:2015 month:3 error:&error];
+    XCTAssertNil(error, @"It should not return error for valid expiry.");
 }
 
 
-#pragma mark 
-
+#pragma mark validate
 
 
 @end

@@ -292,7 +292,7 @@ static NSString *reverseString(NSString *string)
 }
 
 
-- (BOOL)validateExpiryYear:(NSUInteger)year month:(WPYMonth)month
+- (BOOL)validateExpiryYear:(NSUInteger)year month:(WPYMonth)month error:(NSError * __autoreleasing *)error;
 {
     // first day of expiry month's next month
     // i.e if expiry is 2014/2, expiryDate is 2014/3/1
@@ -305,7 +305,13 @@ static NSString *reverseString(NSString *string)
     NSDate *expiryDate = [gregorianCal dateFromComponents:dateComps];
     NSDate *now = [NSDate date];
 
-    return ([now compare: expiryDate] == NSOrderedAscending);
+    if (!([now compare: expiryDate] == NSOrderedAscending))
+    {
+        NSString *failureReason = NSLocalizedStringFromTable(@"This card is expired.", WPYLocalizedStringTable, nil);
+        handleValidationError(error, WPYInvalidExpiry, failureReason);
+        return NO;
+    }
+    return YES;
 }
 
 
