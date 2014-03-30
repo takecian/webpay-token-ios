@@ -21,6 +21,9 @@
 		4764A09418C7EB04006C9E4E /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4764A07C18C7EB04006C9E4E /* UIKit.framework */; };
 		477931B318D3C3B5007F5C9F /* WPYCreditCardTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 477931B218D3C3B5007F5C9F /* WPYCreditCardTest.m */; };
 		47B8514518CA7D86003A1ECA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 47B8514318CA7D86003A1ECA /* InfoPlist.strings */; };
+		47CE70DF18E8C7D500E4B4B8 /* WPYTokenizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 47CE70DE18E8C7D500E4B4B8 /* WPYTokenizer.m */; };
+		47CE70E018E8C7D500E4B4B8 /* WPYTokenizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 47CE70DE18E8C7D500E4B4B8 /* WPYTokenizer.m */; };
+		47CE70E218E8C7EA00E4B4B8 /* WPYTokenizerTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 47CE70E118E8C7EA00E4B4B8 /* WPYTokenizerTest.m */; };
 		47D9BC1718CFBF080020BF55 /* WPYCreditCard.m in Sources */ = {isa = PBXBuildFile; fileRef = 47D9BC1618CFBF080020BF55 /* WPYCreditCard.m */; };
 		47D9BC1818CFBF080020BF55 /* WPYCreditCard.m in Sources */ = {isa = PBXBuildFile; fileRef = 47D9BC1618CFBF080020BF55 /* WPYCreditCard.m */; };
 /* End PBXBuildFile section */
@@ -54,6 +57,9 @@
 		4764A09918C7EB04006C9E4E /* WebpayTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; name = "WebpayTests-Info.plist"; path = "WebpayTests/WebpayTests-Info.plist"; sourceTree = "<group>"; };
 		477931B218D3C3B5007F5C9F /* WPYCreditCardTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WPYCreditCardTest.m; path = WebpayTests/WPYCreditCardTest.m; sourceTree = SOURCE_ROOT; };
 		47B8514418CA7D86003A1ECA /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = InfoPlist.strings; sourceTree = "<group>"; };
+		47CE70DD18E8C7D500E4B4B8 /* WPYTokenizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WPYTokenizer.h; path = Webpay/WPYTokenizer.h; sourceTree = "<group>"; };
+		47CE70DE18E8C7D500E4B4B8 /* WPYTokenizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WPYTokenizer.m; path = Webpay/WPYTokenizer.m; sourceTree = "<group>"; };
+		47CE70E118E8C7EA00E4B4B8 /* WPYTokenizerTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WPYTokenizerTest.m; path = WebpayTests/WPYTokenizerTest.m; sourceTree = SOURCE_ROOT; };
 		47D9BC1518CFBF080020BF55 /* WPYCreditCard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WPYCreditCard.h; path = Webpay/WPYCreditCard.h; sourceTree = "<group>"; };
 		47D9BC1618CFBF080020BF55 /* WPYCreditCard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WPYCreditCard.m; path = Webpay/WPYCreditCard.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -141,6 +147,7 @@
 			children = (
 				4764A09818C7EB04006C9E4E /* Supporting Files */,
 				477931B218D3C3B5007F5C9F /* WPYCreditCardTest.m */,
+				47CE70E118E8C7EA00E4B4B8 /* WPYTokenizerTest.m */,
 			);
 			name = WebpayTests;
 			path = "webpay-token-iosTests";
@@ -171,6 +178,8 @@
 				47D9BC1618CFBF080020BF55 /* WPYCreditCard.m */,
 				4727391318D8FE8B0003D759 /* WPYErrors.h */,
 				4727391418D8FE8B0003D759 /* WPYErrors.m */,
+				47CE70DD18E8C7D500E4B4B8 /* WPYTokenizer.h */,
+				47CE70DE18E8C7D500E4B4B8 /* WPYTokenizer.m */,
 			);
 			name = Webpay;
 			sourceTree = "<group>";
@@ -274,6 +283,7 @@
 				47D9BC1718CFBF080020BF55 /* WPYCreditCard.m in Sources */,
 				4764A08518C7EB04006C9E4E /* main.m in Sources */,
 				4727391518D8FE8B0003D759 /* WPYErrors.m in Sources */,
+				47CE70DF18E8C7D500E4B4B8 /* WPYTokenizer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -281,7 +291,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				47CE70E018E8C7D500E4B4B8 /* WPYTokenizer.m in Sources */,
 				477931B318D3C3B5007F5C9F /* WPYCreditCardTest.m in Sources */,
+				47CE70E218E8C7EA00E4B4B8 /* WPYTokenizerTest.m in Sources */,
 				4727391618D8FE8B0003D759 /* WPYErrors.m in Sources */,
 				47D9BC1818CFBF080020BF55 /* WPYCreditCard.m in Sources */,
 			);
