@@ -16,10 +16,11 @@
 static NSError *createNSError(WPYErrorCode errorCode, NSString *failureReason)
 {
     NSString *localizedDescription = LocalizedDescriptionFromErrorCode(errorCode);
+    NSString *localizedFailureReason = NSLocalizedStringFromTable(failureReason, WPYLocalizedStringTable, nil);
     NSDictionary *userInfo =
     @{
         NSLocalizedDescriptionKey: localizedDescription,
-        NSLocalizedFailureReasonErrorKey: failureReason
+        NSLocalizedFailureReasonErrorKey: localizedFailureReason
     };
     return [[NSError alloc] initWithDomain:WPYErrorDomain code:errorCode userInfo:userInfo];
 }
@@ -150,16 +151,14 @@ static NSString *reverseString(NSString *string)
 {
     if (*ioValue == nil)
     {
-        NSString *failureReason = NSLocalizedStringFromTable(@"Name should not be nil.", WPYLocalizedStringTable, nil);
-        handleValidationError(outError, WPYInvalidName, failureReason);
+        handleValidationError(outError, WPYInvalidName, @"Name should not be nil.");
         return NO;
     }
     
     NSString *trimmedStr = trimWhiteSpaces((NSString *) *ioValue);
     if (trimmedStr.length == 0)
     {
-        NSString *failureReason = NSLocalizedStringFromTable(@"Name should not be empty.", WPYLocalizedStringTable, nil);
-        handleValidationError(outError, WPYInvalidName, failureReason);
+        handleValidationError(outError, WPYInvalidName, @"Name should not be empty.");
         return NO;
     }
     
@@ -171,8 +170,7 @@ static NSString *reverseString(NSString *string)
 {
     if (*ioValue == nil)
     {
-        NSString *failureReason = NSLocalizedStringFromTable(@"Number should not be nil.", WPYLocalizedStringTable, nil);
-        handleValidationError(outError, WPYInvalidNumber, failureReason);
+        handleValidationError(outError, WPYInvalidNumber, @"Number should not be nil.");
         return NO;
     }
     
@@ -182,22 +180,19 @@ static NSString *reverseString(NSString *string)
     
     if (!(isNumericOnlyString(cleansedStr)))
     {
-        NSString *failureReason = NSLocalizedStringFromTable(@"Number should be numeric only.", WPYLocalizedStringTable, nil);
-        handleValidationError(outError, WPYInvalidNumber, failureReason);
+        handleValidationError(outError, WPYInvalidNumber, @"Number should be numeric only.");
         return NO;
     }
     
     if (cleansedStr.length < 13 || cleansedStr.length > 16)
     {
-        NSString *failureReason = NSLocalizedStringFromTable(@"Number should be 13 digits to 16 digits.", WPYLocalizedStringTable, nil);
-        handleValidationError(outError, WPYInvalidNumber, failureReason);
+        handleValidationError(outError, WPYInvalidNumber, @"Number should be 13 digits to 16 digits.");
         return NO;
     }
     
     if (!isLuhnValidString(cleansedStr))
     {
-        NSString *failureReason = NSLocalizedStringFromTable(@"This number is not Luhn valid string.", WPYLocalizedStringTable, nil);
-        handleValidationError(outError, WPYInvalidNumber, failureReason);
+        handleValidationError(outError, WPYInvalidNumber, @"This number is not Luhn valid string.");
         return NO;
     }
     
@@ -209,8 +204,7 @@ static NSString *reverseString(NSString *string)
 {
     if (*ioValue == nil)
     {
-        NSString *failureReason = NSLocalizedStringFromTable(@"cvc should not be nil.", WPYLocalizedStringTable, nil);
-        handleValidationError(outError, WPYInvalidCvc, failureReason);
+        handleValidationError(outError, WPYInvalidCvc, @"cvc should not be nil.");
         return NO;
     }
     
@@ -218,8 +212,7 @@ static NSString *reverseString(NSString *string)
     
     if (!(isNumericOnlyString(trimmedStr)))
     {
-        NSString *failureReason = NSLocalizedStringFromTable(@"cvc should be numeric only.", WPYLocalizedStringTable, nil);
-        handleValidationError(outError, WPYInvalidCvc, failureReason);
+        handleValidationError(outError, WPYInvalidCvc, @"cvc should be numeric only.");
         return NO;
     }
     
@@ -230,8 +223,7 @@ static NSString *reverseString(NSString *string)
     {
         if (trimmedStr.length < 3 || trimmedStr.length > 4)
         {
-            NSString *failureReason = NSLocalizedStringFromTable(@"cvc should be 3 or 4 digits.", WPYLocalizedStringTable, nil);
-            handleValidationError(outError, WPYInvalidCvc, failureReason);
+            handleValidationError(outError, WPYInvalidCvc, @"cvc should be 3 or 4 digits.");
             return NO;
         }
     }
@@ -239,15 +231,13 @@ static NSString *reverseString(NSString *string)
     {
         if (isAmex && trimmedStr.length != 4)
         {
-            NSString *failureReason = NSLocalizedStringFromTable(@"cvc for amex card should be 4 digits.", WPYLocalizedStringTable, nil);
-            handleValidationError(outError, WPYInvalidCvc, failureReason);
+            handleValidationError(outError, WPYInvalidCvc, @"cvc for amex card should be 4 digits.");
             return NO;
         }
         
         if (!isAmex && trimmedStr.length != 3)
         {
-            NSString *failureReason = NSLocalizedStringFromTable(@"cvc for non amex card should be 3 digits.", WPYLocalizedStringTable, nil);
-            handleValidationError(outError, WPYInvalidCvc, failureReason);
+            handleValidationError(outError, WPYInvalidCvc, @"cvc for non amex card should be 3 digits.");
             return NO;
         }
     }
@@ -260,16 +250,14 @@ static NSString *reverseString(NSString *string)
 {
     if (*ioValue == nil)
     {
-        NSString *failureReason = NSLocalizedStringFromTable(@"Expiry month should not be nil.", WPYLocalizedStringTable, nil);
-        handleValidationError(outError, WPYInvalidExpiryMonth, failureReason);
+        handleValidationError(outError, WPYInvalidExpiryMonth, @"Expiry month should not be nil.");
         return NO;
     }
     
     NSUInteger expiryMonth = [(NSNumber *) *ioValue intValue];
     if (expiryMonth < 1 || expiryMonth > 12 )
     {
-        NSString *failureReason = NSLocalizedStringFromTable(@"Expiry month should be a number between 1 to 12.", WPYLocalizedStringTable, nil);
-        handleValidationError(outError, WPYInvalidExpiryMonth, failureReason);
+        handleValidationError(outError, WPYInvalidExpiryMonth, @"Expiry month should be a number between 1 to 12.");
         return NO;
     }
     return YES;
@@ -280,8 +268,7 @@ static NSString *reverseString(NSString *string)
 {
     if (*ioValue == nil)
     {
-        NSString *failureReason = NSLocalizedStringFromTable(@"Expiry year should not be nil.", WPYLocalizedStringTable, nil);
-        handleValidationError(outError, WPYInvalidExpiryYear, failureReason);
+        handleValidationError(outError, WPYInvalidExpiryYear, @"Expiry year should not be nil.");
         return NO;
     }
     
@@ -304,8 +291,7 @@ static NSString *reverseString(NSString *string)
 
     if (!([now compare: expiryDate] == NSOrderedAscending))
     {
-        NSString *failureReason = NSLocalizedStringFromTable(@"This card is expired.", WPYLocalizedStringTable, nil);
-        handleValidationError(error, WPYInvalidExpiry, failureReason);
+        handleValidationError(error, WPYInvalidExpiry, @"This card is expired.");
         return NO;
     }
     return YES;
@@ -335,9 +321,7 @@ static NSString *reverseString(NSString *string)
     NSString *brand = [self brandName];
     if (!isSupportedBrandByWebpay(brand))
     {
-        NSString *failureReason = NSLocalizedStringFromTable(@"This brand is not supported by Webpay.", WPYLocalizedStringTable, nil);
-        handleValidationError(error, WPYInvalidNumber, failureReason);
-        
+        handleValidationError(error, WPYInvalidNumber, @"This brand is not supported by Webpay.");
         return NO;
     }
     
