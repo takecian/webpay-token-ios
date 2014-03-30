@@ -25,23 +25,12 @@ static NSError *createNSError(WPYErrorCode errorCode, NSString *failureReason)
     return [[NSError alloc] initWithDomain:WPYErrorDomain code:errorCode userInfo:userInfo];
 }
 
-
 static void handleValidationError(NSError * __autoreleasing * error, WPYErrorCode errorCode, NSString *failureReason)
 {
     if (error)
     {
         *error = createNSError(errorCode, failureReason);
     }
-}
-
-
-static BOOL isSupportedBrandByWebpay(NSString *brand)
-{
-    if (!brand || [brand isEqualToString:@"Discover"] || [brand isEqualToString:@"Unknown"])
-    {
-        return NO;
-    }
-    return YES;
 }
 
 static BOOL isLuhnValidString(NSString *string)
@@ -73,13 +62,11 @@ static BOOL isNumericOnlyString(NSString *string)
     return [setOfNumbers isSupersetOfSet: setFromString];
 }
 
-
 static BOOL isMatchWithRegex(NSString *string, NSString *regex)
 {
     NSRange range = [string rangeOfString:regex options:NSRegularExpressionSearch];
     return range.location != NSNotFound;
 }
-
 
 // trim whitespace from first and last character
 static NSString *trimWhiteSpaces(NSString *string)
@@ -87,19 +74,16 @@ static NSString *trimWhiteSpaces(NSString *string)
     return [string stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
 }
 
-
 // remove all occurences of whitespace
 static NSString *removeAllWhitespaces(NSString *string)
 {
     return [string stringByReplacingOccurrencesOfString:@" " withString:@""];
 }
 
-
 static NSString *removeHyphens(NSString *string)
 {
     return [string stringByReplacingOccurrencesOfString:@"-" withString:@""];
 }
-
 
 static NSString *reverseString(NSString *string)
 {
@@ -209,7 +193,6 @@ static NSString *reverseString(NSString *string)
     }
     
     NSString *trimmedStr = trimWhiteSpaces((NSString *) *ioValue);
-    
     if (!(isNumericOnlyString(trimmedStr)))
     {
         handleValidationError(outError, WPYInvalidCvc, @"cvc should be numeric only.");
@@ -221,7 +204,7 @@ static NSString *reverseString(NSString *string)
     
     if (!brand)
     {
-        if (trimmedStr.length < 3 || trimmedStr.length > 4)
+        if (trimmedStr.length < 3 || 4 < trimmedStr.length)
         {
             handleValidationError(outError, WPYInvalidCvc, @"cvc should be 3 or 4 digits.");
             return NO;
@@ -255,7 +238,7 @@ static NSString *reverseString(NSString *string)
     }
     
     NSUInteger expiryMonth = [(NSNumber *) *ioValue intValue];
-    if (expiryMonth < 1 || expiryMonth > 12 )
+    if (expiryMonth < 1 || 12 < expiryMonth)
     {
         handleValidationError(outError, WPYInvalidExpiryMonth, @"Expiry month should be a number between 1 to 12.");
         return NO;
@@ -297,37 +280,33 @@ static NSString *reverseString(NSString *string)
     return YES;
 }
 
+- (BOOL)validateBrand:(NSString *)brand error:(NSError * __autoreleasing *)error
+{
+    if (!brand || [brand isEqualToString:@"Discover"] || [brand isEqualToString:@"Unknown"])
+    {
+        handleValidationError(error, WPYInvalidNumber, @"This brand is not supported by Webpay.");
+        return NO;
+    }
+    return YES;
+}
 
 - (BOOL)validate:(NSError * __autoreleasing *)error
 {
     NSString *name = self.name;
     NSString *number = self.number;
     NSString *cvc = self.cvc;
-    NSNumber *expiryYear = [NSNumber numberWithInteger:self.expiryYear];
-    NSNumber *expiryMonth = [NSNumber numberWithInteger:self.expiryMonth];
+    NSNumber *expiryYear = @(self.expiryYear);
+    NSNumber *expiryMonth = @(self.expiryMonth);
     
-    BOOL isValidCard = [self validateName:&name error:error]
-                    && [self validateNumber:&number error:error]
-                    && [self validateCvc:&cvc error:error]
-                    && [self validateExpiryYear:&expiryYear error:error]
-                    && [self validateExpiryMonth:&expiryMonth error:error]
-                    && [self validateExpiryYear:self.expiryYear month:self.expiryMonth error:error];
-    
-    if (!isValidCard)
-    {
-        return NO;
-    }
-    
-    NSString *brand = [self brandName];
-    if (!isSupportedBrandByWebpay(brand))
-    {
-        handleValidationError(error, WPYInvalidNumber, @"This brand is not supported by Webpay.");
-        return NO;
-    }
-    
-    return YES;
+    // number check must come before brand check so that developer gets more appropriate error message
+    return [self validateName:&name error:error]
+        && [self validateNumber:&number error:error]
+        && [self validateCvc:&cvc error:error]
+        && [self validateExpiryYear:&expiryYear error:error]
+        && [self validateExpiryMonth:&expiryMonth error:error]
+        && [self validateExpiryYear:self.expiryYear month:self.expiryMonth error:error]
+        && [self validateBrand:[self brandName] error:error];
 }
-
 
 
 @end
