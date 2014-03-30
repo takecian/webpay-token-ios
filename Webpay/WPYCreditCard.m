@@ -16,7 +16,8 @@
 static NSError *createNSError(WPYErrorCode errorCode, NSString *failureReason)
 {
     NSString *localizedDescription = LocalizedDescriptionFromErrorCode(errorCode);
-    NSDictionary *userInfo = @{
+    NSDictionary *userInfo =
+    @{
         NSLocalizedDescriptionKey: localizedDescription,
         NSLocalizedFailureReasonErrorKey: failureReason
     };
@@ -121,40 +122,27 @@ static NSString *reverseString(NSString *string)
     {
         return nil;
     }
-    else
-    {
-        if (isMatchWithRegex(cardNum, @"4[0-9]{12}(?:[0-9]{3})?"))
+    
+    NSDictionary *brandIdentifiers =
+    @{
+        @"Visa"            : @"4[0-9]{12}(?:[0-9]{3})?",
+        @"American Express": @"3[47][0-9]{13}",
+        @"MasterCard"      : @"5[1-5][0-9]{14}",
+        @"Discover"        : @"6(?:011|5[0-9]{2})[0-9]{12}",
+        @"JCB"             : @"(?:2131|1800|35\\d{3})\\d{11}",
+        @"Diners"          : @"3(?:0[0-5]|[68][0-9])[0-9]{11}"
+    };
+    
+    __block NSString *brandName = nil;
+    [brandIdentifiers enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop){
+        if (isMatchWithRegex(cardNum, obj))
         {
-            return @"Visa";
+            brandName = key;
+            *stop = YES;
         }
-
-        if (isMatchWithRegex(cardNum, @"3[47][0-9]{13}"))
-        {
-            return @"American Express";
-        }
-        
-        if (isMatchWithRegex(cardNum, @"5[1-5][0-9]{14}"))
-        {
-            return @"MasterCard";
-        }
-
-        if (isMatchWithRegex(cardNum, @"6(?:011|5[0-9]{2})[0-9]{12}"))
-        {
-            return @"Discover";
-        }
-
-        if (isMatchWithRegex(cardNum, @"(?:2131|1800|35\\d{3})\\d{11}"))
-        {
-            return @"JCB";
-        }
-        
-        if (isMatchWithRegex(cardNum, @"3(?:0[0-5]|[68][0-9])[0-9]{11}"))
-        {
-            return @"Diners";
-        }
-        
-        return @"Unknown";
-    }
+    }];
+    
+    return brandName ? brandName : @"Unknown";
 }
 
 #pragma mark validation methods
