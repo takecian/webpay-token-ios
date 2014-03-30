@@ -124,7 +124,7 @@
 
 - (void)testNilNameReturnsExpectedError
 {
-    NSError *error;
+    NSError *error = nil;
     NSString *name = nil;
     [_creditCard validateName:&name error:&error];
     XCTAssertNotNil(error, @"Error object should not be nil.");
@@ -144,7 +144,7 @@
 
 - (void)testEmptyStrAsNameReturnsExpectedError
 {
-    NSError *error;
+    NSError *error = nil;
     NSString *name = @"   ";
     [_creditCard validateName:&name error:&error];
     XCTAssertNotNil(error, @"Error object should not be nil.");
@@ -158,14 +158,14 @@
 
 - (void)testValidName
 {
-    NSError *error;
+    NSError *error = nil;
     NSString *name = @"Yohei Okada";
     XCTAssertTrue([_creditCard validateName:&name error:&error], @"It should validate name.");
 }
 
 - (void)testValidNameDoesNotReturnError
 {
-    NSError *error;
+    NSError *error = nil;
     NSString *name = @"Yohei Okada";
     [_creditCard validateName:&name error:&error];
     XCTAssertNil(error, @"Error object should be nil.");
@@ -188,7 +188,7 @@
 
 - (void)testNilNumberReturnsExpectedError
 {
-    NSError *error;
+    NSError *error = nil;
     NSString *number = nil;
     [_creditCard validateNumber:&number error:&error];
     
@@ -209,7 +209,7 @@
 
 - (void)testNonNumericNumberReturnsExpectedError
 {
-    NSError *error;
+    NSError *error = nil;
     NSString *number = @"411111111234abcd1";
     [_creditCard validateNumber:&number error:&error];
     
@@ -230,7 +230,7 @@
 
 - (void)testEmptyNumberReturnsExpectedError
 {
-    NSError *error;
+    NSError *error = nil;
     NSString *number = @"   ";
     [_creditCard validateNumber:&number error:&error];
     
@@ -268,7 +268,7 @@
 
 - (void)testNumberWithInvalidDigitsReturnsExpectedError
 {
-    NSError *error;
+    NSError *error = nil;
     NSString *number = @"411111111111"; //12 digits
     [_creditCard validateNumber:&number error:&error];
     
@@ -289,7 +289,7 @@
 
 - (void)testLuhnInvalidNumberReturnsExpectedError
 {
-    NSError *error;
+    NSError *error = nil;
     NSString *number = @"1234567890123456";
     [_creditCard validateNumber:&number error:&error];
     
@@ -316,7 +316,7 @@
 
 - (void)testValidNumberDoesNotReturnError
 {
-    NSError *error;
+    NSError *error = nil;
     NSString *number = @"4111 1111 1111 1111";
     [_creditCard validateNumber:&number error:&error];
     XCTAssertNil(error, @"Valid number should not cause the method to populate error object.");
@@ -334,14 +334,14 @@
 
 - (void)testNilCvc
 {
-    NSError *error;
+    NSError *error = nil;
     NSString *cvc = nil;
     XCTAssertFalse([_creditCard validateCvc:&cvc error: &error], @"Nil cvc should be invalidated.");
 }
 
 - (void)testNilCvcReturnsExpectedError
 {
-    NSError *error;
+    NSError *error = nil;
     NSString *cvc = nil;
     [_creditCard validateCvc:&cvc error:&error];
     XCTAssertNotNil(error, @"Error object should not be nil.");
@@ -355,7 +355,7 @@
 
 - (void)testEmptyCvc
 {
-    NSError *error;
+    NSError *error = nil;
     NSString *cvc = @"   ";
     XCTAssertFalse([_creditCard validateCvc:&cvc error: &error], @"Empty cvc should be invalidated.");
 }
@@ -368,7 +368,7 @@
 
 - (void)testNonNumericCvcReturnsExpectedError
 {
-    NSError *error;
+    NSError *error = nil;
     NSString *cvc = @"1a5";
     [_creditCard validateCvc:&cvc error:&error];
     XCTAssertNotNil(error, @"Error object should not be nil.");
@@ -388,14 +388,14 @@
 
 - (void)testThreeDigitsCvc
 {
-    NSError *error;
+    NSError *error = nil;
     NSString *cvc = @"123";
     XCTAssertTrue([_creditCard validateCvc:&cvc error: &error], @"It should validate 3 digits cvc.");
 }
 
 - (void)testFourDigitsCvc
 {
-    NSError *error;
+    NSError *error = nil;
     NSString *cvc = @"1234";
     XCTAssertTrue([_creditCard validateCvc:&cvc error: &error], @"It should validate 4 digits cvc.");
 }
@@ -408,7 +408,7 @@
 
 - (void)testInvalidDigitsReturnsExpectedError
 {
-    NSError *error;
+    NSError *error = nil;
     NSString *cvc = @"12";
     [_creditCard validateCvc:&cvc error:&error];
     XCTAssertNotNil(error, @"Error object should not be nil.");
@@ -431,7 +431,7 @@
 
 - (void)testAmexWithThreeDigitsCvcReturnsExpectedError
 {
-    NSError *error;
+    NSError *error = nil;
     NSString *amexCardNumber = @"378282246310005";
     _creditCard.number = amexCardNumber;
     
@@ -451,7 +451,7 @@
     NSString *amexCardNumber = @"378282246310005";
     _creditCard.number = amexCardNumber;
     
-    NSError *error;
+    NSError *error = nil;
     NSString *cvc = @"1234";
     XCTAssertTrue([_creditCard validateCvc:&cvc error: &error], @"It should validate 4 digits cvc for amex card.");
 }
@@ -461,7 +461,7 @@
     NSString *masterCardNumber = @"5555555555554444";
     _creditCard.number = masterCardNumber;
     
-    NSError *error;
+    NSError *error = nil;
     NSString *cvc = @"123";
     XCTAssertTrue([_creditCard validateCvc:&cvc error: &error], @"It should validate 3 digits cvc for non amex card.");
 }
@@ -477,7 +477,7 @@
 
 - (void)testNonAmexCardWithFourDigitsCvcReturnsExpectedError
 {
-    NSError *error;
+    NSError *error = nil;
     NSString *masterCardNumber = @"5555555555554444";
     _creditCard.number = masterCardNumber;
     
@@ -497,7 +497,7 @@
     NSString *amexCardNumber = @"378282246310005";
     _creditCard.number = amexCardNumber;
     
-    NSError *error;
+    NSError *error = nil;
     NSString *cvc = @"1234";
     [_creditCard validateCvc:&cvc error: &error];
     XCTAssertNil(error, @"It should not populate error object.");
@@ -519,7 +519,7 @@
 
 - (void)testNilExpiryMonthReturnsExpectedError
 {
-    NSError *error;
+    NSError *error = nil;
     NSNumber *expiryMonth = nil;
     [_creditCard validateExpiryMonth:&expiryMonth error: &error];
     
@@ -558,7 +558,7 @@
 
 - (void)testInvalidExpiryMonthRangeReturnsExpectedError
 {
-    NSError *error;
+    NSError *error = nil;
     NSNumber *expiryMonth = [NSNumber numberWithInt:13];
     [_creditCard validateExpiryMonth:&expiryMonth error: &error];
     
@@ -573,7 +573,7 @@
 
 - (void)testValidExpiryMonthDoesNotReturnError
 {
-    NSError *error;
+    NSError *error = nil;
     NSNumber *expiryMonth = [NSNumber numberWithInt:12];
     [_creditCard validateExpiryMonth:&expiryMonth error:&error];
     XCTAssertNil(error, @"It should not populate error object for valid expiry month.");
@@ -594,7 +594,7 @@
 
 - (void)testNilExpiryYearReturnsExpectedError
 {
-    NSError *error;
+    NSError *error = nil;
     NSNumber *expiryYear = nil;
     
     [_creditCard validateExpiryYear:&expiryYear error:&error];
@@ -652,7 +652,7 @@
 
 - (void)testExpiredDateReturnsExpectedError
 {
-    NSError *error;
+    NSError *error = nil;
     [_creditCard validateExpiryYear:2010 month:3 error:&error];
     XCTAssertNotNil(error, @"Error object should not be nil.");
     XCTAssertEqualObjects([error domain], WPYErrorDomain, @"Error domain should be WPYErrorDomain.");
@@ -665,7 +665,7 @@
 
 - (void)testValidExpiryDoesNotReturnError
 {
-    NSError *error;
+    NSError *error = nil;
     [_creditCard validateExpiryYear:2015 month:3 error:&error];
     XCTAssertNil(error, @"It should not return error for valid expiry.");
 }
@@ -680,7 +680,7 @@
     _creditCard.expiryYear = 2014;
     _creditCard.expiryMonth = 12;
     
-    NSError *error;
+    NSError *error = nil;
     XCTAssertFalse([_creditCard validate:&error], @"It should invalidate card with invalid name.");
     
     XCTAssertNotNil(error, @"Error object should not be nil.");
@@ -700,7 +700,7 @@
     _creditCard.expiryYear = 2014;
     _creditCard.expiryMonth = 12;
     
-    NSError *error;
+    NSError *error = nil;
     XCTAssertFalse([_creditCard validate:&error], @"It should invalidate card with invalid number.");
     
     XCTAssertNotNil(error, @"Error object should not be nil.");
@@ -720,7 +720,7 @@
     _creditCard.expiryYear = 2014;
     _creditCard.expiryMonth = 12;
     
-    NSError *error;
+    NSError *error = nil;
     XCTAssertFalse([_creditCard validate:&error], @"It should invalidate card with invalid cvc.");
     
     XCTAssertNotNil(error, @"Error object should not be nil.");
@@ -740,7 +740,7 @@
     _creditCard.expiryYear = 2014;
     _creditCard.expiryMonth = 13;
     
-    NSError *error;
+    NSError *error = nil;
     XCTAssertFalse([_creditCard validate:&error], @"It should invalidate card with invalid expiry month.");
     
     XCTAssertNotNil(error, @"Error object should not be nil.");
@@ -760,7 +760,7 @@
     _creditCard.expiryYear = 2010;
     _creditCard.expiryMonth = 12;
     
-    NSError *error;
+    NSError *error = nil;
     XCTAssertFalse([_creditCard validate:&error], @"It should invalidate card with invalid expiry.");
     
     XCTAssertNotNil(error, @"Error object should not be nil.");
@@ -782,7 +782,7 @@
     _creditCard.expiryYear = 2014;
     _creditCard.expiryMonth = 12;
     
-    NSError *error;
+    NSError *error = nil;
     XCTAssertFalse([_creditCard validate:&error], @"It should invalidate card with unsupported brand.");
     
     XCTAssertNotNil(error, @"Error object should not be nil.");
@@ -802,7 +802,7 @@
     _creditCard.expiryYear = 2014;
     _creditCard.expiryMonth = 12;
     
-    NSError *error;
+    NSError *error = nil;
     XCTAssertTrue([_creditCard validate:&error], @"It should validate card with supported brand.");
     XCTAssertNil(error, @"Error object should be nil.");
 }
