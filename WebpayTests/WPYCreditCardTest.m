@@ -672,6 +672,11 @@
 
 
 #pragma mark validate
+- (void)testValidateAcceptsNilAsArgument
+{
+    XCTAssertNoThrow([_creditCard validate:nil], @"It should not throw");
+}
+
 - (void)testValidateWithInvalidName
 {
     _creditCard.name = @"    ";
