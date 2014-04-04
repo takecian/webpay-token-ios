@@ -8,18 +8,18 @@
 
 #import <XCTest/XCTest.h>
 
-#import "WPYHTTPRequestSerializer.h"
+#import "WPYCommunicator.h"
 #import "WPYCreditCard.h"
 
-@interface WPYHTTPRequestSerializerTest : XCTestCase
+@interface WPYCommunicatorTest : XCTestCase
 
 @end
 
 static NSString *const publicKey = @"public key";
 
-@implementation WPYHTTPRequestSerializerTest
+@implementation WPYCommunicatorTest
 {
-    WPYHTTPRequestSerializer *_serializer;
+    WPYCommunicator *_communicator;
     
     WPYCreditCard *_card;
 }
@@ -27,7 +27,7 @@ static NSString *const publicKey = @"public key";
 - (void)setUp
 {
     [super setUp];
-    _serializer = [[WPYHTTPRequestSerializer alloc] init];
+    _communicator = [[WPYCommunicator alloc] init];
     
     _card = [[WPYCreditCard alloc] init];
     _card.name = @"岡田洋平";
@@ -39,7 +39,7 @@ static NSString *const publicKey = @"public key";
 
 - (void)tearDown
 {
-    _serializer = nil;
+    _communicator = nil;
     _card = nil;
     [super tearDown];
 }
@@ -47,28 +47,28 @@ static NSString *const publicKey = @"public key";
 #pragma mark requestFromPublicKey:card:
 - (void)testNilPublicKeyRaisesException
 {
-    XCTAssertThrows([_serializer requestFromPublicKey:nil card:_card], @"It should raise exception when public key is nil.");
+    XCTAssertThrows([_communicator requestFromPublicKey:nil card:_card], @"It should raise exception when public key is nil.");
 }
 
 - (void)testNilCardRaisesException
 {
-    XCTAssertThrows([_serializer requestFromPublicKey:publicKey card:nil], @"It should raise exception when card is nil.");
+    XCTAssertThrows([_communicator requestFromPublicKey:publicKey card:nil], @"It should raise exception when card is nil.");
 }
 
 - (void)testValidParametersDoesNotThrowException
 {
-    XCTAssertNoThrow([_serializer requestFromPublicKey:publicKey card:_card], @"It should not raise exception if non nil parameters are passed.");
+    XCTAssertNoThrow([_communicator requestFromPublicKey:publicKey card:_card], @"It should not raise exception if non nil parameters are passed.");
 }
 
 - (void)testInvalidCardReturnsNil
 {
     WPYCreditCard *invalidCard = [[WPYCreditCard alloc] init];
-    XCTAssertNil([_serializer requestFromPublicKey:publicKey card: invalidCard], @"It should return nil for invalid card.");
+    XCTAssertNil([_communicator requestFromPublicKey:publicKey card: invalidCard], @"It should return nil for invalid card.");
 }
 
 - (void)testValidCardReturnsExpectedRequest
 {
-    NSURLRequest *request = [_serializer requestFromPublicKey:publicKey card:_card];
+    NSURLRequest *request = [_communicator requestFromPublicKey:publicKey card:_card];
     XCTAssertNotNil(request, @"Request should not be nil.");
     
     XCTAssertEqualObjects([request.URL absoluteString], @"https://api.webpay.jp/v1/tokens", @"It should set url to expected endpoint.");

@@ -20,9 +20,9 @@
 		4764A09318C7EB04006C9E4E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4764A07818C7EB04006C9E4E /* Foundation.framework */; };
 		4764A09418C7EB04006C9E4E /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4764A07C18C7EB04006C9E4E /* UIKit.framework */; };
 		477931B318D3C3B5007F5C9F /* WPYCreditCardTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 477931B218D3C3B5007F5C9F /* WPYCreditCardTest.m */; };
-		4787AE6318EE1A2F0092A097 /* WPYHTTPRequestSerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = 4787AE6218EE1A2F0092A097 /* WPYHTTPRequestSerializer.m */; };
-		4787AE6418EE1A2F0092A097 /* WPYHTTPRequestSerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = 4787AE6218EE1A2F0092A097 /* WPYHTTPRequestSerializer.m */; };
-		479BD14118EE6E18004F3775 /* WPYHTTPRequestSerializerTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 479BD14018EE6E18004F3775 /* WPYHTTPRequestSerializerTest.m */; };
+		4787AE6318EE1A2F0092A097 /* WPYCommunicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 4787AE6218EE1A2F0092A097 /* WPYCommunicator.m */; };
+		4787AE6418EE1A2F0092A097 /* WPYCommunicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 4787AE6218EE1A2F0092A097 /* WPYCommunicator.m */; };
+		479BD14118EE6E18004F3775 /* WPYCommunicatorTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 479BD14018EE6E18004F3775 /* WPYCommunicatorTest.m */; };
 		47B8514518CA7D86003A1ECA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 47B8514318CA7D86003A1ECA /* InfoPlist.strings */; };
 		47CE70DF18E8C7D500E4B4B8 /* WPYTokenizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 47CE70DE18E8C7D500E4B4B8 /* WPYTokenizer.m */; };
 		47CE70E018E8C7D500E4B4B8 /* WPYTokenizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 47CE70DE18E8C7D500E4B4B8 /* WPYTokenizer.m */; };
@@ -59,9 +59,9 @@
 		4764A09118C7EB04006C9E4E /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		4764A09918C7EB04006C9E4E /* WebpayTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; name = "WebpayTests-Info.plist"; path = "WebpayTests/WebpayTests-Info.plist"; sourceTree = "<group>"; };
 		477931B218D3C3B5007F5C9F /* WPYCreditCardTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WPYCreditCardTest.m; path = WebpayTests/WPYCreditCardTest.m; sourceTree = SOURCE_ROOT; };
-		4787AE6118EE1A2F0092A097 /* WPYHTTPRequestSerializer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WPYHTTPRequestSerializer.h; path = Webpay/WPYHTTPRequestSerializer.h; sourceTree = "<group>"; };
-		4787AE6218EE1A2F0092A097 /* WPYHTTPRequestSerializer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WPYHTTPRequestSerializer.m; path = Webpay/WPYHTTPRequestSerializer.m; sourceTree = "<group>"; };
-		479BD14018EE6E18004F3775 /* WPYHTTPRequestSerializerTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WPYHTTPRequestSerializerTest.m; path = WebpayTests/WPYHTTPRequestSerializerTest.m; sourceTree = SOURCE_ROOT; };
+		4787AE6118EE1A2F0092A097 /* WPYCommunicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WPYCommunicator.h; path = Webpay/WPYCommunicator.h; sourceTree = "<group>"; };
+		4787AE6218EE1A2F0092A097 /* WPYCommunicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WPYCommunicator.m; path = Webpay/WPYCommunicator.m; sourceTree = "<group>"; };
+		479BD14018EE6E18004F3775 /* WPYCommunicatorTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WPYCommunicatorTest.m; path = WebpayTests/WPYCommunicatorTest.m; sourceTree = SOURCE_ROOT; };
 		47B8514418CA7D86003A1ECA /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = InfoPlist.strings; sourceTree = "<group>"; };
 		47CE70DD18E8C7D500E4B4B8 /* WPYTokenizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WPYTokenizer.h; path = Webpay/WPYTokenizer.h; sourceTree = "<group>"; };
 		47CE70DE18E8C7D500E4B4B8 /* WPYTokenizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WPYTokenizer.m; path = Webpay/WPYTokenizer.m; sourceTree = "<group>"; };
@@ -154,7 +154,7 @@
 				4764A09818C7EB04006C9E4E /* Supporting Files */,
 				477931B218D3C3B5007F5C9F /* WPYCreditCardTest.m */,
 				47CE70E118E8C7EA00E4B4B8 /* WPYTokenizerTest.m */,
-				479BD14018EE6E18004F3775 /* WPYHTTPRequestSerializerTest.m */,
+				479BD14018EE6E18004F3775 /* WPYCommunicatorTest.m */,
 			);
 			name = WebpayTests;
 			path = "webpay-token-iosTests";
@@ -187,8 +187,8 @@
 				4727391418D8FE8B0003D759 /* WPYErrors.m */,
 				47CE70DD18E8C7D500E4B4B8 /* WPYTokenizer.h */,
 				47CE70DE18E8C7D500E4B4B8 /* WPYTokenizer.m */,
-				4787AE6118EE1A2F0092A097 /* WPYHTTPRequestSerializer.h */,
-				4787AE6218EE1A2F0092A097 /* WPYHTTPRequestSerializer.m */,
+				4787AE6118EE1A2F0092A097 /* WPYCommunicator.h */,
+				4787AE6218EE1A2F0092A097 /* WPYCommunicator.m */,
 			);
 			name = Webpay;
 			sourceTree = "<group>";
@@ -288,7 +288,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4787AE6318EE1A2F0092A097 /* WPYHTTPRequestSerializer.m in Sources */,
+				4787AE6318EE1A2F0092A097 /* WPYCommunicator.m in Sources */,
 				4764A08918C7EB04006C9E4E /* AppDelegate.m in Sources */,
 				47D9BC1718CFBF080020BF55 /* WPYCreditCard.m in Sources */,
 				4764A08518C7EB04006C9E4E /* main.m in Sources */,
@@ -301,11 +301,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4787AE6418EE1A2F0092A097 /* WPYHTTPRequestSerializer.m in Sources */,
+				4787AE6418EE1A2F0092A097 /* WPYCommunicator.m in Sources */,
 				47CE70E018E8C7D500E4B4B8 /* WPYTokenizer.m in Sources */,
 				477931B318D3C3B5007F5C9F /* WPYCreditCardTest.m in Sources */,
 				47CE70E218E8C7EA00E4B4B8 /* WPYTokenizerTest.m in Sources */,
-				479BD14118EE6E18004F3775 /* WPYHTTPRequestSerializerTest.m in Sources */,
+				479BD14118EE6E18004F3775 /* WPYCommunicatorTest.m in Sources */,
 				4727391618D8FE8B0003D759 /* WPYErrors.m in Sources */,
 				47D9BC1818CFBF080020BF55 /* WPYCreditCard.m in Sources */,
 			);

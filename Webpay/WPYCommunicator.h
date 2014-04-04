@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 
 @class WPYCreditCard;
-@interface WPYHTTPRequestSerializer : NSObject
+@interface WPYCommunicator : NSObject
 - (NSURLRequest *)requestFromPublicKey:(NSString *)publicKey
                                   card:(WPYCreditCard *)card;
 @end

@@ -6,11 +6,11 @@
 //  Copyright (c) 2014 yohei, YasuLab. All rights reserved.
 //
 
-#import "WPYHTTPRequestSerializer.h"
+#import "WPYCommunicator.h"
 
 #import "WPYCreditCard.h"
 
-@implementation WPYHTTPRequestSerializer
+@implementation WPYCommunicator
 
 static NSString *const apiURL = @"https://api.webpay.jp/v1/tokens";
 
