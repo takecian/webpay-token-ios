@@ -9,12 +9,13 @@
 #import "WPYCommunicator.h"
 
 #import "WPYCreditCard.h"
+#import "WPYErrors.h"
 
 @implementation WPYCommunicator
 
 static NSString *const apiURL = @"https://api.webpay.jp/v1/tokens";
 
-
+#pragma mark helpers
 static NSString *base64Encode(NSString *string)
 {
     NSData *data = [string dataUsingEncoding:NSUTF8StringEncoding];
@@ -30,6 +31,8 @@ static NSString *base64Encode(NSString *string)
     }
 }
 
+// stringByAddingPercentEscapesUsingEncoding won't encode '&'
+// https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/URLLoadingSystem/WorkingwithURLEncoding/WorkingwithURLEncoding.html#//apple_ref/doc/uid/10000165i-CH12-SW1
 static NSString *urlEncode(NSString *string)
 {
     return (NSString *)CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(
@@ -66,15 +69,10 @@ static NSData *requestParametersFromDictionary(NSDictionary *dictionary)
     return [[parameters componentsJoinedByString:@"&"] dataUsingEncoding:NSUTF8StringEncoding];
 }
 
-- (NSURLRequest *)requestFromPublicKey:(NSString *)publicKey card:(WPYCreditCard *)card
+- (void)requestTokenWithPublicKey:(NSString *)publicKey
+                             card:(WPYCreditCard *)card
+                  completionBlock:(CommunicatorCompBlock)compBlock
 {
-    NSParameterAssert(publicKey);
-    NSParameterAssert(card);
-    
-    if (![card validate:nil])
-    {
-        return nil;
-    }
     
     NSURL *url = [NSURL URLWithString:apiURL];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
@@ -91,6 +89,10 @@ static NSData *requestParametersFromDictionary(NSDictionary *dictionary)
     NSDictionary *cardInfo = dictionaryFromCard(card);
     request.HTTPBody = requestParametersFromDictionary(cardInfo);
     
-    return request;
+    // TODO: send request in background thread
+    [NSURLConnection sendAsynchronousRequest:request
+                                       queue:[NSOperationQueue mainQueue]
+                           completionHandler:compBlock];
 }
+
 @end

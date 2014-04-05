@@ -9,7 +9,12 @@
 #import <Foundation/Foundation.h>
 
 @class WPYCreditCard;
+
+typedef void (^CommunicatorCompBlock)(NSURLResponse *, NSData *, NSError *);
+
 @interface WPYCommunicator : NSObject
-- (NSURLRequest *)requestFromPublicKey:(NSString *)publicKey
-                                  card:(WPYCreditCard *)card;
+- (void)requestTokenWithPublicKey:(NSString *)publicKey
+                             card:(WPYCreditCard *)card
+                  completionBlock:(CommunicatorCompBlock)compBlock;
+
 @end
