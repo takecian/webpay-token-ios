@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		4727391518D8FE8B0003D759 /* WPYErrors.m in Sources */ = {isa = PBXBuildFile; fileRef = 4727391418D8FE8B0003D759 /* WPYErrors.m */; };
 		4727391618D8FE8B0003D759 /* WPYErrors.m in Sources */ = {isa = PBXBuildFile; fileRef = 4727391418D8FE8B0003D759 /* WPYErrors.m */; };
+		474E601E18F0B16E0006EF46 /* WPYTokenBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = 474E601D18F0B16E0006EF46 /* WPYTokenBuilder.m */; };
+		474E601F18F0B16E0006EF46 /* WPYTokenBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = 474E601D18F0B16E0006EF46 /* WPYTokenBuilder.m */; };
+		474E602118F0B17E0006EF46 /* WPYTokenBuilderTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 474E602018F0B17E0006EF46 /* WPYTokenBuilderTest.m */; };
 		4764A07918C7EB04006C9E4E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4764A07818C7EB04006C9E4E /* Foundation.framework */; };
 		4764A07B18C7EB04006C9E4E /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4764A07A18C7EB04006C9E4E /* CoreGraphics.framework */; };
 		4764A07D18C7EB04006C9E4E /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4764A07C18C7EB04006C9E4E /* UIKit.framework */; };
@@ -44,6 +47,9 @@
 /* Begin PBXFileReference section */
 		4727391318D8FE8B0003D759 /* WPYErrors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WPYErrors.h; path = Webpay/WPYErrors.h; sourceTree = "<group>"; };
 		4727391418D8FE8B0003D759 /* WPYErrors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WPYErrors.m; path = Webpay/WPYErrors.m; sourceTree = "<group>"; };
+		474E601C18F0B16E0006EF46 /* WPYTokenBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WPYTokenBuilder.h; path = Webpay/WPYTokenBuilder.h; sourceTree = "<group>"; };
+		474E601D18F0B16E0006EF46 /* WPYTokenBuilder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WPYTokenBuilder.m; path = Webpay/WPYTokenBuilder.m; sourceTree = "<group>"; };
+		474E602018F0B17E0006EF46 /* WPYTokenBuilderTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WPYTokenBuilderTest.m; path = WebpayTests/WPYTokenBuilderTest.m; sourceTree = SOURCE_ROOT; };
 		4764A07518C7EB04006C9E4E /* Webpay.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Webpay.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4764A07818C7EB04006C9E4E /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		4764A07A18C7EB04006C9E4E /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -155,6 +161,7 @@
 				477931B218D3C3B5007F5C9F /* WPYCreditCardTest.m */,
 				47CE70E118E8C7EA00E4B4B8 /* WPYTokenizerTest.m */,
 				479BD14018EE6E18004F3775 /* WPYCommunicatorTest.m */,
+				474E602018F0B17E0006EF46 /* WPYTokenBuilderTest.m */,
 			);
 			name = WebpayTests;
 			path = "webpay-token-iosTests";
@@ -189,6 +196,8 @@
 				47CE70DE18E8C7D500E4B4B8 /* WPYTokenizer.m */,
 				4787AE6118EE1A2F0092A097 /* WPYCommunicator.h */,
 				4787AE6218EE1A2F0092A097 /* WPYCommunicator.m */,
+				474E601C18F0B16E0006EF46 /* WPYTokenBuilder.h */,
+				474E601D18F0B16E0006EF46 /* WPYTokenBuilder.m */,
 			);
 			name = Webpay;
 			sourceTree = "<group>";
@@ -293,6 +302,7 @@
 				47D9BC1718CFBF080020BF55 /* WPYCreditCard.m in Sources */,
 				4764A08518C7EB04006C9E4E /* main.m in Sources */,
 				4727391518D8FE8B0003D759 /* WPYErrors.m in Sources */,
+				474E601E18F0B16E0006EF46 /* WPYTokenBuilder.m in Sources */,
 				47CE70DF18E8C7D500E4B4B8 /* WPYTokenizer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -303,8 +313,10 @@
 			files = (
 				4787AE6418EE1A2F0092A097 /* WPYCommunicator.m in Sources */,
 				47CE70E018E8C7D500E4B4B8 /* WPYTokenizer.m in Sources */,
+				474E602118F0B17E0006EF46 /* WPYTokenBuilderTest.m in Sources */,
 				477931B318D3C3B5007F5C9F /* WPYCreditCardTest.m in Sources */,
 				47CE70E218E8C7EA00E4B4B8 /* WPYTokenizerTest.m in Sources */,
+				474E601F18F0B16E0006EF46 /* WPYTokenBuilder.m in Sources */,
 				479BD14118EE6E18004F3775 /* WPYCommunicatorTest.m in Sources */,
 				4727391618D8FE8B0003D759 /* WPYErrors.m in Sources */,
 				47D9BC1818CFBF080020BF55 /* WPYCreditCard.m in Sources */,
