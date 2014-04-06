@@ -9,5 +9,6 @@
 #import <Foundation/Foundation.h>
 
 @interface WPYToken : NSObject
-
+@property(nonatomic, copy) NSString *tokenId; // id is a reserved word
+@property(nonatomic, strong) NSDictionary *cardInfo;
 @end
