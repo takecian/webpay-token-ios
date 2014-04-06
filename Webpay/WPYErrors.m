@@ -14,6 +14,7 @@ NSString *const WPYErrorDomain = @"com.webpay.webpay-token-ios";
 
 NSString *const WPYLocalizedStringTable = @"WebpayiOSTokenizer";
 
+// TODO match with messages return from API
 NSString * LocalizedDescriptionFromErrorCode(WPYErrorCode errorCode)
 {
     switch (errorCode)
@@ -48,4 +49,19 @@ NSString * LocalizedDescriptionFromErrorCode(WPYErrorCode errorCode)
             return NSLocalizedStringFromTable(@"", WPYLocalizedStringTable, nil);
             
     }
+}
+
+
+FOUNDATION_EXPORT NSError *createNSError(WPYErrorCode errorCode, NSString *failureReason)
+{
+    NSString *localizedDescription = LocalizedDescriptionFromErrorCode(errorCode);
+    
+    NSMutableDictionary *userInfo = [NSMutableDictionary dictionaryWithObject:localizedDescription
+                                                                forKey:NSLocalizedDescriptionKey];
+    if (failureReason)
+    {
+        userInfo[NSLocalizedFailureReasonErrorKey] = failureReason;
+    }
+    
+    return [[NSError alloc] initWithDomain:WPYErrorDomain code:errorCode userInfo:userInfo];
 }

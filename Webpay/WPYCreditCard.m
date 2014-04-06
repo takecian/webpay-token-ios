@@ -13,18 +13,6 @@
 
 
 #pragma mark helpers
-static NSError *createNSError(WPYErrorCode errorCode, NSString *failureReason)
-{
-    NSString *localizedDescription = LocalizedDescriptionFromErrorCode(errorCode);
-    NSString *localizedFailureReason = NSLocalizedStringFromTable(failureReason, WPYLocalizedStringTable, nil);
-    NSDictionary *userInfo =
-    @{
-        NSLocalizedDescriptionKey: localizedDescription,
-        NSLocalizedFailureReasonErrorKey: localizedFailureReason
-    };
-    return [[NSError alloc] initWithDomain:WPYErrorDomain code:errorCode userInfo:userInfo];
-}
-
 static void handleValidationError(NSError * __autoreleasing * error, WPYErrorCode errorCode, NSString *failureReason)
 {
     if (error)
