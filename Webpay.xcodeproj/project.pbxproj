@@ -17,7 +17,6 @@
 		474E602118F0B17E0006EF46 /* WPYTokenBuilderTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 474E602018F0B17E0006EF46 /* WPYTokenBuilderTest.m */; };
 		474E602418F0B2DB0006EF46 /* WPYToken.m in Sources */ = {isa = PBXBuildFile; fileRef = 474E602318F0B2DB0006EF46 /* WPYToken.m */; };
 		474E602518F0B2DB0006EF46 /* WPYToken.m in Sources */ = {isa = PBXBuildFile; fileRef = 474E602318F0B2DB0006EF46 /* WPYToken.m */; };
-		474E602718F0B2EB0006EF46 /* WPYTokenTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 474E602618F0B2EB0006EF46 /* WPYTokenTest.m */; };
 		4764A07918C7EB04006C9E4E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4764A07818C7EB04006C9E4E /* Foundation.framework */; };
 		4764A07B18C7EB04006C9E4E /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4764A07A18C7EB04006C9E4E /* CoreGraphics.framework */; };
 		4764A07D18C7EB04006C9E4E /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4764A07C18C7EB04006C9E4E /* UIKit.framework */; };
@@ -61,7 +60,6 @@
 		474E602018F0B17E0006EF46 /* WPYTokenBuilderTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WPYTokenBuilderTest.m; path = WebpayTests/WPYTokenBuilderTest.m; sourceTree = SOURCE_ROOT; };
 		474E602218F0B2DB0006EF46 /* WPYToken.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WPYToken.h; path = Webpay/WPYToken.h; sourceTree = "<group>"; };
 		474E602318F0B2DB0006EF46 /* WPYToken.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WPYToken.m; path = Webpay/WPYToken.m; sourceTree = "<group>"; };
-		474E602618F0B2EB0006EF46 /* WPYTokenTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WPYTokenTest.m; path = WebpayTests/WPYTokenTest.m; sourceTree = SOURCE_ROOT; };
 		4764A07518C7EB04006C9E4E /* Webpay.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Webpay.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4764A07818C7EB04006C9E4E /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		4764A07A18C7EB04006C9E4E /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -174,7 +172,6 @@
 				47CE70E118E8C7EA00E4B4B8 /* WPYTokenizerTest.m */,
 				479BD14018EE6E18004F3775 /* WPYCommunicatorTest.m */,
 				474E602018F0B17E0006EF46 /* WPYTokenBuilderTest.m */,
-				474E602618F0B2EB0006EF46 /* WPYTokenTest.m */,
 				4729BF1318F122BE009A1C65 /* WPYErrorBuilderTest.m */,
 			);
 			name = WebpayTests;
@@ -339,7 +336,6 @@
 				47CE70E218E8C7EA00E4B4B8 /* WPYTokenizerTest.m in Sources */,
 				4729BF1418F122BE009A1C65 /* WPYErrorBuilderTest.m in Sources */,
 				474E601F18F0B16E0006EF46 /* WPYTokenBuilder.m in Sources */,
-				474E602718F0B2EB0006EF46 /* WPYTokenTest.m in Sources */,
 				474E602518F0B2DB0006EF46 /* WPYToken.m in Sources */,
 				479BD14118EE6E18004F3775 /* WPYCommunicatorTest.m in Sources */,
 				4727391618D8FE8B0003D759 /* WPYErrors.m in Sources */,
