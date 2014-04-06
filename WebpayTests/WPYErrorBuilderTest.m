@@ -8,26 +8,65 @@
 
 #import <XCTest/XCTest.h>
 
+#import "WPYErrorBuilder.h"
+#import "WPYErrors.h"
+
+static NSString *const errorJSONString = @"{"
+    @"\"error\": {"
+        @"\"param\": \"exp_year\","
+        @"\"code\": \"invalid_expiry_year\","
+        @"\"message\": \"You must provide the card which is not expired\","
+        @"\"type\": \"card_error\""
+    @"}"
+@"}";
+
+static NSString *const nonJSONString = @"Not JSON";
+
 @interface WPYErrorBuilderTest : XCTestCase
 
 @end
 
 @implementation WPYErrorBuilderTest
+{
+    WPYErrorBuilder *_builder;
+    NSData *_errorJSONData;
+    NSData *_nonJSONData;
+}
 
 - (void)setUp
 {
     [super setUp];
-    // Put setup code here. This method is called before the invocation of each test method in the class.
+    
+    _builder = [[WPYErrorBuilder alloc] init];
+    _errorJSONData = [errorJSONString dataUsingEncoding:NSUTF8StringEncoding];
+    _nonJSONData = [nonJSONString dataUsingEncoding:NSUTF8StringEncoding];
 }
 
 - (void)tearDown
 {
-    // Put teardown code here. This method is called after the invocation of each test method in the class.
+    _builder = nil;
+    _errorJSONData = nil;
+    _nonJSONData = nil;
+    
     [super tearDown];
 }
 
-- (void)testExample
+- (void)testNilDataRaisesException
 {
+    XCTAssertThrows([_builder buildErrorFromData:nil], @"It should raise exception when data is nil.");
+}
+
+- (void)testNonJSONReturnsExpectedError
+{
+    NSError *error = [_builder buildErrorFromData:_nonJSONData];
+    XCTAssertEqualObjects([error domain], NSCocoaErrorDomain, @"It should be a json serialization error.");
+}
+
+- (void)testErrorJSONReturnsExpectedError
+{
+    NSError *error = [_builder buildErrorFromData:_errorJSONData];
+    XCTAssertEqualObjects([error domain], WPYErrorDomain, @"It should be WPYErrorDomain.");
+    XCTAssertEqual([error code], WPYInvalidExpiryYear, @"It should be the same as json");
 }
 
 @end
