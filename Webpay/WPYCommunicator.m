@@ -51,8 +51,8 @@ static NSDictionary *dictionaryFromCard(WPYCreditCard *card)
                 @"name"  : card.name,
                 @"number": card.number,
                 @"cvc"   : card.cvc,
-                @"exp_month": [NSString stringWithFormat:@"%lu", card.expiryMonth],
-                @"exp_year": [NSString stringWithFormat:@"%lu", card.expiryYear]
+                @"exp_month": [NSString stringWithFormat:@"%u", card.expiryMonth],
+                @"exp_year": [NSString stringWithFormat:@"%u", card.expiryYear]
            };
 }
 
