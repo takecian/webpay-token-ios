@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
+@class WPYToken;
 @interface WPYTokenBuilder : NSObject
-
+- (WPYToken *)buildTokenFromData:(NSData *)data error:(NSError * __autoreleasing *)outError;
 @end
