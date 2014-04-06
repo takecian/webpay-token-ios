@@ -11,7 +11,7 @@
 #import "WPYTokenBuilder.h"
 #import "WPYToken.h"
 
-static NSString *const successJSON = @"{"
+static NSString *const tokenJSONString = @"{"
     @"\"card\":{"
         @"\"last4\": \"4242\","
         @"\"object\": \"card\","
@@ -30,7 +30,7 @@ static NSString *const successJSON = @"{"
     @"\"id\": \"tok_4hB8eGcxL9KffML\""
 @"}";
 
-static NSString *const invalidJSON = @"Not JSON";
+static NSString *const nonJSONString = @"Not JSON";
 
 @interface WPYTokenBuilderTest : XCTestCase
 
@@ -39,8 +39,8 @@ static NSString *const invalidJSON = @"Not JSON";
 @implementation WPYTokenBuilderTest
 {
     WPYTokenBuilder *_builder;
-    NSData *_successData;
-    NSData *_invalidData;
+    NSData *_tokenJSONData;
+    NSData *_nonJSONData;
 }
 
 - (void)setUp
@@ -48,15 +48,15 @@ static NSString *const invalidJSON = @"Not JSON";
     [super setUp];
     
     _builder = [[WPYTokenBuilder alloc] init];
-    _successData = [successJSON dataUsingEncoding:NSUTF8StringEncoding];
-    _invalidData = [invalidJSON dataUsingEncoding:NSUTF8StringEncoding];
+    _tokenJSONData = [tokenJSONString dataUsingEncoding:NSUTF8StringEncoding];
+    _nonJSONData = [nonJSONString dataUsingEncoding:NSUTF8StringEncoding];
 }
 
 - (void)tearDown
 {
     _builder = nil;
-    _successData = nil;
-    _invalidData = nil;
+    _tokenJSONData = nil;
+    _nonJSONData = nil;
     
     [super tearDown];
 }
@@ -64,7 +64,7 @@ static NSString *const invalidJSON = @"Not JSON";
 #pragma mark buildTokenFromData:error:
 - (void)testAcceptsNilAsNilArgument
 {
-    XCTAssertNoThrow([_builder buildTokenFromData:_successData error:nil], @"It accepts nil as error argument.");
+    XCTAssertNoThrow([_builder buildTokenFromData:_tokenJSONData error:nil], @"It accepts nil as error argument.");
 }
 
 - (void)testNilDataRaisesException
@@ -72,29 +72,30 @@ static NSString *const invalidJSON = @"Not JSON";
     XCTAssertThrows([_builder buildTokenFromData:nil error:nil], @"It should raise error when data is nil.");
 }
 
-- (void)testInvalidJSONReturnsNil
+- (void)testNonJSONReturnsNil
 {
-    XCTAssertNil([_builder buildTokenFromData:_invalidData error:nil], @"It should return nil if it fails building WPYToken.");
+    XCTAssertNil([_builder buildTokenFromData:_nonJSONData error:nil], @"It should return nil if it fails building WPYToken.");
 }
 
-- (void)testInvalidJSONReturnsError
+- (void)testNonJSONReturnsError
 {
     NSError *error = nil;
-    [_builder buildTokenFromData:_invalidData error:&error];
-    XCTAssertNotNil(error, @"It should populate error object if json is invalid.");
+    [_builder buildTokenFromData:_nonJSONData error:&error];
+    XCTAssertNotNil(error, @"It should populate error object if it is not json.");
+    XCTAssertEqualObjects([error domain], NSCocoaErrorDomain, @"It should be json serialization error.");
 }
 
-- (void)testTokenCreatedFromSuccessJSON
+- (void)testTokenCreatedFromTokenJSON
 {
     NSError *error = nil;
-    WPYToken *token = [_builder buildTokenFromData:_successData error:&error];
+    WPYToken *token = [_builder buildTokenFromData:_tokenJSONData error:&error];
     XCTAssertNotNil(token, @"It should populate error object if json is invalid.");
 }
 
 - (void)testCreatedTokenHasExpectedProperty
 {
     NSError *error = nil;
-    WPYToken *token = [_builder buildTokenFromData:_successData error:&error];
+    WPYToken *token = [_builder buildTokenFromData:_tokenJSONData error:&error];
     
     XCTAssertEqualObjects(token.tokenId, @"tok_4hB8eGcxL9KffML", @"Token should be the same as in json.");
     NSDictionary *cardInfo = token.cardInfo;

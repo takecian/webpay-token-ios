@@ -14,7 +14,6 @@
 
 - (WPYToken *)buildTokenFromData:(NSData *)data error:(NSError * __autoreleasing *)outError
 {
-    // parse data to json
     NSError *serializeError = nil;
     id object = [NSJSONSerialization JSONObjectWithData:data
                                                 options:0
