@@ -11,9 +11,9 @@
 // 1. initialize library at appdelegate
 // 2. call method in where it's needed
 // This allows applicaiton to initialize all the 3rd party libraries
-// in one place. Since the the places of initialization and method call
-// are different, to avoid hassle of passing around pointer of the class
-// instance, libraries are implemented as static class or singleton.
+// in one place. Since the places of initialization and method call
+// are different, to avoid the hassle of passing around a pointer of an
+// instance, a lot of the libraries are implemented as static class or singleton.
 
 // 1. static class
 // [Class setKey:@"key"]; (usually at app delegate)
@@ -60,10 +60,10 @@ static NSString *publicKey = nil;
     NSParameterAssert(card);
     NSParameterAssert(completionBlock);
     
-    NSError *error = nil;
-    if (![card validate:&error])
+    NSError *cardError = nil;
+    if (![card validate:&cardError])
     {
-        completionBlock(nil, error);
+        completionBlock(nil, cardError);
         return;
     }
     
@@ -81,15 +81,15 @@ static NSString *publicKey = nil;
                                     if (httpResponse.statusCode == 201)
                                     {
                                         WPYTokenBuilder *tokenBuilder = [[WPYTokenBuilder alloc] init];
-                                        NSError *error = nil;
-                                        WPYToken *token = [tokenBuilder buildTokenFromData:data error:&error];
-                                        completionBlock(token, error);
+                                        NSError *tokenBuildError = nil;
+                                        WPYToken *token = [tokenBuilder buildTokenFromData:data error:&tokenBuildError];
+                                        completionBlock(token, tokenBuildError);
                                     }
                                     else
                                     {
                                         WPYErrorBuilder *errorBuilder = [[WPYErrorBuilder alloc] init];
-                                        NSError *error = [errorBuilder buildErrorFromData:data];
-                                        completionBlock(nil, error);
+                                        NSError *buildError = [errorBuilder buildErrorFromData:data];
+                                        completionBlock(nil, buildError);
                                     }
                                 }
     }];
