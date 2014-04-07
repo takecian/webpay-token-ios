@@ -112,7 +112,12 @@
     XCTAssertEqualObjects([_creditCard brandName], @"Visa", @"It should be recognized as visa.");
 }
 
-
+- (void)testBrandNameDicernsVisaNumberWithWhiteSpaces
+{
+    NSString *visaCardNumber = @"4242 4242 4242 4242";
+    _creditCard.number = visaCardNumber;
+    XCTAssertEqualObjects([_creditCard brandName], @"Visa", @"It should be recognized as visa.");
+}
 
 #pragma mark - property validation
 
