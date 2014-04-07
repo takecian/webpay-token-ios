@@ -62,6 +62,11 @@ static NSString *trimWhiteSpaces(NSString *string)
     return [string stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
 }
 
+static NSString *cleanseNumber(NSString *string)
+{
+    return removeHyphens(removeAllWhitespaces(string));
+}
+
 // remove all occurences of whitespace
 static NSString *removeAllWhitespaces(NSString *string)
 {
@@ -71,11 +76,6 @@ static NSString *removeAllWhitespaces(NSString *string)
 static NSString *removeHyphens(NSString *string)
 {
     return [string stringByReplacingOccurrencesOfString:@"-" withString:@""];
-}
-
-static NSString *cleanseNumber(NSString *string)
-{
-    return removeHyphens(removeAllWhitespaces(string));
 }
 
 static NSString *reverseString(NSString *string)
@@ -93,14 +93,9 @@ static NSString *reverseString(NSString *string)
 
 
 #pragma mark public methods
-- (void)setNumber:(NSString *)number
-{
-    _number = cleanseNumber(number);
-}
-
 - (NSString *)brandName
 {
-    NSString *cardNum = self.number;
+    NSString *cardNum = cleanseNumber(self.number);
     if (!cardNum)
     {
         return nil;
