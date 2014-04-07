@@ -105,6 +105,13 @@
     XCTAssertEqualObjects([_creditCard brandName], @"Unknown", @"It should be recognized as unknown.");
 }
 
+- (void)testBrandNameDicernsVisaNumberWithHyphens
+{
+    NSString *visaCardNumber = @"4242-4242-4242-4242";
+    _creditCard.number = visaCardNumber;
+    XCTAssertEqualObjects([_creditCard brandName], @"Visa", @"It should be recognized as visa.");
+}
+
 
 
 #pragma mark - property validation

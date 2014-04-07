@@ -73,14 +73,19 @@ static NSString *removeHyphens(NSString *string)
     return [string stringByReplacingOccurrencesOfString:@"-" withString:@""];
 }
 
+static NSString *cleanseNumber(NSString *string)
+{
+    return removeHyphens(removeAllWhitespaces(string));
+}
+
 static NSString *reverseString(NSString *string)
 {
     NSMutableString *reversedString = [NSMutableString stringWithCapacity:string.length];
     [string enumerateSubstringsInRange:NSMakeRange(0, string.length)
                                options:(NSStringEnumerationReverse | NSStringEnumerationByComposedCharacterSequences)
                             usingBlock:^(NSString *substring, NSRange substringRange, NSRange enclosingRange, BOOL *stop){
-                                [reversedString appendString:substring];
-                            }];
+                                            [reversedString appendString:substring];
+                                        }];
     
     return reversedString;
 }
@@ -88,6 +93,11 @@ static NSString *reverseString(NSString *string)
 
 
 #pragma mark public methods
+- (void)setNumber:(NSString *)number
+{
+    _number = cleanseNumber(number);
+}
+
 - (NSString *)brandName
 {
     NSString *cardNum = self.number;
@@ -107,6 +117,7 @@ static NSString *reverseString(NSString *string)
     };
     
     __block NSString *brandName = nil;
+    
     [brandIdentifiers enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop){
         if (isMatchWithRegex(cardNum, obj))
         {
@@ -114,7 +125,6 @@ static NSString *reverseString(NSString *string)
             *stop = YES;
         }
     }];
-    
     return brandName ? brandName : @"Unknown";
 }
 
@@ -147,8 +157,7 @@ static NSString *reverseString(NSString *string)
     }
     
     NSString *rawStr = (NSString *) *ioValue;
-    NSString *trimmedStr = removeAllWhitespaces(rawStr);
-    NSString *cleansedStr = removeHyphens(trimmedStr);
+    NSString *cleansedStr = cleanseNumber(rawStr);
     
     if (!(isNumericOnlyString(cleansedStr)))
     {
