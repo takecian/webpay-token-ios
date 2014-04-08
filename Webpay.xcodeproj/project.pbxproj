@@ -59,6 +59,7 @@
 		4729BF1318F122BE009A1C65 /* WPYErrorBuilderTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WPYErrorBuilderTest.m; path = WebpayTests/WPYErrorBuilderTest.m; sourceTree = SOURCE_ROOT; };
 		47361F6918F4B34B0045EB68 /* PaymentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PaymentViewController.h; path = WebpayExample/PaymentViewController.h; sourceTree = SOURCE_ROOT; };
 		47361F6A18F4B34B0045EB68 /* PaymentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PaymentViewController.m; path = WebpayExample/PaymentViewController.m; sourceTree = SOURCE_ROOT; };
+		474D779018F4BD96000D3426 /* Webpay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Webpay.h; path = Webpay/Webpay.h; sourceTree = "<group>"; };
 		474E601C18F0B16E0006EF46 /* WPYTokenBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WPYTokenBuilder.h; path = Webpay/WPYTokenBuilder.h; sourceTree = "<group>"; };
 		474E601D18F0B16E0006EF46 /* WPYTokenBuilder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WPYTokenBuilder.m; path = Webpay/WPYTokenBuilder.m; sourceTree = "<group>"; };
 		474E602018F0B17E0006EF46 /* WPYTokenBuilderTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WPYTokenBuilderTest.m; path = WebpayTests/WPYTokenBuilderTest.m; sourceTree = SOURCE_ROOT; };
@@ -207,6 +208,7 @@
 		47D9BC1418CFBEE70020BF55 /* Webpay */ = {
 			isa = PBXGroup;
 			children = (
+				474D779018F4BD96000D3426 /* Webpay.h */,
 				47CE70DD18E8C7D500E4B4B8 /* WPYTokenizer.h */,
 				47CE70DE18E8C7D500E4B4B8 /* WPYTokenizer.m */,
 				47D9BC1518CFBF080020BF55 /* WPYCreditCard.h */,
