@@ -51,13 +51,12 @@ NSString * WPYLocalizedDescriptionFromErrorCode(WPYErrorCode errorCode)
     }
 }
 
-
 FOUNDATION_EXPORT NSError *WPYCreateNSError(WPYErrorCode errorCode, NSString *failureReason)
 {
     NSString *localizedDescription = WPYLocalizedDescriptionFromErrorCode(errorCode);
     
     NSMutableDictionary *userInfo = [NSMutableDictionary dictionaryWithObject:localizedDescription
-                                                                forKey:NSLocalizedDescriptionKey];
+                                                                       forKey:NSLocalizedDescriptionKey];
     if (failureReason)
     {
         userInfo[NSLocalizedFailureReasonErrorKey] = failureReason;
