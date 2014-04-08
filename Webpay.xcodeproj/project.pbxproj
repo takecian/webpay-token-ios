@@ -14,6 +14,7 @@
 		4729BF1118F12240009A1C65 /* WPYErrorBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = 4729BF1018F12240009A1C65 /* WPYErrorBuilder.m */; };
 		4729BF1218F12240009A1C65 /* WPYErrorBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = 4729BF1018F12240009A1C65 /* WPYErrorBuilder.m */; };
 		4729BF1418F122BE009A1C65 /* WPYErrorBuilderTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 4729BF1318F122BE009A1C65 /* WPYErrorBuilderTest.m */; };
+		47361F6B18F4B34B0045EB68 /* PaymentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 47361F6A18F4B34B0045EB68 /* PaymentViewController.m */; };
 		474E601E18F0B16E0006EF46 /* WPYTokenBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = 474E601D18F0B16E0006EF46 /* WPYTokenBuilder.m */; };
 		474E601F18F0B16E0006EF46 /* WPYTokenBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = 474E601D18F0B16E0006EF46 /* WPYTokenBuilder.m */; };
 		474E602118F0B17E0006EF46 /* WPYTokenBuilderTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 474E602018F0B17E0006EF46 /* WPYTokenBuilderTest.m */; };
@@ -56,6 +57,8 @@
 		4729BF0F18F12240009A1C65 /* WPYErrorBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WPYErrorBuilder.h; path = Webpay/WPYErrorBuilder.h; sourceTree = "<group>"; };
 		4729BF1018F12240009A1C65 /* WPYErrorBuilder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WPYErrorBuilder.m; path = Webpay/WPYErrorBuilder.m; sourceTree = "<group>"; };
 		4729BF1318F122BE009A1C65 /* WPYErrorBuilderTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WPYErrorBuilderTest.m; path = WebpayTests/WPYErrorBuilderTest.m; sourceTree = SOURCE_ROOT; };
+		47361F6918F4B34B0045EB68 /* PaymentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PaymentViewController.h; path = WebpayExample/PaymentViewController.h; sourceTree = SOURCE_ROOT; };
+		47361F6A18F4B34B0045EB68 /* PaymentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PaymentViewController.m; path = WebpayExample/PaymentViewController.m; sourceTree = SOURCE_ROOT; };
 		474E601C18F0B16E0006EF46 /* WPYTokenBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WPYTokenBuilder.h; path = Webpay/WPYTokenBuilder.h; sourceTree = "<group>"; };
 		474E601D18F0B16E0006EF46 /* WPYTokenBuilder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WPYTokenBuilder.m; path = Webpay/WPYTokenBuilder.m; sourceTree = "<group>"; };
 		474E602018F0B17E0006EF46 /* WPYTokenBuilderTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WPYTokenBuilderTest.m; path = WebpayTests/WPYTokenBuilderTest.m; sourceTree = SOURCE_ROOT; };
@@ -152,6 +155,8 @@
 				4764A08818C7EB04006C9E4E /* AppDelegate.m */,
 				4764A08A18C7EB04006C9E4E /* Images.xcassets */,
 				4764A07F18C7EB04006C9E4E /* Supporting Files */,
+				47361F6918F4B34B0045EB68 /* PaymentViewController.h */,
+				47361F6A18F4B34B0045EB68 /* PaymentViewController.m */,
 			);
 			name = WebpayExample;
 			path = "webpay-token-ios";
@@ -353,6 +358,7 @@
 				4787AE6318EE1A2F0092A097 /* WPYCommunicator.m in Sources */,
 				4729BF1118F12240009A1C65 /* WPYErrorBuilder.m in Sources */,
 				4764A08918C7EB04006C9E4E /* AppDelegate.m in Sources */,
+				47361F6B18F4B34B0045EB68 /* PaymentViewController.m in Sources */,
 				47D9BC1718CFBF080020BF55 /* WPYCreditCard.m in Sources */,
 				4764A08518C7EB04006C9E4E /* main.m in Sources */,
 				4727391518D8FE8B0003D759 /* WPYErrors.m in Sources */,
