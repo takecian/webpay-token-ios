@@ -17,7 +17,7 @@ static void handleValidationError(NSError * __autoreleasing * error, WPYErrorCod
 {
     if (error)
     {
-        *error = createNSError(errorCode, failureReason);
+        *error = WPYCreateNSError(errorCode, failureReason);
     }
 }
 

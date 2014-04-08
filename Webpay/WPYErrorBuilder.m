@@ -88,7 +88,7 @@ static WPYErrorCode errorCodeFromTypeAndCode(NSString *type, NSString *code)
         NSString *code = errorDic[@"code"];
         WPYErrorCode errorCode = errorCodeFromTypeAndCode(type, code);
         
-        return createNSError(errorCode, nil);
+        return WPYCreateNSError(errorCode, nil);
     }
     
     return nil;

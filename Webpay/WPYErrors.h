@@ -38,8 +38,5 @@ typedef NS_ENUM(int, WPYErrorCode){
     WPYAPIError = 300
 };
 
-// HELPER: returns localized description for nserror returned from Webpay ios tokenizer
-FOUNDATION_EXPORT NSString * LocalizedDescriptionFromErrorCode(WPYErrorCode errorCode);
-
 // HELPER: returns nserror from error code and failure reason
-FOUNDATION_EXPORT NSError *createNSError(WPYErrorCode errorCode, NSString *failureReason);
+FOUNDATION_EXPORT NSError *WPYCreateNSError(WPYErrorCode errorCode, NSString *failureReason);
