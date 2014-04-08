@@ -62,7 +62,7 @@ static NSString *trimWhiteSpaces(NSString *string)
     return [string stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
 }
 
-static NSString *cleanseNumber(NSString *string)
+static NSString *canonicalizeCardNumber(NSString *string)
 {
     return removeHyphens(removeAllWhitespaces(string));
 }
@@ -95,8 +95,8 @@ static NSString *reverseString(NSString *string)
 #pragma mark public methods
 - (NSString *)brandName
 {
-    NSString *cardNum = cleanseNumber(self.number);
-    if (!cardNum)
+    NSString *cardNumber = canonicalizeCardNumber(self.number);
+    if (!cardNumber)
     {
         return nil;
     }
@@ -114,7 +114,7 @@ static NSString *reverseString(NSString *string)
     __block NSString *brandName = nil;
     
     [brandIdentifiers enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop){
-        if (isMatchWithRegex(cardNum, obj))
+        if (isMatchWithRegex(cardNumber, obj))
         {
             brandName = key;
             *stop = YES;
@@ -151,8 +151,7 @@ static NSString *reverseString(NSString *string)
         return NO;
     }
     
-    NSString *rawStr = (NSString *) *ioValue;
-    NSString *cleansedStr = cleanseNumber(rawStr);
+    NSString *cleansedStr = canonicalizeCardNumber((NSString *) *ioValue);
     
     if (!(isNumericOnlyString(cleansedStr)))
     {
