@@ -57,7 +57,7 @@ static BOOL isMatchWithRegex(NSString *string, NSString *regex)
 }
 
 // trim whitespace from first and last character
-static NSString *trimWhiteSpaces(NSString *string)
+static NSString *stripWhitespaces(NSString *string)
 {
     return [string stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
 }
@@ -132,7 +132,7 @@ static NSString *reverseString(NSString *string)
         return NO;
     }
     
-    NSString *trimmedStr = trimWhiteSpaces((NSString *) *ioValue);
+    NSString *trimmedStr = stripWhitespaces((NSString *) *ioValue);
     if (trimmedStr.length == 0)
     {
         handleValidationError(outError, WPYInvalidName, @"Name should not be empty.");
@@ -183,7 +183,7 @@ static NSString *reverseString(NSString *string)
         return NO;
     }
     
-    NSString *trimmedStr = trimWhiteSpaces((NSString *) *ioValue);
+    NSString *trimmedStr = stripWhitespaces((NSString *) *ioValue);
     if (!(isNumericOnlyString(trimmedStr)))
     {
         handleValidationError(outError, WPYInvalidCvc, @"cvc should be numeric only.");
