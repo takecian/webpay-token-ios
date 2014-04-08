@@ -34,6 +34,15 @@
     WPYCreditCard *_creditCard;
 }
 
+static NSString *const visaCardNumber     = @"4111111111111111";
+static NSString *const amexCardNumber     = @"378282246310005";
+static NSString *const masterCardNumber   = @"5555555555554444";
+static NSString *const discoverCardNumber = @"6011111111111117";
+static NSString *const JCBCardNumber      = @"3530111333300000";
+static NSString *const dinersCardNumber   = @"30569309025904";
+static NSString *const unknownCardNumber  = @"9876543210123456";
+
+
 - (void)setUp
 {
     [super setUp];
@@ -58,69 +67,63 @@
 
 - (void)testBrandNameDiscernsVisa
 {
-    NSString *visaCardNumber = @"4111111111111111";
     _creditCard.number = visaCardNumber;
     XCTAssertEqualObjects([_creditCard brandName], @"Visa", @"It should be recongnized as visa.");
 }
 
 - (void)testBrandNameDiscernsAmex
 {
-    NSString *amexCardNumber = @"378282246310005";
     _creditCard.number = amexCardNumber;
     XCTAssertEqualObjects([_creditCard brandName], @"American Express", @"It should be recognized as amex.");
 }
 
 - (void)testBrandNameDiscernsMasterCard
 {
-    NSString *masterCardNumber = @"5555555555554444";
     _creditCard.number = masterCardNumber;
     XCTAssertEqualObjects([_creditCard brandName], @"MasterCard", @"It should be recognized as master card.");
 }
 
 - (void)testBrandNameDiscernsDiscover
 {
-    NSString *discoverCardNumber = @"6011111111111117";
     _creditCard.number = discoverCardNumber;
     XCTAssertEqualObjects([_creditCard brandName], @"Discover", @"It should be recognized as discover.");
 }
 
 - (void)testBrandNameDiscernsJCB
 {
-    NSString *JCBCardNumber = @"3530111333300000";
     _creditCard.number = JCBCardNumber;
     XCTAssertEqualObjects([_creditCard brandName], @"JCB", @"It should be recognized as JCB.");
 }
 
 - (void)testBrandNameDiscernsDiners
 {
-    NSString *dinersCardNumber = @"30569309025904";
     _creditCard.number = dinersCardNumber;
     XCTAssertEqualObjects([_creditCard brandName], @"Diners", @"It should be recognized as diners.");
 }
 
 - (void)testBrandNameDicernsUnknown
 {
-    NSString *unknownCardNumber = @"9876543210123456";
     _creditCard.number = unknownCardNumber;
     XCTAssertEqualObjects([_creditCard brandName], @"Unknown", @"It should be recognized as unknown.");
 }
 
 - (void)testBrandNameDicernsVisaNumberWithHyphens
 {
-    NSString *visaCardNumber = @"4242-4242-4242-4242";
-    _creditCard.number = visaCardNumber;
+    NSString *number = @"4242-4242-4242-4242";
+    _creditCard.number = number;
     XCTAssertEqualObjects([_creditCard brandName], @"Visa", @"It should be recognized as visa.");
 }
 
 - (void)testBrandNameDicernsVisaNumberWithWhiteSpaces
 {
-    NSString *visaCardNumber = @"4242 4242 4242 4242";
-    _creditCard.number = visaCardNumber;
+    NSString *number = @"4242 4242 4242 4242";
+    _creditCard.number = number;
     XCTAssertEqualObjects([_creditCard brandName], @"Visa", @"It should be recognized as visa.");
 }
 
-#pragma mark - property validation
 
+
+#pragma mark - property validation
 #pragma mark validateName
 - (void)testValidateNameAcceptsNilAsErrorArgument
 {
@@ -434,7 +437,6 @@
 
 - (void)testAmexWithThreeDigitsCvc
 {
-    NSString *amexCardNumber = @"378282246310005";
     _creditCard.number = amexCardNumber;
     
     NSString *cvc = @"123";
@@ -444,7 +446,6 @@
 - (void)testAmexWithThreeDigitsCvcReturnsExpectedError
 {
     NSError *error = nil;
-    NSString *amexCardNumber = @"378282246310005";
     _creditCard.number = amexCardNumber;
     
     NSString *cvc = @"123";
@@ -460,7 +461,6 @@
 
 - (void)testAmexWithFourDigitsCvc
 {
-    NSString *amexCardNumber = @"378282246310005";
     _creditCard.number = amexCardNumber;
     
     NSError *error = nil;
@@ -470,7 +470,6 @@
 
 - (void)testNonAmexCardWithThreeDigitsCvc
 {
-    NSString *masterCardNumber = @"5555555555554444";
     _creditCard.number = masterCardNumber;
     
     NSError *error = nil;
@@ -480,7 +479,6 @@
 
 - (void)testNonAmexCardWithFourDigitsCvc
 {
-    NSString *masterCardNumber = @"5555555555554444";
     _creditCard.number = masterCardNumber;
     
     NSString *cvc = @"1234";
@@ -490,7 +488,6 @@
 - (void)testNonAmexCardWithFourDigitsCvcReturnsExpectedError
 {
     NSError *error = nil;
-    NSString *masterCardNumber = @"5555555555554444";
     _creditCard.number = masterCardNumber;
     
     NSString *cvc = @"1234";
@@ -506,7 +503,6 @@
 
 - (void)testValidCvcDoesNotReturnError
 {
-    NSString *amexCardNumber = @"378282246310005";
     _creditCard.number = amexCardNumber;
     
     NSError *error = nil;
@@ -692,7 +688,7 @@
 - (void)testValidateWithInvalidName
 {
     _creditCard.name = @"    ";
-    _creditCard.number = @"4111111111111111";
+    _creditCard.number = visaCardNumber;
     _creditCard.cvc = @"123";
     _creditCard.expiryYear = 2014;
     _creditCard.expiryMonth = 12;
@@ -732,7 +728,7 @@
 - (void)testValidateWithInvalidCvc
 {
     _creditCard.name = @"Yohei Okada";
-    _creditCard.number = @"4111111111111111";
+    _creditCard.number = visaCardNumber;
     _creditCard.cvc = @"1234";
     _creditCard.expiryYear = 2014;
     _creditCard.expiryMonth = 12;
@@ -752,7 +748,7 @@
 - (void)testValidateWithInvalidExpiryMonth
 {
     _creditCard.name = @"Yohei Okada";
-    _creditCard.number = @"4111111111111111";
+    _creditCard.number = visaCardNumber;
     _creditCard.cvc = @"123";
     _creditCard.expiryYear = 2014;
     _creditCard.expiryMonth = 13;
@@ -772,7 +768,7 @@
 - (void)testValidateWithInvalidExpiry
 {
     _creditCard.name = @"Yohei Okada";
-    _creditCard.number = @"4111111111111111";
+    _creditCard.number = visaCardNumber;
     _creditCard.cvc = @"123";
     _creditCard.expiryYear = 2010;
     _creditCard.expiryMonth = 12;
@@ -793,7 +789,6 @@
 - (void)testValidateWithUnsupportedBrand
 {
     _creditCard.name = @"Yohei Okada";
-    NSString *discoverCardNumber = @"6011111111111117";
     _creditCard.number = discoverCardNumber;
     _creditCard.cvc = @"123";
     _creditCard.expiryYear = 2014;
@@ -814,7 +809,7 @@
 - (void)testValidateWithSupportedBrand
 {
     _creditCard.name = @"Yohei Okada";
-    _creditCard.number = @"30569309025904";
+    _creditCard.number = dinersCardNumber;
     _creditCard.cvc = @"123";
     _creditCard.expiryYear = 2014;
     _creditCard.expiryMonth = 12;
@@ -823,7 +818,6 @@
     XCTAssertTrue([_creditCard validate:&error], @"It should validate card with supported brand.");
     XCTAssertNil(error, @"Error object should be nil.");
 }
-
 
 
 @end
