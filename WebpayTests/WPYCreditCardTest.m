@@ -57,6 +57,18 @@ static NSString *const unknownCardNumber  = @"9876543210123456";
     [super tearDown];
 }
 
+#pragma mark setter
+- (void)testSetNumberRemovesAllWhitespaces
+{
+    _creditCard.number = @"4242 4242 4242 4242";
+    XCTAssertEqualObjects(_creditCard.number, @"4242424242424242", @"It should remove all whitespaces when set.");
+}
+
+- (void)testSetNumberRemovesAllHyphens
+{
+    _creditCard.number = @"4242-4242-4242-4242";
+    XCTAssertEqualObjects(_creditCard.number, @"4242424242424242", @"It should remove all hyphens when set.");
+}
 
 #pragma mark brandName
 - (void)testBrandNameReturnsNilForEmptyNumber

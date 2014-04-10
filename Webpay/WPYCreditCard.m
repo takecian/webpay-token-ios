@@ -93,9 +93,14 @@ static NSString *reverseString(NSString *string)
 
 
 #pragma mark public methods
+- (void)setNumber:(NSString *)number
+{
+    _number = canonicalizeCardNumber(number);
+}
+
 - (NSString *)brandName
 {
-    NSString *cardNumber = canonicalizeCardNumber(self.number);
+    NSString *cardNumber = self.number;
     if (!cardNumber)
     {
         return nil;
