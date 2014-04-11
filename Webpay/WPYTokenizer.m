@@ -71,27 +71,27 @@ static NSString *publicKey = nil;
     [communicator requestTokenWithPublicKey:publicKey
                                        card:card
                             completionBlock:^(NSURLResponse *response, NSData *data, NSError *networkError){
-                                if (networkError)
-                                {
-                                    completionBlock(nil, networkError);
-                                }
-                                else // response recieved
-                                {
-                                    NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
-                                    if (httpResponse.statusCode == 201)
-                                    {
-                                        WPYTokenBuilder *tokenBuilder = [[WPYTokenBuilder alloc] init];
-                                        NSError *tokenBuildError = nil;
-                                        WPYToken *token = [tokenBuilder buildTokenFromData:data error:&tokenBuildError];
-                                        completionBlock(token, tokenBuildError);
-                                    }
-                                    else
-                                    {
-                                        WPYErrorBuilder *errorBuilder = [[WPYErrorBuilder alloc] init];
-                                        NSError *buildError = [errorBuilder buildErrorFromData:data];
-                                        completionBlock(nil, buildError);
-                                    }
-                                }
+                                            if (networkError)
+                                            {
+                                                completionBlock(nil, networkError);
+                                                return;
+                                            }
+                                
+                                
+                                            NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
+                                            if (httpResponse.statusCode == 201)
+                                            {
+                                                WPYTokenBuilder *tokenBuilder = [[WPYTokenBuilder alloc] init];
+                                                NSError *tokenBuildError = nil;
+                                                WPYToken *token = [tokenBuilder buildTokenFromData:data error:&tokenBuildError];
+                                                completionBlock(token, tokenBuildError);
+                                            }
+                                            else
+                                            {
+                                                WPYErrorBuilder *errorBuilder = [[WPYErrorBuilder alloc] init];
+                                                NSError *buildError = [errorBuilder buildErrorFromData:data];
+                                                completionBlock(nil, buildError);
+                                            }
     }];
 }
 
