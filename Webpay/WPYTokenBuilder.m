@@ -33,9 +33,8 @@
         // build WPYToken from json
         NSDictionary *json = object;
         
-        WPYToken *token = [[WPYToken alloc] init];
-        token.tokenId = json[@"id"];
-        token.cardInfo = json[@"card"];
+        WPYToken *token = [[WPYToken alloc] initWithID:json[@"id"]
+                                              cardInfo:json[@"card"]];
         
         return token;
     }

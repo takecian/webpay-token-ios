@@ -10,4 +10,14 @@
 
 @implementation WPYToken
 
+- (instancetype)initWithID:(NSString *)tokenID cardInfo:(NSDictionary *)cardInfo
+{
+    if (self = [super init])
+    {
+        _tokenId = tokenID;
+        _cardInfo = cardInfo;
+    }
+    
+    return self;
+}
 @end
