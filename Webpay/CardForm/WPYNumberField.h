@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface WPYNumberField : UITextField
-
+@interface WPYNumberField : UIView
+- (NSString *)text;
 @end

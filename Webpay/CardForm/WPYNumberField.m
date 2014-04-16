@@ -12,6 +12,9 @@
 @end
 
 @implementation WPYNumberField
+{
+    UITextField *_numberField;
+}
 
 static NSUInteger const WPYNumberMaxLength = 16;
 
@@ -53,13 +56,22 @@ static NSString *addSpacesPerFourCharacters(NSString *string)
     self = [super initWithFrame:frame];
     if (self)
     {
-        self.delegate = self;
-        self.placeholder = @"1234 5678 9012 3456";
-        self.keyboardType = UIKeyboardTypeNumberPad;
+        _numberField = [[UITextField alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
+        _numberField.placeholder = @"1234 5678 9012 3456";
+        _numberField.keyboardType = UIKeyboardTypeNumberPad;
+        _numberField.delegate = self;
+        [self addSubview:_numberField];
     }
     return self;
 }
 
+- (NSString *)text
+{
+    return _numberField.text;
+}
+
+
+#pragma mark textfield delegate
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)replacementString
 {
     NSString *newValue = [textField.text stringByReplacingCharactersInRange:range withString:replacementString];
@@ -75,7 +87,7 @@ static NSString *addSpacesPerFourCharacters(NSString *string)
     NSString *spacedNumber = [self spacedNumberFromNumber:canonicalizedNumber
                                                     place:place
                                                 isDeleted:isCharactedDeleted];
-    self.text = spacedNumber;
+    _numberField.text = spacedNumber;
     return NO;
 }
 
