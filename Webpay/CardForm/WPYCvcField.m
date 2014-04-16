@@ -8,24 +8,32 @@
 
 #import "WPYCvcField.h"
 
+@interface WPYCvcField () <UITextFieldDelegate>
+@end
+
 @implementation WPYCvcField
 
+static NSInteger const WPYCvcMaxValue = 4;
+
+#pragma mark initialization
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
-    if (self) {
-        // Initialization code
+    if (self)
+    {
+        self.placeholder = @"123";
+        self.keyboardType = UIKeyboardTypeNumberPad;
     }
     return self;
 }
 
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect
+
+#pragma mark textfield delegate
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)replacementString
 {
-    // Drawing code
+    NSString *newValue = [textField.text stringByReplacingCharactersInRange:range withString:replacementString];
+    
+    return newValue.length <= WPYCvcMaxValue;
 }
-*/
 
 @end
