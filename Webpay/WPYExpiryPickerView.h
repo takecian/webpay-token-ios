@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@protocol WPYExpiryPickerViewDelegate
+@protocol WPYExpiryPickerViewDelegate <NSObject>
 - (void)didSelectExpiryYear:(NSString *)year month:(NSString *)month;
 @end
 

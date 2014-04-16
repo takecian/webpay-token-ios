@@ -64,9 +64,9 @@ typedef NS_ENUM(NSInteger, WPYComponents)
 #pragma mark notify delegate
 - (void)notifyDelegate
 {
-    if (self.delegate && [self.delegate respondsToSelector:@selector(didSelectExpiryYear:month:)])
+    if (self.expiryDelegate && [self.expiryDelegate respondsToSelector:@selector(didSelectExpiryYear:month:)])
     {
-        [self.delegate didSelectExpiryYear:_selectedYear month:_selectedMonth];
+        [self.expiryDelegate didSelectExpiryYear:_selectedYear month:_selectedMonth];
     }
 }
 
@@ -122,6 +122,8 @@ typedef NS_ENUM(NSInteger, WPYComponents)
         case WPYExpiryPickerYear:
             return _years.count;
     }
+    
+    return 0;
 }
 
 
