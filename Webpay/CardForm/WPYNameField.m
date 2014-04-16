@@ -32,6 +32,11 @@
     return self;
 }
 
+- (NSString *)text
+{
+    return _nameField.text;
+}
+
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
     [textField resignFirstResponder];

@@ -10,4 +10,5 @@
 
 @interface WPYNameField : UIView
 
+- (NSString *)text;
 @end
