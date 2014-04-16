@@ -15,4 +15,6 @@
 - (id)initWithStyle:(UITableViewCellStyle)style
     reuseIdentifier:(NSString *)reuseIdentifier
           textField:(UITextField *)textField;
+
+- (void)setTitle:(NSString *)title;
 @end

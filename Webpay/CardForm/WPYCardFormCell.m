@@ -18,6 +18,7 @@
     if (self)
     {
         self.textLabel.textColor = [UIColor grayColor];
+        
         _textField = textField;
         [self.contentView addSubview:_textField];
     }
@@ -27,6 +28,11 @@
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     return [self initWithStyle:style reuseIdentifier:reuseIdentifier textField:nil];
+}
+
+- (void)setTitle:(NSString *)title
+{
+    self.textLabel.text = title;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
