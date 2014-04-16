@@ -9,6 +9,7 @@
 #import "WPYExpiryField.h"
 
 #import "WPYExpiryPickerView.h"
+#import "WPYMenuDisabledTextField.h"
 
 @interface WPYExpiryField () <WPYExpiryPickerViewDelegate>
 - (void)didSelectExpiryYear:(NSString *)year month:(NSString *)month;
@@ -17,7 +18,7 @@
 
 @implementation WPYExpiryField
 {
-    UITextField *_expiryField;
+    WPYMenuDisabledTextField *_expiryField;
 }
 
 
@@ -27,7 +28,7 @@
     self = [super initWithFrame:frame];
     if (self)
     {
-        _expiryField = [[UITextField alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
+        _expiryField = [[WPYMenuDisabledTextField alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
         _expiryField.placeholder = @"01/15";
     
         WPYExpiryPickerView *expiryPicker = [[WPYExpiryPickerView alloc] initWithFrame:CGRectMake(0, 0, 320, 200)];
