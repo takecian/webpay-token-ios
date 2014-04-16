@@ -67,16 +67,15 @@ static NSString *addSpacesPerFourCharacters(NSString *string)
     NSUInteger place = range.location + 1;
     
     NSString *canonicalizedNumber = removeAllWhitespaces(newValue);
-    if (![self isTooLongNumber:canonicalizedNumber])
+    if ([self isTooLongNumber:canonicalizedNumber])
     {
         return NO;
     }
     
-    NSString *spacedNumber = [self spacedNumberFromNumber:newValue place:place isDeleted:isCharactedDeleted];
-    if (spacedNumber)
-    {
-        textField.text = spacedNumber;
-    }
+    NSString *spacedNumber = [self spacedNumberFromNumber:canonicalizedNumber
+                                                    place:place
+                                                isDeleted:isCharactedDeleted];
+    self.text = spacedNumber;
     return NO;
 }
 
