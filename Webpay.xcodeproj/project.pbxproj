@@ -15,6 +15,7 @@
 		4729BF1118F12240009A1C65 /* WPYErrorBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = 4729BF1018F12240009A1C65 /* WPYErrorBuilder.m */; };
 		4729BF1218F12240009A1C65 /* WPYErrorBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = 4729BF1018F12240009A1C65 /* WPYErrorBuilder.m */; };
 		4729BF1418F122BE009A1C65 /* WPYErrorBuilderTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 4729BF1318F122BE009A1C65 /* WPYErrorBuilderTest.m */; };
+		47413D2818FF46CF00DA7626 /* WPYMenuDisabledTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 47413D2718FF46CF00DA7626 /* WPYMenuDisabledTextField.m */; };
 		474378CA18FE43E7004ECE34 /* WPYCardFormView.m in Sources */ = {isa = PBXBuildFile; fileRef = 474378C918FE43E7004ECE34 /* WPYCardFormView.m */; };
 		474378CD18FE5D36004ECE34 /* WPYCardFormCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 474378CC18FE5D36004ECE34 /* WPYCardFormCell.m */; };
 		474378D118FE6026004ECE34 /* WPYNumberField.m in Sources */ = {isa = PBXBuildFile; fileRef = 474378D018FE6026004ECE34 /* WPYNumberField.m */; };
@@ -70,6 +71,8 @@
 		4729BF0F18F12240009A1C65 /* WPYErrorBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WPYErrorBuilder.h; path = Webpay/Tokenizer/WPYErrorBuilder.h; sourceTree = "<group>"; };
 		4729BF1018F12240009A1C65 /* WPYErrorBuilder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WPYErrorBuilder.m; path = Webpay/Tokenizer/WPYErrorBuilder.m; sourceTree = "<group>"; };
 		4729BF1318F122BE009A1C65 /* WPYErrorBuilderTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WPYErrorBuilderTest.m; path = WebpayTests/WPYErrorBuilderTest.m; sourceTree = SOURCE_ROOT; };
+		47413D2618FF46CF00DA7626 /* WPYMenuDisabledTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WPYMenuDisabledTextField.h; path = Webpay/CardForm/WPYMenuDisabledTextField.h; sourceTree = "<group>"; };
+		47413D2718FF46CF00DA7626 /* WPYMenuDisabledTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WPYMenuDisabledTextField.m; path = Webpay/CardForm/WPYMenuDisabledTextField.m; sourceTree = "<group>"; };
 		474378C818FE43E7004ECE34 /* WPYCardFormView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WPYCardFormView.h; path = Webpay/CardForm/WPYCardFormView.h; sourceTree = "<group>"; };
 		474378C918FE43E7004ECE34 /* WPYCardFormView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WPYCardFormView.m; path = Webpay/CardForm/WPYCardFormView.m; sourceTree = "<group>"; };
 		474378CB18FE5D36004ECE34 /* WPYCardFormCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WPYCardFormCell.h; path = Webpay/CardForm/WPYCardFormCell.h; sourceTree = "<group>"; };
@@ -158,6 +161,8 @@
 				474378D718FE676C004ECE34 /* WPYCvcField.m */,
 				474378D918FE68D8004ECE34 /* WPYNameField.h */,
 				474378DA18FE68D8004ECE34 /* WPYNameField.m */,
+				47413D2618FF46CF00DA7626 /* WPYMenuDisabledTextField.h */,
+				47413D2718FF46CF00DA7626 /* WPYMenuDisabledTextField.m */,
 			);
 			name = Fields;
 			sourceTree = "<group>";
@@ -475,6 +480,7 @@
 				4787AE6318EE1A2F0092A097 /* WPYCommunicator.m in Sources */,
 				4729BF1118F12240009A1C65 /* WPYErrorBuilder.m in Sources */,
 				474378DB18FE68D8004ECE34 /* WPYNameField.m in Sources */,
+				47413D2818FF46CF00DA7626 /* WPYMenuDisabledTextField.m in Sources */,
 				4795D4DE18F913F20050542E /* WPYPaymentViewController.m in Sources */,
 				474378CA18FE43E7004ECE34 /* WPYCardFormView.m in Sources */,
 				474378D518FE6253004ECE34 /* WPYExpiryField.m in Sources */,
