@@ -12,6 +12,9 @@
 @end
 
 @implementation WPYCvcField
+{
+    UITextField *_cvcField;
+}
 
 static NSInteger const WPYCvcMaxValue = 4;
 
@@ -21,13 +24,20 @@ static NSInteger const WPYCvcMaxValue = 4;
     self = [super initWithFrame:frame];
     if (self)
     {
-        self.placeholder = @"123";
-        self.keyboardType = UIKeyboardTypeNumberPad;
-        self.delegate = self;
+        _cvcField = [[UITextField alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
+        _cvcField.placeholder = @"123";
+        _cvcField.keyboardType = UIKeyboardTypeNumberPad;
+        _cvcField.delegate = self;
+        
+        [self addSubview:_cvcField];
     }
     return self;
 }
 
+- (NSString *)text
+{
+    return _cvcField.text;
+}
 
 #pragma mark textfield delegate
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)replacementString

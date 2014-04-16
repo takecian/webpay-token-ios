@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface WPYCvcField : UITextField
+@interface WPYCvcField : UIView
 
+- (NSString *)text;
 @end
