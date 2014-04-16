@@ -18,9 +18,9 @@
 #import "WPYNameField.h"
 
 static float const WPYFieldLeftMargin = 90.0f;
-static float const WPYFieldTopMargin = 0.0f;
+static float const WPYFieldTopMargin = 4.0f;
 static float const WPYFieldWidth = 230.0f;
-static float const WPYFieldHeight = 44.0f;
+static float const WPYFieldHeight = 40.0f;
 
 @interface WPYCardFormView () <UITableViewDataSource>
 {
@@ -42,7 +42,10 @@ static float const WPYFieldHeight = 44.0f;
     self = [super initWithFrame:frame];
     if (self)
     {
-        _tableView = [[UITableView alloc] init];
+        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, 320, 240)];
+        _tableView.dataSource = self;
+        [self addSubview:_tableView];
+        
         _titles = @[@"Number", @"Expiry", @"Cvc", @"Name"];
         
         CGRect fieldFrame = CGRectMake(WPYFieldLeftMargin, WPYFieldTopMargin, WPYFieldWidth, WPYFieldHeight);
@@ -51,6 +54,7 @@ static float const WPYFieldHeight = 44.0f;
         _cvcField = [[WPYCvcField alloc] initWithFrame:fieldFrame];
         _nameField = [[WPYNameField alloc] initWithFrame:fieldFrame];
         _fields = @[_numberField, _expiryField, _cvcField, _nameField];
+        
     }
     return self;
 }
@@ -70,14 +74,22 @@ static float const WPYFieldHeight = 44.0f;
 - (WPYCardFormCell*)tableView:(UITableView*)tableView cellForRowAtIndexPath:(NSIndexPath*)indexPath
 {
     static NSString *CellIdentifier = @"Cell";
-    WPYCardFormCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier
-                                                            forIndexPath:indexPath];
+    WPYCardFormCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil)
     {
-        cell = [[WPYCardFormCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier textField:_fields[indexPath.row]];
+        cell = [[WPYCardFormCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier textField:_fields[indexPath.row]];
+        [cell setTitle:_titles[indexPath.row]];
     }
     
     return cell;
+}
+
+
+
+#pragma mark hide keyboards
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    [self endEditing:YES];
 }
 
 @end

@@ -165,11 +165,11 @@
 		47581DE018FD47910058FBD1 /* FormView */ = {
 			isa = PBXGroup;
 			children = (
-				474378D218FE6219004ECE34 /* Fields */,
 				474378C818FE43E7004ECE34 /* WPYCardFormView.h */,
 				474378C918FE43E7004ECE34 /* WPYCardFormView.m */,
 				474378CB18FE5D36004ECE34 /* WPYCardFormCell.h */,
 				474378CC18FE5D36004ECE34 /* WPYCardFormCell.m */,
+				474378D218FE6219004ECE34 /* Fields */,
 				47581DE118FD47C20058FBD1 /* ExpiryPicker */,
 			);
 			name = FormView;
