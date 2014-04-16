@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface WPYExpiryField : UITextField
-
+@interface WPYExpiryField : UIView
+- (NSString *)text;
 @end
