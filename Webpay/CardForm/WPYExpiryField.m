@@ -33,6 +33,7 @@
         WPYExpiryPickerView *expiryPicker = [[WPYExpiryPickerView alloc] initWithFrame:CGRectMake(0, 0, 320, 200)];
         expiryPicker.expiryDelegate = self;
         _expiryField.inputView = expiryPicker;
+        _expiryField.tintColor = [UIColor clearColor]; // hide cursor
         
         [self addSubview:_expiryField];
     }
