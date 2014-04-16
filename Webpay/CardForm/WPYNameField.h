@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface WPYNameField : UITextField
+@interface WPYNameField : UIView
 
 @end

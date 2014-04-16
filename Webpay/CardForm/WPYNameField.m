@@ -8,17 +8,33 @@
 
 #import "WPYNameField.h"
 
+@interface WPYNameField () <UITextFieldDelegate>
+@end
+
 @implementation WPYNameField
+{
+    UITextField *_nameField;
+}
 
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
     if (self)
     {
-        self.placeholder = @"Taro Yamada";
-        self.keyboardType = UIKeyboardTypeASCIICapable;
+        _nameField = [[UITextField alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
+        _nameField.placeholder = @"Taro Yamada";
+        _nameField.keyboardType = UIKeyboardTypeASCIICapable;
+        _nameField.autocorrectionType = UITextAutocorrectionTypeNo;
+        _nameField.delegate = self;
+        
+        [self addSubview:_nameField];
     }
     return self;
 }
 
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    [textField resignFirstResponder];
+    return YES;
+}
 @end
