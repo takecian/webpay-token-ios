@@ -23,6 +23,7 @@ static NSInteger const WPYCvcMaxValue = 4;
     {
         self.placeholder = @"123";
         self.keyboardType = UIKeyboardTypeNumberPad;
+        self.delegate = self;
     }
     return self;
 }
@@ -32,7 +33,6 @@ static NSInteger const WPYCvcMaxValue = 4;
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)replacementString
 {
     NSString *newValue = [textField.text stringByReplacingCharactersInRange:range withString:replacementString];
-    
     return newValue.length <= WPYCvcMaxValue;
 }
 
