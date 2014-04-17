@@ -44,6 +44,10 @@ typedef NS_ENUM(NSInteger, WPYComponents)
         _selectedMonth = @"";
         _selectedYear = @"";
         
+        self.backgroundColor = [UIColor whiteColor];
+        self.layer.borderWidth = 0.5f;
+        self.layer.borderColor = [[UIColor colorWithRed:0.76 green:0.76 blue:0.76 alpha:1] CGColor];
+        self.showsSelectionIndicator = YES;
         [super setDelegate:self];
         [super setDataSource:self];
     }
