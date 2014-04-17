@@ -9,12 +9,10 @@
 #import "WPYNumberField.h"
 
 @interface WPYNumberField () <UITextFieldDelegate>
+@property(nonatomic, strong) UITextField *numberField;
 @end
 
 @implementation WPYNumberField
-{
-    UITextField *_numberField;
-}
 
 static NSUInteger const WPYNumberMaxLength = 16;
 
@@ -67,7 +65,7 @@ static NSString *addSpacesPerFourCharacters(NSString *string)
 
 - (NSString *)text
 {
-    return _numberField.text;
+    return self.numberField.text;
 }
 
 
@@ -87,7 +85,7 @@ static NSString *addSpacesPerFourCharacters(NSString *string)
     NSString *spacedNumber = [self spacedNumberFromNumber:canonicalizedNumber
                                                     place:place
                                                 isDeleted:isCharactedDeleted];
-    _numberField.text = spacedNumber;
+    self.numberField.text = spacedNumber;
     return NO;
 }
 
