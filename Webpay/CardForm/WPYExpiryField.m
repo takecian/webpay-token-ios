@@ -29,7 +29,7 @@
     if (self)
     {
         _expiryField = [[WPYMenuDisabledTextField alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
-        _expiryField.placeholder = @"01/15";
+        _expiryField.placeholder = @"01 / 15";
     
         WPYExpiryPickerView *expiryPicker = [[WPYExpiryPickerView alloc] initWithFrame:CGRectMake(0, 0, 320, 200)];
         expiryPicker.expiryDelegate = self;
