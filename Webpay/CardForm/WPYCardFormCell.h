@@ -10,11 +10,10 @@
 
 @interface WPYCardFormCell : UITableViewCell
 
-@property(readonly, strong) UITextField *textField;
+@property(readonly, strong) UIView *field;
 // designated initializer
 - (id)initWithStyle:(UITableViewCellStyle)style
     reuseIdentifier:(NSString *)reuseIdentifier
-          textField:(UITextField *)textField;
-
-- (void)setTitle:(NSString *)title;
+          textField:(UIView *)field
+              title:(NSString *)title;
 @end
