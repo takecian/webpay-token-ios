@@ -26,6 +26,7 @@ static NSInteger const WPYCvcMaxValue = 4;
     {
         _cvcField = [[UITextField alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
         _cvcField.placeholder = @"123";
+        _cvcField.secureTextEntry = YES;
         _cvcField.keyboardType = UIKeyboardTypeNumberPad;
         _cvcField.delegate = self;
         
