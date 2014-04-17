@@ -49,7 +49,7 @@
 #pragma mark expiry picker delegate
 - (void)didSelectExpiryYear:(NSString *)year month:(NSString *)month
 {
-    NSString *expiry = [NSString stringWithFormat:@"%@/%@", month, year];
+    NSString *expiry = [NSString stringWithFormat:@"%@ / %@", month, year];
     _expiryField.text = expiry;
 }
 @end
