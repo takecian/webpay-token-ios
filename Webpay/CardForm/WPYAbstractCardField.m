@@ -36,4 +36,9 @@
     self.textField.textColor = [UIColor darkGrayColor];
 }
 
+- (void)textFieldDidBeginEditing:(UITextField *)textField
+{
+    [self setNormalColor];
+}
+
 @end

@@ -9,10 +9,13 @@
 #import <Foundation/Foundation.h>
 
 #import "WPYAbstractCardField.h"
-@interface WPYAbstractCardField ()
+
+@interface WPYAbstractCardField ()<UITextFieldDelegate>
 
 @property(nonatomic, strong) UITextField *textField;
 
 - (void)setErrorColor;
 - (void)setNormalColor;
+
+- (void)textFieldDidBeginEditing:(UITextField *)textField;
 @end
