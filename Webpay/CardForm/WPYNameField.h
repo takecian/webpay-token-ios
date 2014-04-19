@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface WPYNameField : UIView
+#import "WPYAbstractCardFieldSubclass.h"
 
-- (NSString *)text;
+@interface WPYNameField : WPYAbstractCardField
 @end
