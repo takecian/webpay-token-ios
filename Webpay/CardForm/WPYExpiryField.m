@@ -10,17 +10,13 @@
 
 #import "WPYExpiryPickerView.h"
 #import "WPYMenuDisabledTextField.h"
+#import "WPYCreditCard.h"
 
-@interface WPYExpiryField () <WPYExpiryPickerViewDelegate>
+@interface WPYExpiryField () <UITextFieldDelegate, WPYExpiryPickerViewDelegate>
 - (void)didSelectExpiryYear:(NSString *)year month:(NSString *)month;
 @end
 
-
 @implementation WPYExpiryField
-{
-    WPYMenuDisabledTextField *_expiryField;
-}
-
 
 #pragma mark initialization
 - (id)initWithFrame:(CGRect)frame
@@ -28,28 +24,57 @@
     self = [super initWithFrame:frame];
     if (self)
     {
-        _expiryField = [[WPYMenuDisabledTextField alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
-        _expiryField.placeholder = @"01 / 15";
-    
         WPYExpiryPickerView *expiryPicker = [[WPYExpiryPickerView alloc] initWithFrame:CGRectMake(0, 0, 320, 200)];
         expiryPicker.expiryDelegate = self;
-        _expiryField.inputView = expiryPicker;
-        _expiryField.tintColor = [UIColor clearColor]; // hide cursor
         
-        [self addSubview:_expiryField];
+        _textField = [[WPYMenuDisabledTextField alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
+        _textField.placeholder = @"01 / 15";
+        _textField.tintColor = [UIColor clearColor]; // hide cursor
+        _textField.inputView = expiryPicker;
+        _textField.delegate = self;
+        
+        [self addSubview:_textField];
     }
     return self;
 }
 
-- (NSString *)text
+
+
+#pragma mark
+- (WPYFieldKey)key
 {
-    return _expiryField.text;
+    return WPYExpiryFieldKey;
 }
+
+
 
 #pragma mark expiry picker delegate
 - (void)didSelectExpiryYear:(NSString *)year month:(NSString *)month
 {
     NSString *expiry = [NSString stringWithFormat:@"%@ / %@", month, year];
-    _expiryField.text = expiry;
+    self.textField.text = expiry;
 }
+
+- (void)textFieldDidEndEditing:(UITextField *)textField
+{
+    NSString *expiry = textField.text;
+    if (expiry.length != 9) // don't validate if not both selected
+    {
+        return;
+    }
+    
+    NSError *error = nil;
+    WPYCreditCard *creditCard = [[WPYCreditCard alloc] init];
+    NSInteger month = [[expiry substringToIndex:2] integerValue];
+    NSInteger year = [[expiry substringFromIndex:5] integerValue];
+    if ([creditCard validateExpiryYear:year month:month error:&error])
+    {
+        [self notifySuccess];
+    }
+    else
+    {
+        [self notifyError:error];
+    }
+}
+
 @end

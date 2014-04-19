@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface WPYExpiryField : UIView
-- (NSString *)text;
+#import "WPYAbstractCardFieldSubclass.h"
+
+@interface WPYExpiryField : WPYAbstractCardField
 @end
