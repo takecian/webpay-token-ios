@@ -39,27 +39,19 @@
     return WPYNameFieldKey;
 }
 
-
-
-#pragma mark textfield delegate
-- (void)textFieldDidEndEditing:(UITextField *)textField
+- (BOOL)shouldValidate
 {
     NSString *name = self.textField.text;
-    if (name.length == 0)
-    {
-        return;
-    }
-    
-    WPYCreditCard *creditCard = [[WPYCreditCard alloc] init];
-    NSError *error = nil;
-    if ([creditCard validateName:&name error:&error])
-    {
-        [self notifySuccess];
-    }
-    else
-    {
-        [self notifyError:error];
-    }
+    return name.length != 0; // don't valididate if length is 0
 }
+
+- (BOOL)validate:(NSError * __autoreleasing *)error
+{
+    NSString *name = self.textField.text;
+    WPYCreditCard *creditCard = [[WPYCreditCard alloc] init];
+    
+    return [creditCard validateName:&name error:error];
+}
+
 
 @end

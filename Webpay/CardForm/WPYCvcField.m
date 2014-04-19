@@ -41,6 +41,19 @@ static NSInteger const WPYCvcMaxValue = 4;
     return WPYCvcFieldKey;
 }
 
+- (BOOL)shouldValidate
+{
+    NSString *cvc = self.textField.text;
+    return cvc.length != 0; // don't validiate if length is 0
+}
+
+- (BOOL)validate:(NSError * __autoreleasing *)error
+{
+    NSString *cvc = self.textField.text;
+    WPYCreditCard *creditCard = [[WPYCreditCard alloc] init];
+    
+    return [creditCard validateCvc:&cvc error:error];
+}
 
 
 #pragma mark textfield delegate
@@ -50,24 +63,5 @@ static NSInteger const WPYCvcMaxValue = 4;
     return newValue.length <= WPYCvcMaxValue;
 }
 
-- (void)textFieldDidEndEditing:(UITextField *)textField
-{
-    NSString *cvc = textField.text;
-    if (cvc.length == 0) // don't validate if cvc is not filled
-    {
-        return;
-    }
-    
-    WPYCreditCard *creditCard = [[WPYCreditCard alloc] init];
-    NSError *error = nil;
-    if ([creditCard validateCvc:&cvc error:&error])
-    {
-        [self notifySuccess];
-    }
-    else
-    {
-        [self notifyError:error];
-    }
-}
 
 @end

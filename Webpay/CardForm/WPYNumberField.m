@@ -140,6 +140,19 @@ static NSString *brandFromNumber(NSString *number)
     return WPYNumberFieldKey;
 }
 
+- (BOOL)shouldValidate
+{
+    NSString *number = self.textField.text;
+    return number.length != 0; // don't valididate if length is 0
+}
+
+- (BOOL)validate:(NSError * __autoreleasing *)error
+{
+    NSString *number = self.textField.text;
+    WPYCreditCard *creditCard = [[WPYCreditCard alloc] init];
+    
+    return [creditCard validateNumber:&number error:error];
+}
 
 
 #pragma mark textfield delegate
@@ -155,25 +168,6 @@ static NSString *brandFromNumber(NSString *number)
     return NO;
 }
 
-- (void)textFieldDidEndEditing:(UITextField *)textField
-{
-    NSString *number = textField.text;
-    if (number.length == 0) // don't validate if the textfield is empty
-    {
-        return;
-    }
-    
-    NSError *error = nil;
-    WPYCreditCard *creditCard = [[WPYCreditCard alloc] init];
-    if ([creditCard validateNumber:&number error:&error])
-    {
-        [self notifySuccess];
-    }
-    else
-    {
-        [self notifyError:error];
-    }
-}
 
 #pragma mark private methods
 - (void)updateNumberFieldWithNumber:(NSString *)number

@@ -16,7 +16,10 @@
 
 - (void)setErrorColor;
 - (void)setNormalColor;
+
 - (WPYFieldKey)key;
+- (BOOL)shouldValidate;
+- (BOOL)validate:(NSError * __autoreleasing *)error;
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField;
 @end

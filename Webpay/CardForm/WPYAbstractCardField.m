@@ -43,6 +43,24 @@
     [self setNormalColor];
 }
 
+- (void)textFieldDidEndEditing:(UITextField *)textField
+{
+    if (![self shouldValidate])
+    {
+        return;
+    }
+    
+    NSError *error = nil;
+    if ([self validate:&error])
+    {
+        [self notifySuccess];
+    }
+    else
+    {
+        [self notifyError:error];
+    }
+}
+
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
     [textField resignFirstResponder];
@@ -50,12 +68,26 @@
 }
 
 
-#pragma mark delegate notification
+
+#pragma mark expected to overriden in subclass
 - (WPYFieldKey)key
 {
     return 100;
 }
 
+- (BOOL)shouldValidate
+{
+    return NO;
+}
+
+- (BOOL)validate:(NSError * __autoreleasing *)error
+{
+    return YES;
+}
+
+
+
+#pragma mark delegate notification
 - (void)notifySuccess
 {
     [self setNormalColor];

@@ -46,6 +46,22 @@
     return WPYExpiryFieldKey;
 }
 
+- (BOOL)shouldValidate
+{
+    NSString *expiry = self.textField.text;
+    return expiry.length == 9; // don't valid if both not selected
+}
+
+- (BOOL)validate:(NSError * __autoreleasing *)error
+{
+    NSString *expiry = self.textField.text;
+    NSInteger month = [[expiry substringToIndex:2] integerValue];
+    NSInteger year = [[expiry substringFromIndex:5] integerValue];
+    
+    WPYCreditCard *creditCard = [[WPYCreditCard alloc] init];
+    
+    return [creditCard validateExpiryYear:year month:month error:error];
+}
 
 
 #pragma mark expiry picker delegate
@@ -53,28 +69,6 @@
 {
     NSString *expiry = [NSString stringWithFormat:@"%@ / %@", month, year];
     self.textField.text = expiry;
-}
-
-- (void)textFieldDidEndEditing:(UITextField *)textField
-{
-    NSString *expiry = textField.text;
-    if (expiry.length != 9) // don't validate if not both selected
-    {
-        return;
-    }
-    
-    NSError *error = nil;
-    WPYCreditCard *creditCard = [[WPYCreditCard alloc] init];
-    NSInteger month = [[expiry substringToIndex:2] integerValue];
-    NSInteger year = [[expiry substringFromIndex:5] integerValue];
-    if ([creditCard validateExpiryYear:year month:month error:&error])
-    {
-        [self notifySuccess];
-    }
-    else
-    {
-        [self notifyError:error];
-    }
 }
 
 @end
