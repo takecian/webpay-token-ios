@@ -8,12 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
+@class WPYAbstractCardField;
 @interface WPYCardFormCell : UITableViewCell
 
-@property(readonly, strong) UIView *field;
 // designated initializer
 - (id)initWithStyle:(UITableViewCellStyle)style
     reuseIdentifier:(NSString *)reuseIdentifier
-          textField:(UIView *)field
+              field:(WPYAbstractCardField *)field
               title:(NSString *)title;
 @end
