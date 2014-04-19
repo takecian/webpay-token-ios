@@ -8,15 +8,17 @@
 
 #import <UIKit/UIKit.h>
 
-@class WPYNumberField;
-@class WPYExpiryField;
-@class WPYCvcField;
-@class WPYNameField;
+@class WPYCreditCard;
+@protocol WPYCardFormViewDelegate <NSObject>
+@optional
+// called when a field is invalid
+- (void)invalidFieldName:(NSString *)fieldName error:(NSError *)error;
+
+// called when the whole form is valid
+- (void)validFormWithCard:(WPYCreditCard *)creditCard;
+@end
+
 
 @interface WPYCardFormView : UIView
-
-@property(nonatomic, strong) WPYNumberField *numberField;
-@property(nonatomic, strong) WPYExpiryField *expiryField;
-@property(nonatomic, strong) WPYCvcField *cvcField;
-@property(nonatomic, strong) WPYNameField *nameField;
+@property(nonatomic, weak) id <WPYCardFormViewDelegate> delegate;
 @end
