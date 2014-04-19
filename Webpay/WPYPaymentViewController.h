@@ -8,6 +8,14 @@
 
 #import <UIKit/UIKit.h>
 
+@class WPYToken;
+typedef void (^WPYPaymentViewCallback)(WPYToken *, NSError *);
+
+
 @interface WPYPaymentViewController : UIViewController
 
+// designated initializer
+// default button title is 'Confirm Payment'
+- (instancetype)initWithButtonTitle:(NSString *)title
+                           callback:(WPYPaymentViewCallback)callback;
 @end
