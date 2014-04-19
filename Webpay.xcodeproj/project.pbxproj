@@ -48,7 +48,6 @@
 		47D9BC1718CFBF080020BF55 /* WPYCreditCard.m in Sources */ = {isa = PBXBuildFile; fileRef = 47D9BC1618CFBF080020BF55 /* WPYCreditCard.m */; };
 		47D9BC1818CFBF080020BF55 /* WPYCreditCard.m in Sources */ = {isa = PBXBuildFile; fileRef = 47D9BC1618CFBF080020BF55 /* WPYCreditCard.m */; };
 		47ED710A1900EA6C006F9B54 /* WPYAbstractCardField.m in Sources */ = {isa = PBXBuildFile; fileRef = 47ED71091900EA6C006F9B54 /* WPYAbstractCardField.m */; };
-		47F4518D18F61336006DC662 /* UIColor+Webpay.m in Sources */ = {isa = PBXBuildFile; fileRef = 47F4518C18F61336006DC662 /* UIColor+Webpay.m */; };
 		DD3FE60A07F24A94A7B98FF6 /* libPods-Webpay.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F7D735451D84B4A93C98DA3 /* libPods-Webpay.a */; };
 /* End PBXBuildFile section */
 
@@ -121,8 +120,6 @@
 		47ED71081900EA6C006F9B54 /* WPYAbstractCardField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WPYAbstractCardField.h; path = Webpay/CardForm/WPYAbstractCardField.h; sourceTree = "<group>"; };
 		47ED71091900EA6C006F9B54 /* WPYAbstractCardField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WPYAbstractCardField.m; path = Webpay/CardForm/WPYAbstractCardField.m; sourceTree = "<group>"; };
 		47ED710B1900F5C5006F9B54 /* WPYAbstractCardFieldSubclass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WPYAbstractCardFieldSubclass.h; path = Webpay/CardForm/WPYAbstractCardFieldSubclass.h; sourceTree = "<group>"; };
-		47F4518B18F61336006DC662 /* UIColor+Webpay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIColor+Webpay.h"; path = "WebpayExample/UIColor+Webpay.h"; sourceTree = SOURCE_ROOT; };
-		47F4518C18F61336006DC662 /* UIColor+Webpay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIColor+Webpay.m"; path = "WebpayExample/UIColor+Webpay.m"; sourceTree = SOURCE_ROOT; };
 		531AC8ED97FA4908BEE3425D /* libPods-WebpayTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-WebpayTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6B4B5112874D41B88192B5B7 /* Pods-WebpayTests.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WebpayTests.xcconfig"; path = "Pods/Pods-WebpayTests.xcconfig"; sourceTree = "<group>"; };
 		C3303CD842004CF29E071461 /* Pods-Webpay.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Webpay.xcconfig"; path = "Pods/Pods-Webpay.xcconfig"; sourceTree = "<group>"; };
@@ -245,12 +242,10 @@
 			children = (
 				4764A08718C7EB04006C9E4E /* AppDelegate.h */,
 				4764A08818C7EB04006C9E4E /* AppDelegate.m */,
-				4764A08A18C7EB04006C9E4E /* Images.xcassets */,
-				4764A07F18C7EB04006C9E4E /* Supporting Files */,
-				47F4518B18F61336006DC662 /* UIColor+Webpay.h */,
-				47F4518C18F61336006DC662 /* UIColor+Webpay.m */,
 				4795D4D918F913750050542E /* ItemDetailViewController.h */,
 				4795D4DA18F913750050542E /* ItemDetailViewController.m */,
+				4764A08A18C7EB04006C9E4E /* Images.xcassets */,
+				4764A07F18C7EB04006C9E4E /* Supporting Files */,
 			);
 			name = WebpayExample;
 			path = "webpay-token-ios";
@@ -504,7 +499,6 @@
 				474378D118FE6026004ECE34 /* WPYNumberField.m in Sources */,
 				4795D4DB18F913750050542E /* ItemDetailViewController.m in Sources */,
 				4764A08918C7EB04006C9E4E /* AppDelegate.m in Sources */,
-				47F4518D18F61336006DC662 /* UIColor+Webpay.m in Sources */,
 				47D9BC1718CFBF080020BF55 /* WPYCreditCard.m in Sources */,
 				4764A08518C7EB04006C9E4E /* main.m in Sources */,
 				4727391518D8FE8B0003D759 /* WPYErrors.m in Sources */,
