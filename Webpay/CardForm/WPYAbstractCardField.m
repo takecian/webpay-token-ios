@@ -36,9 +36,42 @@
     self.textField.textColor = [UIColor darkGrayColor];
 }
 
+
+#pragma mark textfield delegate
 - (void)textFieldDidBeginEditing:(UITextField *)textField
 {
     [self setNormalColor];
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    [textField resignFirstResponder];
+    return YES;
+}
+
+
+#pragma mark delegate notification
+- (WPYFieldKey)key
+{
+    return 100;
+}
+
+- (void)notifySuccess
+{
+    [self setNormalColor];
+    if (self.delegate && [self.delegate respondsToSelector:@selector(validValue:forKey:)])
+    {
+        [self.delegate validValue:self.textField.text forKey:[self key]];
+    }
+}
+
+- (void)notifyError:(NSError *)error
+{
+    [self setErrorColor];
+    if (self.delegate && [self.delegate respondsToSelector:@selector(invalidValue:forKey:error:)])
+    {
+        [self.delegate invalidValue:self.textField.text forKey:[self key] error:error];
+    }
 }
 
 @end
