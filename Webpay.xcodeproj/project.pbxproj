@@ -42,6 +42,7 @@
 		4787AE6418EE1A2F0092A097 /* WPYCommunicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 4787AE6218EE1A2F0092A097 /* WPYCommunicator.m */; };
 		4795D4DB18F913750050542E /* ItemDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4795D4DA18F913750050542E /* ItemDetailViewController.m */; };
 		4795D4DE18F913F20050542E /* WPYPaymentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4795D4DD18F913F20050542E /* WPYPaymentViewController.m */; };
+		479A9DE819087FB900E467CB /* WPYConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 479A9DE719087FB900E467CB /* WPYConstants.m */; };
 		47B8514518CA7D86003A1ECA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 47B8514318CA7D86003A1ECA /* InfoPlist.strings */; };
 		47CE70DF18E8C7D500E4B4B8 /* WPYTokenizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 47CE70DE18E8C7D500E4B4B8 /* WPYTokenizer.m */; };
 		47CE70E018E8C7D500E4B4B8 /* WPYTokenizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 47CE70DE18E8C7D500E4B4B8 /* WPYTokenizer.m */; };
@@ -112,6 +113,8 @@
 		4795D4DA18F913750050542E /* ItemDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ItemDetailViewController.m; path = WebpayExample/ItemDetailViewController.m; sourceTree = SOURCE_ROOT; };
 		4795D4DC18F913F20050542E /* WPYPaymentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WPYPaymentViewController.h; path = Webpay/PaymentViewController/WPYPaymentViewController.h; sourceTree = "<group>"; };
 		4795D4DD18F913F20050542E /* WPYPaymentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WPYPaymentViewController.m; path = Webpay/PaymentViewController/WPYPaymentViewController.m; sourceTree = "<group>"; };
+		479A9DE619087FB900E467CB /* WPYConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WPYConstants.h; path = Webpay/WPYConstants.h; sourceTree = "<group>"; };
+		479A9DE719087FB900E467CB /* WPYConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WPYConstants.m; path = Webpay/WPYConstants.m; sourceTree = "<group>"; };
 		47B8514418CA7D86003A1ECA /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = InfoPlist.strings; sourceTree = "<group>"; };
 		47CE70DD18E8C7D500E4B4B8 /* WPYTokenizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WPYTokenizer.h; path = Webpay/Tokenizer/WPYTokenizer.h; sourceTree = "<group>"; };
 		47CE70DE18E8C7D500E4B4B8 /* WPYTokenizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WPYTokenizer.m; path = Webpay/Tokenizer/WPYTokenizer.m; sourceTree = "<group>"; };
@@ -298,6 +301,8 @@
 			children = (
 				47CE70DD18E8C7D500E4B4B8 /* WPYTokenizer.h */,
 				47CE70DE18E8C7D500E4B4B8 /* WPYTokenizer.m */,
+				479A9DE619087FB900E467CB /* WPYConstants.h */,
+				479A9DE719087FB900E467CB /* WPYConstants.m */,
 				4727391318D8FE8B0003D759 /* WPYErrors.h */,
 				4727391418D8FE8B0003D759 /* WPYErrors.m */,
 				4787AE6118EE1A2F0092A097 /* WPYCommunicator.h */,
@@ -376,6 +381,9 @@
 				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = "yohei, YasuLab";
 				TargetAttributes = {
+					4764A07418C7EB04006C9E4E = {
+						DevelopmentTeam = RUM9TW5XRY;
+					};
 					4764A08F18C7EB04006C9E4E = {
 						TestTargetID = 4764A07418C7EB04006C9E4E;
 					};
@@ -494,6 +502,7 @@
 				47413D2818FF46CF00DA7626 /* WPYMenuDisabledTextField.m in Sources */,
 				4795D4DE18F913F20050542E /* WPYPaymentViewController.m in Sources */,
 				474378CA18FE43E7004ECE34 /* WPYCardFormView.m in Sources */,
+				479A9DE819087FB900E467CB /* WPYConstants.m in Sources */,
 				474378D518FE6253004ECE34 /* WPYExpiryField.m in Sources */,
 				474378D818FE676C004ECE34 /* WPYCvcField.m in Sources */,
 				474378D118FE6026004ECE34 /* WPYNumberField.m in Sources */,
@@ -635,6 +644,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "WebpayExample/Webpay-Prefix.pch";
 				INFOPLIST_FILE = "WebpayExample/Webpay-Info.plist";
@@ -649,6 +659,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "WebpayExample/Webpay-Prefix.pch";
 				INFOPLIST_FILE = "WebpayExample/Webpay-Info.plist";
