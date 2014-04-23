@@ -8,11 +8,12 @@
 
 #import "WPYErrors.h"
 
+#import "WPYConstants.h"
+
 // apple's recommendation com.company.framework_or_app.ErrorDomain
 // https://developer.apple.com/library/ios/documentation/Cocoa/Conceptual/ProgrammingWithObjectiveC/ErrorHandling/ErrorHandling.html
 NSString *const WPYErrorDomain = @"com.webpay.webpay-token-ios";
 
-NSString *const WPYLocalizedStringTable = @"WebpayiOSTokenizer";
 
 // TODO match with messages return from API
 NSString * WPYLocalizedDescriptionFromErrorCode(WPYErrorCode errorCode)

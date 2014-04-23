@@ -8,6 +8,4 @@
 
 #import "WPYConstants.h"
 
-@implementation WPYConstants
-
-@end
+NSString *const WPYLocalizedStringTable = @"WebpayiOSTokenizer";

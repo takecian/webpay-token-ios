@@ -8,6 +8,4 @@
 
 #import <Foundation/Foundation.h>
 
-@interface WPYConstants : NSObject
-
-@end
+FOUNDATION_EXPORT NSString *const WPYLocalizedStringTable;
