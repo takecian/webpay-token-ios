@@ -11,14 +11,22 @@
 #import "WPYCreditCard.h"
 #import "WPYErrors.h"
 
+@interface WPYCommunicator () <NSURLConnectionDelegate, NSURLConnectionDataDelegate>
+@property(nonatomic, copy) WPYCommunicatorCompBlock completionBlock;
+
+@property(nonatomic, strong) NSURLConnection *connection;
+@property (nonatomic, strong) NSMutableData *receivedData;
+@property (nonatomic, strong) NSURLResponse *receivedResponse;
+@end
+
 @implementation WPYCommunicator
 
 static NSString *const apiURL = @"https://api.webpay.jp/v1/tokens";
 
+
 #pragma mark helpers
-static NSString *base64Encode(NSString *string)
+static NSString *base64EncodedStringFromData(NSData *data)
 {
-    NSData *data = [string dataUsingEncoding:NSUTF8StringEncoding];
     if ([data respondsToSelector:@selector(base64EncodedStringWithOptions:)])
     {
         //ios 7
@@ -29,6 +37,12 @@ static NSString *base64Encode(NSString *string)
         // pre ios 7
         return [data base64Encoding];
     }
+}
+
+static NSString *base64Encode(NSString *string)
+{
+    NSData *data = [string dataUsingEncoding:NSUTF8StringEncoding];
+    return base64EncodedStringFromData(data);
 }
 
 // stringByAddingPercentEscapesUsingEncoding won't encode '&'
@@ -48,11 +62,11 @@ static NSString *urlEncode(NSString *string)
 static NSDictionary *dictionaryFromCard(WPYCreditCard *card)
 {
     return @{ 
-                @"name"  : card.name,
-                @"number": card.number,
-                @"cvc"   : card.cvc,
+                @"name"     : card.name,
+                @"number"   : card.number,
+                @"cvc"      : card.cvc,
                 @"exp_month": [NSString stringWithFormat:@"%u", card.expiryMonth],
-                @"exp_year": [NSString stringWithFormat:@"%u", card.expiryYear]
+                @"exp_year" : [NSString stringWithFormat:@"%u", card.expiryYear]
            };
 }
 
@@ -69,10 +83,20 @@ static NSData *requestParametersFromDictionary(NSDictionary *dictionary)
     return [[parameters componentsJoinedByString:@"&"] dataUsingEncoding:NSUTF8StringEncoding];
 }
 
+static BOOL isTrustedHost(NSString *host)
+{
+    NSArray *trustedHosts = @[@"api.webpay.jp"];
+    return [trustedHosts containsObject:host];
+}
+
+
+#pragma mark public method
 - (void)requestTokenWithPublicKey:(NSString *)publicKey
                              card:(WPYCreditCard *)card
-                  completionBlock:(CommunicatorCompBlock)compBlock
+                  completionBlock:(WPYCommunicatorCompBlock)compBlock
 {
+    self.receivedData = [[NSMutableData alloc] init];
+    self.completionBlock = compBlock;
     
     NSURL *url = [NSURL URLWithString:apiURL];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
@@ -89,10 +113,65 @@ static NSData *requestParametersFromDictionary(NSDictionary *dictionary)
     NSDictionary *cardInfo = dictionaryFromCard(card);
     request.HTTPBody = requestParametersFromDictionary(cardInfo);
     
-    // TODO: send request in background thread
-    [NSURLConnection sendAsynchronousRequest:request
-                                       queue:[NSOperationQueue mainQueue]
-                           completionHandler:compBlock];
+    self.connection = [NSURLConnection connectionWithRequest:request delegate:self];
 }
+
+
+
+#pragma mark NSURLConnection/Data Delegate - Download
+- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
+{
+    self.receivedResponse = response;
+}
+
+- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
+{
+    [self.receivedData appendData:data];
+}
+
+- (void)connectionDidFinishLoading:(NSURLConnection *)connection
+{
+    self.completionBlock(self.receivedResponse, self.receivedData, nil);
+}
+
+- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
+{
+    self.completionBlock(self.receivedResponse, nil, error);
+}
+
+
+
+#pragma mark NSURLConnection Delegate - Authentication
+/*
+ https://developer.apple.com/library/ios/documentation/Cocoa/Conceptual/URLLoadingSystem/Articles/AuthenticationChallenges.html#//apple_ref/doc/uid/TP40009507-SW9
+ */
+
+// TODO: add ssl pinning
+// pinning SubjectPublicKeyInfo is the way to go.
+// Extracting info will be the hard part, if not using openssl
+
+- (BOOL)connection:(NSURLConnection *)connection canAuthenticateAgainstProtectionSpace:(NSURLProtectionSpace *)protectionSpace
+{
+    return [protectionSpace.authenticationMethod isEqualToString:NSURLAuthenticationMethodServerTrust];
+}
+
+- (void)connection:(NSURLConnection *)connection didReceiveAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge
+{
+    // If the request is asking to verify the server’s authenticity
+    if ([[[challenge protectionSpace] authenticationMethod] isEqualToString: NSURLAuthenticationMethodServerTrust])
+    {
+        if (isTrustedHost(challenge.protectionSpace.host))
+        {
+            SecTrustRef serverTrust = challenge.protectionSpace.serverTrust;
+            NSURLCredential *credential = [NSURLCredential credentialForTrust:serverTrust];
+            [challenge.sender useCredential:credential forAuthenticationChallenge:challenge];
+        }
+        else
+        {
+            [[challenge sender] cancelAuthenticationChallenge:challenge];
+        }
+    }
+}
+
 
 @end

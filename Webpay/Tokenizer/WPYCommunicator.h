@@ -10,11 +10,11 @@
 
 @class WPYCreditCard;
 
-typedef void (^CommunicatorCompBlock)(NSURLResponse *, NSData *, NSError *);
+typedef void (^WPYCommunicatorCompBlock)(NSURLResponse *, NSData *, NSError *);
 
 @interface WPYCommunicator : NSObject
 - (void)requestTokenWithPublicKey:(NSString *)publicKey
                              card:(WPYCreditCard *)card
-                  completionBlock:(CommunicatorCompBlock)compBlock;
+                  completionBlock:(WPYCommunicatorCompBlock)compBlock;
 
 @end
