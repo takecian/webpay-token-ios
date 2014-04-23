@@ -88,6 +88,16 @@ static float const WPYCardFormViewHeight = 300.0f; // for covering up non keyboa
 #pragma mark pay button
 - (void)payButtonPushed:(id)sender
 {
+    if (self.card == nil)
+    {
+        [[[UIAlertView alloc] initWithTitle:@"Error"
+                                    message:@"Please fill in card info."
+                                   delegate:nil
+                          cancelButtonTitle:@"dismiss"
+                          otherButtonTitles:nil, nil] show];
+        return;
+    }
+    
     [self startIndicator];
     WPYTokenizerCompletionBlock compBlock = ^(WPYToken *token, NSError *error)
     {
@@ -96,6 +106,7 @@ static float const WPYCardFormViewHeight = 300.0f; // for covering up non keyboa
     };
     [WPYTokenizer createTokenFromCard:self.card completionBlock: compBlock];
 }
+
 
 - (void)startIndicator
 {
@@ -121,13 +132,10 @@ static float const WPYCardFormViewHeight = 300.0f; // for covering up non keyboa
 }
 
 
-
 #pragma mark memory management
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
 }
-
-
 
 @end
