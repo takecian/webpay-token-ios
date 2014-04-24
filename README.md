@@ -9,13 +9,14 @@ webpay-token-ios supports iOS 5 and above.
 ## Installation
 
 You can either install using cocoapods(recommended) or copy files manually.
-1. Cocoapods
 
+1. Cocoapods
 2. copy files manually
 
 ## Overview
 
 webpay-token-ios consists of 3 components.
+
 1. WPYTokenizer(model)
 2. WPYCardFormView(view)
 3. WPYPaymentViewController(view controller)
