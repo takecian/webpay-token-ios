@@ -28,6 +28,20 @@
 
 static float const WPYCardFormViewHeight = 300.0f; // for covering up non keyboard & expiry picker area.
 
+static UIImage *imageFromColor(UIColor *color)
+{
+    CGRect rect = CGRectMake(0.0f, 0.0f, 1.0f, 1.0f);
+    UIGraphicsBeginImageContext(rect.size);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    
+    CGContextSetFillColorWithColor(context, [color CGColor]);
+    CGContextFillRect(context, rect);
+    
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    return image;
+}
 
 @implementation WPYPaymentViewController
 #pragma mark initializer
@@ -90,14 +104,17 @@ static float const WPYCardFormViewHeight = 300.0f; // for covering up non keyboa
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
     button.frame = CGRectMake(40, 320, 240, 44);
     button.layer.cornerRadius = 2;
-    button.backgroundColor = [UIColor colorWithRed:0 green:0.478 blue:1.0 alpha:1.0];
-//    button.showsTouchWhenHighlighted = YES;
+    button.layer.masksToBounds = YES;
+    
     [button setTitle:self.buttonTitle forState:UIControlStateNormal];
     [button setTitle:@" " forState:UIControlStateSelected];
+    
+    [button setBackgroundImage:imageFromColor([UIColor colorWithRed:0 green:0.478 blue:1.0 alpha:0.8]) forState:UIControlStateNormal];
+    [button setBackgroundImage:imageFromColor([UIColor colorWithRed:0 green:0.478 blue:1.0 alpha:1]) forState:UIControlStateHighlighted];
+    
     [button addTarget:self
                        action:@selector(payButtonPushed:)
              forControlEvents:UIControlEventTouchUpInside];
-    
     
     return button;
 }
