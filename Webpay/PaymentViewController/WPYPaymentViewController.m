@@ -11,6 +11,8 @@
 #import "WPYCardFormView.h"
 #import "WPYTokenizer.h"
 
+
+
 @interface WPYPaymentViewController ()<WPYCardFormViewDelegate>
 @property(nonatomic, strong) WPYCreditCard *card;
 @property(nonatomic, strong) WPYCardFormView *cardForm;
@@ -66,16 +68,7 @@ static float const WPYCardFormViewHeight = 300.0f; // for covering up non keyboa
     self.cardForm.delegate = self;
     [self.view addSubview: self.cardForm];
     
-    
-    self.payButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.payButton.frame = CGRectMake(40, 320, 240, 44);
-    self.payButton.layer.cornerRadius = 2;
-    self.payButton.backgroundColor = [UIColor colorWithRed:0 green:0.478 blue:1.0 alpha:1.0];
-    [self.payButton setTitle:self.buttonTitle forState:UIControlStateNormal];
-    [self.payButton setTitle:@" " forState:UIControlStateSelected];
-    [self.payButton addTarget:self
-                       action:@selector(payButtonPushed:)
-             forControlEvents:UIControlEventTouchUpInside];
+    self.payButton = [self createPayButton];
     
     self.indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
     [self.indicator setCenter:CGPointMake(120, 22)];
@@ -84,8 +77,31 @@ static float const WPYCardFormViewHeight = 300.0f; // for covering up non keyboa
     [self.view addSubview:self.payButton];
 }
 
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    [self.cardForm setFocusToFirstField];
+}
+
 
 #pragma mark pay button
+- (UIButton *)createPayButton
+{
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+    button.frame = CGRectMake(40, 320, 240, 44);
+    button.layer.cornerRadius = 2;
+    button.backgroundColor = [UIColor colorWithRed:0 green:0.478 blue:1.0 alpha:1.0];
+//    button.showsTouchWhenHighlighted = YES;
+    [button setTitle:self.buttonTitle forState:UIControlStateNormal];
+    [button setTitle:@" " forState:UIControlStateSelected];
+    [button addTarget:self
+                       action:@selector(payButtonPushed:)
+             forControlEvents:UIControlEventTouchUpInside];
+    
+    
+    return button;
+}
+
 - (void)payButtonPushed:(id)sender
 {
     if (self.card == nil)

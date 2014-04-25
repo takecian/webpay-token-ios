@@ -21,4 +21,5 @@
 
 @interface WPYCardFormView : UIView
 @property(nonatomic, weak) id <WPYCardFormViewDelegate> delegate;
+- (void)setFocusToFirstField;
 @end

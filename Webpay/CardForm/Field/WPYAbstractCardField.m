@@ -25,6 +25,41 @@
     return self;
 }
 
+
+
+#pragma mark public methods
+- (void)setFocus:(BOOL)focus
+{
+    if (focus)
+    {
+        [self.textField becomeFirstResponder];
+    }
+    else
+    {
+        [self.textField resignFirstResponder];
+    }
+}
+
+- (void)notifySuccess
+{
+    [self setNormalColor];
+    if (self.delegate && [self.delegate respondsToSelector:@selector(validValue:forKey:)])
+    {
+        [self.delegate validValue:self.textField.text forKey:[self key]];
+    }
+}
+
+- (void)notifyError:(NSError *)error
+{
+    [self setErrorColor];
+    if (self.delegate && [self.delegate respondsToSelector:@selector(invalidValue:forKey:error:)])
+    {
+        [self.delegate invalidValue:self.textField.text forKey:[self key] error:error];
+    }
+}
+
+
+
 #pragma mark protected methods
 - (void)setErrorColor
 {
@@ -35,6 +70,7 @@
 {
     self.textField.textColor = [UIColor darkGrayColor];
 }
+
 
 
 #pragma mark textfield delegate
@@ -83,27 +119,6 @@
 - (BOOL)validate:(NSError * __autoreleasing *)error
 {
     return YES;
-}
-
-
-
-#pragma mark delegate notification
-- (void)notifySuccess
-{
-    [self setNormalColor];
-    if (self.delegate && [self.delegate respondsToSelector:@selector(validValue:forKey:)])
-    {
-        [self.delegate validValue:self.textField.text forKey:[self key]];
-    }
-}
-
-- (void)notifyError:(NSError *)error
-{
-    [self setErrorColor];
-    if (self.delegate && [self.delegate respondsToSelector:@selector(invalidValue:forKey:error:)])
-    {
-        [self.delegate invalidValue:self.textField.text forKey:[self key] error:error];
-    }
 }
 
 @end
