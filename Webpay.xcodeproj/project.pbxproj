@@ -38,6 +38,7 @@
 		4764A09318C7EB04006C9E4E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4764A07818C7EB04006C9E4E /* Foundation.framework */; };
 		4764A09418C7EB04006C9E4E /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4764A07C18C7EB04006C9E4E /* UIKit.framework */; };
 		477931B318D3C3B5007F5C9F /* WPYCreditCardTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 477931B218D3C3B5007F5C9F /* WPYCreditCardTest.m */; };
+		477BF386190AFB7B001694C3 /* WPYExpiryAccessoryView.m in Sources */ = {isa = PBXBuildFile; fileRef = 477BF385190AFB7B001694C3 /* WPYExpiryAccessoryView.m */; };
 		4787AE6318EE1A2F0092A097 /* WPYCommunicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 4787AE6218EE1A2F0092A097 /* WPYCommunicator.m */; };
 		4787AE6418EE1A2F0092A097 /* WPYCommunicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 4787AE6218EE1A2F0092A097 /* WPYCommunicator.m */; };
 		4795D4DB18F913750050542E /* ItemDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4795D4DA18F913750050542E /* ItemDetailViewController.m */; };
@@ -106,6 +107,8 @@
 		4764A09118C7EB04006C9E4E /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		4764A09918C7EB04006C9E4E /* WebpayTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; name = "WebpayTests-Info.plist"; path = "WebpayTests/WebpayTests-Info.plist"; sourceTree = "<group>"; };
 		477931B218D3C3B5007F5C9F /* WPYCreditCardTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WPYCreditCardTest.m; path = WebpayTests/WPYCreditCardTest.m; sourceTree = SOURCE_ROOT; };
+		477BF384190AFB7B001694C3 /* WPYExpiryAccessoryView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WPYExpiryAccessoryView.h; path = Webpay/CardForm/Field/ExpiryPicker/WPYExpiryAccessoryView.h; sourceTree = "<group>"; };
+		477BF385190AFB7B001694C3 /* WPYExpiryAccessoryView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WPYExpiryAccessoryView.m; path = Webpay/CardForm/Field/ExpiryPicker/WPYExpiryAccessoryView.m; sourceTree = "<group>"; };
 		4787AE6118EE1A2F0092A097 /* WPYCommunicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WPYCommunicator.h; path = Webpay/Tokenizer/WPYCommunicator.h; sourceTree = "<group>"; };
 		4787AE6218EE1A2F0092A097 /* WPYCommunicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WPYCommunicator.m; path = Webpay/Tokenizer/WPYCommunicator.m; sourceTree = "<group>"; };
 		4795D4D918F913750050542E /* ItemDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ItemDetailViewController.h; path = WebpayExample/ItemDetailViewController.h; sourceTree = SOURCE_ROOT; };
@@ -199,6 +202,8 @@
 			children = (
 				4714C80F18FD0D92000AC2A1 /* WPYExpiryPickerView.h */,
 				4714C81018FD0D92000AC2A1 /* WPYExpiryPickerView.m */,
+				477BF384190AFB7B001694C3 /* WPYExpiryAccessoryView.h */,
+				477BF385190AFB7B001694C3 /* WPYExpiryAccessoryView.m */,
 			);
 			name = ExpiryPicker;
 			sourceTree = "<group>";
@@ -299,10 +304,6 @@
 			children = (
 				47CE70DD18E8C7D500E4B4B8 /* WPYTokenizer.h */,
 				47CE70DE18E8C7D500E4B4B8 /* WPYTokenizer.m */,
-				479A9DE619087FB900E467CB /* WPYConstants.h */,
-				479A9DE719087FB900E467CB /* WPYConstants.m */,
-				4727391318D8FE8B0003D759 /* WPYErrors.h */,
-				4727391418D8FE8B0003D759 /* WPYErrors.m */,
 				4787AE6118EE1A2F0092A097 /* WPYCommunicator.h */,
 				4787AE6218EE1A2F0092A097 /* WPYCommunicator.m */,
 				474E601C18F0B16E0006EF46 /* WPYTokenBuilder.h */,
@@ -321,6 +322,10 @@
 				47D9BC1618CFBF080020BF55 /* WPYCreditCard.m */,
 				474E602218F0B2DB0006EF46 /* WPYToken.h */,
 				474E602318F0B2DB0006EF46 /* WPYToken.m */,
+				479A9DE619087FB900E467CB /* WPYConstants.h */,
+				479A9DE719087FB900E467CB /* WPYConstants.m */,
+				4727391318D8FE8B0003D759 /* WPYErrors.h */,
+				4727391418D8FE8B0003D759 /* WPYErrors.m */,
 				47B86F6C18FDEC3A001C6B3A /* Tokenizer */,
 				470AEB3A1901CDF900017A5C /* PaymentViewController */,
 				47581DE018FD47910058FBD1 /* FormView */,
@@ -510,6 +515,7 @@
 				4764A08518C7EB04006C9E4E /* main.m in Sources */,
 				4727391518D8FE8B0003D759 /* WPYErrors.m in Sources */,
 				474378CD18FE5D36004ECE34 /* WPYCardFormCell.m in Sources */,
+				477BF386190AFB7B001694C3 /* WPYExpiryAccessoryView.m in Sources */,
 				4714C81118FD0D92000AC2A1 /* WPYExpiryPickerView.m in Sources */,
 				474E601E18F0B16E0006EF46 /* WPYTokenBuilder.m in Sources */,
 				474E602418F0B2DB0006EF46 /* WPYToken.m in Sources */,
