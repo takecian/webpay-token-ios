@@ -50,6 +50,9 @@ typedef NS_ENUM(NSInteger, WPYComponents)
         self.showsSelectionIndicator = YES;
         [super setDelegate:self];
         [super setDataSource:self];
+        
+        // set initial value
+        [self selectRow:4 inComponent:1 animated:NO];
     }
     return self;
 }
