@@ -67,8 +67,8 @@
 		4714C80F18FD0D92000AC2A1 /* WPYExpiryPickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WPYExpiryPickerView.h; path = Webpay/CardForm/Field/ExpiryPicker/WPYExpiryPickerView.h; sourceTree = "<group>"; };
 		4714C81018FD0D92000AC2A1 /* WPYExpiryPickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WPYExpiryPickerView.m; path = Webpay/CardForm/Field/ExpiryPicker/WPYExpiryPickerView.m; sourceTree = "<group>"; };
 		4719922F18F20A8100E845BF /* WPYTokenCreationTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WPYTokenCreationTest.m; path = WebpayTests/WPYTokenCreationTest.m; sourceTree = SOURCE_ROOT; };
-		4727391318D8FE8B0003D759 /* WPYErrors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WPYErrors.h; path = Webpay/Tokenizer/WPYErrors.h; sourceTree = "<group>"; };
-		4727391418D8FE8B0003D759 /* WPYErrors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WPYErrors.m; path = Webpay/Tokenizer/WPYErrors.m; sourceTree = "<group>"; };
+		4727391318D8FE8B0003D759 /* WPYErrors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WPYErrors.h; path = Webpay/WPYErrors.h; sourceTree = "<group>"; };
+		4727391418D8FE8B0003D759 /* WPYErrors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WPYErrors.m; path = Webpay/WPYErrors.m; sourceTree = "<group>"; };
 		4729BF0F18F12240009A1C65 /* WPYErrorBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WPYErrorBuilder.h; path = Webpay/Tokenizer/WPYErrorBuilder.h; sourceTree = "<group>"; };
 		4729BF1018F12240009A1C65 /* WPYErrorBuilder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WPYErrorBuilder.m; path = Webpay/Tokenizer/WPYErrorBuilder.m; sourceTree = "<group>"; };
 		4729BF1318F122BE009A1C65 /* WPYErrorBuilderTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WPYErrorBuilderTest.m; path = WebpayTests/WPYErrorBuilderTest.m; sourceTree = SOURCE_ROOT; };
@@ -340,11 +340,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 4764A0A118C7EB04006C9E4E /* Build configuration list for PBXNativeTarget "Webpay" */;
 			buildPhases = (
-				78A183703DD94BF7850AD85A /* Check Pods Manifest.lock */,
 				4764A07118C7EB04006C9E4E /* Sources */,
 				4764A07218C7EB04006C9E4E /* Frameworks */,
 				4764A07318C7EB04006C9E4E /* Resources */,
-				2C047359A8C74B4B94609546 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -431,21 +429,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		2C047359A8C74B4B94609546 /* Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Pods-Webpay-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		3383F909EB2247B58C699EAB /* Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -459,21 +442,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Pods-WebpayTests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		78A183703DD94BF7850AD85A /* Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		B9FA2A13D9DF42AABF8A900F /* Check Pods Manifest.lock */ = {
