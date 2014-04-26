@@ -6,4 +6,4 @@ before_install:
 
 script:
   - xctool -workspace Webpay.xcworkspace -scheme Webpay -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO
-  - xctool test -workspace Webpay.xcworkspace -scheme WebpayTests -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO
+  - xctool test -workspace Webpay.xcworkspace -scheme Webpay -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO
