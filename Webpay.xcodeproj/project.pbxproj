@@ -38,6 +38,7 @@
 		4764A09318C7EB04006C9E4E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4764A07818C7EB04006C9E4E /* Foundation.framework */; };
 		4764A09418C7EB04006C9E4E /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4764A07C18C7EB04006C9E4E /* UIKit.framework */; };
 		477931B318D3C3B5007F5C9F /* WPYCreditCardTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 477931B218D3C3B5007F5C9F /* WPYCreditCardTest.m */; };
+		477BF386190AFB7B001694C3 /* WPYExpiryAccessoryView.m in Sources */ = {isa = PBXBuildFile; fileRef = 477BF385190AFB7B001694C3 /* WPYExpiryAccessoryView.m */; };
 		4787AE6318EE1A2F0092A097 /* WPYCommunicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 4787AE6218EE1A2F0092A097 /* WPYCommunicator.m */; };
 		4787AE6418EE1A2F0092A097 /* WPYCommunicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 4787AE6218EE1A2F0092A097 /* WPYCommunicator.m */; };
 		4795D4DB18F913750050542E /* ItemDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4795D4DA18F913750050542E /* ItemDetailViewController.m */; };
@@ -49,7 +50,6 @@
 		47D9BC1718CFBF080020BF55 /* WPYCreditCard.m in Sources */ = {isa = PBXBuildFile; fileRef = 47D9BC1618CFBF080020BF55 /* WPYCreditCard.m */; };
 		47D9BC1818CFBF080020BF55 /* WPYCreditCard.m in Sources */ = {isa = PBXBuildFile; fileRef = 47D9BC1618CFBF080020BF55 /* WPYCreditCard.m */; };
 		47ED710A1900EA6C006F9B54 /* WPYAbstractCardField.m in Sources */ = {isa = PBXBuildFile; fileRef = 47ED71091900EA6C006F9B54 /* WPYAbstractCardField.m */; };
-		DD3FE60A07F24A94A7B98FF6 /* libPods-Webpay.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F7D735451D84B4A93C98DA3 /* libPods-Webpay.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -67,8 +67,8 @@
 		4714C80F18FD0D92000AC2A1 /* WPYExpiryPickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WPYExpiryPickerView.h; path = Webpay/CardForm/Field/ExpiryPicker/WPYExpiryPickerView.h; sourceTree = "<group>"; };
 		4714C81018FD0D92000AC2A1 /* WPYExpiryPickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WPYExpiryPickerView.m; path = Webpay/CardForm/Field/ExpiryPicker/WPYExpiryPickerView.m; sourceTree = "<group>"; };
 		4719922F18F20A8100E845BF /* WPYTokenCreationTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WPYTokenCreationTest.m; path = WebpayTests/WPYTokenCreationTest.m; sourceTree = SOURCE_ROOT; };
-		4727391318D8FE8B0003D759 /* WPYErrors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WPYErrors.h; path = Webpay/Tokenizer/WPYErrors.h; sourceTree = "<group>"; };
-		4727391418D8FE8B0003D759 /* WPYErrors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WPYErrors.m; path = Webpay/Tokenizer/WPYErrors.m; sourceTree = "<group>"; };
+		4727391318D8FE8B0003D759 /* WPYErrors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WPYErrors.h; path = Webpay/WPYErrors.h; sourceTree = "<group>"; };
+		4727391418D8FE8B0003D759 /* WPYErrors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WPYErrors.m; path = Webpay/WPYErrors.m; sourceTree = "<group>"; };
 		4729BF0F18F12240009A1C65 /* WPYErrorBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WPYErrorBuilder.h; path = Webpay/Tokenizer/WPYErrorBuilder.h; sourceTree = "<group>"; };
 		4729BF1018F12240009A1C65 /* WPYErrorBuilder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WPYErrorBuilder.m; path = Webpay/Tokenizer/WPYErrorBuilder.m; sourceTree = "<group>"; };
 		4729BF1318F122BE009A1C65 /* WPYErrorBuilderTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WPYErrorBuilderTest.m; path = WebpayTests/WPYErrorBuilderTest.m; sourceTree = SOURCE_ROOT; };
@@ -107,6 +107,8 @@
 		4764A09118C7EB04006C9E4E /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		4764A09918C7EB04006C9E4E /* WebpayTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; name = "WebpayTests-Info.plist"; path = "WebpayTests/WebpayTests-Info.plist"; sourceTree = "<group>"; };
 		477931B218D3C3B5007F5C9F /* WPYCreditCardTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WPYCreditCardTest.m; path = WebpayTests/WPYCreditCardTest.m; sourceTree = SOURCE_ROOT; };
+		477BF384190AFB7B001694C3 /* WPYExpiryAccessoryView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WPYExpiryAccessoryView.h; path = Webpay/CardForm/Field/ExpiryPicker/WPYExpiryAccessoryView.h; sourceTree = "<group>"; };
+		477BF385190AFB7B001694C3 /* WPYExpiryAccessoryView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WPYExpiryAccessoryView.m; path = Webpay/CardForm/Field/ExpiryPicker/WPYExpiryAccessoryView.m; sourceTree = "<group>"; };
 		4787AE6118EE1A2F0092A097 /* WPYCommunicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WPYCommunicator.h; path = Webpay/Tokenizer/WPYCommunicator.h; sourceTree = "<group>"; };
 		4787AE6218EE1A2F0092A097 /* WPYCommunicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WPYCommunicator.m; path = Webpay/Tokenizer/WPYCommunicator.m; sourceTree = "<group>"; };
 		4795D4D918F913750050542E /* ItemDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ItemDetailViewController.h; path = WebpayExample/ItemDetailViewController.h; sourceTree = SOURCE_ROOT; };
@@ -136,7 +138,6 @@
 				4764A07B18C7EB04006C9E4E /* CoreGraphics.framework in Frameworks */,
 				4764A07D18C7EB04006C9E4E /* UIKit.framework in Frameworks */,
 				4764A07918C7EB04006C9E4E /* Foundation.framework in Frameworks */,
-				DD3FE60A07F24A94A7B98FF6 /* libPods-Webpay.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -201,6 +202,8 @@
 			children = (
 				4714C80F18FD0D92000AC2A1 /* WPYExpiryPickerView.h */,
 				4714C81018FD0D92000AC2A1 /* WPYExpiryPickerView.m */,
+				477BF384190AFB7B001694C3 /* WPYExpiryAccessoryView.h */,
+				477BF385190AFB7B001694C3 /* WPYExpiryAccessoryView.m */,
 			);
 			name = ExpiryPicker;
 			sourceTree = "<group>";
@@ -301,10 +304,6 @@
 			children = (
 				47CE70DD18E8C7D500E4B4B8 /* WPYTokenizer.h */,
 				47CE70DE18E8C7D500E4B4B8 /* WPYTokenizer.m */,
-				479A9DE619087FB900E467CB /* WPYConstants.h */,
-				479A9DE719087FB900E467CB /* WPYConstants.m */,
-				4727391318D8FE8B0003D759 /* WPYErrors.h */,
-				4727391418D8FE8B0003D759 /* WPYErrors.m */,
 				4787AE6118EE1A2F0092A097 /* WPYCommunicator.h */,
 				4787AE6218EE1A2F0092A097 /* WPYCommunicator.m */,
 				474E601C18F0B16E0006EF46 /* WPYTokenBuilder.h */,
@@ -323,6 +322,10 @@
 				47D9BC1618CFBF080020BF55 /* WPYCreditCard.m */,
 				474E602218F0B2DB0006EF46 /* WPYToken.h */,
 				474E602318F0B2DB0006EF46 /* WPYToken.m */,
+				479A9DE619087FB900E467CB /* WPYConstants.h */,
+				479A9DE719087FB900E467CB /* WPYConstants.m */,
+				4727391318D8FE8B0003D759 /* WPYErrors.h */,
+				4727391418D8FE8B0003D759 /* WPYErrors.m */,
 				47B86F6C18FDEC3A001C6B3A /* Tokenizer */,
 				470AEB3A1901CDF900017A5C /* PaymentViewController */,
 				47581DE018FD47910058FBD1 /* FormView */,
@@ -337,11 +340,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 4764A0A118C7EB04006C9E4E /* Build configuration list for PBXNativeTarget "Webpay" */;
 			buildPhases = (
-				78A183703DD94BF7850AD85A /* Check Pods Manifest.lock */,
 				4764A07118C7EB04006C9E4E /* Sources */,
 				4764A07218C7EB04006C9E4E /* Frameworks */,
 				4764A07318C7EB04006C9E4E /* Resources */,
-				2C047359A8C74B4B94609546 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -428,21 +429,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		2C047359A8C74B4B94609546 /* Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Pods-Webpay-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		3383F909EB2247B58C699EAB /* Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -456,21 +442,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Pods-WebpayTests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		78A183703DD94BF7850AD85A /* Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		B9FA2A13D9DF42AABF8A900F /* Check Pods Manifest.lock */ = {
@@ -512,6 +483,7 @@
 				4764A08518C7EB04006C9E4E /* main.m in Sources */,
 				4727391518D8FE8B0003D759 /* WPYErrors.m in Sources */,
 				474378CD18FE5D36004ECE34 /* WPYCardFormCell.m in Sources */,
+				477BF386190AFB7B001694C3 /* WPYExpiryAccessoryView.m in Sources */,
 				4714C81118FD0D92000AC2A1 /* WPYExpiryPickerView.m in Sources */,
 				474E601E18F0B16E0006EF46 /* WPYTokenBuilder.m in Sources */,
 				474E602418F0B2DB0006EF46 /* WPYToken.m in Sources */,
@@ -649,6 +621,7 @@
 				GCC_PREFIX_HEADER = "WebpayExample/Webpay-Prefix.pch";
 				INFOPLIST_FILE = "WebpayExample/Webpay-Info.plist";
 				PRODUCT_NAME = Webpay;
+				PROVISIONING_PROFILE = "A43E5EB1-1FAC-421D-9E69-72605FCA9D7E";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -659,11 +632,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "WebpayExample/Webpay-Prefix.pch";
 				INFOPLIST_FILE = "WebpayExample/Webpay-Info.plist";
 				PRODUCT_NAME = Webpay;
+				PROVISIONING_PROFILE = "A43E5EB1-1FAC-421D-9E69-72605FCA9D7E";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

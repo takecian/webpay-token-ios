@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "WebPay"
-  s.version      = "0.1.0"
+  s.version      = "0.1.1"
   s.summary      = "Tokenizer library for WebPay.jp"
   s.description  = <<-DESC
                    WebPay.jp is an API for accepting online payments in Japan.

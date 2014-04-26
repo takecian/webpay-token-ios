@@ -76,7 +76,6 @@ static NSString *fieldNameFromFieldKey(WPYFieldKey key)
         [self addSubview:_tableView];
         
         _titles = @[@"Number", @"Expiry", @"CVC", @"Name"];
-//        _titles = @[@"カード番号", @"有効期限", @"セキュリティコード", @"カード名義"];
         
         // fields
         CGRect fieldFrame = CGRectMake(WPYFieldLeftMargin, WPYFieldTopMargin, WPYFieldWidth, WPYFieldHeight);
@@ -95,6 +94,14 @@ static NSString *fieldNameFromFieldKey(WPYFieldKey key)
         _fields = @[_numberField, _expiryField, _cvcField, _nameField];
     }
     return self;
+}
+
+
+
+#pragma mark public method
+- (void)setFocusToFirstField
+{
+    [self.numberField setFocus:YES];
 }
 
 

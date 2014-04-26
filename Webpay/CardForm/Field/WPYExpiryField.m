@@ -9,10 +9,11 @@
 #import "WPYExpiryField.h"
 
 #import "WPYExpiryPickerView.h"
+#import "WPYExpiryAccessoryView.h"
 #import "WPYMenuDisabledTextField.h"
 #import "WPYCreditCard.h"
 
-@interface WPYExpiryField () <UITextFieldDelegate, WPYExpiryPickerViewDelegate>
+@interface WPYExpiryField () <UITextFieldDelegate, WPYExpiryPickerViewDelegate, WPYExpiryAccessoryViewDelegate>
 - (void)didSelectExpiryYear:(NSString *)year month:(NSString *)month;
 @end
 
@@ -27,10 +28,14 @@
         WPYExpiryPickerView *expiryPicker = [[WPYExpiryPickerView alloc] initWithFrame:CGRectMake(0, 0, 320, 200)];
         expiryPicker.expiryDelegate = self;
         
+        WPYExpiryAccessoryView *accessoryView = [[WPYExpiryAccessoryView alloc] initWithFrame:CGRectMake(0, 0, [[UIScreen mainScreen]bounds].size.width, 44)];
+        accessoryView.delegate = self;
+        
         _textField = [[WPYMenuDisabledTextField alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
         _textField.placeholder = @"01 / 15";
         _textField.tintColor = [UIColor clearColor]; // hide cursor
         _textField.inputView = expiryPicker;
+        _textField.inputAccessoryView = accessoryView;
         _textField.delegate = self;
         
         [self addSubview:_textField];
@@ -69,6 +74,14 @@
 {
     NSString *expiry = [NSString stringWithFormat:@"%@ / %@", month, year];
     self.textField.text = expiry;
+}
+
+
+
+#pragma mark expiry accessory view delegate
+- (void)doneButtonTapped
+{
+    [self.textField resignFirstResponder];
 }
 
 @end
