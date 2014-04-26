@@ -1,3 +1,9 @@
 language: objective-c
 xcode_workspace: Webpay.xcworkspace
 xcode_scheme: Webpay
+before_install:
+  - gem install cocoapods -v '0.32.1'
+
+script:
+  - xctool -workspace Webpay.xcworkspace -scheme Webpay -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO
+  - xctool test -workspace Webpay.xcworkspace -scheme WebpayTests -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO
