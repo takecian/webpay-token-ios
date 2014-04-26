@@ -2,6 +2,8 @@ language: objective-c
 xcode_workspace: Webpay.xcworkspace
 xcode_scheme: Webpay
 before_install:
+  - brew update
+  - brew upgrade xctool
   - gem install cocoapods -v '0.32.1'
 
 script:
