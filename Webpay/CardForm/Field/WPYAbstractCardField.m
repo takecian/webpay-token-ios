@@ -8,6 +8,11 @@
 
 #import "WPYAbstractCardFieldSubclass.h"
 
+static float const WPYShakeWidth = 1.0f;
+static float const WPYShakeDuration = 0.03f;
+static NSInteger const WPYMaxShakes = 8;
+
+
 @interface WPYAbstractCardField ()
 @end
 
@@ -93,6 +98,7 @@
     }
     else
     {
+        [self startInvalidAnimation];
         [self notifyError:error];
     }
 }
@@ -119,6 +125,40 @@
 - (BOOL)validate:(NSError * __autoreleasing *)error
 {
     return YES;
+}
+
+- (void)startInvalidAnimation
+{
+    [self shake:WPYMaxShakes
+      direction:1
+       duration:WPYShakeDuration
+     shakeWidth:WPYShakeWidth
+  currentShakes:0];
+}
+
+- (void)shake:(NSInteger)times
+    direction:(NSInteger)direction
+     duration:(float)duration
+   shakeWidth:(float)width
+currentShakes:(NSInteger)shaked
+{
+    [UIView animateWithDuration:duration
+                     animations:^{
+                         self.transform = CGAffineTransformMakeTranslation(width * direction, 0);
+                     }
+                     completion:^(BOOL finished){
+                         if (shaked == times)
+                         {
+                             self.transform = CGAffineTransformIdentity;
+                             return;
+                         }
+                         
+                         [self shake:times
+                           direction:direction * -1
+                            duration:duration
+                          shakeWidth:width
+                       currentShakes:shaked + 1];
+    }];
 }
 
 @end
