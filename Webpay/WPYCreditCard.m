@@ -285,7 +285,7 @@ static NSString *reverseString(NSString *string)
 
 - (BOOL)validateBrand:(NSString *)brand error:(NSError * __autoreleasing *)error
 {
-    if (!brand || [brand isEqualToString:@"Discover"] || [brand isEqualToString:@"Unknown"])
+    if (![self isSupportedBrand:brand])
     {
         handleValidationError(error, WPYInvalidNumber, @"This brand is not supported by Webpay.");
         return NO;
