@@ -128,11 +128,54 @@ static NSString *reverseString(NSString *string)
     return brandName ? brandName : @"Unknown";
 }
 
+- (NSString *)brandNameFromPartialNumber:(NSString *)number
+{
+    if (number == nil || number.length < 2)
+    {
+        return @"Unknown";
+    }
+    
+    NSInteger prefix = [[number substringWithRange:NSMakeRange(0, 2)] integerValue];
+    
+    if (40 <= prefix && prefix < 50)
+    {
+        return @"Visa";
+    }
+    
+    if (50 <= prefix && prefix <= 55)
+    {
+        return @"Master Card";
+    }
+    
+    if (prefix == 34 || prefix == 37)
+    {
+        return @"American Express";
+    }
+    
+    if (prefix == 30 || prefix == 36 || prefix == 38 || prefix == 39)
+    {
+        return @"Diners";
+    }
+    
+    if (prefix == 35)
+    {
+        return @"JCB";
+    }
+    
+    if (prefix == 60 || prefix == 62 || prefix == 64 || prefix == 65)
+    {
+        return @"Discover";
+    }
+    
+    return @"Unknown";
+}
+
 - (BOOL)isSupportedBrand:(NSString *)brand
 {
     NSArray *supportedBrands = @[@"Visa", @"American Express", @"MasterCard", @"JCB", @"Diners"];
     return [supportedBrands containsObject:brand];
 }
+
 
 
 #pragma mark validation methods

@@ -139,6 +139,54 @@ static NSString *const unknownCardNumber  = @"9876543210123456";
 
 
 
+#pragma mark brandNameFromPartialNumber
+- (void)testNilPartialNumber
+{
+    XCTAssertEqualObjects(@"Unknown", [_creditCard brandNameFromPartialNumber:nil], @"nil partial number will be identified as unknown.");
+}
+
+- (void)testNonNumericPartialNumber
+{
+    XCTAssertEqualObjects(@"Unknown", [_creditCard brandNameFromPartialNumber:@"abc"], @"Non numeric value wil be recognized as unknown.");
+}
+
+- (void)testTooShortPartialNumber
+{
+    XCTAssertEqualObjects(@"Unknown", [_creditCard brandNameFromPartialNumber:@"1"], @"1 digit number will be identified as unknown.");
+}
+
+- (void)testPatialNumberWithVisaPrefix
+{
+    XCTAssertEqualObjects(@"Visa", [_creditCard brandNameFromPartialNumber:@"42"], @"It should be recognized as visa.");
+}
+
+- (void)testPatialNumberWithMasterCardPrefix
+{
+    XCTAssertEqualObjects(@"Master Card", [_creditCard brandNameFromPartialNumber:@"5111 1"], @"It should be recognized as Master Card.");
+}
+
+- (void)testPatialNumberWithAmericanExpressPrefix
+{
+    XCTAssertEqualObjects(@"American Express", [_creditCard brandNameFromPartialNumber:@"340"], @"It should be recognized as American Express.");
+}
+
+- (void)testPatialNumberWithDinersPrefix
+{
+    XCTAssertEqualObjects(@"Diners", [_creditCard brandNameFromPartialNumber:@"3000"], @"It should be recognized as Diners.");
+}
+
+- (void)testPatialNumberWithJCBPrefix
+{
+    XCTAssertEqualObjects(@"JCB", [_creditCard brandNameFromPartialNumber:@"3501"], @"It should be recognized as JCB.");
+}
+
+- (void)testPatialNumberWithDiscoverPrefix
+{
+    XCTAssertEqualObjects(@"Discover", [_creditCard brandNameFromPartialNumber:@"6590"], @"It should be recognized as Discover.");
+}
+
+
+
 #pragma mark isSupportedBrand
 - (void)testNilBrand
 {
