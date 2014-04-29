@@ -45,7 +45,7 @@ static NSInteger const WPYMaxShakes = 8;
     }
 }
 
-- (void)notifySuccess
+- (void)notifyValidity
 {
     [self setNormalColor];
     if (self.delegate && [self.delegate respondsToSelector:@selector(validValue:forKey:)])
@@ -94,7 +94,7 @@ static NSInteger const WPYMaxShakes = 8;
     NSError *error = nil;
     if ([self validate:&error])
     {
-        [self notifySuccess];
+        [self notifyValidity];
     }
     else
     {

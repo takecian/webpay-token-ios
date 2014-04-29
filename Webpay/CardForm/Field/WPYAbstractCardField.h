@@ -29,7 +29,7 @@ typedef NS_ENUM(NSInteger, WPYFieldKey)
 }
 @property(nonatomic, weak) id <WPYCardFieldDelegate> delegate;
 - (void)setFocus:(BOOL)focus;
-- (void)notifySuccess;
+- (void)notifyValidity;
 - (void)notifyError:(NSError *)error;
 
 @end
