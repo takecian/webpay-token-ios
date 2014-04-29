@@ -57,6 +57,8 @@ static NSString *const unknownCardNumber  = @"9876543210123456";
     [super tearDown];
 }
 
+
+
 #pragma mark setter
 - (void)testSetNumberRemovesAllWhitespaces
 {
@@ -69,6 +71,8 @@ static NSString *const unknownCardNumber  = @"9876543210123456";
     _creditCard.number = @"4242-4242-4242-4242";
     XCTAssertEqualObjects(_creditCard.number, @"4242424242424242", @"It should remove all hyphens when set.");
 }
+
+
 
 #pragma mark brandName
 - (void)testBrandNameReturnsNilForEmptyNumber
@@ -131,6 +135,26 @@ static NSString *const unknownCardNumber  = @"9876543210123456";
     NSString *number = @"4242 4242 4242 4242";
     _creditCard.number = number;
     XCTAssertEqualObjects([_creditCard brandName], @"Visa", @"It should be recognized as visa.");
+}
+
+
+
+#pragma mark isSupportedBrand
+- (void)testNilBrand
+{
+    XCTAssertNoThrow([_creditCard isSupportedBrand:nil], @"It should not raise exception.");
+    XCTAssertFalse([_creditCard isSupportedBrand:nil], @"It should return No.");
+}
+
+- (void)testInvalidBrand
+{
+    XCTAssertFalse([_creditCard isSupportedBrand:@"Credit Card"], @"Invalid brand should return nil.");
+}
+
+- (void)testUnsupportedBrand
+{
+    XCTAssertFalse([_creditCard isSupportedBrand:@"Discover"], @"Discover is not supported.");
+    XCTAssertFalse([_creditCard isSupportedBrand:@"Unknown"], @"Unknown is not supported.");
 }
 
 
@@ -269,6 +293,7 @@ static NSString *const unknownCardNumber  = @"9876543210123456";
     NSString *failureReason = [userInfo objectForKey:NSLocalizedFailureReasonErrorKey];
     XCTAssertEqualObjects(failureReason, @"Number should be 13 digits to 16 digits.", @"It should return expected failure reason.");
 }
+
 - (void)testNumberWithTwelveDigits
 {
     NSString *number = @"411111111111";
@@ -348,7 +373,6 @@ static NSString *const unknownCardNumber  = @"9876543210123456";
     [_creditCard validateNumber:&number error:&error];
     XCTAssertNil(error, @"Valid number should not cause the method to populate error object.");
 }
-
 
 
 
@@ -524,6 +548,7 @@ static NSString *const unknownCardNumber  = @"9876543210123456";
 }
 
 
+
 #pragma mark validateExpiryMonth
 - (void)testValidateExpiryMonthAcceptsNilAsErrorArgument
 {
@@ -599,6 +624,8 @@ static NSString *const unknownCardNumber  = @"9876543210123456";
     XCTAssertNil(error, @"It should not populate error object for valid expiry month.");
 }
 
+
+
 #pragma mark validateExpiryYear
 - (void)testValidateExpiryYearAcceptsNilAsErrorArgument
 {
@@ -627,6 +654,7 @@ static NSString *const unknownCardNumber  = @"9876543210123456";
     NSString *failureReason = [userInfo objectForKey:NSLocalizedFailureReasonErrorKey];
     XCTAssertEqual(failureReason, @"Expiry year should not be nil.", @"It should return expected failure reason.");
 }
+
 
 
 #pragma mark validateExpiry
@@ -689,6 +717,7 @@ static NSString *const unknownCardNumber  = @"9876543210123456";
     [_creditCard validateExpiryYear:2015 month:3 error:&error];
     XCTAssertNil(error, @"It should not return error for valid expiry.");
 }
+
 
 
 #pragma mark validate

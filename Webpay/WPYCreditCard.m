@@ -128,6 +128,13 @@ static NSString *reverseString(NSString *string)
     return brandName ? brandName : @"Unknown";
 }
 
+- (BOOL)isSupportedBrand:(NSString *)brand
+{
+    NSArray *supportedBrands = @[@"Visa", @"American Express", @"MasterCard", @"JCB", @"Diners"];
+    return [supportedBrands containsObject:brand];
+}
+
+
 #pragma mark validation methods
 - (BOOL)validateName:(__autoreleasing id *)ioValue error:(NSError *__autoreleasing *)outError
 {
