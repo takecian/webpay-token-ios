@@ -98,7 +98,7 @@ static NSInteger const WPYMaxShakes = 8;
     }
     else
     {
-        [self startInvalidAnimation];
+        [self startErrorAnimation];
         [self notifyError:error];
     }
 }
@@ -127,7 +127,7 @@ static NSInteger const WPYMaxShakes = 8;
     return YES;
 }
 
-- (void)startInvalidAnimation
+- (void)startErrorAnimation
 {
     [self shake:WPYMaxShakes
       direction:1
