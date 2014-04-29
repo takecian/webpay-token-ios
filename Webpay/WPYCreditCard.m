@@ -92,43 +92,8 @@ static NSString *reverseString(NSString *string)
 
 
 
-#pragma mark public methods
-- (void)setNumber:(NSString *)number
-{
-    _number = canonicalizeCardNumber(number);
-}
-
-- (NSString *)brandName
-{
-    NSString *cardNumber = self.number;
-    if (!cardNumber)
-    {
-        return nil;
-    }
-    
-    NSDictionary *brandIdentifiers =
-    @{
-        @"Visa"            : @"4[0-9]{12}(?:[0-9]{3})?",
-        @"American Express": @"3[47][0-9]{13}",
-        @"MasterCard"      : @"5[1-5][0-9]{14}",
-        @"Discover"        : @"6(?:011|5[0-9]{2})[0-9]{12}",
-        @"JCB"             : @"(?:2131|1800|35\\d{3})\\d{11}",
-        @"Diners"          : @"3(?:0[0-5]|[68][0-9])[0-9]{11}"
-    };
-    
-    __block NSString *brandName = nil;
-    
-    [brandIdentifiers enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop){
-        if (isMatchWithRegex(cardNumber, obj))
-        {
-            brandName = key;
-            *stop = YES;
-        }
-    }];
-    return brandName ? brandName : @"Unknown";
-}
-
-- (NSString *)brandNameFromPartialNumber:(NSString *)number
+#pragma mark class methods
++ (NSString *)brandNameFromPartialNumber:(NSString *)number
 {
     if (number == nil || number.length < 2)
     {
@@ -170,10 +135,47 @@ static NSString *reverseString(NSString *string)
     return @"Unknown";
 }
 
-- (BOOL)isSupportedBrand:(NSString *)brand
++ (BOOL)isSupportedBrand:(NSString *)brand
 {
     NSArray *supportedBrands = @[@"Visa", @"American Express", @"MasterCard", @"JCB", @"Diners"];
     return [supportedBrands containsObject:brand];
+}
+
+
+#pragma mark public methods
+- (void)setNumber:(NSString *)number
+{
+    _number = canonicalizeCardNumber(number);
+}
+
+- (NSString *)brandName
+{
+    NSString *cardNumber = self.number;
+    if (!cardNumber)
+    {
+        return nil;
+    }
+    
+    NSDictionary *brandIdentifiers =
+    @{
+        @"Visa"            : @"4[0-9]{12}(?:[0-9]{3})?",
+        @"American Express": @"3[47][0-9]{13}",
+        @"MasterCard"      : @"5[1-5][0-9]{14}",
+        @"Discover"        : @"6(?:011|5[0-9]{2})[0-9]{12}",
+        @"JCB"             : @"(?:2131|1800|35\\d{3})\\d{11}",
+        @"Diners"          : @"3(?:0[0-5]|[68][0-9])[0-9]{11}"
+    };
+    
+    __block NSString *brandName = nil;
+    
+    [brandIdentifiers enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop){
+        if (isMatchWithRegex(cardNumber, obj))
+        {
+            brandName = key;
+            *stop = YES;
+        }
+    }];
+    return brandName ? brandName : @"Unknown";
 }
 
 
@@ -328,7 +330,7 @@ static NSString *reverseString(NSString *string)
 
 - (BOOL)validateBrand:(NSString *)brand error:(NSError * __autoreleasing *)error
 {
-    if (![self isSupportedBrand:brand])
+    if (![self.class isSupportedBrand:brand])
     {
         handleValidationError(error, WPYInvalidNumber, @"This brand is not supported by Webpay.");
         return NO;
