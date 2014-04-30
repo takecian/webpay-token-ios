@@ -20,7 +20,7 @@
     self = [super initWithFrame:frame];
     if (self)
     {
-        self.backgroundColor = [UIColor whiteColor];
+        self.backgroundColor = [UIColor colorWithRed:0.97 green:0.97 blue:0.97 alpha:1];
         self.layer.borderWidth = 0.5f;
         self.layer.borderColor = [[UIColor colorWithRed:0.76 green:0.76 blue:0.76 alpha:1] CGColor];
         
