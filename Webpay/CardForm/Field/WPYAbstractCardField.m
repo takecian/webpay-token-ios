@@ -55,7 +55,12 @@ static NSInteger const WPYMaxShakes = 8;
 
 - (void)setNormalColor
 {
-    self.textField.textColor = [UIColor darkGrayColor];
+    self.textField.textColor = [UIColor colorWithRed:0.01 green:0.04 blue:0.1 alpha:1.0];
+}
+
+- (UIFont *)font
+{
+    return [UIFont fontWithName:@"Avenir-Roman" size:16.0f];
 }
 
 - (void)notifyValidity

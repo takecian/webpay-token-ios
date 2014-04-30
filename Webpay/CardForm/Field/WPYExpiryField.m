@@ -33,6 +33,7 @@
         
         _textField = [[WPYMenuDisabledTextField alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
         _textField.placeholder = @"01 / 15";
+        _textField.font = [self font];
         _textField.tintColor = [UIColor clearColor]; // hide cursor
         _textField.inputView = expiryPicker;
         _textField.inputAccessoryView = accessoryView;
