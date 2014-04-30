@@ -19,16 +19,16 @@
 - (void)notifyValidity;
 - (void)notifyError:(NSError *)error;
 
-// should override
+- (void)textFieldDidBeginEditing:(UITextField *)textField;
+- (void)textFieldDidChange:(id)sender;
+
+// methods expected to be overridden
 - (WPYFieldKey)key;
 - (BOOL)shouldValidate;
 - (BOOL)validate:(NSError * __autoreleasing *)error;
-
-- (void)textFieldDidBeginEditing:(UITextField *)textField;
 
 - (BOOL)canInsertNewValue:(NSString *)newValue place:(NSUInteger)place charactedDeleted:(BOOL)isCharacterDeleted;
 - (void)updateValue:(NSString *)newValue
               place:(NSUInteger)place
    charactedDeleted:(BOOL)isCharacterDeleted;
-- (void)textFieldDidChange:(id)sender;
 @end
