@@ -93,7 +93,7 @@ static NSString *spacedNumberFromNumber(NSString *canonicalizedNumber, NSUIntege
 
 
 
-#pragma mark 
+#pragma mark override methods
 - (WPYFieldKey)key
 {
     return WPYNumberFieldKey;
@@ -119,7 +119,6 @@ static NSString *spacedNumberFromNumber(NSString *canonicalizedNumber, NSUIntege
     return NO;
 }
 
-#pragma mark private methods
 - (void)updateValue:(NSString *)newValue place:(NSUInteger)place charactedDeleted:(BOOL)isCharacterDeleted
 {
     NSString *canonicalizedNumber = removeAllWhitespaces(newValue);
@@ -134,6 +133,9 @@ static NSString *spacedNumberFromNumber(NSString *canonicalizedNumber, NSUIntege
     [self updateBrand];
 }
 
+
+
+#pragma mark brand animation
 - (void)updateBrand
 {
     NSString *brand = [WPYCreditCard brandNameFromPartialNumber:self.textField.text];

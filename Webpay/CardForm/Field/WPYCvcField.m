@@ -36,7 +36,7 @@ static NSInteger const WPYCvcMaxValue = 4;
 
 
 
-#pragma mark
+#pragma mark override methods
 - (WPYFieldKey)key
 {
     return WPYCvcFieldKey;
@@ -56,8 +56,6 @@ static NSInteger const WPYCvcMaxValue = 4;
     return [creditCard validateCvc:&cvc error:error];
 }
 
-
-#pragma mark textfield delegate
 - (BOOL)canInsertNewValue:(NSString *)newValue place:(NSUInteger)place charactedDeleted:(BOOL)isCharacterDeleted
 {
     return newValue.length <= WPYCvcMaxValue;

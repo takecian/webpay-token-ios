@@ -45,7 +45,7 @@
 
 
 
-#pragma mark
+#pragma mark override methods
 - (WPYFieldKey)key
 {
     return WPYExpiryFieldKey;
@@ -67,6 +67,8 @@
     
     return [creditCard validateExpiryYear:year month:month error:error];
 }
+
+
 
 #pragma mark expiry picker delegate
 - (void)didSelectExpiryYear:(NSString *)year month:(NSString *)month
