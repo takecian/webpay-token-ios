@@ -58,8 +58,16 @@ static NSInteger const WPYCvcMaxValue = 4;
 
 - (BOOL)canInsertNewValue:(NSString *)newValue place:(NSUInteger)place charactedDeleted:(BOOL)isCharacterDeleted
 {
-    return newValue.length <= WPYCvcMaxValue;
+    return NO; //workaround for stop clearing text when refocused
 }
 
+- (void)updateValue:(NSString *)newValue place:(NSUInteger)place charactedDeleted:(BOOL)isCharacterDeleted
+{
+    if (newValue.length > WPYCvcMaxValue)
+    {
+        return;
+    }
+    self.textField.text = newValue;
+}
 
 @end
