@@ -23,12 +23,12 @@
     {
         _textField = [[UITextField alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
         _textField.placeholder = @"Taro Yamada";
-        _textField.font = [self font];
         _textField.keyboardType = UIKeyboardTypeASCIICapable;
         _textField.autocorrectionType = UITextAutocorrectionTypeNo;
         _textField.delegate = self;
         [_textField addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
         
+        [self setupTextField];
         [self addSubview:_textField];
     }
     return self;

@@ -63,6 +63,12 @@ static NSInteger const WPYMaxShakes = 8;
     return [UIFont fontWithName:@"Avenir-Roman" size:16.0f];
 }
 
+- (void)setupTextField
+{
+    self.textField.font = [self font];
+    self.textField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
+}
+
 - (void)notifyValidity
 {
     if (self.delegate && [self.delegate respondsToSelector:@selector(validValue:forKey:)])

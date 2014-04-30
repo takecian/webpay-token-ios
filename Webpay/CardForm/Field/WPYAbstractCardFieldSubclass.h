@@ -19,7 +19,7 @@
 - (void)notifyValidity;
 - (void)notifyError:(NSError *)error;
 
-- (UIFont *)font;
+- (void)setupTextField;
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField;
 - (void)textFieldDidChange:(id)sender;

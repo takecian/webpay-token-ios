@@ -85,8 +85,8 @@ static NSString *spacedNumberFromNumber(NSString *canonicalizedNumber, NSUIntege
         _textField = [[UITextField alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
         _textField.placeholder = @"1234 5678 9012 3456";
         _textField.keyboardType = UIKeyboardTypeNumberPad;
-        _textField.font = [self font];
         _textField.delegate = self;
+        [self setupTextField];
         [self addSubview:_textField];
     }
     return self;

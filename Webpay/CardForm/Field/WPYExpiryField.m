@@ -12,6 +12,7 @@
 #import "WPYExpiryAccessoryView.h"
 #import "WPYMenuDisabledTextField.h"
 #import "WPYCreditCard.h"
+#import "WPYConstants.h"
 
 @interface WPYExpiryField () <UITextFieldDelegate, WPYExpiryPickerViewDelegate, WPYExpiryAccessoryViewDelegate>
 - (void)didSelectExpiryYear:(NSString *)year month:(NSString *)month;
@@ -33,12 +34,15 @@
         
         _textField = [[WPYMenuDisabledTextField alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
         _textField.placeholder = @"01 / 15";
-        _textField.font = [self font];
-        _textField.tintColor = [UIColor clearColor]; // hide cursor
+        if (isiOS7())
+        {
+            _textField.tintColor = [UIColor clearColor]; // hide cursor
+        }
         _textField.inputView = expiryPicker;
         _textField.inputAccessoryView = accessoryView;
         _textField.delegate = self;
         
+        [self setupTextField];
         [self addSubview:_textField];
     }
     return self;
