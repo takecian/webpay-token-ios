@@ -45,6 +45,19 @@ static NSInteger const WPYMaxShakes = 8;
     }
 }
 
+
+
+#pragma mark protected methods
+- (void)setErrorColor
+{
+    self.textField.textColor = [UIColor redColor];
+}
+
+- (void)setNormalColor
+{
+    self.textField.textColor = [UIColor darkGrayColor];
+}
+
 - (void)notifyValidity
 {
     [self setNormalColor];
@@ -61,19 +74,6 @@ static NSInteger const WPYMaxShakes = 8;
     {
         [self.delegate invalidValue:self.textField.text forKey:[self key] error:error];
     }
-}
-
-
-
-#pragma mark protected methods
-- (void)setErrorColor
-{
-    self.textField.textColor = [UIColor redColor];
-}
-
-- (void)setNormalColor
-{
-    self.textField.textColor = [UIColor darkGrayColor];
 }
 
 
@@ -132,6 +132,7 @@ static NSInteger const WPYMaxShakes = 8;
 }
 
 
+
 #pragma mark expected to overriden in subclass
 - (WPYFieldKey)key
 {
@@ -160,6 +161,9 @@ static NSInteger const WPYMaxShakes = 8;
     
 }
 
+
+
+#pragma mark error notification animation
 - (void)startErrorAnimation
 {
     [self shake:WPYMaxShakes
