@@ -24,7 +24,7 @@
 
 // methods expected to be overridden
 - (WPYFieldKey)key;
-- (BOOL)shouldValidate;
+- (BOOL)shouldValidateOnFocusLost;
 - (BOOL)validate:(NSError * __autoreleasing *)error;
 
 - (BOOL)canInsertNewValue:(NSString *)newValue place:(NSUInteger)place charactedDeleted:(BOOL)isCharacterDeleted;

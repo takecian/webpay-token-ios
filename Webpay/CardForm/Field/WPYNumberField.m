@@ -99,7 +99,7 @@ static NSString *spacedNumberFromNumber(NSString *canonicalizedNumber, NSUIntege
     return WPYNumberFieldKey;
 }
 
-- (BOOL)shouldValidate
+- (BOOL)shouldValidateOnFocusLost
 {
     NSString *number = self.textField.text;
     return number.length != 0; // don't valididate if length is 0

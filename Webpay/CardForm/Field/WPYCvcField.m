@@ -42,7 +42,7 @@ static NSInteger const WPYCvcMaxValue = 4;
     return WPYCvcFieldKey;
 }
 
-- (BOOL)shouldValidate
+- (BOOL)shouldValidateOnFocusLost
 {
     NSString *cvc = self.textField.text;
     return cvc.length != 0; // don't validiate if length is 0

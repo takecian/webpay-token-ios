@@ -51,7 +51,7 @@
     return WPYExpiryFieldKey;
 }
 
-- (BOOL)shouldValidate
+- (BOOL)shouldValidateOnFocusLost
 {
     NSString *expiry = self.textField.text;
     return expiry.length == 9; // don't valid if both not selected

@@ -86,7 +86,7 @@ static NSInteger const WPYMaxShakes = 8;
 
 - (void)textFieldDidEndEditing:(UITextField *)textField
 {
-    if (![self shouldValidate])
+    if (![self shouldValidateOnFocusLost])
     {
         return;
     }
@@ -139,7 +139,7 @@ static NSInteger const WPYMaxShakes = 8;
     return 100;
 }
 
-- (BOOL)shouldValidate
+- (BOOL)shouldValidateOnFocusLost
 {
     return NO;
 }

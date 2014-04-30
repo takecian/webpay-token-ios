@@ -40,7 +40,7 @@
     return WPYNameFieldKey;
 }
 
-- (BOOL)shouldValidate
+- (BOOL)shouldValidateOnFocusLost
 {
     NSString *name = self.textField.text;
     return name.length != 0; // don't valididate if length is 0
