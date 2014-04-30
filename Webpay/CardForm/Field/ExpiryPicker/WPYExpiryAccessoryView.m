@@ -20,17 +20,25 @@
     self = [super initWithFrame:frame];
     if (self)
     {
-        self.backgroundColor = [UIColor colorWithRed:0.97 green:0.97 blue:0.97 alpha:1];
-        self.layer.borderWidth = 0.5f;
-        self.layer.borderColor = [[UIColor colorWithRed:0.76 green:0.76 blue:0.76 alpha:1] CGColor];
+        UIToolbar *toolbar = [[UIToolbar alloc] initWithFrame:frame];
+        toolbar.backgroundColor = [UIColor colorWithRed:0.97 green:0.97 blue:0.97 alpha:1];
         
-        UIButton *doneButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        doneButton.frame = CGRectMake(250, 0, 70, 44);
-        [doneButton setTitle:NSLocalizedStringFromTable(@"Done", WPYLocalizedStringTable, nil)
-                     forState:UIControlStateNormal];
-        [doneButton addTarget:self action:@selector(doneTapped:) forControlEvents:UIControlEventTouchUpInside];
+        if (isiOS7())
+        {
+            CALayer *bottomBorder = [CALayer layer];
+            bottomBorder.frame = CGRectMake(0.0f, frame.size.height - 0.5, frame.size.width, 0.5f);
+            bottomBorder.backgroundColor = [UIColor lightGrayColor].CGColor;
+            
+            [toolbar.layer addSublayer:bottomBorder];
+        }
         
-        [self addSubview:doneButton];
+        UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStyleDone target:self action:@selector(doneTapped:)];
+        UIBarButtonItem *flex = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
+        NSArray *items = @[flex, doneButton];
+        
+        toolbar.items = items;
+        
+        [self addSubview:toolbar];
     }
     return self;
 }
