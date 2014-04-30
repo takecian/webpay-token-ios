@@ -65,7 +65,7 @@ NSString * WPYLocalizedDescriptionFromErrorCode(WPYErrorCode errorCode)
     }
 }
 
-FOUNDATION_EXPORT NSError *WPYCreateNSError(WPYErrorCode errorCode, NSString *failureReason)
+NSError *WPYCreateNSError(WPYErrorCode errorCode, NSString *failureReason)
 {
     NSString *localizedDescription = WPYLocalizedDescriptionFromErrorCode(errorCode);
     
