@@ -26,6 +26,7 @@
         _textField.keyboardType = UIKeyboardTypeASCIICapable;
         _textField.autocorrectionType = UITextAutocorrectionTypeNo;
         _textField.delegate = self;
+        [_textField addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
         
         [self addSubview:_textField];
     }
@@ -52,6 +53,5 @@
     
     return [creditCard validateName:&name error:error];
 }
-
 
 @end

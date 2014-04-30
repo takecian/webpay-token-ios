@@ -27,6 +27,7 @@ static NSInteger const WPYCvcMaxValue = 4;
         _textField.secureTextEntry = YES;
         _textField.keyboardType = UIKeyboardTypeNumberPad;
         _textField.delegate = self;
+        [_textField addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
         
         [self addSubview:_textField];
     }
@@ -57,9 +58,8 @@ static NSInteger const WPYCvcMaxValue = 4;
 
 
 #pragma mark textfield delegate
-- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)replacementString
+- (BOOL)canInsertNewValue:(NSString *)newValue place:(NSUInteger)place charactedDeleted:(BOOL)isCharacterDeleted
 {
-    NSString *newValue = [textField.text stringByReplacingCharactersInRange:range withString:replacementString];
     return newValue.length <= WPYCvcMaxValue;
 }
 

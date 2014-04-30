@@ -68,12 +68,12 @@
     return [creditCard validateExpiryYear:year month:month error:error];
 }
 
-
 #pragma mark expiry picker delegate
 - (void)didSelectExpiryYear:(NSString *)year month:(NSString *)month
 {
     NSString *expiry = [NSString stringWithFormat:@"%@ / %@", month, year];
     self.textField.text = expiry;
+    [self textFieldDidChange:self.textField];
 }
 
 

@@ -69,47 +69,6 @@ static NSString *spacedNumberFromNumber(NSString *canonicalizedNumber, NSUIntege
     return spacedNumber;
 }
 
-static NSString *brandFromNumber(NSString *number)
-{
-    if (number.length < 2)
-    {
-        return @"Unknown";
-    }
-    
-    NSInteger prefix = [[number substringWithRange:NSMakeRange(0, 2)] integerValue];
-    
-    if (40 <= prefix && prefix < 50)
-    {
-        return @"Visa";
-    }
-    
-    if (50 <= prefix && prefix <= 55)
-    {
-        return @"Master Card";
-    }
-    
-    if (prefix == 34 || prefix == 37)
-    {
-        return @"American Express";
-    }
-    
-    if (prefix == 30 || prefix == 36 || prefix == 38 || prefix == 39)
-    {
-        return @"Diners";
-    }
-    
-    if (prefix == 35)
-    {
-        return @"JCB";
-    }
-    
-    if (prefix == 60 || prefix == 62 || prefix == 64 || prefix == 65)
-    {
-        return @"Discover";
-    }
-    
-    return @"Unknown";
-}
 
 
 @interface WPYNumberField () <UITextFieldDelegate>
@@ -154,40 +113,30 @@ static NSString *brandFromNumber(NSString *number)
     return [creditCard validateNumber:&number error:error];
 }
 
-
-#pragma mark textfield delegate
-- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)replacementString
+- (BOOL)canInsertNewValue:(NSString *)newValue place:(NSUInteger)place charactedDeleted:(BOOL)isCharacterDeleted
 {
-    NSString *newValue = [textField.text stringByReplacingCharactersInRange:range withString:replacementString];
-    BOOL isCharacterDeleted = replacementString.length == 0;
-    NSUInteger place = range.location + 1;
-    
-    [self updateNumberFieldWithNumber:newValue
-                                place:place
-                     charactedDeleted:isCharacterDeleted];
+    // intercept values to add/remove spaces
     return NO;
 }
 
-
 #pragma mark private methods
-- (void)updateNumberFieldWithNumber:(NSString *)number
-                              place:(NSUInteger)place
-                   charactedDeleted:(BOOL)isCharacterDeleted
+- (void)updateValue:(NSString *)newValue place:(NSUInteger)place charactedDeleted:(BOOL)isCharacterDeleted
 {
-    NSString *canonicalizedNumber = removeAllWhitespaces(number);
-    if (isTooLongNumber(canonicalizedNumber)) // don't set number if more than 16 digits
+    NSString *canonicalizedNumber = removeAllWhitespaces(newValue);
+    if (isTooLongNumber(canonicalizedNumber))
     {
-        return;
+        return; // don't set number if more than 16 digits
     }
-    
     NSString *spacedNumber = spacedNumberFromNumber(canonicalizedNumber, place, isCharacterDeleted);
     self.textField.text = spacedNumber;
+    [self textFieldDidChange:self.textField];
+    
     [self updateBrand];
 }
 
 - (void)updateBrand
 {
-    NSString *brandName = brandFromNumber(self.textField.text);
+    NSString *brand = [WPYCreditCard brandNameFromPartialNumber:self.textField.text];
 }
 
 

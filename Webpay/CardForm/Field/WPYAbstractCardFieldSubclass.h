@@ -17,9 +17,16 @@
 - (void)setErrorColor;
 - (void)setNormalColor;
 
+// should override
 - (WPYFieldKey)key;
 - (BOOL)shouldValidate;
 - (BOOL)validate:(NSError * __autoreleasing *)error;
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField;
+
+- (BOOL)canInsertNewValue:(NSString *)newValue place:(NSUInteger)place charactedDeleted:(BOOL)isCharacterDeleted;
+- (void)updateValue:(NSString *)newValue
+              place:(NSUInteger)place
+   charactedDeleted:(BOOL)isCharacterDeleted;
+- (void)textFieldDidChange:(id)sender;
 @end

@@ -103,12 +103,33 @@ static NSInteger const WPYMaxShakes = 8;
     }
 }
 
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)replacementString
+{
+    NSString *newValue = [textField.text stringByReplacingCharactersInRange:range withString:replacementString];
+    NSUInteger place = range.location + 1;
+    BOOL isCharacterDeleted = replacementString.length == 0;
+    
+    [self updateValue:newValue place:place charactedDeleted:isCharacterDeleted];
+    
+    BOOL canInsertNewValue = [self canInsertNewValue:newValue place:place charactedDeleted:isCharacterDeleted];
+    
+    return canInsertNewValue;
+}
+
+// called when value of textfield updated. called from textfield or manually
+- (void)textFieldDidChange:(id)sender
+{
+    if ([self validate:nil])
+    {
+        [self notifyValidity];
+    }
+}
+
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
     [textField resignFirstResponder];
     return YES;
 }
-
 
 
 #pragma mark expected to overriden in subclass
@@ -125,6 +146,18 @@ static NSInteger const WPYMaxShakes = 8;
 - (BOOL)validate:(NSError * __autoreleasing *)error
 {
     return YES;
+}
+
+- (BOOL)canInsertNewValue:(NSString *)newValue place:(NSUInteger)place charactedDeleted:(BOOL)isCharacterDeleted
+{
+    return YES;
+}
+
+- (void)updateValue:(NSString *)newValue
+              place:(NSUInteger)place
+   charactedDeleted:(BOOL)isCharacterDeleted
+{
+    
 }
 
 - (void)startErrorAnimation
