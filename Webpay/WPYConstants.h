@@ -9,3 +9,5 @@
 #import <Foundation/Foundation.h>
 
 FOUNDATION_EXPORT NSString *const WPYLocalizedStringTable;
+
+FOUNDATION_EXPORT BOOL isiOS7(void);
