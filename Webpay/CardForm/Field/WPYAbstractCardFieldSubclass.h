@@ -16,6 +16,8 @@
 
 - (void)setErrorColor;
 - (void)setNormalColor;
+- (void)notifyValidity;
+- (void)notifyError:(NSError *)error;
 
 // should override
 - (WPYFieldKey)key;
