@@ -60,7 +60,6 @@ static NSInteger const WPYMaxShakes = 8;
 
 - (void)notifyValidity
 {
-    [self setNormalColor];
     if (self.delegate && [self.delegate respondsToSelector:@selector(validValue:forKey:)])
     {
         [self.delegate validValue:self.textField.text forKey:[self key]];
@@ -69,7 +68,6 @@ static NSInteger const WPYMaxShakes = 8;
 
 - (void)notifyError:(NSError *)error
 {
-    [self setErrorColor];
     if (self.delegate && [self.delegate respondsToSelector:@selector(invalidValue:forKey:error:)])
     {
         [self.delegate invalidValue:self.textField.text forKey:[self key] error:error];
@@ -94,10 +92,12 @@ static NSInteger const WPYMaxShakes = 8;
     NSError *error = nil;
     if ([self validate:&error])
     {
+        [self setNormalColor];
         [self notifyValidity];
     }
     else
     {
+        [self setErrorColor];
         [self startErrorAnimation];
         [self notifyError:error];
     }
@@ -119,9 +119,14 @@ static NSInteger const WPYMaxShakes = 8;
 // called when value of textfield updated. called from textfield or manually
 - (void)textFieldDidChange:(id)sender
 {
-    if ([self validate:nil])
+    NSError *error = nil;
+    if ([self validate:&error])
     {
         [self notifyValidity];
+    }
+    else
+    {
+        [self notifyError:error];
     }
 }
 
