@@ -8,17 +8,14 @@
 
 #import "WPYCardFormCell.h"
 
-#import "WPYAbstractCardField.h"
-
 @interface WPYCardFormCell ()
 @property(nonatomic, strong) UILabel *titleLabel;// default textlabel of cell has weird behaviors with frame size.
-@property(nonatomic, strong) WPYAbstractCardField *field;
 @end
 
 @implementation WPYCardFormCell
 - (id)initWithStyle:(UITableViewCellStyle)style
     reuseIdentifier:(NSString *)reuseIdentifier
-              field:(WPYAbstractCardField *)field
+        contentView:(UIView *)contentView
               title:(NSString *)title
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
@@ -26,26 +23,20 @@
     {
         // cell
         self.selectionStyle = UITableViewCellSelectionStyleNone;
+        self.backgroundColor = [UIColor clearColor];
         
         // text label
-        _titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, 0, 80, 44)];
+        _titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, 0, 80, 50)];
         _titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
         _titleLabel.numberOfLines = 0;
         _titleLabel.text = title;
         _titleLabel.textColor = [UIColor colorWithRed:0 green:0.478 blue:1.0 alpha:1.0];
-        _titleLabel.font = [UIFont systemFontOfSize:12.0f];
+        _titleLabel.font = [UIFont fontWithName:@"Verdana" size:14.0f];
         [self.contentView addSubview:_titleLabel];
         
-        // field
-        _field = field;
-        [self.contentView addSubview:_field];
+        [self.contentView addSubview: contentView];
     }
     return self;
-}
-
-- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
-{
-    return [self initWithStyle:style reuseIdentifier:reuseIdentifier field:nil title:nil];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
