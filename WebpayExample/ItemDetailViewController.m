@@ -43,7 +43,7 @@
 #pragma mark event handler
 - (void)showPaymentView:(id)sender
 {
-    NSString *buttonTitle = @"Confirm and pay $1.00";
+    NSString *buttonTitle = @"Pay $1.00";
     WPYPaymentViewCallback callback = ^(WPYToken *token, NSError *error)
     {
         if (token)
@@ -67,6 +67,7 @@
     };
     
     WPYPaymentViewController *paymentViewController = [[WPYPaymentViewController alloc] initWithButtonTitle:buttonTitle callback:callback];
+    paymentViewController.title = @"Payment Info";
     
     [self.navigationController pushViewController:paymentViewController animated:YES];
 }
