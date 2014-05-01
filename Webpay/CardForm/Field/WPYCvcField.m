@@ -13,7 +13,7 @@
 @interface WPYCvcField () <UITextFieldDelegate>
 @end
 
-static NSInteger const WPYCvcMaxValue = 4;
+static NSInteger const WPYCvcMaxDigits = 4;
 
 @implementation WPYCvcField
 #pragma mark initialization
@@ -64,7 +64,7 @@ static NSInteger const WPYCvcMaxValue = 4;
 
 - (void)updateValue:(NSString *)newValue place:(NSUInteger)place charactedDeleted:(BOOL)isCharacterDeleted
 {
-    if (newValue.length > WPYCvcMaxValue)
+    if (newValue.length > WPYCvcMaxDigits)
     {
         return;
     }
