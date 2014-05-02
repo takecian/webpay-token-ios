@@ -76,27 +76,23 @@ static NSString *spacedNumberFromNumber(NSString *canonicalizedNumber, NSUIntege
 
 @implementation WPYNumberField
 
-#pragma mark initialization
-- (instancetype)initWithFrame:(CGRect)frame text:(NSString *)text
+#pragma mark override methods
+- (UITextField *)createTextFieldWithFrame:(CGRect)frame
 {
-    if (self = [super initWithFrame:frame text:text])
-    {
-        _textField = [[UITextField alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
-        _textField.placeholder = @"1234 5678 9012 3456";
-        _textField.keyboardType = UIKeyboardTypeNumberPad;
-        _textField.delegate = self;
-        [self setupTextField];
-        NSString *initialText = text ? addSpacesPerFourCharacters(text) : nil;
-        [self setText:initialText];
-        
-        [self addSubview:_textField];
-    }
-    return self;
+    UITextField *textField = [[UITextField alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
+    textField.placeholder = @"1234 5678 9012 3456";
+    textField.keyboardType = UIKeyboardTypeNumberPad;
+    textField.delegate = self;
+    
+    return textField;
 }
 
+- (void)setText:(NSString *)text
+{
+    NSString *initialText = text ? addSpacesPerFourCharacters(text) : nil;
+    [super setText:initialText];
+}
 
-
-#pragma mark override methods
 - (WPYFieldKey)key
 {
     return WPYNumberFieldKey;

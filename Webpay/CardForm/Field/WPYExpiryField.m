@@ -15,42 +15,37 @@
 #import "WPYConstants.h"
 
 @interface WPYExpiryField () <UITextFieldDelegate, WPYExpiryPickerViewDelegate, WPYExpiryAccessoryViewDelegate>
+@property(nonatomic, strong) WPYExpiryPickerView *expiryPickerView;
 - (void)didSelectExpiryYear:(NSString *)year month:(NSString *)month;
 @end
 
 @implementation WPYExpiryField
 
-#pragma mark initialization
-- (instancetype)initWithFrame:(CGRect)frame text:(NSString *)text
-{
-    if (self = [super initWithFrame:frame text:text])
-    {
-        WPYExpiryPickerView *expiryPicker = [[WPYExpiryPickerView alloc] initWithFrame:CGRectMake(0, 0, 320, 200)];
-        expiryPicker.expiryDelegate = self;
-        
-        WPYExpiryAccessoryView *accessoryView = [[WPYExpiryAccessoryView alloc] initWithFrame:CGRectMake(0, 0, [[UIScreen mainScreen]bounds].size.width, 44)];
-        accessoryView.delegate = self;
-        
-        _textField = [[WPYMenuDisabledTextField alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
-        _textField.placeholder = @"01 / 15";
-        if (isiOS7())
-        {
-            _textField.tintColor = [UIColor clearColor]; // hide cursor
-        }
-        _textField.inputView = expiryPicker;
-        _textField.inputAccessoryView = accessoryView;
-        _textField.delegate = self;
-        
-        [self setupTextField];
-        [self setText:text];
-        [self addSubview:_textField];
-    }
-    return self;
-}
-
 
 
 #pragma mark override methods
+- (UITextField *)createTextFieldWithFrame:(CGRect)frame
+{
+    self.expiryPickerView = [[WPYExpiryPickerView alloc] initWithFrame:CGRectMake(0, 0, 320, 200)];
+    self.expiryPickerView.expiryDelegate = self;
+        
+    WPYExpiryAccessoryView *accessoryView = [[WPYExpiryAccessoryView alloc] initWithFrame:CGRectMake(0, 0, [[UIScreen mainScreen]bounds].size.width, 44)];
+    accessoryView.delegate = self;
+        
+    UITextField *textField = [[WPYMenuDisabledTextField alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
+    textField.placeholder = @"01 / 2018";
+    
+    if (isiOS7())
+    {
+        textField.tintColor = [UIColor clearColor]; // hide cursor
+    }
+    textField.inputView = self.expiryPickerView;
+    textField.inputAccessoryView = accessoryView;
+    textField.delegate = self;
+        
+    return textField;
+}
+
 - (WPYFieldKey)key
 {
     return WPYExpiryFieldKey;
@@ -88,6 +83,8 @@
 #pragma mark expiry accessory view delegate
 - (void)doneButtonTapped
 {
+    self.textField.text = [self.expiryPickerView selectedExpiry];
+    [self textFieldDidChange:self.textField];
     [self.textField resignFirstResponder];
 }
 

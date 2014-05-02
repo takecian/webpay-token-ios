@@ -15,27 +15,19 @@
 
 @implementation WPYNameField
 
-#pragma mark initialization
-- (instancetype)initWithFrame:(CGRect)frame text:(NSString *)text
+#pragma mark override methods
+- (UITextField *)createTextFieldWithFrame:(CGRect)frame
 {
-    if (self = [super initWithFrame:frame text:text])
-    {
-        _textField = [[UITextField alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
-        _textField.placeholder = @"Taro Yamada";
-        _textField.keyboardType = UIKeyboardTypeASCIICapable;
-        _textField.autocorrectionType = UITextAutocorrectionTypeNo;
-        _textField.delegate = self;
-        [_textField addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
-        
-        [self setupTextField];
-        [self setText:text];
-        [self addSubview:_textField];
-    }
-    return self;
+    UITextField *textField = [[UITextField alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
+    textField.placeholder = @"Taro Yamada";
+    textField.keyboardType = UIKeyboardTypeASCIICapable;
+    textField.autocorrectionType = UITextAutocorrectionTypeNo;
+    textField.delegate = self;
+    [textField addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
+    
+    return textField;
 }
 
-
-#pragma mark override methods
 - (WPYFieldKey)key
 {
     return WPYNameFieldKey;

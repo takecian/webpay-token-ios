@@ -16,28 +16,20 @@
 static NSInteger const WPYCvcMaxDigits = 4;
 
 @implementation WPYCvcField
-#pragma mark initialization
-- (instancetype)initWithFrame:(CGRect)frame text:(NSString *)text
-{
-    if (self = [super initWithFrame:frame text:text])
-    {
-        _textField = [[UITextField alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
-        _textField.placeholder = @"123";
-        _textField.secureTextEntry = YES;
-        _textField.keyboardType = UIKeyboardTypeNumberPad;
-        _textField.delegate = self;
-        [_textField addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
-        
-        [self setupTextField];
-        [self setText:text];
-        [self addSubview:_textField];
-    }
-    return self;
-}
-
-
 
 #pragma mark override methods
+- (UITextField *)createTextFieldWithFrame:(CGRect)frame
+{
+    UITextField *textField = [[UITextField alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
+    textField.placeholder = @"123";
+    textField.secureTextEntry = YES;
+    textField.keyboardType = UIKeyboardTypeNumberPad;
+    textField.delegate = self;
+    [textField addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
+    
+    return textField;
+}
+
 - (WPYFieldKey)key
 {
     return WPYCvcFieldKey;

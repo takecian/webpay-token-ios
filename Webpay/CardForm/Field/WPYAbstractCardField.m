@@ -27,6 +27,10 @@ static NSInteger const WPYMaxShakes = 8;
     self = [super initWithFrame:frame];
     if (self)
     {
+        _textField = [self createTextFieldWithFrame:frame];
+        [self setupTextField];
+        [self setText:text];
+        [self addSubview:_textField];
     }
     return self;
 }
@@ -165,6 +169,13 @@ static NSInteger const WPYMaxShakes = 8;
 
 
 #pragma mark expected to overriden in subclass
+- (UITextField *)createTextFieldWithFrame:(CGRect)frame
+{
+    @throw [NSException exceptionWithName:NSInternalInconsistencyException
+                                   reason:[NSString stringWithFormat:@"You must override %@ in a subclass", NSStringFromSelector(_cmd)]
+                                 userInfo:nil];
+}
+
 - (WPYFieldKey)key
 {
     @throw [NSException exceptionWithName:NSInternalInconsistencyException
