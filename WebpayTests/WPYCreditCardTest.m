@@ -139,6 +139,31 @@ static NSString *const unknownCardNumber  = @"9876543210123456";
 
 
 
+#pragma mark expiryInString
+- (void)testUnsetExpiry
+{
+    XCTAssertNil([_creditCard expiryInString], @"It should return nil when expiry is not set.");
+}
+
+- (void)testPartiallySetExpiry
+{
+    WPYCreditCard *card1 = [[WPYCreditCard alloc] init];
+    card1.expiryYear = 2015;
+    XCTAssertNil([card1 expiryInString], @"It should return nil when month is not set");
+    
+    WPYCreditCard *card2 = [[WPYCreditCard alloc] init];
+    card2.expiryMonth = 11;
+    XCTAssertNil([card2 expiryInString], @"It should return nil when year is not set");
+}
+
+- (void)testBothSetExpiry
+{
+    _creditCard.expiryYear = 2016;
+    _creditCard.expiryMonth = 11;
+    XCTAssertEqualObjects([_creditCard expiryInString], @"11 / 2016", @"It should return expiry in expected format.");
+}
+
+
 #pragma mark brandNameFromPartialNumber
 - (void)testNilPartialNumber
 {

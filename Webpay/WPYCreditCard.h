@@ -35,6 +35,7 @@ typedef NS_ENUM(NSUInteger, WPYMonth) {
 + (BOOL)isSupportedBrand:(NSString *)brand;
 
 - (NSString *)brandName;
+- (NSString *)expiryInString;
 
 // validate each property
 - (BOOL)validateName:(id *)ioValue error:(NSError * __autoreleasing *)outError;

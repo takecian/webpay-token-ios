@@ -178,6 +178,16 @@ static NSString *reverseString(NSString *string)
     return brandName ? brandName : @"Unknown";
 }
 
+- (NSString *)expiryInString
+{
+    if (self.expiryYear && self.expiryMonth)
+    {
+        return [NSString stringWithFormat:@"%d / %d", self.expiryMonth, self.expiryYear];
+    }
+    
+    return nil;
+}
+
 
 
 #pragma mark validation methods
