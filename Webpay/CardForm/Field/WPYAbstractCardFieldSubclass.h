@@ -14,12 +14,6 @@
 
 @property(nonatomic, strong) UITextField *textField;
 
-- (void)setErrorColor;
-- (void)setNormalColor;
-- (void)notifyValidity;
-- (void)notifyError:(NSError *)error;
-
-- (void)setupTextField;
 - (void)setInitialText:(NSString *)text;
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField;
