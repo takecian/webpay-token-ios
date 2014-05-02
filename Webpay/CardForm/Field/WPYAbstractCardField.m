@@ -29,7 +29,7 @@ static NSInteger const WPYMaxShakes = 8;
     {
         _textField = [self createTextFieldWithFrame:frame];
         [self setupTextField];
-        [self setText:text];
+        [self setInitialText:text];
         [self addSubview:_textField];
     }
     return self;
@@ -79,7 +79,7 @@ static NSInteger const WPYMaxShakes = 8;
     self.textField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
 }
 
-- (void)setText:(NSString *)text
+- (void)setInitialText:(NSString *)text
 {
     // setting nil appears as (null).
     if (text)

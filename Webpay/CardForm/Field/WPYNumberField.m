@@ -87,10 +87,10 @@ static NSString *spacedNumberFromNumber(NSString *canonicalizedNumber, NSUIntege
     return textField;
 }
 
-- (void)setText:(NSString *)text
+- (void)setInitialText:(NSString *)text
 {
     NSString *initialText = text ? addSpacesPerFourCharacters(text) : nil;
-    [super setText:initialText];
+    [super setInitialText:initialText];
 }
 
 - (WPYFieldKey)key
