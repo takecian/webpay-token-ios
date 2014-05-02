@@ -16,7 +16,6 @@
 
 @interface WPYExpiryField () <UITextFieldDelegate, WPYExpiryPickerViewDelegate, WPYExpiryAccessoryViewDelegate>
 @property(nonatomic, strong) WPYExpiryPickerView *expiryPickerView;
-- (void)didSelectExpiryYear:(NSString *)year month:(NSString *)month;
 @end
 
 @implementation WPYExpiryField
