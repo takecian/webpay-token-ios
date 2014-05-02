@@ -20,26 +20,20 @@
 #import "WPYCvcField.h"
 #import "WPYNameField.h"
 
-@interface WPYCardFormView () <UITableViewDataSource, WPYCardFieldDelegate>
+@interface WPYCardFormView () <UITableViewDataSource,UITableViewDelegate, WPYCardFieldDelegate>
 // card info holder
 @property(nonatomic, strong) WPYCreditCard *creditCard;
-
-// fields
-@property(nonatomic, strong) WPYNumberField *numberField;
-@property(nonatomic, strong) WPYExpiryField *expiryField;
-@property(nonatomic, strong) WPYCvcField *cvcField;
-@property(nonatomic, strong) WPYNameField *nameField;
 
 // tableview
 @property(nonatomic, strong) UITableView *tableView;
 @property(nonatomic, strong) NSArray *titles;
-@property(nonatomic, strong) NSArray *fields;
+@property(nonatomic, strong) NSArray *contentViews;
 @end
 
-static float const WPYFieldLeftMargin = 110.0f;
-static float const WPYFieldTopMargin = 3.0f;
+static float const WPYFieldLeftMargin = 100.0f;
+static float const WPYFieldTopMargin = 4.0f;
 static float const WPYFieldWidth = 320.0f - WPYFieldLeftMargin;
-static float const WPYFieldHeight = 40.0f;
+static float const WPYFieldHeight = 45.0f;
 
 
 
@@ -64,36 +58,41 @@ static NSString *fieldNameFromFieldKey(WPYFieldKey key)
 
 @implementation WPYCardFormView
 #pragma mark initialization
-- (id)initWithFrame:(CGRect)frame
+- (instancetype)initWithFrame:(CGRect)frame card:(WPYCreditCard *)card
 {
-    self = [super initWithFrame:frame];
-    if (self)
+    if (self = [super initWithFrame:frame])
     {
-        _creditCard = [[WPYCreditCard alloc] init];
+        _creditCard = card ? card : [[WPYCreditCard alloc] init];
         
-        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, 320, 240)];
+        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, 320, 264) style:UITableViewStyleGrouped];
+        _tableView.tableHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, self.tableView.bounds.size.width, 0.01f)];
+        _tableView.backgroundColor = [UIColor clearColor];
+        _tableView.backgroundView = nil;
         _tableView.dataSource = self;
+        _tableView.delegate = self;
         [self addSubview:_tableView];
         
         _titles = @[@"Number", @"Expiry", @"CVC", @"Name"];
         
-        // fields
+        // contentViews
         CGRect fieldFrame = CGRectMake(WPYFieldLeftMargin, WPYFieldTopMargin, WPYFieldWidth, WPYFieldHeight);
-        _numberField = [[WPYNumberField alloc] initWithFrame:fieldFrame];
-        _numberField.delegate = self;
+        WPYAbstractCardField *numberField = [[WPYNumberField alloc] initWithFrame:fieldFrame text:_creditCard.number];
+        WPYAbstractCardField *expiryField = [[WPYExpiryField alloc] initWithFrame:fieldFrame text:[_creditCard expiryInString]];
+        WPYAbstractCardField *cvcField = [[WPYCvcField alloc] initWithFrame:fieldFrame text:_creditCard.cvc];
+        WPYAbstractCardField *nameField = [[WPYNameField alloc] initWithFrame:fieldFrame text:_creditCard.name];
         
-        _expiryField = [[WPYExpiryField alloc] initWithFrame:fieldFrame];
-        _expiryField.delegate = self;
-        
-        _cvcField = [[WPYCvcField alloc] initWithFrame:fieldFrame];
-        _cvcField.delegate = self;
-        
-        _nameField = [[WPYNameField alloc] initWithFrame:fieldFrame];
-        _nameField.delegate = self;
-        
-        _fields = @[_numberField, _expiryField, _cvcField, _nameField];
+        _contentViews = @[numberField, expiryField, cvcField, nameField];
+        [_contentViews enumerateObjectsUsingBlock:^(WPYAbstractCardField *field, NSUInteger idx, BOOL *stop){
+            field.delegate = self;
+        }];
     }
     return self;
+}
+
+// override designated initializer of superclass
+- (instancetype)initWithFrame:(CGRect)frame
+{
+    return [self initWithFrame:frame card:nil];
 }
 
 
@@ -101,8 +100,10 @@ static NSString *fieldNameFromFieldKey(WPYFieldKey key)
 #pragma mark public method
 - (void)setFocusToFirstField
 {
-    [self.numberField setFocus:YES];
+    WPYAbstractCardField *firstField = self.contentViews[0];
+    [firstField setFocus:YES];
 }
+
 
 
 
@@ -114,7 +115,7 @@ static NSString *fieldNameFromFieldKey(WPYFieldKey key)
 
 - (NSInteger)tableView:(UITableView*)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return self.fields.count;
+    return self.titles.count;
 }
 
 - (WPYCardFormCell*)tableView:(UITableView*)tableView cellForRowAtIndexPath:(NSIndexPath*)indexPath
@@ -125,17 +126,35 @@ static NSString *fieldNameFromFieldKey(WPYFieldKey key)
     {
         cell = [[WPYCardFormCell alloc] initWithStyle:UITableViewCellStyleValue1
                                       reuseIdentifier:CellIdentifier
-                                                field:self.fields[indexPath.row]
+                                          contentView:self.contentViews[indexPath.row]
                                                 title:self.titles[indexPath.row]];
+                
     }
     
     return cell;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 50;
 }
 
 
 
 #pragma mark card field delegates
 - (void)validValue:(NSString *)value forKey:(WPYFieldKey)key
+{
+    [self setCardValue:value forKey:key];
+    [self validate];
+}
+
+- (void)invalidValue:(NSString *)value forKey:(WPYFieldKey)key error:(NSError *)error
+{
+    [self setCardValue:value forKey:key];
+    [self notifyDelegateFieldName:fieldNameFromFieldKey(key) error:error];
+}
+
+- (void)setCardValue:(NSString *)value forKey:(WPYFieldKey)key
 {
     switch (key)
     {
@@ -156,15 +175,7 @@ static NSString *fieldNameFromFieldKey(WPYFieldKey key)
             self.creditCard.name = value;
             break;
     }
-    
-    [self validate];
 }
-
-- (void)invalidValue:(NSString *)value forKey:(WPYFieldKey)key error:(NSError *)error
-{
-    [self notifyDelegateFieldName:fieldNameFromFieldKey(key) error:error];
-}
-
 
 
 #pragma mark validation

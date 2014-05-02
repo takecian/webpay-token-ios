@@ -11,7 +11,13 @@
 @class WPYCreditCard;
 @protocol WPYCardFormViewDelegate <NSObject>
 @optional
+
+// called when a field is valid.
+// triggers when there is new input or field lost focus
+- (void)validFieldName:(NSString *)fieldName;
+
 // called when a field is invalid
+// triggers when field lost focus
 - (void)invalidFieldName:(NSString *)fieldName error:(NSError *)error;
 
 // called when the whole form is valid
@@ -21,5 +27,8 @@
 
 @interface WPYCardFormView : UIView
 @property(nonatomic, weak) id <WPYCardFormViewDelegate> delegate;
+// designated initializer
+// pass card to prefill the fields
+- (instancetype)initWithFrame:(CGRect)frame card:(WPYCreditCard *)card;
 - (void)setFocusToFirstField;
 @end
