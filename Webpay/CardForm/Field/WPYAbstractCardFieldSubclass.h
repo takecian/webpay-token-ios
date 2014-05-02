@@ -35,4 +35,5 @@
 - (void)updateValue:(NSString *)newValue
               place:(NSUInteger)place
    charactedDeleted:(BOOL)isCharacterDeleted;
+- (void)textFieldWillLoseFocus;
 @end

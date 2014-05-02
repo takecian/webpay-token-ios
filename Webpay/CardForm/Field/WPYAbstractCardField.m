@@ -114,6 +114,8 @@ static NSInteger const WPYMaxShakes = 8;
 
 - (void)textFieldDidEndEditing:(UITextField *)textField
 {
+    [self textFieldWillLoseFocus];
+    
     if (![self shouldValidateOnFocusLost])
     {
         return;
@@ -158,6 +160,7 @@ static NSInteger const WPYMaxShakes = 8;
     {
         [self notifyError:error];
     }
+    
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
@@ -209,6 +212,10 @@ static NSInteger const WPYMaxShakes = 8;
     
 }
 
+- (void)textFieldWillLoseFocus
+{
+
+}
 
 
 #pragma mark error notification animation
