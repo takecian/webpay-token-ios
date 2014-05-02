@@ -8,6 +8,7 @@
 
 #import "WPYAbstractCardFieldSubclass.h"
 
+
 static float const WPYShakeWidth = 1.0f;
 static float const WPYShakeDuration = 0.03f;
 static NSInteger const WPYMaxShakes = 8;
@@ -21,13 +22,18 @@ static NSInteger const WPYMaxShakes = 8;
 @synthesize textField = _textField;
 
 #pragma mark initialization
-- (id)initWithFrame:(CGRect)frame
+- (instancetype)initWithFrame:(CGRect)frame text:(NSString *)text
 {
     self = [super initWithFrame:frame];
     if (self)
     {
     }
     return self;
+}
+
+- (id)initWithFrame:(CGRect)frame
+{
+    return [self initWithFrame:frame text:nil];
 }
 
 
@@ -67,6 +73,15 @@ static NSInteger const WPYMaxShakes = 8;
 {
     self.textField.font = [self font];
     self.textField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
+}
+
+- (void)setText:(NSString *)text
+{
+    // setting nil appears as (null).
+    if (text)
+    {
+        self.textField.text = text;
+    }
 }
 
 - (void)notifyValidity

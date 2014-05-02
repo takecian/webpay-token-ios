@@ -21,10 +21,9 @@
 @implementation WPYExpiryField
 
 #pragma mark initialization
-- (id)initWithFrame:(CGRect)frame
+- (instancetype)initWithFrame:(CGRect)frame text:(NSString *)text
 {
-    self = [super initWithFrame:frame];
-    if (self)
+    if (self = [super initWithFrame:frame text:text])
     {
         WPYExpiryPickerView *expiryPicker = [[WPYExpiryPickerView alloc] initWithFrame:CGRectMake(0, 0, 320, 200)];
         expiryPicker.expiryDelegate = self;
@@ -43,6 +42,7 @@
         _textField.delegate = self;
         
         [self setupTextField];
+        [self setText:text];
         [self addSubview:_textField];
     }
     return self;

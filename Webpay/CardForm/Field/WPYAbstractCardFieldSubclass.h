@@ -20,6 +20,7 @@
 - (void)notifyError:(NSError *)error;
 
 - (void)setupTextField;
+- (void)setText:(NSString *)text;
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField;
 - (void)textFieldDidChange:(id)sender;

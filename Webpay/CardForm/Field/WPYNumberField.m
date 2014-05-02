@@ -77,16 +77,18 @@ static NSString *spacedNumberFromNumber(NSString *canonicalizedNumber, NSUIntege
 @implementation WPYNumberField
 
 #pragma mark initialization
-- (id)initWithFrame:(CGRect)frame
+- (instancetype)initWithFrame:(CGRect)frame text:(NSString *)text
 {
-    self = [super initWithFrame:frame];
-    if (self)
+    if (self = [super initWithFrame:frame text:text])
     {
         _textField = [[UITextField alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
         _textField.placeholder = @"1234 5678 9012 3456";
         _textField.keyboardType = UIKeyboardTypeNumberPad;
         _textField.delegate = self;
         [self setupTextField];
+        NSString *initialText = text ? addSpacesPerFourCharacters(text) : nil;
+        [self setText:initialText];
+        
         [self addSubview:_textField];
     }
     return self;
@@ -109,9 +111,8 @@ static NSString *spacedNumberFromNumber(NSString *canonicalizedNumber, NSUIntege
 - (BOOL)validate:(NSError * __autoreleasing *)error
 {
     NSString *number = self.textField.text;
-    WPYCreditCard *creditCard = [[WPYCreditCard alloc] init];
-    
-    return [creditCard validateNumber:&number error:error];
+    WPYCreditCard *card = [[WPYCreditCard alloc] init];
+    return [card validateNumber:&number error:error];
 }
 
 - (BOOL)canInsertNewValue:(NSString *)newValue place:(NSUInteger)place charactedDeleted:(BOOL)isCharacterDeleted

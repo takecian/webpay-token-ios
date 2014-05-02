@@ -16,10 +16,9 @@
 @implementation WPYNameField
 
 #pragma mark initialization
-- (id)initWithFrame:(CGRect)frame
+- (instancetype)initWithFrame:(CGRect)frame text:(NSString *)text
 {
-    self = [super initWithFrame:frame];
-    if (self)
+    if (self = [super initWithFrame:frame text:text])
     {
         _textField = [[UITextField alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
         _textField.placeholder = @"Taro Yamada";
@@ -29,6 +28,7 @@
         [_textField addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
         
         [self setupTextField];
+        [self setText:text];
         [self addSubview:_textField];
     }
     return self;
