@@ -33,7 +33,7 @@
     UIButton *payButton = [UIButton buttonWithType:UIButtonTypeCustom];
     payButton.frame = CGRectMake(40, 280, 240, 44);
     payButton.layer.cornerRadius = 2;
-    payButton.backgroundColor = [UIColor colorWithRed:0.18 green:0.8 blue:0.44 alpha:1];
+    payButton.backgroundColor = [UIColor colorWithRed:0.98 green:0.41 blue:0.05 alpha:1];
     [payButton setTitle:@"Pay with Card" forState:UIControlStateNormal];
     [payButton addTarget:self action:@selector(showPaymentView:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:payButton];
@@ -44,7 +44,7 @@
 - (void)showPaymentView:(id)sender
 {
     NSString *buttonTitle = @"Pay $1.00";
-    WPYPaymentViewCallback callback = ^(WPYToken *token, NSError *error)
+    WPYPaymentViewCallback callback = ^(WPYPaymentViewController *paymentViewController, WPYToken *token, NSError *error)
     {
         if (token)
         {
@@ -54,6 +54,8 @@
                               cancelButtonTitle:@"ok"
                               otherButtonTitles:nil, nil]
              show];
+            [paymentViewController setPayButtonComplete];
+//            [paymentViewController popAfterDelay:1.0f];
         }
         else
         {
