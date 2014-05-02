@@ -73,8 +73,7 @@
 - (void)didSelectExpiryYear:(NSString *)year month:(NSString *)month
 {
     NSString *expiry = [NSString stringWithFormat:@"%@ / %@", month, year];
-    self.textField.text = expiry;
-    [self textFieldDidChange:self.textField];
+    [self setExpiry:expiry];
 }
 
 
@@ -82,9 +81,17 @@
 #pragma mark expiry accessory view delegate
 - (void)doneButtonTapped
 {
+    [self setExpiry:[self.expiryPickerView selectedExpiry]];
+    [self.textField resignFirstResponder];
+}
+
+
+
+#pragma mark private methods
+- (void)setExpiry:(NSString *)expiry
+{
     self.textField.text = [self.expiryPickerView selectedExpiry];
     [self textFieldDidChange:self.textField];
-    [self.textField resignFirstResponder];
 }
 
 @end
