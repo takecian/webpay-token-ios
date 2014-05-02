@@ -61,6 +61,7 @@ static NSInteger const WPYCvcMaxDigits = 4;
         return;
     }
     self.textField.text = newValue;
+    [self textFieldDidChange:self.textField];
 }
 
 @end
