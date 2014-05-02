@@ -26,7 +26,7 @@
         self.backgroundColor = [UIColor clearColor];
         
         // text label
-        _titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, 0, 80, 50)];
+        _titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, 1, 80, 48)];
         _titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
         _titleLabel.numberOfLines = 0;
         _titleLabel.text = title;
