@@ -30,5 +30,5 @@
 // designated initializer
 // pass card to prefill the fields
 - (instancetype)initWithFrame:(CGRect)frame card:(WPYCreditCard *)card;
-- (void)setFocusToFirstField;
+- (void)setFocusToFirstNotfilledField;
 @end

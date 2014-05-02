@@ -98,12 +98,16 @@ static NSString *fieldNameFromFieldKey(WPYFieldKey key)
 
 
 #pragma mark public method
-- (void)setFocusToFirstField
+- (void)setFocusToFirstNotfilledField
 {
-    WPYAbstractCardField *firstField = self.contentViews[0];
-    [firstField setFocus:YES];
+    [self.contentViews enumerateObjectsUsingBlock:^(WPYAbstractCardField *field, NSUInteger idx, BOOL *stop){
+        if (field.text.length == 0)
+        {
+            [field setFocus:YES];
+            *stop = YES;
+        }
+    }];
 }
-
 
 
 
