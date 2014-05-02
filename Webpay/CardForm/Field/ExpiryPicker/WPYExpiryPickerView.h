@@ -14,4 +14,5 @@
 
 @interface WPYExpiryPickerView : UIPickerView
 @property(nonatomic, weak) id <WPYExpiryPickerViewDelegate> expiryDelegate;
+- (NSString *)selectedExpiry;
 @end

@@ -63,6 +63,21 @@ typedef NS_ENUM(NSInteger, WPYComponents)
 
 }
 
+
+#pragma mark public method
+- (NSString *)selectedExpiry
+{
+    NSInteger selectedMonthRow = [self selectedRowInComponent:WPYExpiryPickerMonth];
+    NSString *month = self.months[selectedMonthRow];
+    
+    NSInteger selectedYearRow = [self selectedRowInComponent:WPYExpiryPickerYear];
+    NSString *year = self.years[selectedYearRow];
+    
+    return [NSString stringWithFormat:@"%@ / %@", month, year];
+}
+
+
+
 #pragma mark notify delegate
 - (void)notifyDelegate
 {
