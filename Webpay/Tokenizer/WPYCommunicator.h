@@ -6,6 +6,7 @@
 //  Copyright (c) 2014 yohei, YasuLab. All rights reserved.
 //
 
+// During a request, he connection maintains a strong reference to its delegate.
 #import <Foundation/Foundation.h>
 
 @class WPYCreditCard;
