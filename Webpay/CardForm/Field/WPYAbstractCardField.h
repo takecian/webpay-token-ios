@@ -32,5 +32,5 @@ typedef NS_ENUM(NSInteger, WPYFieldKey)
 //designated initializer
 - (instancetype)initWithFrame:(CGRect)frame text:(NSString *)text;
 - (void)setFocus:(BOOL)focus;
-
+- (NSString *)text;
 @end

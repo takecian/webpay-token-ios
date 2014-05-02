@@ -55,6 +55,10 @@ static NSInteger const WPYMaxShakes = 8;
     }
 }
 
+- (NSString *)text
+{
+    return self.textField.text;
+}
 
 
 #pragma mark protected methods
