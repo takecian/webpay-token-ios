@@ -58,6 +58,18 @@ static NSInteger const WPYMaxShakes = 8;
 
 
 #pragma mark protected methods
+- (void)setInitialText:(NSString *)text
+{
+    // setting nil appears as (null).
+    if (text)
+    {
+        self.textField.text = text;
+    }
+}
+
+
+
+#pragma mark private methods
 - (void)setErrorColor
 {
     self.textField.textColor = [UIColor redColor];
@@ -77,15 +89,6 @@ static NSInteger const WPYMaxShakes = 8;
 {
     self.textField.font = [self font];
     self.textField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
-}
-
-- (void)setInitialText:(NSString *)text
-{
-    // setting nil appears as (null).
-    if (text)
-    {
-        self.textField.text = text;
-    }
 }
 
 - (void)notifyValidity
