@@ -67,6 +67,11 @@
     return [creditCard validateExpiryYear:year month:month error:error];
 }
 
+- (void)textFieldWillLoseFocus
+{
+    [self setExpiry:[self.expiryPickerView selectedExpiry]];
+}
+
 
 
 #pragma mark expiry picker delegate
