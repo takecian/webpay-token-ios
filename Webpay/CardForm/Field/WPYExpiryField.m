@@ -36,7 +36,7 @@
     
     if (isiOS7())
     {
-        textField.tintColor = [UIColor clearColor]; // hide cursor
+//        textField.tintColor = [UIColor clearColor]; // hide cursor
     }
     textField.inputView = self.expiryPickerView;
     textField.inputAccessoryView = accessoryView;
