@@ -11,8 +11,10 @@
 #ifndef _Webpay_
     #define _Webpay_
 
-    #import "WPYTokenizer.h"
     #import "WPYCreditCard.h"
     #import "WPYToken.h"
+    #import "WPYConstants.h"
     #import "WPYErrors.h"
+    #import "WPYTokenizer.h"
+    #import "WPYPaymentViewController.h"
 #endif
