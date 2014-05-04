@@ -8,6 +8,7 @@
 
 #import "WPYNumberField.h"
 
+#import "WPYTextField.h"
 #import "WPYCreditCard.h"
 
 static NSUInteger const WPYNumberMaxLength = 16;
@@ -30,7 +31,7 @@ static NSString *addSpacesPerFourCharacters(NSString *string)
                                options:(NSStringEnumerationByComposedCharacterSequences)
                             usingBlock:^(NSString *substring, NSRange substringRange, NSRange enclosingRange, BOOL *stop)
                                 {
-                                        int place = substringRange.location + 1;
+                                        int place = (int)substringRange.location + 1;
                                         if (place % 4 == 0)
                                         {
                                             [spacedString appendString:[NSString stringWithFormat:@"%@ ", substring]];
@@ -72,6 +73,7 @@ static NSString *spacedNumberFromNumber(NSString *canonicalizedNumber, NSUIntege
 
 
 @interface WPYNumberField () <UITextFieldDelegate>
+@property(nonatomic, strong) UIImageView *brandView;
 @end
 
 @implementation WPYNumberField
@@ -79,10 +81,14 @@ static NSString *spacedNumberFromNumber(NSString *canonicalizedNumber, NSUIntege
 #pragma mark override methods
 - (UITextField *)createTextFieldWithFrame:(CGRect)frame
 {
-    UITextField *textField = [[UITextField alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
+    WPYTextField *textField = [[WPYTextField alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
     textField.placeholder = @"1234 5678 9012 3456";
     textField.keyboardType = UIKeyboardTypeNumberPad;
     textField.delegate = self;
+    
+    self.brandView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 40, 40)];
+    textField.rightView = self.brandView;
+    textField.rightViewMode = UITextFieldViewModeAlways;
     
     return textField;
 }
@@ -134,10 +140,30 @@ static NSString *spacedNumberFromNumber(NSString *canonicalizedNumber, NSUIntege
 
 
 #pragma mark brand animation
+// brand logo also work as checkmark.
 - (void)updateBrand
 {
-    NSString *brand = [WPYCreditCard brandNameFromPartialNumber:self.textField.text];
+    NSString *brandName = [WPYCreditCard brandNameFromPartialNumber:self.textField.text];
+    UIImage *brandLogo = [self brandImageFromName:brandName];
+    if (brandLogo)
+    {
+        self.brandView.hidden = NO;
+        [self.brandView setImage:brandLogo];
+    }
+    else
+    {
+        self.brandView.hidden = YES;
+    }
 }
 
+- (UIImage *)brandImageFromName:(NSString *)brand
+{
+    if (![WPYCreditCard isSupportedBrand:brand])
+    {
+        return nil;
+    }
+  
+    return [UIImage imageNamed:removeAllWhitespaces(brand)];
+}
 
 @end
