@@ -27,5 +27,6 @@
 - (void)updateValue:(NSString *)newValue
               place:(NSUInteger)place
    charactedDeleted:(BOOL)isCharacterDeleted;
+- (void)updateValidityView:(BOOL)valid;
 - (void)textFieldWillLoseFocus;
 @end

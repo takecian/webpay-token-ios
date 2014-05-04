@@ -129,7 +129,9 @@ static NSInteger const WPYMaxShakes = 8;
     }
     
     NSError *error = nil;
-    if ([self validate:&error])
+    BOOL isValid = [self validate:&error];
+    [self updateValidityView:isValid];
+    if (isValid)
     {
         [self setNormalColor];
         [self notifyValidity];
@@ -167,7 +169,6 @@ static NSInteger const WPYMaxShakes = 8;
     {
         [self notifyError:error];
     }
-    
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
@@ -217,6 +218,11 @@ static NSInteger const WPYMaxShakes = 8;
    charactedDeleted:(BOOL)isCharacterDeleted
 {
     
+}
+
+- (void)updateValidityView:(BOOL)valid
+{
+
 }
 
 - (void)textFieldWillLoseFocus
