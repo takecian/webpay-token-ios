@@ -1,6 +1,7 @@
 language: objective-c
 xcode_workspace: Webpay.xcworkspace
 xcode_scheme: Webpay
+xcode_sdk: iphonesimulator7.0
 before_install:
   - brew update
   - brew upgrade xctool
@@ -8,4 +9,4 @@ before_install:
 
 script:
   - xctool -workspace Webpay.xcworkspace -scheme Webpay -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO
-  - xctool test -workspace Webpay.xcworkspace -scheme Webpay -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO
+  - xctool test -workspace Webpay.xcworkspace -scheme Webpay -sdk iphonesimulator7.0 -destination "platform=iOS Simulator,name=iPhone Retina (4-inch)" ONLY_ACTIVE_ARCH=NO
