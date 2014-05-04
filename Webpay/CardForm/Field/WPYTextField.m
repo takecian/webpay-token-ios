@@ -22,6 +22,7 @@
 - (CGRect)rightViewRectForBounds:(CGRect)bounds
 {
     CGRect textRect = [super rightViewRectForBounds:bounds];
+    textRect.origin.y -= 2;
     return textRect;
 }
 
