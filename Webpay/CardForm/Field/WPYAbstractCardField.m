@@ -17,9 +17,7 @@ static NSInteger const WPYMaxShakes = 8;
 @interface WPYAbstractCardField ()
 @end
 
-
 @implementation WPYAbstractCardField
-@synthesize textField = _textField;
 
 #pragma mark initialization
 - (instancetype)initWithFrame:(CGRect)frame text:(NSString *)text
@@ -93,7 +91,9 @@ static NSInteger const WPYMaxShakes = 8;
 {
     self.textField.font = [self font];
     self.textField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
+    
 }
+
 
 - (void)notifyValidity
 {
