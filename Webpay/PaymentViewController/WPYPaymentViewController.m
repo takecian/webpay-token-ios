@@ -12,6 +12,8 @@
 #import "WPYTokenizer.h"
 #import "WPYCreditCard.h"
 
+#import "WPYConstants.h"
+
 
 @interface WPYPaymentViewController ()<WPYCardFormViewDelegate>
 @property(nonatomic, strong) WPYCreditCard *card;
@@ -117,6 +119,12 @@ static UIImage *imageFromColor(UIColor *color)
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    if (isiOS7())
+    {
+        self.navigationController.navigationBar.translucent = NO;
+        [self setEdgesForExtendedLayout: UIRectEdgeNone];
+    }
     
     self.cardForm = [[WPYCardFormView alloc] initWithFrame:CGRectMake(0, 0, 320, WPYCardFormViewHeight) card:self.card];
     self.cardForm.backgroundColor = [UIColor clearColor];

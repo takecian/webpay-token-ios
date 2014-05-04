@@ -64,7 +64,7 @@ static NSString *fieldNameFromFieldKey(WPYFieldKey key)
     {
         _creditCard = card ? card : [[WPYCreditCard alloc] init];
         
-        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, 320, 264) style:UITableViewStyleGrouped];
+        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, 320, 200) style:UITableViewStylePlain];
         _tableView.tableHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, self.tableView.bounds.size.width, 0.01f)];
         _tableView.backgroundColor = [UIColor clearColor];
         _tableView.backgroundView = nil;
