@@ -159,7 +159,7 @@ typedef NS_ENUM(NSInteger, WPYComponents)
     NSMutableArray *years = [[NSMutableArray alloc] init];
     for (int i = 0; i < 10; i++)
     {
-        [years addObject:[NSString stringWithFormat:@"%d", (year + i)]];
+        [years addObject:[@(year + i) stringValue]];
     }
     
     return years;

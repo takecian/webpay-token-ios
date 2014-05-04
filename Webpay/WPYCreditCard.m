@@ -182,7 +182,7 @@ static NSString *reverseString(NSString *string)
 {
     if (self.expiryYear && self.expiryMonth)
     {
-        return [NSString stringWithFormat:@"%d / %d", self.expiryMonth, self.expiryYear];
+        return [NSString stringWithFormat:@"%@ / %@", @(self.expiryMonth), @(self.expiryYear)];
     }
     
     return nil;
