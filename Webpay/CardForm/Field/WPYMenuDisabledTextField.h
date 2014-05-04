@@ -10,6 +10,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface WPYMenuDisabledTextField : UITextField
+#import "WPYTextField.h"
+@interface WPYMenuDisabledTextField : WPYTextField
 
 @end
