@@ -137,6 +137,16 @@ static NSString *spacedNumberFromNumber(NSString *canonicalizedNumber, NSUIntege
     [self updateBrand];
 }
 
+// called at textdidediting. Brand logo will be displayed if prefix matches any brand
+// if validation fails, hide logo
+- (void)updateValidityView:(BOOL)valid
+{
+    if (!valid)
+    {
+        [self hideBrandLogo];
+    }
+}
+
 
 
 #pragma mark brand animation
@@ -147,12 +157,11 @@ static NSString *spacedNumberFromNumber(NSString *canonicalizedNumber, NSUIntege
     UIImage *brandLogo = [self brandImageFromName:brandName];
     if (brandLogo)
     {
-        self.brandView.hidden = NO;
-        [self.brandView setImage:brandLogo];
+        [self showBrandLogo:brandLogo];
     }
     else
     {
-        self.brandView.hidden = YES;
+        [self hideBrandLogo];
     }
 }
 
@@ -164,6 +173,17 @@ static NSString *spacedNumberFromNumber(NSString *canonicalizedNumber, NSUIntege
     }
   
     return [UIImage imageNamed:removeAllWhitespaces(brand)];
+}
+
+- (void)showBrandLogo:(UIImage *)logo
+{
+    self.brandView.hidden = NO;
+    [self.brandView setImage:logo];
+}
+
+- (void)hideBrandLogo
+{
+    self.brandView.hidden = YES;
 }
 
 @end
