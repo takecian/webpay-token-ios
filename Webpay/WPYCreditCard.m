@@ -109,7 +109,7 @@ static NSString *reverseString(NSString *string)
     
     if (50 <= prefix && prefix <= 55)
     {
-        return @"Master Card";
+        return @"MasterCard";
     }
     
     if (prefix == 34 || prefix == 37)
