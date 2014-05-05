@@ -187,7 +187,7 @@ static NSString *const unknownCardNumber  = @"9876543210123456";
 
 - (void)testPatialNumberWithMasterCardPrefix
 {
-    XCTAssertEqualObjects(@"Master Card", [WPYCreditCard brandNameFromPartialNumber:@"5111 1"], @"It should be recognized as Master Card.");
+    XCTAssertEqualObjects(@"MasterCard", [WPYCreditCard brandNameFromPartialNumber:@"5111 1"], @"It should be recognized as Master Card.");
 }
 
 - (void)testPatialNumberWithAmericanExpressPrefix
