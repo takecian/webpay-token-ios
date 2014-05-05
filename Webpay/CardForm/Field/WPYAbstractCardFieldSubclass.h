@@ -12,8 +12,6 @@
 
 @interface WPYAbstractCardField ()<UITextFieldDelegate>
 
-- (void)setInitialText:(NSString *)text;
-
 - (void)textFieldDidBeginEditing:(UITextField *)textField;
 - (void)textFieldDidChange:(id)sender;
 

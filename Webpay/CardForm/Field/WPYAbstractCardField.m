@@ -20,7 +20,7 @@ static NSInteger const WPYMaxShakes = 8;
 @implementation WPYAbstractCardField
 
 #pragma mark initialization
-- (instancetype)initWithFrame:(CGRect)frame text:(NSString *)text
+- (instancetype)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
     if (self)
@@ -28,15 +28,9 @@ static NSInteger const WPYMaxShakes = 8;
         // textfield
         _textField = [self createTextFieldWithFrame:frame];
         [self setupTextField];
-        [self setInitialText:text];
         [self addSubview:_textField];
     }
     return self;
-}
-
-- (id)initWithFrame:(CGRect)frame
-{
-    return [self initWithFrame:frame text:nil];
 }
 
 
@@ -59,9 +53,7 @@ static NSInteger const WPYMaxShakes = 8;
     return self.textField.text;
 }
 
-
-#pragma mark protected methods
-- (void)setInitialText:(NSString *)text
+- (void)setText:(NSString *)text
 {
     // setting nil appears as (null).
     if (text)

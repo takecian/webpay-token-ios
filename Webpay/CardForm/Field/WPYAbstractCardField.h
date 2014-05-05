@@ -28,7 +28,8 @@ typedef NS_ENUM(NSInteger, WPYFieldKey)
 @property(nonatomic, weak) id <WPYCardFieldDelegate> delegate;
 
 //designated initializer
-- (instancetype)initWithFrame:(CGRect)frame text:(NSString *)text;
+- (instancetype)initWithFrame:(CGRect)frame;
 - (void)setFocus:(BOOL)focus;
 - (NSString *)text;
+- (void)setText:(NSString *)text;
 @end
