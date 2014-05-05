@@ -11,6 +11,7 @@
 #import "WPYCreditCard.h"
 
 @interface WPYNameField () <UITextFieldDelegate>
+@property(nonatomic, strong) UIImageView *checkMarkView;
 @end
 
 @implementation WPYNameField
@@ -24,6 +25,12 @@
     textField.autocorrectionType = UITextAutocorrectionTypeNo;
     textField.delegate = self;
     [textField addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
+    
+    self.checkMarkView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 25, 25)];
+    [self.checkMarkView setImage:[UIImage imageNamed:@"checkmark"]];
+    self.checkMarkView.hidden = YES;
+    textField.rightView = self.checkMarkView;
+    textField.rightViewMode = UITextFieldViewModeAlways;
     
     return textField;
 }
@@ -45,6 +52,11 @@
     WPYCreditCard *creditCard = [[WPYCreditCard alloc] init];
     
     return [creditCard validateName:&name error:error];
+}
+
+- (void)updateValidityView:(BOOL)valid
+{
+    self.checkMarkView.hidden = !valid;
 }
 
 @end

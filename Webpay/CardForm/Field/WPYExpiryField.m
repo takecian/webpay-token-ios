@@ -16,6 +16,7 @@
 
 @interface WPYExpiryField () <UITextFieldDelegate, WPYExpiryPickerViewDelegate, WPYExpiryAccessoryViewDelegate>
 @property(nonatomic, strong) WPYExpiryPickerView *expiryPickerView;
+@property(nonatomic, strong) UIImageView *checkMarkView;
 @end
 
 @implementation WPYExpiryField
@@ -40,6 +41,14 @@
     }
     textField.inputView = self.expiryPickerView;
     textField.inputAccessoryView = accessoryView;
+    
+    self.checkMarkView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 25, 25)];
+    [self.checkMarkView setImage:[UIImage imageNamed:@"checkmark"]];
+    self.checkMarkView.hidden = YES;
+    
+    textField.rightView = self.checkMarkView;
+    textField.rightViewMode = UITextFieldViewModeAlways;
+    
     textField.delegate = self;
         
     return textField;
@@ -65,6 +74,11 @@
     WPYCreditCard *creditCard = [[WPYCreditCard alloc] init];
     
     return [creditCard validateExpiryYear:year month:month error:error];
+}
+
+- (void)updateValidityView:(BOOL)valid
+{
+    self.checkMarkView.hidden = !valid;
 }
 
 - (void)textFieldWillLoseFocus
