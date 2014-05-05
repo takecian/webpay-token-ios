@@ -104,47 +104,47 @@ static NSString *reverseString(NSString *string)
 {
     if (number == nil || number.length < 2)
     {
-        return @"Unknown";
+        return WPYUnknown;
     }
     
     NSInteger prefix = [[number substringWithRange:NSMakeRange(0, 2)] integerValue];
     
     if (40 <= prefix && prefix < 50)
     {
-        return @"Visa";
+        return WPYVisa;
     }
     
     if (50 <= prefix && prefix <= 55)
     {
-        return @"MasterCard";
+        return WPYMasterCard;
     }
     
     if (prefix == 34 || prefix == 37)
     {
-        return @"American Express";
+        return WPYAmex;
     }
     
     if (prefix == 30 || prefix == 36 || prefix == 38 || prefix == 39)
     {
-        return @"Diners";
+        return WPYDiners;
     }
     
     if (prefix == 35)
     {
-        return @"JCB";
+        return WPYJCB;
     }
     
     if (prefix == 60 || prefix == 62 || prefix == 64 || prefix == 65)
     {
-        return @"Discover";
+        return WPYDiscover;
     }
     
-    return @"Unknown";
+    return WPYUnknown;
 }
 
 + (BOOL)isSupportedBrand:(NSString *)brand
 {
-    NSArray *supportedBrands = @[@"Visa", @"American Express", @"MasterCard", @"JCB", @"Diners"];
+    NSArray *supportedBrands = @[WPYVisa, WPYAmex, WPYMasterCard, WPYJCB, WPYDiners];
     return [supportedBrands containsObject:brand];
 }
 
@@ -165,12 +165,12 @@ static NSString *reverseString(NSString *string)
     
     NSDictionary *brandIdentifiers =
     @{
-        @"Visa"            : @"4[0-9]{12}(?:[0-9]{3})?",
-        @"American Express": @"3[47][0-9]{13}",
-        @"MasterCard"      : @"5[1-5][0-9]{14}",
-        @"Discover"        : @"6(?:011|5[0-9]{2})[0-9]{12}",
-        @"JCB"             : @"(?:2131|1800|35\\d{3})\\d{11}",
-        @"Diners"          : @"3(?:0[0-5]|[68][0-9])[0-9]{11}"
+        WPYVisa            : @"4[0-9]{12}(?:[0-9]{3})?",
+        WPYAmex            : @"3[47][0-9]{13}",
+        WPYMasterCard      : @"5[1-5][0-9]{14}",
+        WPYDiscover        : @"6(?:011|5[0-9]{2})[0-9]{12}",
+        WPYJCB             : @"(?:2131|1800|35\\d{3})\\d{11}",
+        WPYDiners          : @"3(?:0[0-5]|[68][0-9])[0-9]{11}"
     };
     
     __block NSString *brandName = nil;
