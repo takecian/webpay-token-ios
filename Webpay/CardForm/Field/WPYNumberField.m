@@ -9,67 +9,7 @@
 #import "WPYNumberField.h"
 
 #import "WPYTextField.h"
-#import "WPYCreditCard.h"
-
-static NSUInteger const WPYNumberMaxLength = 16;
-
-#pragma mark helpers
-static NSString *stripWhitespaces(NSString *string)
-{
-    return [string stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-}
-
-static NSString *removeAllWhitespaces(NSString *string)
-{
-    return [string stringByReplacingOccurrencesOfString:@" " withString:@""];
-}
-
-static NSString *addSpacesPerFourCharacters(NSString *string)
-{
-    NSMutableString *spacedString = [NSMutableString stringWithCapacity:string.length];
-    [string enumerateSubstringsInRange:NSMakeRange(0, string.length)
-                               options:(NSStringEnumerationByComposedCharacterSequences)
-                            usingBlock:^(NSString *substring, NSRange substringRange, NSRange enclosingRange, BOOL *stop)
-                                {
-                                        int place = (int)substringRange.location + 1;
-                                        if (place % 4 == 0)
-                                        {
-                                            [spacedString appendString:[NSString stringWithFormat:@"%@ ", substring]];
-                                        }
-                                        else
-                                        {
-                                            [spacedString appendString:substring];
-                                        }
-                                }
-    ];
-    
-    return spacedString;
-}
-
-static BOOL isTooLongNumber(NSString *canonicalizedNumber)
-{
-    return canonicalizedNumber.length > WPYNumberMaxLength;
-}
-
-static NSString *spacedNumberFromNumber(NSString *canonicalizedNumber, NSUInteger place, BOOL isDeleted)
-{
-    NSString *spacedNumber = addSpacesPerFourCharacters(canonicalizedNumber);
-    if (canonicalizedNumber.length == WPYNumberMaxLength) // strip trailing whitespace if 16 digits
-    {
-        spacedNumber = stripWhitespaces(spacedNumber);
-    }
-    
-    BOOL isSpace = (place != 1) && (place % 5 == 0);
-    if (isSpace && isDeleted)
-    {
-        //delete space and the number before
-        NSString *strippedString = stripWhitespaces(spacedNumber);
-        spacedNumber = [strippedString substringToIndex:strippedString.length - 1];
-    }
-    
-    return spacedNumber;
-}
-
+#import "WPYNumberFieldModel.h"
 
 
 @interface WPYNumberField () <UITextFieldDelegate>
@@ -94,10 +34,28 @@ static NSString *spacedNumberFromNumber(NSString *canonicalizedNumber, NSUIntege
     return brandView;
 }
 
-- (void)setInitialText:(NSString *)text
+// public setter
+// This setter will add spaces per group of text
+// handling deleted character requires a different setter just assigning value and firing events.
+- (void)setText:(NSString *)text
 {
-    NSString *initialText = text ? addSpacesPerFourCharacters(text) : nil;
-    [super setInitialText:initialText];
+    if (text)
+    {
+        NSString *paddedNumber = [WPYNumberFieldModel addPaddingToNumber:text];
+        [self setNumber:paddedNumber];
+    }
+}
+
+// private setter just assigning number
+- (void)setNumber:(NSString *)number
+{
+    self.textField.text = number;
+    [self textFieldDidChange:self.textField];
+}
+
+- (NSString *)text
+{
+    return [WPYNumberFieldModel removeAllWhitespaces:self.textField.text];
 }
 
 - (WPYFieldKey)key
@@ -107,15 +65,12 @@ static NSString *spacedNumberFromNumber(NSString *canonicalizedNumber, NSUIntege
 
 - (BOOL)shouldValidateOnFocusLost
 {
-    NSString *number = self.textField.text;
-    return number.length != 0; // don't valididate if length is 0
+    return [WPYNumberFieldModel shouldValidateWithText:[self text]];
 }
 
 - (BOOL)validate:(NSError * __autoreleasing *)error
 {
-    NSString *number = self.textField.text;
-    WPYCreditCard *card = [[WPYCreditCard alloc] init];
-    return [card validateNumber:&number error:error];
+    return [WPYNumberFieldModel validateNumber:[self text] error:error];
 }
 
 - (BOOL)canInsertNewValue:(NSString *)newValue place:(NSUInteger)place charactedDeleted:(BOOL)isCharacterDeleted
@@ -126,14 +81,8 @@ static NSString *spacedNumberFromNumber(NSString *canonicalizedNumber, NSUIntege
 
 - (void)updateValue:(NSString *)newValue place:(NSUInteger)place charactedDeleted:(BOOL)isCharacterDeleted
 {
-    NSString *canonicalizedNumber = removeAllWhitespaces(newValue);
-    if (isTooLongNumber(canonicalizedNumber))
-    {
-        return; // don't set number if more than 16 digits
-    }
-    NSString *spacedNumber = spacedNumberFromNumber(canonicalizedNumber, place, isCharacterDeleted);
-    self.textField.text = spacedNumber;
-    [self textFieldDidChange:self.textField];
+    NSString *spacedNumber = [WPYNumberFieldModel spacedNumberFromTextFieldValue:newValue place:place deleted:isCharacterDeleted];
+    [self setNumber:spacedNumber];
     
     [self updateBrand];
 }
@@ -154,8 +103,7 @@ static NSString *spacedNumberFromNumber(NSString *canonicalizedNumber, NSUIntege
 // brand logo also work as checkmark.
 - (void)updateBrand
 {
-    NSString *brandName = [WPYCreditCard brandNameFromPartialNumber:self.textField.text];
-    UIImage *brandLogo = [self brandImageFromName:brandName];
+    UIImage *brandLogo = [WPYNumberFieldModel brandLogoFromNumber:[self text]];
     if (brandLogo)
     {
         [self showBrandLogo:brandLogo];
@@ -164,16 +112,6 @@ static NSString *spacedNumberFromNumber(NSString *canonicalizedNumber, NSUIntege
     {
         [self hideBrandLogo];
     }
-}
-
-- (UIImage *)brandImageFromName:(NSString *)brand
-{
-    if (![WPYCreditCard isSupportedBrand:brand])
-    {
-        return nil;
-    }
-  
-    return [UIImage imageNamed:removeAllWhitespaces(brand)];
 }
 
 - (void)showBrandLogo:(UIImage *)logo
