@@ -9,8 +9,15 @@
 #import "WPYCreditCard.h"
 #import "WPYErrors.h"
 
-@implementation WPYCreditCard
+NSString *const WPYVisa = @"Visa";
+NSString *const WPYMasterCard = @"MasterCard";
+NSString *const WPYAmex = @"American Express";
+NSString *const WPYDiscover = @"Discover";
+NSString *const WPYJCB = @"JCB";
+NSString *const WPYDiners = @"Diners";
+NSString *const WPYUnknown = @"Unknown";
 
+@implementation WPYCreditCard
 
 #pragma mark helpers
 static void handleValidationError(NSError * __autoreleasing * error, WPYErrorCode errorCode, NSString *failureReason)

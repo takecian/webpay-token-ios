@@ -8,6 +8,14 @@
 
 #import <Foundation/Foundation.h>
 
+FOUNDATION_EXPORT NSString *const WPYVisa;
+FOUNDATION_EXPORT NSString *const WPYMasterCard;
+FOUNDATION_EXPORT NSString *const WPYAmex;
+FOUNDATION_EXPORT NSString *const WPYDiscover;
+FOUNDATION_EXPORT NSString *const WPYJCB;
+FOUNDATION_EXPORT NSString *const WPYDiners;
+FOUNDATION_EXPORT NSString *const WPYUnknown;
+
 typedef NS_ENUM(NSUInteger, WPYMonth) {
     WPYJanuary = 1,
     WPYFebruary,
