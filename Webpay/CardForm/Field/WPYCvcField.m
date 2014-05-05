@@ -11,7 +11,6 @@
 #import "WPYCreditCard.h"
 
 @interface WPYCvcField () <UITextFieldDelegate>
-@property(nonatomic, strong) UIImageView *checkMarkView;
 @end
 
 static NSInteger const WPYCvcMaxDigits = 4;
@@ -26,15 +25,18 @@ static NSInteger const WPYCvcMaxDigits = 4;
     textField.secureTextEntry = YES;
     textField.keyboardType = UIKeyboardTypeNumberPad;
     
-    self.checkMarkView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 25, 25)];
-    [self.checkMarkView setImage:[UIImage imageNamed:@"question"]];
-    textField.rightView = self.checkMarkView;
-    textField.rightViewMode = UITextFieldViewModeAlways;
-    
     textField.delegate = self;
     [textField addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
     
     return textField;
+}
+
+- (UIImageView *)createRightView
+{
+    UIImageView *checkMarkView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 25, 25)];
+    [checkMarkView setImage:[UIImage imageNamed:@"question"]];
+    
+    return checkMarkView;
 }
 
 - (WPYFieldKey)key
@@ -75,11 +77,11 @@ static NSInteger const WPYCvcMaxDigits = 4;
 {
     if (valid)
     {
-        [self.checkMarkView setImage:[UIImage imageNamed:@"checkmark"]];
+        [self.rightView setImage:[UIImage imageNamed:@"checkmark"]];
     }
     else
     {
-        [self.checkMarkView setImage:[UIImage imageNamed:@"question"]];
+        [self.rightView setImage:[UIImage imageNamed:@"question"]];
     }
 }
 

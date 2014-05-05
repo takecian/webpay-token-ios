@@ -11,7 +11,6 @@
 #import "WPYCreditCard.h"
 
 @interface WPYNameField () <UITextFieldDelegate>
-@property(nonatomic, strong) UIImageView *checkMarkView;
 @end
 
 @implementation WPYNameField
@@ -26,13 +25,16 @@
     textField.delegate = self;
     [textField addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
     
-    self.checkMarkView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 25, 25)];
-    [self.checkMarkView setImage:[UIImage imageNamed:@"checkmark"]];
-    self.checkMarkView.hidden = YES;
-    textField.rightView = self.checkMarkView;
-    textField.rightViewMode = UITextFieldViewModeAlways;
-    
     return textField;
+}
+
+- (UIImageView *)createRightView
+{
+    UIImageView *checkMarkView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 25, 25)];
+    [checkMarkView setImage:[UIImage imageNamed:@"checkmark"]];
+    checkMarkView.hidden = YES;
+    
+    return checkMarkView;
 }
 
 - (WPYFieldKey)key
@@ -56,7 +58,7 @@
 
 - (void)updateValidityView:(BOOL)valid
 {
-    self.checkMarkView.hidden = !valid;
+    self.rightView.hidden = !valid;
 }
 
 @end

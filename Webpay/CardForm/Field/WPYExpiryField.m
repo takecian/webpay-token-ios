@@ -16,7 +16,6 @@
 
 @interface WPYExpiryField () <UITextFieldDelegate, WPYExpiryPickerViewDelegate, WPYExpiryAccessoryViewDelegate>
 @property(nonatomic, strong) WPYExpiryPickerView *expiryPickerView;
-@property(nonatomic, strong) UIImageView *checkMarkView;
 @end
 
 @implementation WPYExpiryField
@@ -42,16 +41,18 @@
     textField.inputView = self.expiryPickerView;
     textField.inputAccessoryView = accessoryView;
     
-    self.checkMarkView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 25, 25)];
-    [self.checkMarkView setImage:[UIImage imageNamed:@"checkmark"]];
-    self.checkMarkView.hidden = YES;
-    
-    textField.rightView = self.checkMarkView;
-    textField.rightViewMode = UITextFieldViewModeAlways;
-    
     textField.delegate = self;
         
     return textField;
+}
+
+- (UIImageView *)createRightView
+{
+    UIImageView *checkMarkView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 25, 25)];
+    [checkMarkView setImage:[UIImage imageNamed:@"checkmark"]];
+    checkMarkView.hidden = YES;
+    
+    return checkMarkView;
 }
 
 - (WPYFieldKey)key
@@ -78,7 +79,7 @@
 
 - (void)updateValidityView:(BOOL)valid
 {
-    self.checkMarkView.hidden = !valid;
+    self.rightView.hidden = !valid;
 }
 
 - (void)textFieldWillLoseFocus

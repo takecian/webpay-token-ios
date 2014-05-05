@@ -18,7 +18,10 @@
 - (void)textFieldDidChange:(id)sender;
 
 // methods expected to be overridden
+// view creation
 - (UITextField *)createTextFieldWithFrame:(CGRect)frame;
+- (UIImageView *)createRightView;
+
 - (WPYFieldKey)key;
 - (BOOL)shouldValidateOnFocusLost;
 - (BOOL)validate:(NSError * __autoreleasing *)error;

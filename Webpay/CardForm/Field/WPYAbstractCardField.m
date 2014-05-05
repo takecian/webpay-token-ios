@@ -25,6 +25,7 @@ static NSInteger const WPYMaxShakes = 8;
     self = [super initWithFrame:frame];
     if (self)
     {
+        // textfield
         _textField = [self createTextFieldWithFrame:frame];
         [self setupTextField];
         [self setInitialText:text];
@@ -92,6 +93,10 @@ static NSInteger const WPYMaxShakes = 8;
     self.textField.font = [self font];
     self.textField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
     
+    // rightview
+    self.rightView = [self createRightView];
+    _textField.rightView = self.rightView;
+    _textField.rightViewMode = UITextFieldViewModeAlways;
 }
 
 
@@ -181,6 +186,13 @@ static NSInteger const WPYMaxShakes = 8;
 
 #pragma mark expected to overriden in subclass
 - (UITextField *)createTextFieldWithFrame:(CGRect)frame
+{
+    @throw [NSException exceptionWithName:NSInternalInconsistencyException
+                                   reason:[NSString stringWithFormat:@"You must override %@ in a subclass", NSStringFromSelector(_cmd)]
+                                 userInfo:nil];
+}
+
+- (UIImageView *)createRightView
 {
     @throw [NSException exceptionWithName:NSInternalInconsistencyException
                                    reason:[NSString stringWithFormat:@"You must override %@ in a subclass", NSStringFromSelector(_cmd)]

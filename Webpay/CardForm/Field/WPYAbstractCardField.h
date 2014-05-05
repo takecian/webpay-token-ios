@@ -24,6 +24,7 @@ typedef NS_ENUM(NSInteger, WPYFieldKey)
 
 @interface WPYAbstractCardField : UIView
 @property(nonatomic, strong) UITextField *textField;
+@property(nonatomic, strong) UIImageView *rightView;
 @property(nonatomic, weak) id <WPYCardFieldDelegate> delegate;
 
 //designated initializer

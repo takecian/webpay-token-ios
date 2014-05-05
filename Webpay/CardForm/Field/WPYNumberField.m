@@ -73,7 +73,6 @@ static NSString *spacedNumberFromNumber(NSString *canonicalizedNumber, NSUIntege
 
 
 @interface WPYNumberField () <UITextFieldDelegate>
-@property(nonatomic, strong) UIImageView *brandView;
 @end
 
 @implementation WPYNumberField
@@ -86,11 +85,13 @@ static NSString *spacedNumberFromNumber(NSString *canonicalizedNumber, NSUIntege
     textField.keyboardType = UIKeyboardTypeNumberPad;
     textField.delegate = self;
     
-    self.brandView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 40, 40)];
-    textField.rightView = self.brandView;
-    textField.rightViewMode = UITextFieldViewModeAlways;
-    
     return textField;
+}
+
+- (UIImageView *)createRightView
+{
+    UIImageView *brandView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 40, 40)];
+    return brandView;
 }
 
 - (void)setInitialText:(NSString *)text
@@ -177,13 +178,13 @@ static NSString *spacedNumberFromNumber(NSString *canonicalizedNumber, NSUIntege
 
 - (void)showBrandLogo:(UIImage *)logo
 {
-    self.brandView.hidden = NO;
-    [self.brandView setImage:logo];
+    self.rightView.hidden = NO;
+    [self.rightView setImage:logo];
 }
 
 - (void)hideBrandLogo
 {
-    self.brandView.hidden = YES;
+    self.rightView.hidden = YES;
 }
 
 @end
