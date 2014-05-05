@@ -23,13 +23,18 @@
 - (UIImageView *)createRightView;
 
 - (WPYFieldKey)key;
+
+// did end editing
 - (BOOL)shouldValidateOnFocusLost;
+- (void)textFieldWillLoseFocus;
+- (void)updateValidityView:(BOOL)valid;
+
+// did end editing & textfield did change
 - (BOOL)validate:(NSError * __autoreleasing *)error;
 
+// new input
 - (BOOL)canInsertNewValue:(NSString *)newValue place:(NSUInteger)place charactedDeleted:(BOOL)isCharacterDeleted;
 - (void)updateValue:(NSString *)newValue
               place:(NSUInteger)place
    charactedDeleted:(BOOL)isCharacterDeleted;
-- (void)updateValidityView:(BOOL)valid;
-- (void)textFieldWillLoseFocus;
 @end
