@@ -80,9 +80,9 @@ static UIImage *imageFromColor(UIColor *color)
 #pragma mark public methods: compeletion
 - (void)setPayButtonComplete
 {
-    [self.payButton setTitle:@"Payment Confirmed!" forState:UIControlStateNormal];
+    [self.payButton setTitle:@" " forState:UIControlStateNormal];
     [self.payButton setBackgroundImage:imageFromColor([UIColor colorWithRed:0.18 green:0.8 blue:0.44 alpha:1]) forState:UIControlStateNormal];
-    // TODO: add a check mark
+    [self.payButton setImage:[UIImage imageNamed:@"check_white"] forState:UIControlStateNormal];
 }
 
 - (void)dismissAfterDelay:(NSTimeInterval)delay
