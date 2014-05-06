@@ -10,29 +10,23 @@
 
 #import "WPYAbstractCardField.h"
 
+@class WPYAbstractFieldModel;
 @interface WPYAbstractCardField ()<UITextFieldDelegate>
+@property(nonatomic, strong) WPYAbstractFieldModel *model;
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField;
-- (void)textFieldDidChange:(id)sender;
+- (void)textFieldHasNewInput:(NSString *)newInput charactedDeleted:(BOOL)isDeleted;
 
 // methods expected to be overridden
-// view creation
+// initialization
 - (UITextField *)createTextFieldWithFrame:(CGRect)frame;
 - (UIImageView *)createRightView;
+- (WPYAbstractFieldModel *)createFieldModelWithCard:(WPYCreditCard *)card;
 
-- (WPYFieldKey)key;
+- (void)setText:(NSString *)text;
 
 // did end editing
-- (BOOL)shouldValidateOnFocusLost;
-- (void)textFieldWillLoseFocus;
 - (void)updateValidityView:(BOOL)valid;
+- (void)textFieldWillLoseFocus;
 
-// did end editing & textfield did change
-- (BOOL)validate:(NSError * __autoreleasing *)error;
-
-// new input
-- (BOOL)canInsertNewValue:(NSString *)newValue place:(NSUInteger)place charactedDeleted:(BOOL)isCharacterDeleted;
-- (void)updateValue:(NSString *)newValue
-              place:(NSUInteger)place
-   charactedDeleted:(BOOL)isCharacterDeleted;
 @end

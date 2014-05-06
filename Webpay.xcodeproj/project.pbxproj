@@ -17,6 +17,10 @@
 		4729BF1118F12240009A1C65 /* WPYErrorBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = 4729BF1018F12240009A1C65 /* WPYErrorBuilder.m */; };
 		4729BF1218F12240009A1C65 /* WPYErrorBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = 4729BF1018F12240009A1C65 /* WPYErrorBuilder.m */; };
 		4729BF1418F122BE009A1C65 /* WPYErrorBuilderTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 4729BF1318F122BE009A1C65 /* WPYErrorBuilderTest.m */; };
+		47362A021918896100ED7692 /* WPYNameFieldModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 47362A011918896100ED7692 /* WPYNameFieldModel.m */; };
+		47362A05191899BA00ED7692 /* WPYExpiryFieldModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 47362A04191899BA00ED7692 /* WPYExpiryFieldModel.m */; };
+		47362A0719189F1200ED7692 /* AmericanExpress@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 47362A0619189F1200ED7692 /* AmericanExpress@2x.png */; };
+		47362A0B1918BC7100ED7692 /* WPYExpiryFieldModelTtest.m in Sources */ = {isa = PBXBuildFile; fileRef = 47362A0A1918BC7100ED7692 /* WPYExpiryFieldModelTtest.m */; };
 		47413D2818FF46CF00DA7626 /* WPYMenuDisabledTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 47413D2718FF46CF00DA7626 /* WPYMenuDisabledTextField.m */; };
 		474378CA18FE43E7004ECE34 /* WPYCardFormView.m in Sources */ = {isa = PBXBuildFile; fileRef = 474378C918FE43E7004ECE34 /* WPYCardFormView.m */; };
 		474378CD18FE5D36004ECE34 /* WPYCardFormCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 474378CC18FE5D36004ECE34 /* WPYCardFormCell.m */; };
@@ -48,10 +52,11 @@
 		479A9DE819087FB900E467CB /* WPYConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 479A9DE719087FB900E467CB /* WPYConstants.m */; };
 		479CE1C21916E03700F4870E /* Visa@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 479CE1C11916E03700F4870E /* Visa@2x.png */; };
 		479CE1CF1916E12F00F4870E /* Diners@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 479CE1CB1916E12F00F4870E /* Diners@2x.png */; };
-		479CE1D01916E12F00F4870E /* AmericanExpress@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 479CE1CC1916E12F00F4870E /* AmericanExpress@2x.png */; };
 		479CE1D11916E12F00F4870E /* JCB@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 479CE1CD1916E12F00F4870E /* JCB@2x.png */; };
 		479CE1D21916E12F00F4870E /* MasterCard@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 479CE1CE1916E12F00F4870E /* MasterCard@2x.png */; };
 		47B8514518CA7D86003A1ECA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 47B8514318CA7D86003A1ECA /* InfoPlist.strings */; };
+		47B967891918547B00753459 /* WPYCvcFieldModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 47B967881918547B00753459 /* WPYCvcFieldModel.m */; };
+		47B9678C191856AA00753459 /* WPYAbstractFieldModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 47B9678B191856AA00753459 /* WPYAbstractFieldModel.m */; };
 		47CE70DF18E8C7D500E4B4B8 /* WPYTokenizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 47CE70DE18E8C7D500E4B4B8 /* WPYTokenizer.m */; };
 		47CE70E018E8C7D500E4B4B8 /* WPYTokenizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 47CE70DE18E8C7D500E4B4B8 /* WPYTokenizer.m */; };
 		47D9BC1718CFBF080020BF55 /* WPYCreditCard.m in Sources */ = {isa = PBXBuildFile; fileRef = 47D9BC1618CFBF080020BF55 /* WPYCreditCard.m */; };
@@ -86,6 +91,12 @@
 		4729BF0F18F12240009A1C65 /* WPYErrorBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WPYErrorBuilder.h; path = Webpay/Tokenizer/WPYErrorBuilder.h; sourceTree = "<group>"; };
 		4729BF1018F12240009A1C65 /* WPYErrorBuilder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WPYErrorBuilder.m; path = Webpay/Tokenizer/WPYErrorBuilder.m; sourceTree = "<group>"; };
 		4729BF1318F122BE009A1C65 /* WPYErrorBuilderTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WPYErrorBuilderTest.m; path = WebpayTests/WPYErrorBuilderTest.m; sourceTree = SOURCE_ROOT; };
+		47362A001918896100ED7692 /* WPYNameFieldModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WPYNameFieldModel.h; path = Webpay/CardForm/Field/WPYNameFieldModel.h; sourceTree = "<group>"; };
+		47362A011918896100ED7692 /* WPYNameFieldModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WPYNameFieldModel.m; path = Webpay/CardForm/Field/WPYNameFieldModel.m; sourceTree = "<group>"; };
+		47362A03191899BA00ED7692 /* WPYExpiryFieldModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WPYExpiryFieldModel.h; path = Webpay/CardForm/Field/WPYExpiryFieldModel.h; sourceTree = "<group>"; };
+		47362A04191899BA00ED7692 /* WPYExpiryFieldModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WPYExpiryFieldModel.m; path = Webpay/CardForm/Field/WPYExpiryFieldModel.m; sourceTree = "<group>"; };
+		47362A0619189F1200ED7692 /* AmericanExpress@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AmericanExpress@2x.png"; sourceTree = "<group>"; };
+		47362A0A1918BC7100ED7692 /* WPYExpiryFieldModelTtest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WPYExpiryFieldModelTtest.m; path = WebpayTests/WPYExpiryFieldModelTtest.m; sourceTree = SOURCE_ROOT; };
 		47413D2618FF46CF00DA7626 /* WPYMenuDisabledTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WPYMenuDisabledTextField.h; path = Webpay/CardForm/Field/WPYMenuDisabledTextField.h; sourceTree = "<group>"; };
 		47413D2718FF46CF00DA7626 /* WPYMenuDisabledTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WPYMenuDisabledTextField.m; path = Webpay/CardForm/Field/WPYMenuDisabledTextField.m; sourceTree = "<group>"; };
 		474378C818FE43E7004ECE34 /* WPYCardFormView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WPYCardFormView.h; path = Webpay/CardForm/WPYCardFormView.h; sourceTree = "<group>"; };
@@ -133,10 +144,13 @@
 		479A9DE719087FB900E467CB /* WPYConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WPYConstants.m; path = Webpay/WPYConstants.m; sourceTree = "<group>"; };
 		479CE1C11916E03700F4870E /* Visa@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Visa@2x.png"; sourceTree = "<group>"; };
 		479CE1CB1916E12F00F4870E /* Diners@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Diners@2x.png"; sourceTree = "<group>"; };
-		479CE1CC1916E12F00F4870E /* AmericanExpress@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AmericanExpress@2x.png"; sourceTree = "<group>"; };
 		479CE1CD1916E12F00F4870E /* JCB@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "JCB@2x.png"; sourceTree = "<group>"; };
 		479CE1CE1916E12F00F4870E /* MasterCard@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "MasterCard@2x.png"; sourceTree = "<group>"; };
 		47B8514418CA7D86003A1ECA /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = InfoPlist.strings; sourceTree = "<group>"; };
+		47B967871918547B00753459 /* WPYCvcFieldModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WPYCvcFieldModel.h; path = Webpay/CardForm/Field/WPYCvcFieldModel.h; sourceTree = "<group>"; };
+		47B967881918547B00753459 /* WPYCvcFieldModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WPYCvcFieldModel.m; path = Webpay/CardForm/Field/WPYCvcFieldModel.m; sourceTree = "<group>"; };
+		47B9678A191856AA00753459 /* WPYAbstractFieldModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WPYAbstractFieldModel.h; path = Webpay/CardForm/Field/WPYAbstractFieldModel.h; sourceTree = "<group>"; };
+		47B9678B191856AA00753459 /* WPYAbstractFieldModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WPYAbstractFieldModel.m; path = Webpay/CardForm/Field/WPYAbstractFieldModel.m; sourceTree = "<group>"; };
 		47CE70DD18E8C7D500E4B4B8 /* WPYTokenizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WPYTokenizer.h; path = Webpay/Tokenizer/WPYTokenizer.h; sourceTree = "<group>"; };
 		47CE70DE18E8C7D500E4B4B8 /* WPYTokenizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WPYTokenizer.m; path = Webpay/Tokenizer/WPYTokenizer.m; sourceTree = "<group>"; };
 		47D9BC1518CFBF080020BF55 /* WPYCreditCard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WPYCreditCard.h; path = Webpay/WPYCreditCard.h; sourceTree = "<group>"; };
@@ -191,23 +205,11 @@
 		474378D218FE6219004ECE34 /* Fields */ = {
 			isa = PBXGroup;
 			children = (
-				47ED71081900EA6C006F9B54 /* WPYAbstractCardField.h */,
-				47ED71091900EA6C006F9B54 /* WPYAbstractCardField.m */,
-				47ED710B1900F5C5006F9B54 /* WPYAbstractCardFieldSubclass.h */,
-				474378CF18FE6026004ECE34 /* WPYNumberField.h */,
-				474378D018FE6026004ECE34 /* WPYNumberField.m */,
-				472526A01917385F008FC227 /* WPYNumberFieldModel.h */,
-				472526A11917385F008FC227 /* WPYNumberFieldModel.m */,
-				474378D318FE6253004ECE34 /* WPYExpiryField.h */,
-				474378D418FE6253004ECE34 /* WPYExpiryField.m */,
-				474378D618FE676C004ECE34 /* WPYCvcField.h */,
-				474378D718FE676C004ECE34 /* WPYCvcField.m */,
-				474378D918FE68D8004ECE34 /* WPYNameField.h */,
-				474378DA18FE68D8004ECE34 /* WPYNameField.m */,
-				47413D2618FF46CF00DA7626 /* WPYMenuDisabledTextField.h */,
-				47413D2718FF46CF00DA7626 /* WPYMenuDisabledTextField.m */,
-				47FB9F2B1917011800C5586B /* WPYTextField.h */,
-				47FB9F2C1917011800C5586B /* WPYTextField.m */,
+				47B967861918545400753459 /* SuperClass */,
+				47B967821918540C00753459 /* NumberField */,
+				47B967831918541A00753459 /* ExpiryField */,
+				47B967841918542B00753459 /* Cvc */,
+				47B967851918544900753459 /* Name */,
 			);
 			name = Fields;
 			sourceTree = "<group>";
@@ -220,7 +222,6 @@
 				474378CB18FE5D36004ECE34 /* WPYCardFormCell.h */,
 				474378CC18FE5D36004ECE34 /* WPYCardFormCell.m */,
 				474378D218FE6219004ECE34 /* Fields */,
-				47581DE118FD47C20058FBD1 /* ExpiryPicker */,
 			);
 			name = FormView;
 			sourceTree = "<group>";
@@ -305,6 +306,7 @@
 				4729BF1318F122BE009A1C65 /* WPYErrorBuilderTest.m */,
 				4719922F18F20A8100E845BF /* WPYTokenCreationTest.m */,
 				472526A3191741FA008FC227 /* WPYNumberFieldModelTest.m */,
+				47362A0A1918BC7100ED7692 /* WPYExpiryFieldModelTtest.m */,
 			);
 			name = WebpayTests;
 			path = "webpay-token-iosTests";
@@ -343,6 +345,67 @@
 			name = Tokenizer;
 			sourceTree = "<group>";
 		};
+		47B967821918540C00753459 /* NumberField */ = {
+			isa = PBXGroup;
+			children = (
+				474378CF18FE6026004ECE34 /* WPYNumberField.h */,
+				474378D018FE6026004ECE34 /* WPYNumberField.m */,
+				472526A01917385F008FC227 /* WPYNumberFieldModel.h */,
+				472526A11917385F008FC227 /* WPYNumberFieldModel.m */,
+			);
+			name = NumberField;
+			sourceTree = "<group>";
+		};
+		47B967831918541A00753459 /* ExpiryField */ = {
+			isa = PBXGroup;
+			children = (
+				474378D318FE6253004ECE34 /* WPYExpiryField.h */,
+				474378D418FE6253004ECE34 /* WPYExpiryField.m */,
+				47362A03191899BA00ED7692 /* WPYExpiryFieldModel.h */,
+				47362A04191899BA00ED7692 /* WPYExpiryFieldModel.m */,
+				47413D2618FF46CF00DA7626 /* WPYMenuDisabledTextField.h */,
+				47413D2718FF46CF00DA7626 /* WPYMenuDisabledTextField.m */,
+				47581DE118FD47C20058FBD1 /* ExpiryPicker */,
+			);
+			name = ExpiryField;
+			sourceTree = "<group>";
+		};
+		47B967841918542B00753459 /* Cvc */ = {
+			isa = PBXGroup;
+			children = (
+				474378D618FE676C004ECE34 /* WPYCvcField.h */,
+				474378D718FE676C004ECE34 /* WPYCvcField.m */,
+				47B967871918547B00753459 /* WPYCvcFieldModel.h */,
+				47B967881918547B00753459 /* WPYCvcFieldModel.m */,
+			);
+			name = Cvc;
+			sourceTree = "<group>";
+		};
+		47B967851918544900753459 /* Name */ = {
+			isa = PBXGroup;
+			children = (
+				474378D918FE68D8004ECE34 /* WPYNameField.h */,
+				474378DA18FE68D8004ECE34 /* WPYNameField.m */,
+				47362A001918896100ED7692 /* WPYNameFieldModel.h */,
+				47362A011918896100ED7692 /* WPYNameFieldModel.m */,
+			);
+			name = Name;
+			sourceTree = "<group>";
+		};
+		47B967861918545400753459 /* SuperClass */ = {
+			isa = PBXGroup;
+			children = (
+				47ED71081900EA6C006F9B54 /* WPYAbstractCardField.h */,
+				47ED710B1900F5C5006F9B54 /* WPYAbstractCardFieldSubclass.h */,
+				47ED71091900EA6C006F9B54 /* WPYAbstractCardField.m */,
+				47B9678A191856AA00753459 /* WPYAbstractFieldModel.h */,
+				47B9678B191856AA00753459 /* WPYAbstractFieldModel.m */,
+				47FB9F2B1917011800C5586B /* WPYTextField.h */,
+				47FB9F2C1917011800C5586B /* WPYTextField.m */,
+			);
+			name = SuperClass;
+			sourceTree = "<group>";
+		};
 		47D6AB6A1916DDEC00D55910 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -377,10 +440,10 @@
 		47FB9F2A1916FE3200C5586B /* CardBrandLogos */ = {
 			isa = PBXGroup;
 			children = (
+				47362A0619189F1200ED7692 /* AmericanExpress@2x.png */,
 				479CE1C11916E03700F4870E /* Visa@2x.png */,
 				479CE1CD1916E12F00F4870E /* JCB@2x.png */,
 				479CE1CE1916E12F00F4870E /* MasterCard@2x.png */,
-				479CE1CC1916E12F00F4870E /* AmericanExpress@2x.png */,
 				479CE1CB1916E12F00F4870E /* Diners@2x.png */,
 			);
 			name = CardBrandLogos;
@@ -468,11 +531,11 @@
 			files = (
 				47FB9F231916F82E00C5586B /* checkmark@2x.png in Resources */,
 				4764A08318C7EB04006C9E4E /* InfoPlist.strings in Resources */,
-				479CE1D01916E12F00F4870E /* AmericanExpress@2x.png in Resources */,
 				4764A08B18C7EB04006C9E4E /* Images.xcassets in Resources */,
 				47FB9F221916F82E00C5586B /* question@2x.png in Resources */,
 				479CE1D11916E12F00F4870E /* JCB@2x.png in Resources */,
 				479CE1D21916E12F00F4870E /* MasterCard@2x.png in Resources */,
+				47362A0719189F1200ED7692 /* AmericanExpress@2x.png in Resources */,
 				479CE1CF1916E12F00F4870E /* Diners@2x.png in Resources */,
 				479CE1C21916E03700F4870E /* Visa@2x.png in Resources */,
 				47FB9F291916FD3100C5586B /* check_white@2x.png in Resources */,
@@ -529,6 +592,7 @@
 			files = (
 				4787AE6318EE1A2F0092A097 /* WPYCommunicator.m in Sources */,
 				4729BF1118F12240009A1C65 /* WPYErrorBuilder.m in Sources */,
+				47362A05191899BA00ED7692 /* WPYExpiryFieldModel.m in Sources */,
 				47ED710A1900EA6C006F9B54 /* WPYAbstractCardField.m in Sources */,
 				474378DB18FE68D8004ECE34 /* WPYNameField.m in Sources */,
 				47413D2818FF46CF00DA7626 /* WPYMenuDisabledTextField.m in Sources */,
@@ -540,6 +604,7 @@
 				474378D818FE676C004ECE34 /* WPYCvcField.m in Sources */,
 				474378D118FE6026004ECE34 /* WPYNumberField.m in Sources */,
 				4795D4DB18F913750050542E /* ItemDetailViewController.m in Sources */,
+				47B967891918547B00753459 /* WPYCvcFieldModel.m in Sources */,
 				4764A08918C7EB04006C9E4E /* AppDelegate.m in Sources */,
 				47D9BC1718CFBF080020BF55 /* WPYCreditCard.m in Sources */,
 				4764A08518C7EB04006C9E4E /* main.m in Sources */,
@@ -547,6 +612,8 @@
 				474378CD18FE5D36004ECE34 /* WPYCardFormCell.m in Sources */,
 				477BF386190AFB7B001694C3 /* WPYExpiryAccessoryView.m in Sources */,
 				4714C81118FD0D92000AC2A1 /* WPYExpiryPickerView.m in Sources */,
+				47362A021918896100ED7692 /* WPYNameFieldModel.m in Sources */,
+				47B9678C191856AA00753459 /* WPYAbstractFieldModel.m in Sources */,
 				474E601E18F0B16E0006EF46 /* WPYTokenBuilder.m in Sources */,
 				474E602418F0B2DB0006EF46 /* WPYToken.m in Sources */,
 				47CE70DF18E8C7D500E4B4B8 /* WPYTokenizer.m in Sources */,
@@ -566,6 +633,7 @@
 				4729BF1418F122BE009A1C65 /* WPYErrorBuilderTest.m in Sources */,
 				474E601F18F0B16E0006EF46 /* WPYTokenBuilder.m in Sources */,
 				474E602518F0B2DB0006EF46 /* WPYToken.m in Sources */,
+				47362A0B1918BC7100ED7692 /* WPYExpiryFieldModelTtest.m in Sources */,
 				4727391618D8FE8B0003D759 /* WPYErrors.m in Sources */,
 				47D9BC1818CFBF080020BF55 /* WPYCreditCard.m in Sources */,
 				472526A4191741FA008FC227 /* WPYNumberFieldModelTest.m in Sources */,

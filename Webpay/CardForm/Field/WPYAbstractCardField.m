@@ -8,6 +8,8 @@
 
 #import "WPYAbstractCardFieldSubclass.h"
 
+#import "WPYAbstractFieldModel.h"
+
 
 static float const WPYShakeWidth = 1.0f;
 static float const WPYShakeDuration = 0.03f;
@@ -20,15 +22,19 @@ static NSInteger const WPYMaxShakes = 8;
 @implementation WPYAbstractCardField
 
 #pragma mark initialization
-- (instancetype)initWithFrame:(CGRect)frame
+- (instancetype)initWithFrame:(CGRect)frame card:(WPYCreditCard *)card
 {
     self = [super initWithFrame:frame];
     if (self)
     {
+        _model = [self createFieldModelWithCard:card];
+        
         // textfield
         _textField = [self createTextFieldWithFrame:frame];
         [self setupTextField];
         [self addSubview:_textField];
+        
+        [self setIntialValueForTextField];
     }
     return self;
 }
@@ -48,18 +54,111 @@ static NSInteger const WPYMaxShakes = 8;
     }
 }
 
-- (NSString *)text
+
+#pragma mark expected to overriden in subclass
+#pragma mark initialization
+- (UITextField *)createTextFieldWithFrame:(CGRect)frame
 {
-    return self.textField.text;
+    @throw [NSException exceptionWithName:NSInternalInconsistencyException
+                                   reason:[NSString stringWithFormat:@"You must override %@ in a subclass", NSStringFromSelector(_cmd)]
+                                 userInfo:nil];
+}
+
+- (UIImageView *)createRightView
+{
+    @throw [NSException exceptionWithName:NSInternalInconsistencyException
+                                   reason:[NSString stringWithFormat:@"You must override %@ in a subclass", NSStringFromSelector(_cmd)]
+                                 userInfo:nil];
+}
+
+- (WPYAbstractFieldModel *)createFieldModelWithCard:(WPYCreditCard *)card
+{
+    return nil;
 }
 
 - (void)setText:(NSString *)text
 {
-    // setting nil appears as (null).
-    if (text)
+    self.textField.text = text;
+}
+
+- (void)setIntialValueForTextField
+{
+    NSString *value = [self.model initialValueForTextField];
+    if (value)
     {
-        self.textField.text = text;
+        [self setText:value];
     }
+}
+
+
+
+#pragma mark textfield delegate
+- (void)textFieldDidBeginEditing:(UITextField *)textField
+{
+    [self setNormalColor];
+}
+
+- (void)textFieldDidEndEditing:(UITextField *)textField
+{
+    [self textFieldWillLoseFocus];
+    
+    if (![self.model shouldValidateOnFocusLost])
+    {
+        return;
+    }
+    
+    NSError *error = nil;
+    BOOL isValid = [self.model validate:&error];
+    
+    [self updateValidityView:isValid];
+    
+    if (isValid)
+    {
+        [self setNormalColor];
+    }
+    else
+    {
+        [self setErrorColor];
+        [self startErrorAnimation];
+    }
+}
+
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)replacementString
+{
+    NSString *newValue = [textField.text stringByReplacingCharactersInRange:range withString:replacementString];
+    BOOL isCharacterDeleted = replacementString.length == 0;
+    
+    [self textFieldHasNewInput:newValue charactedDeleted:isCharacterDeleted];
+    
+    return NO;
+}
+
+- (void)textFieldHasNewInput:(NSString *)newInput charactedDeleted:(BOOL)isDeleted
+{
+    if ([self.model canInsertNewValue:newInput])
+    {
+        [self setText:[self.model textFieldValueFromValue:newInput characterDeleted:isDeleted]];
+    }
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    [textField resignFirstResponder];
+    return YES;
+}
+
+
+
+#pragma mark update value
+- (void)updateValidityView:(BOOL)valid
+{
+
+}
+
+#pragma mark event handler
+- (void)textFieldWillLoseFocus
+{
+
 }
 
 
@@ -91,148 +190,6 @@ static NSInteger const WPYMaxShakes = 8;
     _textField.rightViewMode = UITextFieldViewModeAlways;
 }
 
-
-- (void)notifyValidity
-{
-    if (self.delegate && [self.delegate respondsToSelector:@selector(validValue:forKey:)])
-    {
-        [self.delegate validValue:self.textField.text forKey:[self key]];
-    }
-}
-
-- (void)notifyError:(NSError *)error
-{
-    if (self.delegate && [self.delegate respondsToSelector:@selector(invalidValue:forKey:error:)])
-    {
-        [self.delegate invalidValue:self.textField.text forKey:[self key] error:error];
-    }
-}
-
-
-
-#pragma mark textfield delegate
-- (void)textFieldDidBeginEditing:(UITextField *)textField
-{
-    [self setNormalColor];
-}
-
-- (void)textFieldDidEndEditing:(UITextField *)textField
-{
-    [self textFieldWillLoseFocus];
-    
-    if (![self shouldValidateOnFocusLost])
-    {
-        return;
-    }
-    
-    NSError *error = nil;
-    BOOL isValid = [self validate:&error];
-    [self updateValidityView:isValid];
-    if (isValid)
-    {
-        [self setNormalColor];
-        [self notifyValidity];
-    }
-    else
-    {
-        [self setErrorColor];
-        [self startErrorAnimation];
-        [self notifyError:error];
-    }
-}
-
-- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)replacementString
-{
-    NSString *newValue = [textField.text stringByReplacingCharactersInRange:range withString:replacementString];
-    NSUInteger place = range.location + 1;
-    BOOL isCharacterDeleted = replacementString.length == 0;
-    
-    [self updateValue:newValue place:place charactedDeleted:isCharacterDeleted];
-    
-    BOOL canInsertNewValue = [self canInsertNewValue:newValue place:place charactedDeleted:isCharacterDeleted];
-    
-    return canInsertNewValue;
-}
-
-// called when value of textfield updated. called from textfield or manually
-- (void)textFieldDidChange:(id)sender
-{
-    NSError *error = nil;
-    if ([self validate:&error])
-    {
-        [self notifyValidity];
-    }
-    else
-    {
-        [self notifyError:error];
-    }
-}
-
-- (BOOL)textFieldShouldReturn:(UITextField *)textField
-{
-    [textField resignFirstResponder];
-    return YES;
-}
-
-
-
-#pragma mark expected to overriden in subclass
-- (UITextField *)createTextFieldWithFrame:(CGRect)frame
-{
-    @throw [NSException exceptionWithName:NSInternalInconsistencyException
-                                   reason:[NSString stringWithFormat:@"You must override %@ in a subclass", NSStringFromSelector(_cmd)]
-                                 userInfo:nil];
-}
-
-- (UIImageView *)createRightView
-{
-    @throw [NSException exceptionWithName:NSInternalInconsistencyException
-                                   reason:[NSString stringWithFormat:@"You must override %@ in a subclass", NSStringFromSelector(_cmd)]
-                                 userInfo:nil];
-}
-
-- (WPYFieldKey)key
-{
-    @throw [NSException exceptionWithName:NSInternalInconsistencyException
-                                   reason:[NSString stringWithFormat:@"You must override %@ in a subclass", NSStringFromSelector(_cmd)]
-                                 userInfo:nil];
-}
-
-- (BOOL)shouldValidateOnFocusLost
-{
-    @throw [NSException exceptionWithName:NSInternalInconsistencyException
-                                   reason:[NSString stringWithFormat:@"You must override %@ in a subclass", NSStringFromSelector(_cmd)]
-                                 userInfo:nil];
-}
-
-- (BOOL)validate:(NSError * __autoreleasing *)error
-{
-    @throw [NSException exceptionWithName:NSInternalInconsistencyException
-                                   reason:[NSString stringWithFormat:@"You must override %@ in a subclass", NSStringFromSelector(_cmd)]
-                                 userInfo:nil];
-}
-
-- (BOOL)canInsertNewValue:(NSString *)newValue place:(NSUInteger)place charactedDeleted:(BOOL)isCharacterDeleted
-{
-    return YES;
-}
-
-- (void)updateValue:(NSString *)newValue
-              place:(NSUInteger)place
-   charactedDeleted:(BOOL)isCharacterDeleted
-{
-    
-}
-
-- (void)updateValidityView:(BOOL)valid
-{
-
-}
-
-- (void)textFieldWillLoseFocus
-{
-
-}
 
 
 #pragma mark error notification animation
