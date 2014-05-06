@@ -9,6 +9,7 @@
 #import "WPYNumberField.h"
 
 #import "WPYTextField.h"
+#import "WPYCreditCard.h"
 #import "WPYNumberFieldModel.h"
 
 
@@ -34,56 +35,14 @@
     return brandView;
 }
 
-// public setter
-// This setter will add spaces per group of text
-// handling deleted character requires a different setter just assigning value and firing events.
+- (WPYAbstractFieldModel *)createFieldModelWithCard:(WPYCreditCard *)card
+{
+    return [[WPYNumberFieldModel alloc] initWithCard:card];
+}
+
 - (void)setText:(NSString *)text
 {
-    if (text)
-    {
-        NSString *paddedNumber = [WPYNumberFieldModel addPaddingToNumber:text];
-        [self setNumber:paddedNumber];
-    }
-}
-
-// private setter just assigning number
-- (void)setNumber:(NSString *)number
-{
-    self.textField.text = number;
-    [self textFieldDidChange:self.textField];
-}
-
-- (NSString *)text
-{
-    return [WPYNumberFieldModel removeAllWhitespaces:self.textField.text];
-}
-
-- (WPYFieldKey)key
-{
-    return WPYNumberFieldKey;
-}
-
-- (BOOL)shouldValidateOnFocusLost
-{
-    return [WPYNumberFieldModel shouldValidateWithText:[self text]];
-}
-
-- (BOOL)validate:(NSError * __autoreleasing *)error
-{
-    return [WPYNumberFieldModel validateNumber:[self text] error:error];
-}
-
-- (BOOL)canInsertNewValue:(NSString *)newValue place:(NSUInteger)place charactedDeleted:(BOOL)isCharacterDeleted
-{
-    // intercept values to add/remove spaces
-    return NO;
-}
-
-- (void)updateValue:(NSString *)newValue place:(NSUInteger)place charactedDeleted:(BOOL)isCharacterDeleted
-{
-    NSString *spacedNumber = [WPYNumberFieldModel spacedNumberFromTextFieldValue:newValue place:place deleted:isCharacterDeleted];
-    [self setNumber:spacedNumber];
-    
+    [super setText:text];
     [self updateBrand];
 }
 
@@ -103,7 +62,7 @@
 // brand logo also work as checkmark.
 - (void)updateBrand
 {
-    UIImage *brandLogo = [WPYNumberFieldModel brandLogoFromNumber:[self text]];
+    UIImage *brandLogo = [WPYNumberFieldModel brandLogoFromNumber: self.textField.text];
     if (brandLogo)
     {
         [self showBrandLogo:brandLogo];
