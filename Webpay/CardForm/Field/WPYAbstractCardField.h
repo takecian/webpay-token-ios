@@ -29,8 +29,6 @@
 - (UIImageView *)createRightView;
 - (WPYAbstractFieldModel *)createFieldModelWithCard:(WPYCreditCard *)card;
 
-- (void)setText:(NSString *)text;
-
 - (void)textFieldDidFocus;
 - (void)textFieldDidChanged:(UITextField *)textField;
 - (void)textFieldWillLoseFocus;

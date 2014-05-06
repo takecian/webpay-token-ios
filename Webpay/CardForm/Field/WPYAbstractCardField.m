@@ -10,9 +10,12 @@
 // 1. set color to normal color
 // 2. hide checkmark if necessary
 
-// new input
-// 1. if assignable => assign new value to card
-// 2. reformat input if necessary
+// new input ** setting value to textfield is the responsibility of subclass **
+// if automatic update
+//   textFieldDidChanged: will be called
+// else
+//   subclass will update the textfield value
+//   subclass will call textFieldDidChanged:
 
 // LostFocus
 // 1. if shouldValidate validate
@@ -192,11 +195,6 @@ static NSInteger const WPYMaxShakes = 8;
 
 - (void)setIntialValueForTextField
 {
-    NSString *value = [self.model initialValueForTextField];
-    if (value)
-    {
-        [self setText:value];
-    }
 }
 
 
