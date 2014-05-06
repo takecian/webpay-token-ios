@@ -71,6 +71,14 @@ static NSInteger const WPYMaxShakes = 8;
     }
 }
 
+- (void)setText:(NSString *)text
+{
+    if (text)
+    {
+        self.textField.text = text;
+        [self textFieldDidChanged:self.textField];
+    }
+}
 
 #pragma mark expected to overriden in subclass
 #pragma mark initialization
@@ -195,6 +203,7 @@ static NSInteger const WPYMaxShakes = 8;
 
 - (void)setIntialValueForTextField
 {
+    
 }
 
 
