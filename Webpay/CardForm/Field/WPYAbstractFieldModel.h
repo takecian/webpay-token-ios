@@ -29,7 +29,6 @@ typedef NS_ENUM(NSInteger, WPYFieldKey)
 
 - (NSString *)initialValueForTextField;
 - (BOOL)canInsertNewValue:(NSString *)newValue;
-- (NSString *)textFieldValueFromValue:(NSString *)value characterDeleted:(BOOL)isDeleted; // text returned to textfield
 
 - (BOOL)shouldValidateOnFocusLost;
 - (BOOL)validate:(NSError * __autoreleasing *)error;

@@ -52,13 +52,6 @@
     return YES;
 }
 
-- (NSString *)textFieldValueFromValue:(NSString *)value characterDeleted:(BOOL)isDeleted
-{
-    return value;
-}
-
-
-
 #pragma mark validation
 - (BOOL)shouldValidateOnFocusLost
 {

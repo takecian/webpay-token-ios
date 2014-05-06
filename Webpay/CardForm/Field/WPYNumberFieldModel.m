@@ -120,6 +120,18 @@ static NSString *addPaddingToNumber(NSString *number)
     return [UIImage imageNamed:removeAllWhitespaces(brand)];
 }
 
++ (NSString *)reformatNumber:(NSString *)number isDeleted:(BOOL)isDeleted
+{
+    NSString *canonicalizedNumber = removeAllWhitespaces(number);
+    NSString *paddedNumber = addPaddingToNumber(canonicalizedNumber);
+    if (isDeleted)
+    {
+        paddedNumber = stripWhitespaces(paddedNumber);
+    }
+    
+    return paddedNumber;
+}
+
 
 
 #pragma mark accessors
@@ -156,18 +168,6 @@ static NSString *addPaddingToNumber(NSString *number)
         return addPaddingToNumber(self.card.number);
     }
     return nil;
-}
-
-- (NSString *)textFieldValueFromValue:(NSString *)value characterDeleted:(BOOL)isDeleted
-{
-    NSString *canonicalizedNumber = removeAllWhitespaces(value);
-    NSString *paddedNumber = addPaddingToNumber(canonicalizedNumber);
-    if (isDeleted)
-    {
-        paddedNumber = stripWhitespaces(paddedNumber);
-    }
-    
-    return paddedNumber;
 }
 
 - (BOOL)canInsertNewValue:(NSString *)newValue

@@ -86,25 +86,25 @@ static NSString *const kMasterCardNumber = @"5105105105105100";
 - (void)testNumberAddedBeforeSpace
 {
     NSString *partialVisaNumber = @"4242";
-    XCTAssertEqualObjects([_model textFieldValueFromValue:partialVisaNumber characterDeleted:NO], @"4242 ", @"It should add a padding.");
+    XCTAssertEqualObjects([WPYNumberFieldModel reformatNumber:partialVisaNumber isDeleted:NO], @"4242 ", @"It should add a padding.");
 }
 
 - (void)testNumberAddedAfterSpace
 {
     NSString *partialVisaNumber = @"4242 5";
-    XCTAssertEqualObjects([_model textFieldValueFromValue:partialVisaNumber characterDeleted:NO], @"4242 5", @"It should not add a padding.");
+    XCTAssertEqualObjects([WPYNumberFieldModel reformatNumber:partialVisaNumber isDeleted:NO], @"4242 5", @"It should not add a padding.");
 }
 
 - (void)testNumberBeforeSpaceDeleted
 {
     NSString *partialVisaNumber = @"4242 5";
-    XCTAssertEqualObjects([_model textFieldValueFromValue:partialVisaNumber characterDeleted:YES], @"4242 5", @"It should not remove the padding.");
+    XCTAssertEqualObjects([WPYNumberFieldModel reformatNumber:partialVisaNumber isDeleted:YES], @"4242 5", @"It should not remove the padding.");
 }
 
 - (void)testNumberAfterSpaceDeleted
 {
     NSString *partialVisaNumber = @"4242 ";
-    XCTAssertEqualObjects([_model textFieldValueFromValue:partialVisaNumber characterDeleted:YES], @"4242", @"It should remove the padding.");
+    XCTAssertEqualObjects([WPYNumberFieldModel reformatNumber:partialVisaNumber isDeleted:YES], @"4242", @"It should remove the padding.");
 }
 
 
