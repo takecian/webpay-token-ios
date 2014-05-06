@@ -16,6 +16,16 @@ static NSUInteger const WPYAmexNumberMaxLength = 15;
 @implementation WPYNumberFieldModel
 
 #pragma mark helpers
+static NSString *stripWhitespaces(NSString *string)
+{
+    return [string stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+}
+
+static NSString *removeAllWhitespaces(NSString *string)
+{
+    return [string stringByReplacingOccurrencesOfString:@" " withString:@""];
+}
+
 static NSString *addSpacesPerFourCharacters(NSString *string)
 {
     NSMutableString *spacedString = [NSMutableString stringWithCapacity:string.length];
@@ -60,36 +70,21 @@ static NSString *addSpacesToAmexNumber(NSString *number)
     return spacedString;
 }
 
-static BOOL isSpace(NSUInteger place, BOOL isAmex)
+static BOOL isValidLength(NSString *number)
 {
-    if (isAmex)
+    NSString *canonicalizedNumber = removeAllWhitespaces(number);
+    NSString *brand = [WPYCreditCard brandNameFromPartialNumber:number];
+    if ([brand isEqualToString:WPYAmex])
     {
-        return (place == 5 || place == 12);
+        return canonicalizedNumber.length <= WPYAmexNumberMaxLength;
     }
     else
     {
-        return (place % 5 == 0);
+        return canonicalizedNumber.length <= WPYNonAmexNumberMaxLength;
     }
 }
 
-
-
-#pragma mark public methods
-#pragma mark string manipulation
-+ (NSString *)stripWhitespaces:(NSString *)string
-{
-    return [string stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-}
-
-+ (NSString *)removeAllWhitespaces:(NSString *)string
-{
-    return [string stringByReplacingOccurrencesOfString:@" " withString:@""];
-}
-
-
-
-#pragma mark number
-+ (NSString *)addPaddingToNumber:(NSString *)number
+static NSString *addPaddingToNumber(NSString *number)
 {
     NSString *brand = [WPYCreditCard brandNameFromPartialNumber:number];
     if ([brand isEqualToString:@"American Express"])
@@ -99,20 +94,6 @@ static BOOL isSpace(NSUInteger place, BOOL isAmex)
     else
     {
         return addSpacesPerFourCharacters(number);
-    }
-}
-
-+ (BOOL)isValidLength:(NSString *)number
-{
-    NSString *canonicalizedNumber = [self removeAllWhitespaces:number];
-    NSString *brand = [WPYCreditCard brandNameFromPartialNumber:number];
-    if ([brand isEqualToString:WPYAmex])
-    {
-        return canonicalizedNumber.length <= WPYAmexNumberMaxLength;
-    }
-    else
-    {
-        return canonicalizedNumber.length <= WPYNonAmexNumberMaxLength;
     }
 }
 
@@ -136,51 +117,55 @@ static BOOL isSpace(NSUInteger place, BOOL isAmex)
     {
         return nil;
     }
-    return [UIImage imageNamed:[self removeAllWhitespaces:brand]];
+    return [UIImage imageNamed:removeAllWhitespaces(brand)];
 }
 
 
 
-#pragma mark textfield
-+ (NSString *)spacedNumberFromTextFieldValue:(NSString *)value place:(NSUInteger)place deleted:(BOOL)isDeleted
+#pragma mark accessors
+- (WPYFieldKey)key
 {
-    NSString *canonicalizedNumber = [self removeAllWhitespaces:value];
-    NSString *brand = [WPYCreditCard brandNameFromPartialNumber:canonicalizedNumber];
-    BOOL isAmex = [brand isEqualToString:@"American Express"];
-    
-    if (!isDeleted)
-    {
-        if ([self isValidLength:canonicalizedNumber])
-        {
-            return [self addPaddingToNumber:canonicalizedNumber];
-        }
-        else
-        {
-            // remove the new input
-            return [value substringToIndex:value.length - 1];
-        }
-    }
-    
-    if (isSpace(place, isAmex) && isDeleted)
-    {
-        // remove space & character if the place delete commanded was space
-        return [value substringToIndex:value.length - 1];
-    }
-    return value;
+    return WPYNumberFieldKey;
 }
 
 
 
 #pragma mark validation
-+ (BOOL)validateNumber:(NSString *)number
-                 error:(NSError * __autoreleasing *)error
+- (BOOL)shouldValidateOnFocusLost
 {
-    WPYCreditCard *card = [[WPYCreditCard alloc] init];
-    return [card validateNumber:&number error:error];
+    return self.card.number.length != 0; // don't valididate if length is 0
 }
 
-+ (BOOL)shouldValidateWithText:(NSString *)text
+- (BOOL)validate:(NSError * __autoreleasing *)error
 {
-    return text.length != 0; // don't valididate if length is 0
+    NSString *number = self.card.number;
+    return [self.card validateNumber:&number error:error];
 }
+
+- (NSString *)initialValueForTextField
+{
+    if (self.card.number)
+    {
+        return addPaddingToNumber(self.card.number);
+    }
+    return nil;
+}
+
+- (NSString *)textFieldValueFromValue:(NSString *)value characterDeleted:(BOOL)isDeleted
+{
+    NSString *canonicalizedNumber = removeAllWhitespaces(value);
+    NSString *paddedNumber = addPaddingToNumber(canonicalizedNumber);
+    if (isDeleted)
+    {
+        paddedNumber = stripWhitespaces(paddedNumber);
+    }
+    
+    return paddedNumber;
+}
+
+- (BOOL)canInsertNewValue:(NSString *)newValue
+{
+    return isValidLength(newValue);
+}
+
 @end
