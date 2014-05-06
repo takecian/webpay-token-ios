@@ -16,9 +16,7 @@
 @implementation WPYCvcField
 
 
-#pragma mark override methods
-
-// did end editing
+#pragma mark initialization
 - (UITextField *)createTextFieldWithFrame:(CGRect)frame
 {
     UITextField *textField = [[UITextField alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
@@ -44,6 +42,19 @@
     return [[WPYCvcFieldModel alloc] initWithCard:card];
 }
 
+- (void)setIntialValueForTextField
+{
+    [self setText:self.model.card.cvc];
+}
+
+
+
+#pragma mark textField
+- (void)textFieldDidFocus
+{
+    [self.rightView setImage:[UIImage imageNamed:@"question"]];
+}
+
 - (void)updateValidityView:(BOOL)valid
 {
     if (valid)
@@ -55,6 +66,14 @@
         [self.rightView setImage:[UIImage imageNamed:@"question"]];
     }
 }
+
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)replacementString
+{
+    NSString *newValue = [textField.text stringByReplacingCharactersInRange:range withString:replacementString];
+    
+    return [self.model canInsertNewValue:newValue];
+}
+
 
 
 

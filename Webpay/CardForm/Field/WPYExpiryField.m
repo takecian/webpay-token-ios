@@ -56,9 +56,22 @@
     return [[WPYExpiryFieldModel alloc] initWithCard:card];
 }
 
+- (void)setIntialValueForTextField
+{
+    [self setText:self.model.card.expiryInString];
+}
+
+
+
+#pragma mark textfield
 - (void)updateValidityView:(BOOL)valid
 {
     self.rightView.hidden = !valid;
+}
+
+- (void)textFieldDidFocus
+{
+    self.rightView.hidden = YES;
 }
 
 - (void)textFieldWillLoseFocus
@@ -89,8 +102,7 @@
 #pragma mark private methods
 - (void)setExpiry:(NSString *)expiry
 {
-    self.textField.text = [self.expiryPickerView selectedExpiry];
-    [self textFieldHasNewInput:self.textField.text charactedDeleted:NO];
+    [self setText:expiry];
 }
 
 @end

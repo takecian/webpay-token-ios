@@ -18,7 +18,7 @@
 
 @implementation WPYNumberField
 
-#pragma mark override methods
+#pragma mark initialization
 - (UITextField *)createTextFieldWithFrame:(CGRect)frame
 {
     WPYTextField *textField = [[WPYTextField alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
@@ -40,10 +40,28 @@
     return [[WPYNumberFieldModel alloc] initWithCard:card];
 }
 
-- (void)textFieldChanged
+- (void)setIntialValueForTextField
 {
-    [self updateBrand];
+    [self setText:[WPYNumberFieldModel reformatNumber:self.model.card.number isDeleted:NO]];
 }
+
+
+
+#pragma mark
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)replacementString
+{
+    NSString *newValue = [textField.text stringByReplacingCharactersInRange:range withString:replacementString];
+    BOOL isCharacterDeleted = replacementString.length == 0;
+    
+    if ([self.model canInsertNewValue:newValue])
+    {
+        [self setText:[WPYNumberFieldModel reformatNumber:newValue isDeleted:isCharacterDeleted]];
+        [self updateBrand];
+    }
+    
+    return NO;
+}
+
 
 // called at textdidediting. Brand logo will be displayed if prefix matches any brand
 // if validation fails, hide logo

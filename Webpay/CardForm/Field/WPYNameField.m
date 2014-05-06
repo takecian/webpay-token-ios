@@ -22,6 +22,7 @@
     textField.placeholder = @"Taro Yamada";
     textField.keyboardType = UIKeyboardTypeASCIICapable;
     textField.autocorrectionType = UITextAutocorrectionTypeNo;
+    [textField addTarget:self action:@selector(textFieldDidChanged:) forControlEvents:UIControlEventValueChanged];
     textField.delegate = self;
     
     return textField;
@@ -39,6 +40,11 @@
 - (WPYAbstractFieldModel *)createFieldModelWithCard:(WPYCreditCard *)card
 {
     return [[WPYNameFieldModel alloc] initWithCard:card];
+}
+
+- (void)textFieldDidFocus
+{
+    self.rightView.hidden = YES;
 }
 
 - (void)updateValidityView:(BOOL)valid
