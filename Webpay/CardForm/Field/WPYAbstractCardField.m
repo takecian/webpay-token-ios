@@ -87,6 +87,7 @@ static NSInteger const WPYMaxShakes = 8;
 - (void)textFieldDidEndEditing:(UITextField *)textField
 {
     [self textFieldWillLoseFocus];
+    [self.model setCardValue:textField.text];
     
     if (![self.model shouldValidateOnFocusLost])
     {
@@ -124,6 +125,7 @@ static NSInteger const WPYMaxShakes = 8;
     if ([self.model canInsertNewValue:newInput])
     {
         [self setText:[self.model textFieldValueFromValue:newInput characterDeleted:isDeleted]];
+        [self.model setCardValue:newInput];
     }
 }
 
