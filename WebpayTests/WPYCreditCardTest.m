@@ -159,8 +159,8 @@ static NSString *const unknownCardNumber  = @"9876543210123456";
 - (void)testBothSetExpiry
 {
     _creditCard.expiryYear = 2016;
-    _creditCard.expiryMonth = 11;
-    XCTAssertEqualObjects([_creditCard expiryInString], @"11 / 2016", @"It should return expiry in expected format.");
+    _creditCard.expiryMonth = 1;
+    XCTAssertEqualObjects([_creditCard expiryInString], @"01 / 2016", @"It should return expiry in expected format.");
 }
 
 
