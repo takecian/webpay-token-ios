@@ -203,7 +203,11 @@ static NSInteger const WPYMaxShakes = 8;
 
 - (void)setIntialValueForTextField
 {
-    
+    NSString *initialValue = [self.model initialValueForTextField];
+    if (initialValue)
+    {
+        [self setText:initialValue];
+    }
 }
 
 

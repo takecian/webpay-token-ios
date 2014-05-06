@@ -40,11 +40,6 @@
     return [[WPYNumberFieldModel alloc] initWithCard:card];
 }
 
-- (void)setIntialValueForTextField
-{
-    [self setText:[WPYNumberFieldModel reformatNumber:self.model.card.number isDeleted:NO]];
-}
-
 
 
 #pragma mark

@@ -56,11 +56,6 @@
     return [[WPYExpiryFieldModel alloc] initWithCard:card];
 }
 
-- (void)setIntialValueForTextField
-{
-    [self setText:self.model.card.expiryInString];
-}
-
 
 
 #pragma mark textfield

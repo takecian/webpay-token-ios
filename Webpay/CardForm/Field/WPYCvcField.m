@@ -42,11 +42,6 @@
     return [[WPYCvcFieldModel alloc] initWithCard:card];
 }
 
-- (void)setIntialValueForTextField
-{
-    [self setText:self.model.card.cvc];
-}
-
 
 
 #pragma mark textField
