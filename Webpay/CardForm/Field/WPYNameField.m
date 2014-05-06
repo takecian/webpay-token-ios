@@ -8,7 +8,7 @@
 
 #import "WPYNameField.h"
 
-#import "WPYCreditCard.h"
+#import "WPYNameFieldModel.h"
 
 @interface WPYNameField () <UITextFieldDelegate>
 @end
@@ -23,7 +23,6 @@
     textField.keyboardType = UIKeyboardTypeASCIICapable;
     textField.autocorrectionType = UITextAutocorrectionTypeNo;
     textField.delegate = self;
-    [textField addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
     
     return textField;
 }
@@ -37,23 +36,9 @@
     return checkMarkView;
 }
 
-- (WPYFieldKey)key
+- (WPYAbstractFieldModel *)createFieldModelWithCard:(WPYCreditCard *)card
 {
-    return WPYNameFieldKey;
-}
-
-- (BOOL)shouldValidateOnFocusLost
-{
-    NSString *name = self.textField.text;
-    return name.length != 0; // don't valididate if length is 0
-}
-
-- (BOOL)validate:(NSError * __autoreleasing *)error
-{
-    NSString *name = self.textField.text;
-    WPYCreditCard *creditCard = [[WPYCreditCard alloc] init];
-    
-    return [creditCard validateName:&name error:error];
+    return [[WPYNameFieldModel alloc] initWithCard:card];
 }
 
 - (void)updateValidityView:(BOOL)valid
