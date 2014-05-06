@@ -6,7 +6,21 @@
 //  Copyright (c) 2014 yohei, YasuLab. All rights reserved.
 //
 
-#import "WPYAbstractCardFieldSubclass.h"
+// didFocus
+// 1. set color to normal color
+// 2. hide checkmark if necessary
+
+// new input
+// 1. if assignable => assign new value to card
+// 2. reformat input if necessary
+
+// LostFocus
+// 1. if shouldValidate validate
+// 2. change text color
+// 3. change validity view
+// 4. if error show error animation
+
+#import "WPYAbstractCardField.h"
 
 #import "WPYAbstractFieldModel.h"
 
@@ -85,10 +99,14 @@ static NSInteger const WPYMaxShakes = 8;
     [self textFieldDidFocus];
 }
 
+- (void)textFieldDidChanged:(UITextField *)textField
+{
+    [self.model setCardValue:textField.text];
+}
+
 - (void)textFieldDidEndEditing:(UITextField *)textField
 {
     [self textFieldWillLoseFocus];
-    [self.model setCardValue:textField.text];
     
     if (![self.model shouldValidateOnFocusLost])
     {
@@ -108,25 +126,6 @@ static NSInteger const WPYMaxShakes = 8;
     {
         [self setErrorColor];
         [self startErrorAnimation];
-    }
-}
-
-- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)replacementString
-{
-    NSString *newValue = [textField.text stringByReplacingCharactersInRange:range withString:replacementString];
-    BOOL isCharacterDeleted = replacementString.length == 0;
-    
-    [self textFieldHasNewInput:newValue charactedDeleted:isCharacterDeleted];
-    
-    return NO;
-}
-
-- (void)textFieldHasNewInput:(NSString *)newInput charactedDeleted:(BOOL)isDeleted
-{
-    if ([self.model canInsertNewValue:newInput])
-    {
-        [self setText:[self.model textFieldValueFromValue:newInput characterDeleted:isDeleted]];
-        [self.model setCardValue:newInput];
     }
 }
 
@@ -198,12 +197,6 @@ static NSInteger const WPYMaxShakes = 8;
     {
         [self setText:value];
     }
-}
-
-- (void)setText:(NSString *)text
-{
-    self.textField.text = text;
-    [self textFieldChanged];
 }
 
 
