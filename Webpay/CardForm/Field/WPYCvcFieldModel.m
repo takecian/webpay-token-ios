@@ -59,7 +59,7 @@ static NSUInteger const WPYValidNonAmexCvcLength = 3;
 - (BOOL)validate:(NSError * __autoreleasing *)error
 {
     NSString *cvc = self.card.cvc;
-    return [self.card validateName:&cvc error:error];
+    return [self.card validateCvc:&cvc error:error];
 }
 
 @end
