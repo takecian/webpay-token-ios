@@ -76,20 +76,6 @@ static NSInteger const WPYMaxShakes = 8;
     return nil;
 }
 
-- (void)setText:(NSString *)text
-{
-    self.textField.text = text;
-}
-
-- (void)setIntialValueForTextField
-{
-    NSString *value = [self.model initialValueForTextField];
-    if (value)
-    {
-        [self setText:value];
-    }
-}
-
 
 
 #pragma mark textfield delegate
@@ -155,8 +141,15 @@ static NSInteger const WPYMaxShakes = 8;
 
 }
 
+
+
 #pragma mark event handler
 - (void)textFieldWillLoseFocus
+{
+
+}
+
+- (void)textFieldChanged
 {
 
 }
@@ -188,6 +181,21 @@ static NSInteger const WPYMaxShakes = 8;
     self.rightView = [self createRightView];
     _textField.rightView = self.rightView;
     _textField.rightViewMode = UITextFieldViewModeAlways;
+}
+
+- (void)setIntialValueForTextField
+{
+    NSString *value = [self.model initialValueForTextField];
+    if (value)
+    {
+        [self setText:value];
+    }
+}
+
+- (void)setText:(NSString *)text
+{
+    self.textField.text = text;
+    [self textFieldChanged];
 }
 
 

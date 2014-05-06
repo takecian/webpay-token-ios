@@ -23,7 +23,7 @@
 - (UIImageView *)createRightView;
 - (WPYAbstractFieldModel *)createFieldModelWithCard:(WPYCreditCard *)card;
 
-- (void)setText:(NSString *)text;
+- (void)textFieldChanged;
 
 // did end editing
 - (void)updateValidityView:(BOOL)valid;
