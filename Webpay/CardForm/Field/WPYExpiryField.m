@@ -11,7 +11,7 @@
 #import "WPYExpiryPickerView.h"
 #import "WPYExpiryAccessoryView.h"
 #import "WPYMenuDisabledTextField.h"
-#import "WPYCreditCard.h"
+#import "WPYExpiryFieldModel.h"
 #import "WPYConstants.h"
 
 @interface WPYExpiryField () <UITextFieldDelegate, WPYExpiryPickerViewDelegate, WPYExpiryAccessoryViewDelegate>
@@ -34,10 +34,6 @@
     UITextField *textField = [[WPYMenuDisabledTextField alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
     textField.placeholder = @"01 / 2018";
     
-    if (isiOS7())
-    {
-//        textField.tintColor = [UIColor clearColor]; // hide cursor
-    }
     textField.inputView = self.expiryPickerView;
     textField.inputAccessoryView = accessoryView;
     
@@ -55,26 +51,9 @@
     return checkMarkView;
 }
 
-- (WPYFieldKey)key
+- (WPYAbstractFieldModel *)createFieldModelWithCard:(WPYCreditCard *)card
 {
-    return WPYExpiryFieldKey;
-}
-
-- (BOOL)shouldValidateOnFocusLost
-{
-    NSString *expiry = self.textField.text;
-    return expiry.length == 9; // don't valid if both not selected
-}
-
-- (BOOL)validate:(NSError * __autoreleasing *)error
-{
-    NSString *expiry = self.textField.text;
-    NSInteger month = [[expiry substringToIndex:2] integerValue];
-    NSInteger year = [[expiry substringFromIndex:5] integerValue];
-    
-    WPYCreditCard *creditCard = [[WPYCreditCard alloc] init];
-    
-    return [creditCard validateExpiryYear:year month:month error:error];
+    return [[WPYExpiryFieldModel alloc] initWithCard:card];
 }
 
 - (void)updateValidityView:(BOOL)valid
@@ -111,7 +90,7 @@
 - (void)setExpiry:(NSString *)expiry
 {
     self.textField.text = [self.expiryPickerView selectedExpiry];
-    [self textFieldDidChange:self.textField];
+    [self textFieldHasNewInput:self.textField.text charactedDeleted:NO];
 }
 
 @end
