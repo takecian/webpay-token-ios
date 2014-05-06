@@ -15,24 +15,20 @@ static NSUInteger const WPYValidNonAmexCvcLength = 3;
 
 @implementation WPYCvcFieldModel
 
-
+#pragma mark accessor
 - (WPYFieldKey)key
 {
     return WPYCvcFieldKey;
 }
 
-- (BOOL)shouldValidateOnFocusLost
+- (void)setCardValue:(NSString *)value
 {
-    NSString *cvc = self.card.cvc;
-    return cvc.length != 0; // don't valididate if length is 0
+    self.card.cvc = value;
 }
 
-- (BOOL)validate:(NSError * __autoreleasing *)error
-{
-    NSString *cvc = self.card.cvc;
-    return [self.card validateName:&cvc error:error];
-}
 
+
+#pragma mark textfield
 - (NSString *)initialValueForTextField
 {
     return self.card.cvc;
@@ -51,5 +47,19 @@ static NSUInteger const WPYValidNonAmexCvcLength = 3;
     }
 }
 
+
+
+#pragma mark validation
+- (BOOL)shouldValidateOnFocusLost
+{
+    NSString *cvc = self.card.cvc;
+    return cvc.length != 0; // don't valididate if length is 0
+}
+
+- (BOOL)validate:(NSError * __autoreleasing *)error
+{
+    NSString *cvc = self.card.cvc;
+    return [self.card validateName:&cvc error:error];
+}
 
 @end
