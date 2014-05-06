@@ -32,7 +32,7 @@
 - (void)setText:(NSString *)text;
 
 - (void)textFieldDidFocus;
-- (void)textFieldChanged;
+- (void)textFieldDidChanged:(UITextField *)textField;
 - (void)textFieldWillLoseFocus;
 
 - (void)updateValidityView:(BOOL)valid;
