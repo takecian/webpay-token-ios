@@ -40,9 +40,8 @@
     return [[WPYNumberFieldModel alloc] initWithCard:card];
 }
 
-- (void)setText:(NSString *)text
+- (void)textFieldChanged
 {
-    [super setText:text];
     [self updateBrand];
 }
 
