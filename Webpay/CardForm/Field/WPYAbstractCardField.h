@@ -29,6 +29,7 @@
 - (UITextField *)createTextFieldWithFrame:(CGRect)frame;
 - (UIImageView *)createRightView;
 - (WPYAbstractFieldModel *)createFieldModelWithCard:(WPYCreditCard *)card;
+- (void)setIntialValueForTextField;
 
 
 - (void)textFieldDidFocus;
