@@ -30,6 +30,35 @@
                                  userInfo:nil];
 }
 
+- (void)setCardValue:(NSString *)value
+{
+    @throw [NSException exceptionWithName:NSInternalInconsistencyException
+                                   reason:[NSString stringWithFormat:@"You must override %@ in a subclass", NSStringFromSelector(_cmd)]
+                                 userInfo:nil];
+}
+
+
+
+#pragma mark textfield
+- (NSString *)initialValueForTextField
+{
+    @throw [NSException exceptionWithName:NSInternalInconsistencyException
+                                   reason:[NSString stringWithFormat:@"You must override %@ in a subclass", NSStringFromSelector(_cmd)]
+                                 userInfo:nil];
+}
+
+- (BOOL)canInsertNewValue:(NSString *)newValue
+{
+    return YES;
+}
+
+- (NSString *)textFieldValueFromValue:(NSString *)value characterDeleted:(BOOL)isDeleted
+{
+    return value;
+}
+
+
+
 #pragma mark validation
 - (BOOL)shouldValidateOnFocusLost
 {
@@ -46,19 +75,4 @@
 }
 
 
-#pragma mark textfield
-- (NSString *)initialValueForTextField
-{
-    return nil;
-}
-
-- (BOOL)canInsertNewValue:(NSString *)newValue
-{
-    return YES;
-}
-
-- (NSString *)textFieldValueFromValue:(NSString *)value characterDeleted:(BOOL)isDeleted
-{
-    return value;
-}
 @end

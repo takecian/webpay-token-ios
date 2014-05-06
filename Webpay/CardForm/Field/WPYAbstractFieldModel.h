@@ -25,12 +25,12 @@ typedef NS_ENUM(NSInteger, WPYFieldKey)
 
 // methods to be overriden
 - (WPYFieldKey)key;
-
-// called at did end editing & textfield did change
-- (BOOL)shouldValidateOnFocusLost;
-- (BOOL)validate:(NSError * __autoreleasing *)error;
+- (void)setCardValue:(NSString *)value;
 
 - (NSString *)initialValueForTextField;
 - (BOOL)canInsertNewValue:(NSString *)newValue;
-- (NSString *)textFieldValueFromValue:(NSString *)value characterDeleted:(BOOL)isDeleted;
+- (NSString *)textFieldValueFromValue:(NSString *)value characterDeleted:(BOOL)isDeleted; // text returned to textfield
+
+- (BOOL)shouldValidateOnFocusLost;
+- (BOOL)validate:(NSError * __autoreleasing *)error;
 @end
