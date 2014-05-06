@@ -23,10 +23,10 @@
 - (UIImageView *)createRightView;
 - (WPYAbstractFieldModel *)createFieldModelWithCard:(WPYCreditCard *)card;
 
+- (void)textFieldDidFocus;
 - (void)textFieldChanged;
-
-// did end editing
-- (void)updateValidityView:(BOOL)valid;
 - (void)textFieldWillLoseFocus;
+
+- (void)updateValidityView:(BOOL)valid;
 
 @end

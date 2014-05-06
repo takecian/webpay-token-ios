@@ -82,6 +82,7 @@ static NSInteger const WPYMaxShakes = 8;
 - (void)textFieldDidBeginEditing:(UITextField *)textField
 {
     [self setNormalColor];
+    [self textFieldDidFocus];
 }
 
 - (void)textFieldDidEndEditing:(UITextField *)textField
@@ -146,6 +147,11 @@ static NSInteger const WPYMaxShakes = 8;
 
 
 #pragma mark event handler
+- (void)textFieldDidFocus
+{
+
+}
+
 - (void)textFieldWillLoseFocus
 {
 
