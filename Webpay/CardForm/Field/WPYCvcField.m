@@ -8,16 +8,17 @@
 
 #import "WPYCvcField.h"
 
-#import "WPYCreditCard.h"
+#import "WPYCvcFieldModel.h"
 
 @interface WPYCvcField () <UITextFieldDelegate>
 @end
 
-static NSInteger const WPYCvcMaxDigits = 4;
-
 @implementation WPYCvcField
 
+
 #pragma mark override methods
+
+// did end editing
 - (UITextField *)createTextFieldWithFrame:(CGRect)frame
 {
     UITextField *textField = [[UITextField alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
@@ -26,7 +27,6 @@ static NSInteger const WPYCvcMaxDigits = 4;
     textField.keyboardType = UIKeyboardTypeNumberPad;
     
     textField.delegate = self;
-    [textField addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
     
     return textField;
 }
@@ -39,38 +39,9 @@ static NSInteger const WPYCvcMaxDigits = 4;
     return checkMarkView;
 }
 
-- (WPYFieldKey)key
+- (WPYAbstractFieldModel *)createFieldModelWithCard:(WPYCreditCard *)card
 {
-    return WPYCvcFieldKey;
-}
-
-- (BOOL)shouldValidateOnFocusLost
-{
-    NSString *cvc = self.textField.text;
-    return cvc.length != 0; // don't validiate if length is 0
-}
-
-- (BOOL)validate:(NSError * __autoreleasing *)error
-{
-    NSString *cvc = self.textField.text;
-    WPYCreditCard *creditCard = [[WPYCreditCard alloc] init];
-    
-    return [creditCard validateCvc:&cvc error:error];
-}
-
-- (BOOL)canInsertNewValue:(NSString *)newValue place:(NSUInteger)place charactedDeleted:(BOOL)isCharacterDeleted
-{
-    return NO; //workaround for stop clearing text when refocused
-}
-
-- (void)updateValue:(NSString *)newValue place:(NSUInteger)place charactedDeleted:(BOOL)isCharacterDeleted
-{
-    if (newValue.length > WPYCvcMaxDigits)
-    {
-        return;
-    }
-    self.textField.text = newValue;
-    [self textFieldDidChange:self.textField];
+    return [[WPYCvcFieldModel alloc] initWithCard:card];
 }
 
 - (void)updateValidityView:(BOOL)valid
