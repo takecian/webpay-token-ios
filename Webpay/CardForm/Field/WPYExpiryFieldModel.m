@@ -10,12 +10,35 @@
 
 @implementation WPYExpiryFieldModel
 
+#pragma mark accessor
 - (WPYFieldKey)key
 {
     return WPYExpiryFieldKey;
 }
 
-// called at did end editing & textfield did change
+- (void)setCardValue:(NSString *)value
+{
+    if (value.length > 0)
+    {
+        NSInteger month = [[value substringToIndex:2] integerValue];
+        self.card.expiryMonth = month;
+        
+        NSInteger year = [[value substringFromIndex:5] integerValue];
+        self.card.expiryYear = year;
+    }
+}
+
+
+
+#pragma mark textfield
+- (NSString *)initialValueForTextField
+{
+    return [self.card expiryInString];
+}
+
+
+
+#pragma mark validation
 - (BOOL)shouldValidateOnFocusLost
 {
     NSString *expiry = [self.card expiryInString];
@@ -25,11 +48,6 @@
 - (BOOL)validate:(NSError * __autoreleasing *)error
 {
     return [self.card validateExpiryYear:self.card.expiryYear month:self.card.expiryMonth error:error];
-}
-
-- (NSString *)initialValueForTextField
-{
-    return [self.card expiryInString];
 }
 
 @end
