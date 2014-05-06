@@ -128,6 +128,10 @@ static NSString *addPaddingToNumber(NSString *number)
     return WPYNumberFieldKey;
 }
 
+- (void)setCardValue:(NSString *)value
+{
+    self.card.number = removeAllWhitespaces(value);
+}
 
 
 #pragma mark validation
@@ -142,6 +146,9 @@ static NSString *addPaddingToNumber(NSString *number)
     return [self.card validateNumber:&number error:error];
 }
 
+
+
+#pragma mark textfield
 - (NSString *)initialValueForTextField
 {
     if (self.card.number)
