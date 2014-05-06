@@ -10,11 +10,28 @@
 
 @implementation WPYNameFieldModel
 
+#pragma mark accessor
 - (WPYFieldKey)key
 {
     return WPYNameFieldKey;
 }
 
+- (void)setCardValue:(NSString *)value
+{
+    self.card.name = value;
+}
+
+
+
+#pragma mark textfield
+- (NSString *)initialValueForTextField
+{
+    return self.card.name;
+}
+
+
+
+#pragma mark validation
 - (BOOL)shouldValidateOnFocusLost
 {
     NSString *name = self.card.name;
@@ -25,11 +42,6 @@
 {
     NSString *name = self.card.name;
     return [self.card validateName:&name error:error];
-}
-
-- (NSString *)initialValueForTextField
-{
-    return self.card.name;
 }
 
 @end
