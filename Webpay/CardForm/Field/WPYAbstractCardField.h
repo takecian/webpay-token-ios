@@ -10,14 +10,30 @@
 
 #import <UIKit/UIKit.h>
 
-#import "WPYAbstractFieldModel.h"
 
 @class WPYCreditCard;
-@interface WPYAbstractCardField : UIView
+@class WPYAbstractFieldModel;
+
+@interface WPYAbstractCardField : UIView <UITextFieldDelegate>
 @property(nonatomic, strong) UITextField *textField;
 @property(nonatomic, strong) UIImageView *rightView;
+@property(nonatomic, strong) WPYAbstractFieldModel *model;
 
 //designated initializer
 - (instancetype)initWithFrame:(CGRect)frame card:(WPYCreditCard *)card;
 - (void)setFocus:(BOOL)focus;
+
+// methods expected to be overridden
+// initialization
+- (UITextField *)createTextFieldWithFrame:(CGRect)frame;
+- (UIImageView *)createRightView;
+- (WPYAbstractFieldModel *)createFieldModelWithCard:(WPYCreditCard *)card;
+
+- (void)setText:(NSString *)text;
+
+- (void)textFieldDidFocus;
+- (void)textFieldChanged;
+- (void)textFieldWillLoseFocus;
+
+- (void)updateValidityView:(BOOL)valid;
 @end
