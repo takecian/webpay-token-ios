@@ -14,4 +14,5 @@
 // brand
 + (UIImage *)brandLogoFromNumber:(NSString *)number;
 + (NSString *)reformatNumber:(NSString *)number isDeleted:(BOOL)isDeleted;
++ (BOOL)isCharacterAfterSpace:(NSString *)number position:(NSUInteger)position;
 @end

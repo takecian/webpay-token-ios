@@ -58,6 +58,17 @@
         [self setText:[WPYNumberFieldModel reformatNumber:newValue isDeleted:isCharacterDeleted]];
     }
     
+    // adjust cursor position when a characted deleted from the middle of text
+    BOOL isCharacterAfterSpace = [WPYNumberFieldModel isCharacterAfterSpace:newValue position:range.location];
+    NSUInteger location = isCharacterAfterSpace ? range.location - 1 : range.location;
+    BOOL isCursorAtEnd = location == self.textField.text.length;
+    if (isCharacterDeleted && !isCursorAtEnd)
+    {
+        UITextRange *cursorRange = [textField selectedTextRange];
+        UITextPosition *correctPosition = [textField positionFromPosition:cursorRange.start offset:location - textField.text.length];
+        textField.selectedTextRange = [textField textRangeFromPosition:correctPosition toPosition:correctPosition];
+    }
+    
     return NO;
 }
 

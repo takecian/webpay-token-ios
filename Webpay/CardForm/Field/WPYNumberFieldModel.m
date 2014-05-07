@@ -133,6 +133,20 @@ static NSString *addPaddingToNumber(NSString *number)
 }
 
 
++ (BOOL)isCharacterAfterSpace:(NSString *)number position:(NSUInteger)position
+{
+    NSString *brand = [WPYCreditCard brandNameFromPartialNumber:number];
+    if ([brand isEqualToString:WPYAmex])
+    {
+        return (position == 5 || position == 12);
+    }
+    else
+    {
+        return (position % 5 == 0 && position != 20);
+    }
+}
+
+
 
 #pragma mark accessors
 - (WPYFieldKey)key
