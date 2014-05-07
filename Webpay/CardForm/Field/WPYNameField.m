@@ -22,7 +22,7 @@
     textField.placeholder = @"Taro Yamada";
     textField.keyboardType = UIKeyboardTypeASCIICapable;
     textField.autocorrectionType = UITextAutocorrectionTypeNo;
-    [textField addTarget:self action:@selector(textFieldDidChanged:) forControlEvents:UIControlEventValueChanged];
+    [textField addTarget:self action:@selector(textFieldDidChanged:) forControlEvents: UIControlEventEditingChanged];
     textField.delegate = self;
     
     return textField;
