@@ -23,7 +23,8 @@
     textField.placeholder = @"123";
     textField.secureTextEntry = YES;
     textField.keyboardType = UIKeyboardTypeNumberPad;
-    
+    textField.clearsOnBeginEditing = NO;
+    [textField addTarget:self action:@selector(textFieldDidChanged:) forControlEvents: UIControlEventEditingChanged];
     textField.delegate = self;
     
     return textField;
@@ -64,6 +65,21 @@
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)replacementString
 {
+    BOOL isCharacterDeleted = replacementString.length == 0;
+    NSString *currentText = textField.text;
+    if (isCharacterDeleted && currentText.length > 0)
+    {
+        // remove deleted charater
+        textField.text = [NSString stringWithFormat:@"%@%@", [currentText substringToIndex:range.location], [currentText substringFromIndex:range.location + 1]];
+        
+        // adjust cursor position
+        UITextRange *endRange = [textField selectedTextRange];
+        UITextPosition *correctPosition = [textField positionFromPosition:endRange.start offset:range.location - textField.text.length];
+        textField.selectedTextRange = [textField textRangeFromPosition:correctPosition toPosition:correctPosition];
+        
+        return NO;
+    }
+    
     NSString *newValue = [textField.text stringByReplacingCharactersInRange:range withString:replacementString];
     
     return [self.model canInsertNewValue:newValue];
