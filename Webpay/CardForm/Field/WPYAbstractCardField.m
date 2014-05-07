@@ -80,6 +80,8 @@ static NSInteger const WPYMaxShakes = 8;
     }
 }
 
+
+
 #pragma mark expected to overriden in subclass
 #pragma mark initialization
 - (UITextField *)createTextFieldWithFrame:(CGRect)frame
@@ -113,6 +115,12 @@ static NSInteger const WPYMaxShakes = 8;
 - (void)textFieldDidChanged:(UITextField *)textField
 {
     [self.model setCardValue:textField.text];
+    [self textFieldValueChanged];
+}
+
+- (void)textFieldValueChanged
+{
+    // called when textfield value changed
 }
 
 - (void)textFieldDidEndEditing:(UITextField *)textField

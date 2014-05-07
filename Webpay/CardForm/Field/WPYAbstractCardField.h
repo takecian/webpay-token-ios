@@ -31,7 +31,8 @@
 - (WPYAbstractFieldModel *)createFieldModelWithCard:(WPYCreditCard *)card;
 
 - (void)textFieldDidFocus;
-- (void)textFieldDidChanged:(UITextField *)textField;
+- (void)textFieldDidChanged:(UITextField *)textField; // called from textfield or manually
+- (void)textFieldValueChanged; // template method
 - (void)textFieldWillLoseFocus;
 
 - (void)updateValidityView:(BOOL)valid;

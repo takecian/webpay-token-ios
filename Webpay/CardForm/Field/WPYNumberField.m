@@ -42,7 +42,12 @@
 
 
 
-#pragma mark
+#pragma mark textfield
+- (void)textFieldValueChanged
+{
+    [self updateBrand];
+}
+
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)replacementString
 {
     NSString *newValue = [textField.text stringByReplacingCharactersInRange:range withString:replacementString];
@@ -51,7 +56,6 @@
     if ([self.model canInsertNewValue:newValue])
     {
         [self setText:[WPYNumberFieldModel reformatNumber:newValue isDeleted:isCharacterDeleted]];
-        [self updateBrand];
     }
     
     return NO;
