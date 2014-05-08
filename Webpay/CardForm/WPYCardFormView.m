@@ -20,7 +20,10 @@
 #import "WPYCvcField.h"
 #import "WPYNameField.h"
 
-@interface WPYCardFormView () <UITableViewDataSource,UITableViewDelegate, WPYCardFieldDelegate>
+#import "WPYAbstractFieldModel.h"
+
+
+@interface WPYCardFormView () <UITableViewDataSource,UITableViewDelegate>
 // card info holder
 @property(nonatomic, strong) WPYCreditCard *creditCard;
 
@@ -30,31 +33,14 @@
 @property(nonatomic, strong) NSArray *contentViews;
 @end
 
+static float const WPYFieldRightMargin = 10.0f; // for leaving right margin to rightview
 static float const WPYFieldLeftMargin = 100.0f;
 static float const WPYFieldTopMargin = 4.0f;
-static float const WPYFieldWidth = 320.0f - WPYFieldLeftMargin;
+static float const WPYFieldWidth = 320.0f - WPYFieldLeftMargin - WPYFieldRightMargin;
 static float const WPYFieldHeight = 45.0f;
 
+static float const WPYCellHeight = 50.0f;
 
-
-#pragma mark helpers
-static NSString *fieldNameFromFieldKey(WPYFieldKey key)
-{
-    switch (key)
-    {
-        case WPYNumberFieldKey:
-            return @"Number";
-            
-        case WPYExpiryFieldKey:
-            return @"Expiry";
-            
-        case WPYCvcFieldKey:
-            return @"Cvc";
-            
-        case WPYNameFieldKey:
-            return @"Name";
-    }
-}
 
 @implementation WPYCardFormView
 #pragma mark initialization
@@ -76,15 +62,14 @@ static NSString *fieldNameFromFieldKey(WPYFieldKey key)
         
         // contentViews
         CGRect fieldFrame = CGRectMake(WPYFieldLeftMargin, WPYFieldTopMargin, WPYFieldWidth, WPYFieldHeight);
-        WPYAbstractCardField *numberField = [[WPYNumberField alloc] initWithFrame:fieldFrame text:_creditCard.number];
-        WPYAbstractCardField *expiryField = [[WPYExpiryField alloc] initWithFrame:fieldFrame text:[_creditCard expiryInString]];
-        WPYAbstractCardField *cvcField = [[WPYCvcField alloc] initWithFrame:fieldFrame text:_creditCard.cvc];
-        WPYAbstractCardField *nameField = [[WPYNameField alloc] initWithFrame:fieldFrame text:_creditCard.name];
+        WPYAbstractCardField *numberField = [[WPYNumberField alloc] initWithFrame:fieldFrame card:_creditCard];
+        WPYAbstractCardField *expiryField = [[WPYExpiryField alloc] initWithFrame:fieldFrame card:_creditCard];
+        WPYAbstractCardField *cvcField = [[WPYCvcField alloc] initWithFrame:fieldFrame card:_creditCard];
+        WPYAbstractCardField *nameField = [[WPYNameField alloc] initWithFrame:fieldFrame card:_creditCard];
         
         _contentViews = @[numberField, expiryField, cvcField, nameField];
-        [_contentViews enumerateObjectsUsingBlock:^(WPYAbstractCardField *field, NSUInteger idx, BOOL *stop){
-            field.delegate = self;
-        }];
+        
+        [self subscribe];
     }
     return self;
 }
@@ -95,13 +80,74 @@ static NSString *fieldNameFromFieldKey(WPYFieldKey key)
     return [self initWithFrame:frame card:nil];
 }
 
+- (void)dealloc
+{
+    [self unsubscribe];
+}
+
+
+
+#pragma mark kvo
+- (void)subscribe
+{
+    [self.creditCard addObserver:self
+                      forKeyPath:NSStringFromSelector(@selector(name))
+                         options:NSKeyValueObservingOptionInitial
+                         context:nil];
+    
+    [self.creditCard addObserver:self
+                      forKeyPath:NSStringFromSelector(@selector(number))
+                         options:NSKeyValueObservingOptionInitial
+                         context:nil];
+    
+    [self.creditCard addObserver:self
+                      forKeyPath:NSStringFromSelector(@selector(cvc))
+                         options:NSKeyValueObservingOptionInitial
+                         context:nil];
+    
+    [self.creditCard addObserver:self
+                      forKeyPath:NSStringFromSelector(@selector(expiryMonth))
+                         options:NSKeyValueObservingOptionInitial
+                         context:nil];
+    
+    [self.creditCard addObserver:self
+                      forKeyPath:NSStringFromSelector(@selector(expiryYear))
+                         options:NSKeyValueObservingOptionInitial
+                         context:nil];
+}
+
+- (void)unsubscribe
+{
+    [self.creditCard removeObserver:self forKeyPath:NSStringFromSelector(@selector(name))];
+    [self.creditCard removeObserver:self forKeyPath:NSStringFromSelector(@selector(number))];
+    [self.creditCard removeObserver:self forKeyPath:NSStringFromSelector(@selector(cvc))];
+    [self.creditCard removeObserver:self forKeyPath:NSStringFromSelector(@selector(expiryMonth))];
+    [self.creditCard removeObserver:self forKeyPath:NSStringFromSelector(@selector(expiryYear))];
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath
+                      ofObject:(id)object
+                        change:(NSDictionary *)change
+                       context:(void *)context
+{
+    [self validate];
+}
+
+- (void)validate
+{
+    if ([self.creditCard validate: nil])
+    {
+        [self notifyDelegateValidForm:self.creditCard];
+    }
+}
+
 
 
 #pragma mark public method
 - (void)setFocusToFirstNotfilledField
 {
     [self.contentViews enumerateObjectsUsingBlock:^(WPYAbstractCardField *field, NSUInteger idx, BOOL *stop){
-        if (field.text.length == 0)
+        if (field.textField.text.length == 0)
         {
             [field setFocus:YES];
             *stop = YES;
@@ -140,68 +186,12 @@ static NSString *fieldNameFromFieldKey(WPYFieldKey key)
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 50;
-}
-
-
-
-#pragma mark card field delegates
-- (void)validValue:(NSString *)value forKey:(WPYFieldKey)key
-{
-    [self setCardValue:value forKey:key];
-    [self validate];
-}
-
-- (void)invalidValue:(NSString *)value forKey:(WPYFieldKey)key error:(NSError *)error
-{
-    [self setCardValue:value forKey:key];
-    [self notifyDelegateFieldName:fieldNameFromFieldKey(key) error:error];
-}
-
-- (void)setCardValue:(NSString *)value forKey:(WPYFieldKey)key
-{
-    switch (key)
-    {
-        case WPYNumberFieldKey:
-            self.creditCard.number = value;
-            break;
-            
-        case WPYExpiryFieldKey:
-            self.creditCard.expiryMonth = [[value substringToIndex:2] integerValue];
-            self.creditCard.expiryYear = [[value substringFromIndex:5] integerValue];
-            break;
-            
-        case WPYCvcFieldKey:
-            self.creditCard.cvc = value;
-            break;
-            
-        case WPYNameFieldKey:
-            self.creditCard.name = value;
-            break;
-    }
-}
-
-
-#pragma mark validation
-- (void)validate
-{
-    if ([self.creditCard validate:nil])
-    {
-        [self notifyDelegateValidForm:self.creditCard];
-    }
+    return WPYCellHeight;
 }
 
 
 
 #pragma mark notify delegate
-- (void)notifyDelegateFieldName:(NSString *)fieldName error:(NSError *)error
-{
-    if (self.delegate && [self.delegate respondsToSelector:@selector(invalidFieldName:error:)])
-    {
-        [self.delegate invalidFieldName:fieldName error:error];
-    }
-}
-
 - (void)notifyDelegateValidForm:(WPYCreditCard *)creditCard
 {
     if (self.delegate && [self.delegate respondsToSelector:@selector(validFormWithCard:)])
