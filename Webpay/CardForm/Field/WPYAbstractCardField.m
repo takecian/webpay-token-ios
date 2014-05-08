@@ -52,6 +52,8 @@ static NSInteger const WPYMaxShakes = 8;
         [self addSubview:_textField];
         
         [self setIntialValueForTextField];
+        
+        [self setup];
     }
     return self;
 }
@@ -101,6 +103,11 @@ static NSInteger const WPYMaxShakes = 8;
 - (WPYAbstractFieldModel *)createFieldModelWithCard:(WPYCreditCard *)card
 {
     return nil;
+}
+
+- (void)setup
+{
+
 }
 
 
