@@ -51,22 +51,55 @@
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)replacementString
 {
     NSString *newValue = [textField.text stringByReplacingCharactersInRange:range withString:replacementString];
-    BOOL isCharacterDeleted = replacementString.length == 0;
+    BOOL isDigitDeleted = replacementString.length == 0;
     
+    NSUInteger location = range.location;
     if ([self.model canInsertNewValue:newValue])
     {
-        [self setText:[WPYNumberFieldModel reformatNumber:newValue isDeleted:isCharacterDeleted]];
-    }
-    
-    // adjust cursor position when a characted deleted from the middle of text
-    BOOL isCharacterAfterSpace = [WPYNumberFieldModel isCharacterAfterSpace:newValue position:range.location];
-    NSUInteger location = isCharacterAfterSpace ? range.location - 1 : range.location;
-    BOOL isCursorAtEnd = location == self.textField.text.length;
-    if (isCharacterDeleted && !isCursorAtEnd)
-    {
-        UITextRange *cursorRange = [textField selectedTextRange];
-        UITextPosition *correctPosition = [textField positionFromPosition:cursorRange.start offset:location - textField.text.length];
-        textField.selectedTextRange = [textField textRangeFromPosition:correctPosition toPosition:correctPosition];
+        [self setText:[WPYNumberFieldModel reformatNumber:newValue position:location isDeleted:isDigitDeleted]];
+        
+        
+        // adjust cursor position when a characted added or deleted from the middle of text
+        BOOL isSpace = [WPYNumberFieldModel isSpaceWithNumber:newValue position:location];
+        if (isDigitDeleted)
+        {
+            // check if cursor is at end to determine digit in the middle was deleted or not
+            BOOL isDigitAfterSpace = [WPYNumberFieldModel isDigitAfterSpace:newValue position:location];
+            
+            // location is the position of deleted digit.
+            // if digit after space is deleted, space will be deleted as well
+            NSUInteger currentCursorLocation = isDigitAfterSpace ? location - 2 : location - 1;
+            BOOL isCursorAtEnd = currentCursorLocation == self.textField.text.length - 1; //position is 0 based
+            if (!isCursorAtEnd) // deleted digit in the middle
+            {
+                // location of cursor is usually same is the deleted digit location
+                // 123|4 -> 12|4 (deleted digit location:2, correct cursor position 2)
+                // if digit after space is deleted, space will be deleted so -1
+                // if space is deleted, the digit before space will be deleted so -1
+                NSUInteger correctCusrorLocation = (isDigitAfterSpace || isSpace) ? location - 1 : location;
+                
+                UITextRange *cursorRange = [textField selectedTextRange];
+                UITextPosition *correctPosition = [textField positionFromPosition:cursorRange.start offset:correctCusrorLocation - textField.text.length];
+                textField.selectedTextRange = [textField textRangeFromPosition:correctPosition toPosition:correctPosition];
+            }
+        }
+        else
+        {
+            BOOL isDigitBeforeSpace = [WPYNumberFieldModel isDigitBeforeSpace:newValue position:range.location];
+            
+            // if digitBeforeSpace text will be padded
+            NSUInteger currentCursorLocation = isDigitBeforeSpace ? location + 1 : location;
+            BOOL isCursorAtEnd = currentCursorLocation == self.textField.text.length - 1; //location is 0 based.
+            if (!isCursorAtEnd)
+            {
+                // usually add one to current location since it's added(12|4 -> 123|4)
+                // if at space(1234| -> 1234 5|) or before space(123|4 5 -> 1230 |45) add 2
+                NSUInteger cursorLocation = (isDigitBeforeSpace || isSpace) ? location + 2 : location + 1;
+                UITextRange *cursorRange = [textField selectedTextRange];
+                UITextPosition *correctPosition = [textField positionFromPosition:cursorRange.start offset:cursorLocation - textField.text.length];
+                textField.selectedTextRange = [textField textRangeFromPosition:correctPosition toPosition:correctPosition];
+            }
+        }
     }
     
     return NO;

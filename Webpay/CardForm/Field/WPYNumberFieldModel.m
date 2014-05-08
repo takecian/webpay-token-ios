@@ -120,9 +120,19 @@ static NSString *addPaddingToNumber(NSString *number)
     return [UIImage imageNamed:removeAllWhitespaces(brand)];
 }
 
-+ (NSString *)reformatNumber:(NSString *)number isDeleted:(BOOL)isDeleted
++ (NSString *)reformatNumber:(NSString *)number position:(NSUInteger)position isDeleted:(BOOL)isDeleted
 {
-    NSString *canonicalizedNumber = removeAllWhitespaces(number);
+    NSString *rawNumber = number;
+    
+    BOOL isSpaceDeleted = isDeleted && [self isSpaceWithNumber:number position:position];
+    if (isSpaceDeleted)
+    {
+        // remove digit right before space
+        // 1234_5678 will be 123_5678
+        rawNumber = [NSString stringWithFormat:@"%@%@", [rawNumber substringToIndex:position - 1],[rawNumber substringFromIndex:position]];
+    }
+    
+    NSString *canonicalizedNumber = removeAllWhitespaces(rawNumber);
     NSString *paddedNumber = addPaddingToNumber(canonicalizedNumber);
     if (isDeleted)
     {
@@ -133,7 +143,7 @@ static NSString *addPaddingToNumber(NSString *number)
 }
 
 
-+ (BOOL)isCharacterAfterSpace:(NSString *)number position:(NSUInteger)position
++ (BOOL)isDigitAfterSpace:(NSString *)number position:(NSUInteger)position
 {
     NSString *brand = [WPYCreditCard brandNameFromPartialNumber:number];
     if ([brand isEqualToString:WPYAmex])
@@ -146,6 +156,31 @@ static NSString *addPaddingToNumber(NSString *number)
     }
 }
 
++ (BOOL)isSpaceWithNumber:(NSString *)number position:(NSUInteger)position
+{
+    NSString *brand = [WPYCreditCard brandNameFromPartialNumber:number];
+    if ([brand isEqualToString:WPYAmex])
+    {
+        return (position == 4 || position == 11);
+    }
+    else
+    {
+        return (position % 5 == 4 && position != 19);
+    }
+}
+
++ (BOOL)isDigitBeforeSpace:(NSString *)number position:(NSUInteger)position
+{
+    NSString *brand = [WPYCreditCard brandNameFromPartialNumber:number];
+    if ([brand isEqualToString:WPYAmex])
+    {
+        return (position == 3 || position == 10);
+    }
+    else
+    {
+        return (position % 5 == 3 && position != 18);
+    }
+}
 
 
 #pragma mark accessors
