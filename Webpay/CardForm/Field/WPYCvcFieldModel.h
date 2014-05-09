@@ -11,4 +11,5 @@
 #import "WPYAbstractFieldModel.h"
 
 @interface WPYCvcFieldModel :WPYAbstractFieldModel
++ (NSString *)maskedCvc:(NSString *)cvc;
 @end

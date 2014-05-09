@@ -15,6 +15,21 @@ static NSUInteger const WPYValidNonAmexCvcLength = 3;
 
 @implementation WPYCvcFieldModel
 
+#pragma mark public method
++ (NSString *)maskedCvc:(NSString *)cvc
+{
+    NSString *dot = @"●";//unicode
+    NSUInteger cvcLength = cvc.length;
+    NSMutableString *mask = [[NSMutableString alloc] init];
+    for (int i = 0; i < cvcLength; i++)
+    {
+        [mask appendString:dot];
+    }
+    
+    return mask;
+}
+
+
 
 #pragma mark accessor
 - (WPYFieldKey)key
