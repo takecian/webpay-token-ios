@@ -15,6 +15,7 @@ static NSUInteger const WPYValidNonAmexCvcLength = 3;
 
 @implementation WPYCvcFieldModel
 
+
 #pragma mark accessor
 - (WPYFieldKey)key
 {
@@ -26,6 +27,10 @@ static NSUInteger const WPYValidNonAmexCvcLength = 3;
     self.card.cvc = value;
 }
 
+- (NSString *)cardValue
+{
+    return self.card.cvc;
+}
 
 
 #pragma mark textfield

@@ -37,6 +37,12 @@
                                  userInfo:nil];
 }
 
+- (NSString *)cardValue
+{
+    @throw [NSException exceptionWithName:NSInternalInconsistencyException
+                                   reason:[NSString stringWithFormat:@"You must override %@ in a subclass", NSStringFromSelector(_cmd)]
+                                 userInfo:nil];
+}
 
 
 #pragma mark textfield

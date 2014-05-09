@@ -194,6 +194,10 @@ static NSString *addPaddingToNumber(NSString *number)
     self.card.number = removeAllWhitespaces(value);
 }
 
+- (NSString *)cardValue
+{
+    return self.card.number;
+}
 
 #pragma mark validation
 - (BOOL)shouldValidateOnFocusLost

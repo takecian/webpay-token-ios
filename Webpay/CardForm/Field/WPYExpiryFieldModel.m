@@ -28,6 +28,10 @@
     }
 }
 
+- (NSString *)cardValue
+{
+    return [self.card expiryInString];
+}
 
 
 #pragma mark textfield

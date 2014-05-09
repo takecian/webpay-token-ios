@@ -21,6 +21,10 @@
     self.card.name = value;
 }
 
+- (NSString *)cardValue
+{
+    return self.card.name;
+}
 
 
 #pragma mark textfield

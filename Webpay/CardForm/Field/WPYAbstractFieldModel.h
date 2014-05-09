@@ -26,6 +26,7 @@ typedef NS_ENUM(NSInteger, WPYFieldKey)
 // methods to be overriden
 - (WPYFieldKey)key;
 - (void)setCardValue:(NSString *)value;
+- (NSString *)cardValue;
 
 - (NSString *)initialValueForTextField;
 - (BOOL)canInsertNewValue:(NSString *)newValue;
