@@ -21,7 +21,7 @@
 #pragma mark initialization
 - (UITextField *)createTextFieldWithFrame:(CGRect)frame
 {
-    WPYTextField *textField = [[WPYTextField alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
+    UITextField *textField = [[WPYTextField alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
     textField.placeholder = @"1234 5678 9012 3456";
     textField.keyboardType = UIKeyboardTypeNumberPad;
     textField.delegate = self;

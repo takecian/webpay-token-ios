@@ -44,7 +44,7 @@
 
 - (UIImageView *)createRightView
 {
-    UIImageView *checkMarkView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 25, 25)];
+    UIImageView *checkMarkView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 40, 40)];
     [checkMarkView setImage:[UIImage imageNamed:@"checkmark"]];
     checkMarkView.hidden = YES;
     

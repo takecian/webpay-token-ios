@@ -8,6 +8,7 @@
 
 #import "WPYNameField.h"
 
+#import "WPYTextField.h"
 #import "WPYNameFieldModel.h"
 
 @interface WPYNameField () <UITextFieldDelegate>
@@ -18,7 +19,7 @@
 #pragma mark override methods
 - (UITextField *)createTextFieldWithFrame:(CGRect)frame
 {
-    UITextField *textField = [[UITextField alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
+    UITextField *textField = [[WPYTextField alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
     textField.placeholder = @"Taro Yamada";
     textField.keyboardType = UIKeyboardTypeASCIICapable;
     textField.autocorrectionType = UITextAutocorrectionTypeNo;
@@ -30,7 +31,7 @@
 
 - (UIImageView *)createRightView
 {
-    UIImageView *checkMarkView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 25, 25)];
+    UIImageView *checkMarkView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 40, 40)];
     [checkMarkView setImage:[UIImage imageNamed:@"checkmark"]];
     checkMarkView.hidden = YES;
     
