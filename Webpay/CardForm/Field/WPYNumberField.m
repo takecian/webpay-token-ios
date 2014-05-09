@@ -69,7 +69,8 @@
             // location is the position of deleted digit.
             // if digit after space is deleted, space will be deleted as well
             NSUInteger currentCursorLocation = isDigitAfterSpace ? location - 2 : location - 1;
-            BOOL isCursorAtEnd = currentCursorLocation == self.textField.text.length - 1; //position is 0 based
+            BOOL isEmpty = textField.text.length == 0;
+            BOOL isCursorAtEnd = (currentCursorLocation == self.textField.text.length - 1 || isEmpty); //position is 0 based
             if (!isCursorAtEnd) // deleted digit in the middle
             {
                 // location of cursor is usually same is the deleted digit location
