@@ -6,7 +6,11 @@
 //  Copyright (c) 2014 yohei, YasuLab. All rights reserved.
 //
 
+
 #import "WPYCvcExplanationView.h"
+
+static float const WPYAnimationDuration = 0.2f;
+static float const WPYOverlayOpacity = 0.7f;
 
 @interface WPYCvcExplanationView ()
 @property(nonatomic, strong) UIImageView *imageView;
@@ -14,14 +18,11 @@
 
 @implementation WPYCvcExplanationView
 
-// create singleton and show/hide
-
 #pragma mark public methods
 + (void)showAmexCvcExplanation
 {
     WPYCvcExplanationView *cvcView = [self sharedView];
     [cvcView.imageView setImage:[UIImage imageNamed:@"cvcamex"]];
-    
     [self showOverlay:cvcView];
 }
 
@@ -29,13 +30,19 @@
 {
     WPYCvcExplanationView *cvcView = [self sharedView];
     [cvcView.imageView setImage:[UIImage imageNamed:@"cvc"]];
-    
     [self showOverlay:cvcView];
 }
 
 + (void)showOverlay:(WPYCvcExplanationView *)overlay
 {
     [[UIApplication sharedApplication].keyWindow.rootViewController.view addSubview: overlay];
+    overlay.layer.opacity = 0.0f;
+    
+    [UIView animateWithDuration:WPYAnimationDuration delay:0 options:UIViewAnimationOptionCurveEaseOut
+                     animations:^(){
+        overlay.layer.opacity = 1.0f;
+    } completion:^(BOOL finished){
+    }];
 }
 
 
@@ -55,16 +62,26 @@
 
 - (void)dismissOverlay
 {
-    [[WPYCvcExplanationView sharedView] removeFromSuperview];
+    WPYCvcExplanationView *view = [WPYCvcExplanationView sharedView];
+    view.layer.opacity = 1.0f;
+    
+    [UIView animateWithDuration:WPYAnimationDuration delay:0 options:UIViewAnimationOptionCurveEaseOut
+                     animations:^(){
+        view.layer.opacity = 0.0f;
+    } completion:^(BOOL finished){
+        if (finished)
+        {
+            [view removeFromSuperview];
+        }
+    }];
 }
 
 - (instancetype)initWithFrame:(CGRect)frame
 {
     if (self = [super initWithFrame:frame])
     {
-        self.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.6];
+        self.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:WPYOverlayOpacity];
         
-        // add uiimageview
         self.imageView = [[UIImageView alloc] initWithFrame:CGRectMake(20, 130, 280, 168)];
         [self addSubview:self.imageView];
         
