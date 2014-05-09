@@ -22,7 +22,6 @@
 {
     UITextField *textField = [[UITextField alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
     textField.placeholder = @"123";
-    textField.secureTextEntry = YES;
     textField.keyboardType = UIKeyboardTypeNumberPad;
     textField.clearsOnBeginEditing = NO;
     [textField addTarget:self action:@selector(textFieldDidChanged:) forControlEvents: UIControlEventEditingChanged];
@@ -55,11 +54,17 @@
 - (void)textFieldDidFocus
 {
     [self.rightView setImage:[UIImage imageNamed:@"question"]];
+    
+    // avoid firing textFieldDidChange
+    self.textField.text = [self.model cardValue];
 }
 
 - (void)textFieldWillLoseFocus
 {
     self.isFirstEdit = NO;
+    
+    // avoid firing textFieldDidChange so that masks will not be assigned to card value.
+    self.textField.text = [WPYCvcFieldModel maskedCvc:[self.model cardValue]];
 }
 
 - (void)updateValidityView:(BOOL)valid
@@ -78,17 +83,6 @@
 {
     NSString *newValue = [textField.text stringByReplacingCharactersInRange:range withString:replacementString];
     BOOL canInsertNewValue = [self.model canInsertNewValue:newValue];
-    
-    // It has to set value manually, otherwise textfield will clear all the value
-    // NOTICE: for the second edit, new input value will be masked.
-    if (!self.isFirstEdit && canInsertNewValue)
-    {
-        // set value by ourselves
-        [self setText:newValue];
-        return NO;
-    }
-   
-    // It has return to YES so that the input value won't be masked
     return canInsertNewValue;
 }
 
