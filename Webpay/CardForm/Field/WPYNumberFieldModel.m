@@ -145,6 +145,11 @@ static NSString *addPaddingToNumber(NSString *number)
 
 + (BOOL)isDigitAfterSpace:(NSString *)number position:(NSUInteger)position
 {
+    if (position == 0 )
+    {
+        return NO;
+    }
+    
     NSString *brand = [WPYCreditCard brandNameFromPartialNumber:number];
     if ([brand isEqualToString:WPYAmex])
     {

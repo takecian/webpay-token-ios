@@ -196,6 +196,11 @@ static NSString *const kMasterCardNumber = @"5105105105105100";
 
 
 #pragma mark isDigitAfterSpace:position:
+- (void)testIsDigitAfterSpaceForZeroPosition
+{
+    XCTAssertFalse([WPYNumberFieldModel isDigitAfterSpace:@"" position:0], @"It should return No.");
+}
+
 - (void)testDigitNotAfterSpaceForMasterCard
 {
     XCTAssertFalse([WPYNumberFieldModel isDigitAfterSpace:@"5105 1051 0510 51" position:16], @"It should return false.");
@@ -219,6 +224,11 @@ static NSString *const kMasterCardNumber = @"5105105105105100";
 
 
 #pragma mark isSpaceWithNumber:position:
+- (void)testIsSpaceForZeroPosition
+{
+    XCTAssertFalse([WPYNumberFieldModel isSpaceWithNumber:@"" position:0], @"It should return No.");
+}
+
 - (void)testNonSpace
 {
     XCTAssertFalse([WPYNumberFieldModel isSpaceWithNumber:@"424" position:2], @"It should return false.");
@@ -234,6 +244,11 @@ static NSString *const kMasterCardNumber = @"5105105105105100";
 
 
 #pragma mark isDigitBeforeSpace:position:
+- (void)testIsDigitBeforeSpaceForZeroPosition
+{
+    XCTAssertFalse([WPYNumberFieldModel isDigitBeforeSpace:@"" position:0], @"It should return No.");
+}
+
 - (void)testDigitNotBeforeSpaceForMasterCard
 {
     XCTAssertFalse([WPYNumberFieldModel isDigitBeforeSpace:@"5105 1051 0" position:10], @"It should return false.");
