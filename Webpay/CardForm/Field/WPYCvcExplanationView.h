@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface WPYCvcExplanationView : UIView
-
++ (void)showAmexCvcExplanation;
++ (void)showNonAmexCvcExplanation;
 @end
