@@ -8,10 +8,12 @@
 
 #import "WPYCvcField.h"
 
+#import "WPYTextField.h"
+#import "WPYCvcExplanationView.h"
 #import "WPYCvcFieldModel.h"
 
 @interface WPYCvcField () <UITextFieldDelegate>
-@property(nonatomic) BOOL isFirstEdit;
+@property(nonatomic, strong) UIButton *transparentButton;
 @end
 
 @implementation WPYCvcField
@@ -20,7 +22,7 @@
 #pragma mark initialization
 - (UITextField *)createTextFieldWithFrame:(CGRect)frame
 {
-    UITextField *textField = [[UITextField alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
+    UITextField *textField = [[WPYTextField alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
     textField.placeholder = @"123";
     textField.keyboardType = UIKeyboardTypeNumberPad;
     textField.clearsOnBeginEditing = NO;
@@ -32,10 +34,9 @@
 
 - (UIImageView *)createRightView
 {
-    UIImageView *checkMarkView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 25, 25)];
-    [checkMarkView setImage:[UIImage imageNamed:@"question"]];
-    
-    return checkMarkView;
+    UIImageView *rightView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 40, 40)];
+    rightView.userInteractionEnabled = YES;
+    return rightView;
 }
 
 - (WPYAbstractFieldModel *)createFieldModelWithCard:(WPYCreditCard *)card
@@ -45,7 +46,13 @@
 
 - (void)setup
 {
-    self.isFirstEdit = YES;
+    self.transparentButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.transparentButton.frame = CGRectMake(170, 0, 40, 44);
+    [self.transparentButton addTarget:self action:@selector(showCvcInfoView) forControlEvents:UIControlEventTouchUpInside];
+    
+    [self addSubview:self.transparentButton];
+    
+    [self showQuestionIcon];
 }
 
 
@@ -53,7 +60,7 @@
 #pragma mark textField
 - (void)textFieldDidFocus
 {
-    [self.rightView setImage:[UIImage imageNamed:@"question"]];
+    [self showQuestionIcon];
     
     // avoid firing textFieldDidChange
     self.textField.text = [self.model cardValue];
@@ -61,8 +68,6 @@
 
 - (void)textFieldWillLoseFocus
 {
-    self.isFirstEdit = NO;
-    
     // avoid firing textFieldDidChange so that masks will not be assigned to card value.
     self.textField.text = [WPYCvcFieldModel maskedCvc:[self.model cardValue]];
 }
@@ -71,31 +76,50 @@
 {
     if (valid)
     {
-        [self.rightView setImage:[UIImage imageNamed:@"checkmark"]];
+        [self showCheckMark];
     }
     else
     {
-        [self.rightView setImage:[UIImage imageNamed:@"question"]];
+        [self showQuestionIcon];
     }
 }
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)replacementString
 {
     NSString *newValue = [textField.text stringByReplacingCharactersInRange:range withString:replacementString];
-    BOOL canInsertNewValue = [self.model canInsertNewValue:newValue];
-    return canInsertNewValue;
+    return [self.model canInsertNewValue:newValue];
 }
 
+
+
+#pragma mark right view private methods
+- (void)showCheckMark
+{
+    [self.rightView setImage:[UIImage imageNamed:@"checkmark"]];
+    self.transparentButton.enabled = NO;
+}
+
+- (void)showQuestionIcon
+{
+    [self.rightView setImage:[UIImage imageNamed:@"question"]];
+    self.transparentButton.enabled = YES;
+}
 
 
 
 #pragma mark cvc info
-- (void)showCvcInfoView:(id)sender
+- (void)showCvcInfoView
 {
-    // create overlay
-    CGRect screenRect = [[UIScreen mainScreen] bounds];
-    UIView *overlay = [[UIView alloc] initWithFrame: screenRect];
-    overlay.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.6];
-    [[UIApplication sharedApplication].keyWindow.rootViewController.view addSubview: overlay];
+    // This should belong to a model.
+    NSString *brand = [WPYCreditCard brandNameFromPartialNumber:self.model.card.number];
+    if ([brand isEqualToString:WPYAmex])
+    {
+        [WPYCvcExplanationView showAmexCvcExplanation];
+    }
+    else
+    {
+        [WPYCvcExplanationView showNonAmexCvcExplanation];
+    }
 }
+
 @end
