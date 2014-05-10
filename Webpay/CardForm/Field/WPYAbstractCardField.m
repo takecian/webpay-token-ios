@@ -56,7 +56,7 @@ static NSInteger const WPYMaxShakes = 8;
 
 
 
-#pragma mark public methods
+#pragma mark abstract class methods
 - (void)setFocus:(BOOL)focus
 {
     if (focus)
@@ -74,9 +74,24 @@ static NSInteger const WPYMaxShakes = 8;
     if (text)
     {
         self.textField.text = text;
+        // assigning text directly does NOT fire textFieldDidChange, so fire manually
         [self textFieldValueChanged];
     }
 }
+
+- (void)updateViewToValidity:(BOOL)valid
+{
+    if (valid)
+    {
+        [self setNormalColor];
+    }
+    else
+    {
+        [self setErrorColor];
+        [self startErrorAnimation];
+    }
+}
+
 
 
 #pragma mark expected to overriden in subclass
@@ -127,23 +142,13 @@ static NSInteger const WPYMaxShakes = 8;
 
 
 
-#pragma mark update value
-- (void)updateValidityView:(BOOL)valid
-{
-
-}
-
-
-
-#pragma mark event handler
+#pragma mark subclass methods: textfield event handler
 - (void)textFieldDidFocus
 {
-
 }
 
 - (void)textFieldValueChanged
 {
-    // called when textfield value changed
 }
 
 - (void)textFieldWillLoseFocus
