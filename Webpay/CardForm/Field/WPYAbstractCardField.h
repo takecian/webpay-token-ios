@@ -27,7 +27,7 @@
 // initialization
 - (UITextField *)createTextFieldWithFrame:(CGRect)frame;
 - (UIImageView *)createRightView;
-- (void)setup;
+- (void)setupWithCard:(WPYCreditCard *)card;
 
 - (void)textFieldDidFocus;
 - (void)textFieldValueChanged; // template method

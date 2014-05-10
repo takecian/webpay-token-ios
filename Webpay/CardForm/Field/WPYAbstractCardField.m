@@ -49,7 +49,7 @@ static NSInteger const WPYMaxShakes = 8;
         [self setupTextField];
         [self addSubview:_textField];
         
-        [self setup];
+        [self setupWithCard:card];
     }
     return self;
 }
@@ -87,7 +87,7 @@ static NSInteger const WPYMaxShakes = 8;
                                  userInfo:nil];
 }
 
-- (void)setup
+- (void)setupWithCard:(WPYCreditCard *)card
 {
 
 }
