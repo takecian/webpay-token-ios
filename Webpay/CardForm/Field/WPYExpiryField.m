@@ -15,6 +15,7 @@
 #import "WPYConstants.h"
 
 @interface WPYExpiryField () <UITextFieldDelegate, WPYExpiryPickerViewDelegate, WPYExpiryAccessoryViewDelegate>
+@property(nonatomic, strong) WPYExpiryFieldModel *model;
 @property(nonatomic, strong) WPYExpiryPickerView *expiryPickerView;
 @end
 
@@ -22,7 +23,7 @@
 
 
 
-#pragma mark override methods
+#pragma mark override methods: initialization
 - (UITextField *)createTextFieldWithFrame:(CGRect)frame
 {
     self.expiryPickerView = [[WPYExpiryPickerView alloc] initWithFrame:CGRectMake(0, 0, 320, 200)];
@@ -51,27 +52,45 @@
     return checkMarkView;
 }
 
-- (WPYAbstractFieldModel *)createFieldModelWithCard:(WPYCreditCard *)card
+- (void)setupWithCard:(WPYCreditCard *)card
 {
-    return [[WPYExpiryFieldModel alloc] initWithCard:card];
+    self.model = [[WPYExpiryFieldModel alloc] initWithCard:card];
+    
+    [self setText:[self.model cardValue]];
 }
 
 
 
-#pragma mark textfield
-- (void)updateValidityView:(BOOL)valid
-{
-    self.rightView.hidden = !valid;
-}
-
+#pragma mark override methods: textfield
 - (void)textFieldDidFocus
 {
     self.rightView.hidden = YES;
 }
 
+- (void)textFieldValueChanged
+{
+    [self.model setCardValue:self.textField.text];
+}
+
 - (void)textFieldWillLoseFocus
 {
-    [self setExpiry:[self.expiryPickerView selectedExpiry]];
+    [self setText:[self.expiryPickerView selectedExpiry]];
+    
+    if (![self.model shouldValidateOnFocusLost])
+    {
+        return;
+    }
+    
+    NSError *error = nil;
+    BOOL isValid = [self.model validate:&error];
+    
+    [self updateViewToValidity:isValid];
+    [self toggleCheckMark:isValid];
+}
+
+- (void)toggleCheckMark:(BOOL)valid
+{
+    self.rightView.hidden = !valid;
 }
 
 
@@ -80,7 +99,7 @@
 - (void)didSelectExpiryYear:(NSString *)year month:(NSString *)month
 {
     NSString *expiry = [NSString stringWithFormat:@"%@ / %@", month, year];
-    [self setExpiry:expiry];
+    [self setText:expiry];
 }
 
 
@@ -88,16 +107,10 @@
 #pragma mark expiry accessory view delegate
 - (void)doneButtonTapped
 {
-    [self setExpiry:[self.expiryPickerView selectedExpiry]];
+    [self setText:[self.expiryPickerView selectedExpiry]];
     [self.textField resignFirstResponder];
 }
 
 
-
-#pragma mark private methods
-- (void)setExpiry:(NSString *)expiry
-{
-    [self setText:expiry];
-}
 
 @end

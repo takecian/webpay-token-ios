@@ -23,7 +23,7 @@
     }
 }
 
-- (NSString *)cardValue
+- (NSString *)rawCardValue
 {
     return [self.card expiryInString];
 }
