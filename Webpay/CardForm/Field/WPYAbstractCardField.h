@@ -21,6 +21,7 @@
 //designated initializer
 - (instancetype)initWithFrame:(CGRect)frame card:(WPYCreditCard *)card;
 - (void)textFieldDidChanged:(UITextField *)textField;
+- (void)setText:(NSString *)text;
 - (void)setFocus:(BOOL)focus;
 
 // methods expected to be overridden
