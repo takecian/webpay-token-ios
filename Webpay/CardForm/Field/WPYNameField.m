@@ -12,11 +12,12 @@
 #import "WPYNameFieldModel.h"
 
 @interface WPYNameField () <UITextFieldDelegate>
+@property(nonatomic, strong) WPYNameFieldModel *model;
 @end
 
 @implementation WPYNameField
 
-#pragma mark override methods
+#pragma mark override methods: initialization
 - (UITextField *)createTextFieldWithFrame:(CGRect)frame
 {
     UITextField *textField = [[WPYTextField alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
@@ -38,19 +39,43 @@
     return checkMarkView;
 }
 
-- (WPYAbstractFieldModel *)createFieldModelWithCard:(WPYCreditCard *)card
+- (void)setupWithCard:(WPYCreditCard *)card
 {
-    return [[WPYNameFieldModel alloc] initWithCard:card];
+    self.model = [[WPYNameFieldModel alloc] initWithCard:card];
+    [self setText: [self.model initialValueForTextField]];
 }
 
+
+
+#pragma mark override methods: textfield
 - (void)textFieldDidFocus
 {
     self.rightView.hidden = YES;
 }
 
-- (void)updateValidityView:(BOOL)valid
+- (void)textFieldValueChanged
+{
+    [self.model setCardValue:self.textField.text];
+}
+
+- (void)textFieldWillLoseFocus
+{
+    if (![self.model shouldValidateOnFocusLost])
+    {
+        return;
+    }
+    
+    NSError *error = nil;
+    BOOL isValid = [self.model validate:&error];
+    
+    [self updateViewToValidity:isValid];
+    [self toggleCheckMark:isValid];
+}
+
+- (void)toggleCheckMark:(BOOL)valid
 {
     self.rightView.hidden = !valid;
 }
+
 
 @end

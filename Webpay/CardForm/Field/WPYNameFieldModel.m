@@ -16,7 +16,7 @@
     self.card.name = value;
 }
 
-- (NSString *)cardValue
+- (NSString *)rawCardValue
 {
     return self.card.name;
 }
