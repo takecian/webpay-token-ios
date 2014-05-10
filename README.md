@@ -4,14 +4,27 @@ webpay-token-ios is an ios library for creating a token from a credit card.
 
 ## Requirements
 webpay-token-ios supports iOS 5 and above.
+Tested on iOS6+.
 
 
 ## Installation
 
-You can either install using cocoapods(recommended) or copy files manually.
+You can either install using cocoapods(recommended) or copying files manually.
 
-1. Cocoapods
-2. copy files manually
+### 1. Cocoapods
+```
+pod 'WebPay', '1.0'
+```
+
+### 2. copy files manually
+
+1. clone this repository
+2. add files under Webpay directory to your project
+
+
+### Check if installed correctly
+add `#import 'Webpay.h'` in one of your files, and see if your target builds without error.
+
 
 ## Overview
 
@@ -22,22 +35,22 @@ webpay-token-ios consists of 3 components.
 3. WPYPaymentViewController(view controller)
 
 Each component is independent, which leaves a flexible option on which component
-to make on your own.
+to reuse or make on your own.
 
 ## How to use
 
-### Initialization
+### Initialization(required for any component)
 ``` objective-c
 #import "Webpay.h"
 
 [WPYTokenizer setPublicKey:@"test_public_YOUR_PUBLIC_KEY"];
 ```
 
-### WPYTokenizer (Using your own view)
+### WPYTokenizer (Model)
+If you are creating your own view, create token with WPYTokenizer.
+
 ```
-#import "WPYTokenizer.h"
-#import "WPYCreditCard.h"
-#import "WPYToken.h"
+#import "Webpay.h"
 
 // create a credit card model and populate with data
 WPYCreditCard *card = [[WPYCreditCard alloc] init];
@@ -47,7 +60,7 @@ card.expiryMonth = 12;
 card.cvc = @"123";
 card.name = @"Yohei Okada";
     
-// pass card and callback
+// pass card instance and a callback
 [WPYTokenizer createTokenFromCard:card completionBlock:^(WPYToken *token, NSError *error)
 {
   if (token)
@@ -61,7 +74,9 @@ card.name = @"Yohei Okada";
 }];
 ```
 
-### WPYCardFormView (Combining form with your own UIControls such as UIButton)
+### WPYCardFormView (View)
+WPYCardFormView is a credit card form view that calls delegate method when filled in card info is valid. It handles padding credit card number, masking security code, and validation on each field.
+
 ```
 // create view
 WPYCardFormView *cardForm = [[WPYCardFormView alloc] initWithFrame:CGRectMake(0, 0, 320, 300)];
@@ -69,27 +84,27 @@ cardForm.delegate = self;
 [self.view addSubview: cardForm];
 
 // WPYCardFormDelegate methods
-- (void)invalidFieldName:(NSString *)fieldName error:(NSError *)error
-{
-  // called when a field lost focus and the non-nil input is invalid
-}
-
 - (void)validFormWithCard:(WPYCreditCard *)creditCard
 {
   // called when the form is valid.  
   self.card = creditCard;
+  self.button.enabled = YES;
 }
 ```
 
 
 ### WPYPaymentViewController
-WPYPaymentViewController is a combination of WPYTokenizer and WPYPaymentVIewController.
+WPYPaymentViewController is a combination of WPYTokenizer and WPYPaymentVIewController. If you just want a viewcontroller for `pushViewController:animated` or `presentViewController:animated:completion:`, this is what you want.
 
 ```
-WPYPaymentViewController *paymentViewController = [[WPYPaymentViewController alloc] initWithButtonTitle:@"Pay" callback:^(WPYToken *token, NSError *error){
+WPYPaymentViewController *paymentViewController = [[WPYPaymentViewController alloc] initWithButtonTitle:@"Pay" callback:^(WPYPaymentViewController *paymentViewController, WPYToken *token, NSError *error){
   if(token)
   {
     //post token to your server
+    
+    // when transaction is complete
+    [viewController setPayButtonComplete]; // this will change the button color to green and title to checkmark
+    [viewController dismissAfterDelay: 2.0f];
   }
   else
   { 
@@ -121,6 +136,11 @@ if (![card validateNumber:&number error:&cardError])
 {
   NSLog(@"error:%@", [cardError localizedDescription]);
 }
+```
+
+For checking brand from partial numbers
+```
+[WPYCreditCard brandNameFromPartialNumber:@"42"];
 ```
 
 #### WPYToken
