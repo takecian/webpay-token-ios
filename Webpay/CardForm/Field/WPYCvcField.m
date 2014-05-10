@@ -62,7 +62,7 @@
     [self showQuestionIcon];
     
     // avoid firing textFieldDidChange
-    self.textField.text = [self.model cardValue];
+    self.textField.text = [self.model rawCardValue];
 }
 
 - (void)textFieldValueChanged

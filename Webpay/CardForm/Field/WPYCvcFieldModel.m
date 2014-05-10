@@ -19,7 +19,7 @@ static NSUInteger const WPYValidNonAmexCvcLength = 3;
 - (NSString *)maskedCvc
 {
     NSString *dot = @"●";//unicode
-    NSUInteger cvcLength = [self cardValue].length;
+    NSUInteger cvcLength = [self rawCardValue].length;
     NSMutableString *mask = [[NSMutableString alloc] init];
     for (int i = 0; i < cvcLength; i++)
     {
@@ -51,13 +51,12 @@ static NSUInteger const WPYValidNonAmexCvcLength = 3;
 #pragma mark textfield
 - (NSString *)initialValueForTextField
 {
-    return self.card.cvc;
+    return [self rawCardValue];
 }
 
 - (BOOL)canInsertNewValue:(NSString *)newValue
 {
-    NSString *brand = [WPYCreditCard brandNameFromPartialNumber:self.card.number];
-    if ([brand isEqualToString:WPYAmex])
+    if ([self isAmex])
     {
         return newValue.length <= WPYValidAmexCvcLength;
     }
@@ -72,13 +71,13 @@ static NSUInteger const WPYValidNonAmexCvcLength = 3;
 #pragma mark validation
 - (BOOL)shouldValidateOnFocusLost
 {
-    NSString *cvc = self.card.cvc;
+    NSString *cvc = [self rawCardValue];
     return cvc.length != 0; // don't valididate if length is 0
 }
 
 - (BOOL)validate:(NSError * __autoreleasing *)error
 {
-    NSString *cvc = self.card.cvc;
+    NSString *cvc = [self rawCardValue];
     return [self.card validateCvc:&cvc error:error];
 }
 
