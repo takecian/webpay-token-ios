@@ -16,10 +16,10 @@ static NSUInteger const WPYValidNonAmexCvcLength = 3;
 @implementation WPYCvcFieldModel
 
 #pragma mark public method
-+ (NSString *)maskedCvc:(NSString *)cvc
+- (NSString *)maskedCvc
 {
     NSString *dot = @"●";//unicode
-    NSUInteger cvcLength = cvc.length;
+    NSUInteger cvcLength = [self cardValue].length;
     NSMutableString *mask = [[NSMutableString alloc] init];
     for (int i = 0; i < cvcLength; i++)
     {
@@ -29,6 +29,11 @@ static NSUInteger const WPYValidNonAmexCvcLength = 3;
     return mask;
 }
 
+- (BOOL)isAmex
+{
+    NSString *brand = [WPYCreditCard brandNameFromPartialNumber:self.card.number];
+    return [brand isEqualToString:WPYAmex];
+}
 
 
 #pragma mark accessor
@@ -37,7 +42,7 @@ static NSUInteger const WPYValidNonAmexCvcLength = 3;
     self.card.cvc = value;
 }
 
-- (NSString *)cardValue
+- (NSString *)rawCardValue
 {
     return self.card.cvc;
 }

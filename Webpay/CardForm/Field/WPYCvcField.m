@@ -13,13 +13,14 @@
 #import "WPYCvcFieldModel.h"
 
 @interface WPYCvcField () <UITextFieldDelegate>
+@property(nonatomic, strong) WPYCvcFieldModel *model;
 @property(nonatomic, strong) UIButton *transparentButton;
 @end
 
 @implementation WPYCvcField
 
 
-#pragma mark initialization
+#pragma mark override methods: initialization
 - (UITextField *)createTextFieldWithFrame:(CGRect)frame
 {
     UITextField *textField = [[WPYTextField alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
@@ -39,21 +40,19 @@
     return rightView;
 }
 
-- (WPYAbstractFieldModel *)createFieldModelWithCard:(WPYCreditCard *)card
+- (void)setupWithCard:(WPYCreditCard *)card
 {
-    return [[WPYCvcFieldModel alloc] initWithCard:card];
-}
-
-- (void)setup
-{
+    self.model = [[WPYCvcFieldModel alloc] initWithCard:card];
+    [self setText:[self.model initialValueForTextField]];
+    
     self.transparentButton = [UIButton buttonWithType:UIButtonTypeCustom];
     self.transparentButton.frame = CGRectMake(170, 0, 40, 44);
     [self.transparentButton addTarget:self action:@selector(showCvcInfoView) forControlEvents:UIControlEventTouchUpInside];
-    
     [self addSubview:self.transparentButton];
     
     [self showQuestionIcon];
 }
+
 
 
 
@@ -66,13 +65,38 @@
     self.textField.text = [self.model cardValue];
 }
 
+- (void)textFieldValueChanged
+{
+    [self.model setCardValue:self.textField.text];
+}
+
 - (void)textFieldWillLoseFocus
 {
     // avoid firing textFieldDidChange so that masks will not be assigned to card value.
-    self.textField.text = [WPYCvcFieldModel maskedCvc:[self.model cardValue]];
+    self.textField.text = [self.model maskedCvc];
+    
+    if (![self.model shouldValidateOnFocusLost])
+    {
+        return;
+    }
+    
+    NSError *error = nil;
+    BOOL isValid = [self.model validate:&error];
+    
+    [self updateViewToValidity:isValid];
+    [self toggleRightView:isValid];
 }
 
-- (void)updateValidityView:(BOOL)valid
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)replacementString
+{
+    NSString *newValue = [textField.text stringByReplacingCharactersInRange:range withString:replacementString];
+    return [self.model canInsertNewValue:newValue];
+}
+
+
+
+#pragma mark right view
+- (void)toggleRightView:(BOOL)valid
 {
     if (valid)
     {
@@ -84,15 +108,6 @@
     }
 }
 
-- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)replacementString
-{
-    NSString *newValue = [textField.text stringByReplacingCharactersInRange:range withString:replacementString];
-    return [self.model canInsertNewValue:newValue];
-}
-
-
-
-#pragma mark right view private methods
 - (void)showCheckMark
 {
     [self.rightView setImage:[UIImage imageNamed:@"checkmark"]];
@@ -110,9 +125,7 @@
 #pragma mark cvc info
 - (void)showCvcInfoView
 {
-    // This should belong to a model.
-    NSString *brand = [WPYCreditCard brandNameFromPartialNumber:self.model.card.number];
-    if ([brand isEqualToString:WPYAmex])
+    if ([self.model isAmex])
     {
         [WPYCvcExplanationView showAmexCvcExplanation];
     }

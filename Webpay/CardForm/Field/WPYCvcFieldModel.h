@@ -11,5 +11,6 @@
 #import "WPYAbstractFieldModel.h"
 
 @interface WPYCvcFieldModel :WPYAbstractFieldModel
-+ (NSString *)maskedCvc:(NSString *)cvc;
+- (NSString *)maskedCvc;
+- (BOOL)isAmex;
 @end
