@@ -40,7 +40,8 @@ static NSString *const kMasterCardNumber = @"5105105105105100";
 #pragma mark maskedCvc:
 - (void)testMaskedCvc
 {
-    XCTAssertEqualObjects([WPYCvcFieldModel maskedCvc:@"123"], @"●●●", @"It should return masked number.");
+    _model.card.cvc = @"123";
+    XCTAssertEqualObjects([_model maskedCvc], @"●●●", @"It should return masked number.");
 }
 
 
