@@ -23,13 +23,6 @@
 
 
 #pragma mark accessor
-- (WPYFieldKey)key
-{
-    @throw [NSException exceptionWithName:NSInternalInconsistencyException
-                                   reason:[NSString stringWithFormat:@"You must override %@ in a subclass", NSStringFromSelector(_cmd)]
-                                 userInfo:nil];
-}
-
 - (void)setCardValue:(NSString *)value
 {
     @throw [NSException exceptionWithName:NSInternalInconsistencyException

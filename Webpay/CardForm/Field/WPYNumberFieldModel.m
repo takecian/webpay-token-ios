@@ -189,11 +189,6 @@ static NSString *addPaddingToNumber(NSString *number)
 
 
 #pragma mark accessors
-- (WPYFieldKey)key
-{
-    return WPYNumberFieldKey;
-}
-
 - (void)setCardValue:(NSString *)value
 {
     self.card.number = removeAllWhitespaces(value);

@@ -33,12 +33,6 @@
     [super tearDown];
 }
 
-#pragma mark test key
-- (void)testFieldKey
-{
-    XCTAssertEqual([_model key], WPYNameFieldKey, @"Key should be WPYNameFieldKey.");
-}
-
 
 
 #pragma mark shouldValidateOnFocusLost

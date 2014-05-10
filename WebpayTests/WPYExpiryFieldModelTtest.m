@@ -34,14 +34,6 @@
 
 
 
-#pragma mark test key
-- (void)testFieldKey
-{
-    XCTAssertEqual([_model key], WPYExpiryFieldKey, @"Key should be WPYExpiryFieldKey.");
-}
-
-
-
 #pragma mark shouldValidateOnFocusLost
 - (void)testShouldNotValidateWhenExpiryIsNil
 {

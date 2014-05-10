@@ -272,14 +272,6 @@ static NSString *const kMasterCardNumber = @"5105105105105100";
 
 
 
-#pragma mark test key
-- (void)testFieldKey
-{
-    XCTAssertEqual([_model key], WPYNumberFieldKey, @"Key should be WPYNumberFieldKey.");
-}
-
-
-
 #pragma mark shouldValidateOnFocusLost
 - (void)testShouldNotValidateWhenNumberIsNil
 {

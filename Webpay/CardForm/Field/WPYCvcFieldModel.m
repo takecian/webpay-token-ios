@@ -32,11 +32,6 @@ static NSUInteger const WPYValidNonAmexCvcLength = 3;
 
 
 #pragma mark accessor
-- (WPYFieldKey)key
-{
-    return WPYCvcFieldKey;
-}
-
 - (void)setCardValue:(NSString *)value
 {
     self.card.cvc = value;

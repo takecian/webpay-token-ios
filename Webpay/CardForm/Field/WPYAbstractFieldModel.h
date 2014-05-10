@@ -10,21 +10,12 @@
 
 #import "WPYCreditCard.h"
 
-typedef NS_ENUM(NSInteger, WPYFieldKey)
-{
-    WPYNumberFieldKey,
-    WPYExpiryFieldKey,
-    WPYCvcFieldKey,
-    WPYNameFieldKey
-};
-
 @interface WPYAbstractFieldModel : NSObject
 @property(nonatomic, strong) WPYCreditCard *card;
 
 - (instancetype)initWithCard:(WPYCreditCard *)card;
 
 // methods to be overriden
-- (WPYFieldKey)key;
 - (void)setCardValue:(NSString *)value;
 - (NSString *)cardValue;
 

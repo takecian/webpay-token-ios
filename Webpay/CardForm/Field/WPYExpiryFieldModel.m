@@ -11,11 +11,6 @@
 @implementation WPYExpiryFieldModel
 
 #pragma mark accessor
-- (WPYFieldKey)key
-{
-    return WPYExpiryFieldKey;
-}
-
 - (void)setCardValue:(NSString *)value
 {
     if (value.length > 0)

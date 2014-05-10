@@ -11,11 +11,6 @@
 @implementation WPYNameFieldModel
 
 #pragma mark accessor
-- (WPYFieldKey)key
-{
-    return WPYNameFieldKey;
-}
-
 - (void)setCardValue:(NSString *)value
 {
     self.card.name = value;
