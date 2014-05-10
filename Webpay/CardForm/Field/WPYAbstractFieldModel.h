@@ -11,13 +11,13 @@
 #import "WPYCreditCard.h"
 
 @interface WPYAbstractFieldModel : NSObject
-@property(nonatomic, strong) WPYCreditCard *card;
+@property(nonatomic, strong, readonly) WPYCreditCard *card;
 
 - (instancetype)initWithCard:(WPYCreditCard *)card;
 
 // methods to be overriden
 - (void)setCardValue:(NSString *)value;
-- (NSString *)cardValue;
+- (NSString *)rawCardValue;
 
 - (NSString *)initialValueForTextField;
 - (BOOL)canInsertNewValue:(NSString *)newValue;
