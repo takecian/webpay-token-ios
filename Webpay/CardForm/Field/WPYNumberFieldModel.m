@@ -199,7 +199,7 @@ static NSString *addPaddingToNumber(NSString *number)
     self.card.number = removeAllWhitespaces(value);
 }
 
-- (NSString *)cardValue
+- (NSString *)rawCardValue
 {
     return self.card.number;
 }

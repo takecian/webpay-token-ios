@@ -14,6 +14,7 @@
 
 
 @interface WPYNumberField () <UITextFieldDelegate>
+@property(nonatomic, strong) WPYNumberFieldModel *model;
 @end
 
 @implementation WPYNumberField
@@ -35,9 +36,11 @@
     return brandView;
 }
 
-- (WPYAbstractFieldModel *)createFieldModelWithCard:(WPYCreditCard *)card
+- (void)setupWithCard:(WPYCreditCard *)card
 {
-    return [[WPYNumberFieldModel alloc] initWithCard:card];
+    self.model = [[WPYNumberFieldModel alloc] initWithCard:card];
+    
+    [self setText:[self.model initialValueForTextField]];
 }
 
 
@@ -45,6 +48,7 @@
 #pragma mark textfield
 - (void)textFieldValueChanged
 {
+    [self.model setCardValue:self.textField.text];
     [self updateBrand];
 }
 
@@ -107,11 +111,19 @@
 }
 
 
-// called at textdidediting. Brand logo will be displayed if prefix matches any brand
-// if validation fails, hide logo
-- (void)updateValidityView:(BOOL)valid
+- (void)textFieldWillLoseFocus
 {
-    if (!valid)
+    if (![self.model shouldValidateOnFocusLost])
+    {
+        return;
+    }
+    
+    NSError *error = nil;
+    BOOL isValid = [self.model validate:&error];
+    
+    [self updateViewToValidity:isValid];
+    
+    if (!isValid)
     {
         [self hideBrandLogo];
     }
