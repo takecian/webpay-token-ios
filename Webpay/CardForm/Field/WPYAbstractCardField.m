@@ -44,14 +44,10 @@ static NSInteger const WPYMaxShakes = 8;
     self = [super initWithFrame:frame];
     if (self)
     {
-        _model = [self createFieldModelWithCard:card];
-        
         // textfield
         _textField = [self createTextFieldWithFrame:frame];
         [self setupTextField];
         [self addSubview:_textField];
-        
-        [self setIntialValueForTextField];
         
         [self setup];
     }
@@ -73,15 +69,6 @@ static NSInteger const WPYMaxShakes = 8;
     }
 }
 
-- (void)setText:(NSString *)text
-{
-    if (text)
-    {
-        self.textField.text = text;
-        [self textFieldDidChanged:self.textField];
-    }
-}
-
 
 
 #pragma mark expected to overriden in subclass
@@ -100,11 +87,6 @@ static NSInteger const WPYMaxShakes = 8;
                                  userInfo:nil];
 }
 
-- (WPYAbstractFieldModel *)createFieldModelWithCard:(WPYCreditCard *)card
-{
-    return nil;
-}
-
 - (void)setup
 {
 
@@ -121,38 +103,12 @@ static NSInteger const WPYMaxShakes = 8;
 
 - (void)textFieldDidChanged:(UITextField *)textField
 {
-    [self.model setCardValue:textField.text];
     [self textFieldValueChanged];
-}
-
-- (void)textFieldValueChanged
-{
-    // called when textfield value changed
 }
 
 - (void)textFieldDidEndEditing:(UITextField *)textField
 {
     [self textFieldWillLoseFocus];
-    
-    if (![self.model shouldValidateOnFocusLost])
-    {
-        return;
-    }
-    
-    NSError *error = nil;
-    BOOL isValid = [self.model validate:&error];
-    
-    [self updateValidityView:isValid];
-    
-    if (isValid)
-    {
-        [self setNormalColor];
-    }
-    else
-    {
-        [self setErrorColor];
-        [self startErrorAnimation];
-    }
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
@@ -177,14 +133,13 @@ static NSInteger const WPYMaxShakes = 8;
 
 }
 
-- (void)textFieldWillLoseFocus
+- (void)textFieldValueChanged
 {
-
+    // called when textfield value changed
 }
 
-- (void)textFieldChanged
+- (void)textFieldWillLoseFocus
 {
-
 }
 
 
@@ -216,14 +171,6 @@ static NSInteger const WPYMaxShakes = 8;
     _textField.rightViewMode = UITextFieldViewModeAlways;
 }
 
-- (void)setIntialValueForTextField
-{
-    NSString *initialValue = [self.model initialValueForTextField];
-    if (initialValue)
-    {
-        [self setText:initialValue];
-    }
-}
 
 
 

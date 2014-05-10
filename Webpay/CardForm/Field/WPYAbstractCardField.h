@@ -17,22 +17,19 @@
 @interface WPYAbstractCardField : UIView <UITextFieldDelegate>
 @property(nonatomic, strong) UITextField *textField;
 @property(nonatomic, strong) UIImageView *rightView;
-@property(nonatomic, strong) WPYAbstractFieldModel *model;
 
 //designated initializer
 - (instancetype)initWithFrame:(CGRect)frame card:(WPYCreditCard *)card;
+- (void)textFieldDidChanged:(UITextField *)textField;
 - (void)setFocus:(BOOL)focus;
-- (void)setText:(NSString *)text;
 
 // methods expected to be overridden
 // initialization
 - (UITextField *)createTextFieldWithFrame:(CGRect)frame;
 - (UIImageView *)createRightView;
-- (WPYAbstractFieldModel *)createFieldModelWithCard:(WPYCreditCard *)card;
 - (void)setup;
 
 - (void)textFieldDidFocus;
-- (void)textFieldDidChanged:(UITextField *)textField; // called from textfield or manually
 - (void)textFieldValueChanged; // template method
 - (void)textFieldWillLoseFocus;
 
