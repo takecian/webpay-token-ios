@@ -25,7 +25,7 @@
 #pragma mark textfield
 - (NSString *)initialValueForTextField
 {
-    return self.card.name;
+    return [self rawCardValue];
 }
 
 
@@ -33,13 +33,13 @@
 #pragma mark validation
 - (BOOL)shouldValidateOnFocusLost
 {
-    NSString *name = self.card.name;
+    NSString *name = [self rawCardValue];
     return name.length != 0; // don't valididate if length is 0
 }
 
 - (BOOL)validate:(NSError * __autoreleasing *)error
 {
-    NSString *name = self.card.name;
+    NSString *name = [self rawCardValue];
     return [self.card validateName:&name error:error];
 }
 
