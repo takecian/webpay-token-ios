@@ -56,7 +56,7 @@
 {
     self.model = [[WPYExpiryFieldModel alloc] initWithCard:card];
     
-    [self setText:[self.model cardValue]];
+    [self setText:[self.model initialValueForTextField]];
 }
 
 

@@ -10,16 +10,24 @@
 
 @implementation WPYExpiryFieldModel
 
+#pragma mark helper
+static NSString *removeAllWhitespaces(NSString *string)
+{
+    return [string stringByReplacingOccurrencesOfString:@" " withString:@""];
+}
+
+
+
 #pragma mark accessor
 - (void)setCardValue:(NSString *)value
 {
-    if (value.length > 0)
+    NSString *canonicalizedExpiry = removeAllWhitespaces(value);
+    NSRange range = [canonicalizedExpiry rangeOfString:@"/"];
+    NSUInteger location = range.location;
+    if (canonicalizedExpiry.length > 0 && location != NSNotFound)
     {
-        NSInteger month = [[value substringToIndex:2] integerValue];
-        self.card.expiryMonth = month;
-        
-        NSInteger year = [[value substringFromIndex:5] integerValue];
-        self.card.expiryYear = year;
+        self.card.expiryMonth = [[canonicalizedExpiry substringToIndex:location] integerValue];
+        self.card.expiryYear = [[canonicalizedExpiry substringFromIndex:location + 1] integerValue];
     }
 }
 
@@ -29,10 +37,11 @@
 }
 
 
+
 #pragma mark textfield
 - (NSString *)initialValueForTextField
 {
-    return [self.card expiryInString];
+    return [self rawCardValue];
 }
 
 
@@ -40,7 +49,7 @@
 #pragma mark validation
 - (BOOL)shouldValidateOnFocusLost
 {
-    NSString *expiry = [self.card expiryInString];
+    NSString *expiry = [self rawCardValue];
     return expiry.length == 9; // don't valid if both not selected
 }
 
