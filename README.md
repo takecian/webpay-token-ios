@@ -1,4 +1,4 @@
-# webpay-token-ios
+# webpay-token-ios [![Build Status](https://travis-ci.org/webpay/webpay-token-ios.svg?branch=master)](https://travis-ci.org/webpay/webpay-token-ios)
 
 webpay-token-ios is an ios library for creating a token from a credit card.
 
