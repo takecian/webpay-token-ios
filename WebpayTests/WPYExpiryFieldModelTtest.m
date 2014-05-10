@@ -34,6 +34,22 @@
 
 
 
+#pragma mark accessor
+- (void)testSetCardValueWithPartialExpiry
+{
+    [_model setCardValue:@" / 2019"];
+    XCTAssertEqual(_model.card.expiryMonth, 0, @"It should set 0 when empty.");
+    XCTAssertEqual(_model.card.expiryYear, 2019, @"It should assign proper value.");
+}
+
+- (void)testSetCardValue
+{
+    [_model setCardValue:@"04 / 2020"];
+    XCTAssertEqual(_model.card.expiryMonth, 4, @"It should assign proper value.");
+    XCTAssertEqual(_model.card.expiryYear, 2020, @"It should assign proper value.");
+}
+
+
 #pragma mark shouldValidateOnFocusLost
 - (void)testShouldNotValidateWhenExpiryIsNil
 {
