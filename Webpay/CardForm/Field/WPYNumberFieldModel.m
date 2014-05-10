@@ -12,6 +12,7 @@
 
 static NSUInteger const WPYNonAmexNumberMaxLength = 16;
 static NSUInteger const WPYAmexNumberMaxLength = 15;
+static NSUInteger const WPYDinersNumberMaxLength = 14;
 
 @implementation WPYNumberFieldModel
 
@@ -48,7 +49,7 @@ static NSString *addSpacesPerFourCharacters(NSString *string)
     return spacedString;
 }
 
-static NSString *addSpacesToAmexNumber(NSString *number)
+static NSString *addSpacesToAmexAndDinersNumber(NSString *number)
 {
     NSMutableString *spacedString = [NSMutableString stringWithCapacity:number.length];
     [number enumerateSubstringsInRange:NSMakeRange(0, number.length)
@@ -78,6 +79,10 @@ static BOOL isValidLength(NSString *number)
     {
         return canonicalizedNumber.length <= WPYAmexNumberMaxLength;
     }
+    else if([brand isEqualToString:WPYDiners])
+    {
+        return canonicalizedNumber.length <= WPYDinersNumberMaxLength;
+    }
     else
     {
         return canonicalizedNumber.length <= WPYNonAmexNumberMaxLength;
@@ -87,9 +92,9 @@ static BOOL isValidLength(NSString *number)
 static NSString *addPaddingToNumber(NSString *number)
 {
     NSString *brand = [WPYCreditCard brandNameFromPartialNumber:number];
-    if ([brand isEqualToString:@"American Express"])
+    if ([brand isEqualToString:WPYAmex] || [brand isEqualToString:WPYDiners])
     {
-        return addSpacesToAmexNumber(number);
+        return addSpacesToAmexAndDinersNumber(number);
     }
     else
     {
@@ -151,7 +156,7 @@ static NSString *addPaddingToNumber(NSString *number)
     }
     
     NSString *brand = [WPYCreditCard brandNameFromPartialNumber:number];
-    if ([brand isEqualToString:WPYAmex])
+    if ([brand isEqualToString:WPYAmex] || [brand isEqualToString:WPYDiners])
     {
         return (position == 5 || position == 12);
     }
@@ -164,7 +169,7 @@ static NSString *addPaddingToNumber(NSString *number)
 + (BOOL)isSpaceWithNumber:(NSString *)number position:(NSUInteger)position
 {
     NSString *brand = [WPYCreditCard brandNameFromPartialNumber:number];
-    if ([brand isEqualToString:WPYAmex])
+    if ([brand isEqualToString:WPYAmex] || [brand isEqualToString:WPYDiners])
     {
         return (position == 4 || position == 11);
     }
@@ -177,7 +182,7 @@ static NSString *addPaddingToNumber(NSString *number)
 + (BOOL)isDigitBeforeSpace:(NSString *)number position:(NSUInteger)position
 {
     NSString *brand = [WPYCreditCard brandNameFromPartialNumber:number];
-    if ([brand isEqualToString:WPYAmex])
+    if ([brand isEqualToString:WPYAmex] || [brand isEqualToString:WPYDiners])
     {
         return (position == 3 || position == 10);
     }

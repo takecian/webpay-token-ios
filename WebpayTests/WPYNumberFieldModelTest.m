@@ -14,6 +14,7 @@
 
 @end
 
+static NSString *const kDinersNumber = @"38520000023237";
 static NSString *const kAmexNumber = @"371449635398431";
 static NSString *const kMasterCardNumber = @"5105105105105100";
 
@@ -53,6 +54,13 @@ static NSString *const kMasterCardNumber = @"5105105105105100";
     XCTAssertEqualObjects([WPYNumberFieldModel reformatNumber:newInput position:10 isDeleted:NO], @"3714 123456 ", @"It should add a padding.");
 }
 
+- (void)testDigitAddedBeforeSpaceToDinersNumber
+{
+    //3852_12345 -> 3852_123456
+    NSString *newInput = @"3852 123456";
+    XCTAssertEqualObjects([WPYNumberFieldModel reformatNumber:newInput position:10 isDeleted:NO], @"3852 123456 ", @"It should add a padding at end.");
+}
+
 - (void)testDigitAddedAtSpaceToVisaNumber
 {
     // 4242_ -> 42421_
@@ -65,6 +73,13 @@ static NSString *const kMasterCardNumber = @"5105105105105100";
     // 3714_123456_ -> 3714_1234561_
     NSString *newInput = @"3714 1234561 ";
     XCTAssertEqualObjects([WPYNumberFieldModel reformatNumber:newInput position:11 isDeleted:NO], @"3714 123456 1", @"It should add a space in between.");
+}
+
+- (void)testDigitAddedAtSpaceToDinersNumber
+{
+    //3852_123456_ -> 3852_1234561_
+    NSString *newInput = @"3852 1234561 ";
+    XCTAssertEqualObjects([WPYNumberFieldModel reformatNumber:newInput position:11 isDeleted:NO], @"3852 123456 1", @"It should add a space in between.");
 }
 
 - (void)testDigitAddedAfterSpaceToVisaNumber
@@ -81,6 +96,13 @@ static NSString *const kMasterCardNumber = @"5105105105105100";
     XCTAssertEqualObjects([WPYNumberFieldModel reformatNumber:newInput position:12 isDeleted:NO], @"3714 123456 1", @"It should not add a padding.");
 }
 
+- (void)testDigitAddedAfterSpaceToDinersNumber
+{
+    //3852_123456_ -> 3852_123456_1
+    NSString *newInput = @"3852 123456 1";
+    XCTAssertEqualObjects([WPYNumberFieldModel reformatNumber:newInput position:12 isDeleted:NO], @"3852 123456 1", @"It should not add a padding.");
+}
+
 - (void)testDigitAfterSpaceDeletedFromVisaNumber
 {
     // 4242_4242_1 -> 4242_4242_
@@ -93,6 +115,13 @@ static NSString *const kMasterCardNumber = @"5105105105105100";
     // 3714_123456_1 -> 3714_123456_
     NSString *newInput = @"3714 123456 ";
     XCTAssertEqualObjects([WPYNumberFieldModel reformatNumber:newInput position:12 isDeleted:YES], @"3714 123456", @"It should remove padding at end.");
+}
+
+- (void)testDigitAfterSpaceDeletedFromDinersNumber
+{
+    // 3852_123456_1 -> 3852_123456_
+    NSString *newInput = @"3852 123456 ";
+    XCTAssertEqualObjects([WPYNumberFieldModel reformatNumber:newInput position:12 isDeleted:YES], @"3852 123456", @"It should remove padding at end.");
 }
 
 - (void)testSpaceDeletedAtVisaNumber
@@ -109,6 +138,13 @@ static NSString *const kMasterCardNumber = @"5105105105105100";
     XCTAssertEqualObjects([WPYNumberFieldModel reformatNumber:newInput position:11 isDeleted:YES], @"3714 12345", @"it should remove the number before space.");
 }
 
+- (void)testSpaceDeletedAtDinersNumber
+{
+    // 3852_123456_ -> 3852_123456
+    NSString *newInput = @"3852 123456";
+    XCTAssertEqualObjects([WPYNumberFieldModel reformatNumber:newInput position:11 isDeleted:YES], @"3852 12345", @"it should remove the number before space.");
+}
+
 - (void)testDigitBeforeSpaceDeletedFromVisaNumber
 {
     // 4242_4242 -> 4242_424
@@ -121,6 +157,13 @@ static NSString *const kMasterCardNumber = @"5105105105105100";
     // 3714_123456 -> 3714_12345
     NSString *newInput = @"3714 12345";
     XCTAssertEqualObjects([WPYNumberFieldModel reformatNumber:newInput position:10 isDeleted:YES], @"3714 12345", @"It should leave at as is.");
+}
+
+- (void)testDigitBeforeSpaceDeletedFromDinersNumber
+{
+    // 3852_123456 -> 3852_12345
+    NSString *newInput = @"3852 12345";
+    XCTAssertEqualObjects([WPYNumberFieldModel reformatNumber:newInput position:10 isDeleted:YES], @"3852 12345", @"It should leave at as is.");
 }
 
 - (void)testDigitInsertedBeforeSpaceToVisaNumber
@@ -137,6 +180,13 @@ static NSString *const kMasterCardNumber = @"5105105105105100";
     XCTAssertEqualObjects([WPYNumberFieldModel reformatNumber:newInput position:4 isDeleted:NO], @"3714 012345 6", @"It should adjust the position of padding.");
 }
 
+- (void)testDigitInsertedBeforeSpaceToDinersNumber
+{
+    // 3852_123456_ -> 38520_123456_
+    NSString *newInput = @"38520 123456 ";
+    XCTAssertEqualObjects([WPYNumberFieldModel reformatNumber:newInput position:4 isDeleted:NO], @"3852 012345 6", @"It should adjust the position of padding.");
+}
+
 - (void)testDigitInsertedAfterSpaceToVisaNumber
 {
     // 4242_42 -> 4242_142
@@ -149,6 +199,13 @@ static NSString *const kMasterCardNumber = @"5105105105105100";
     // 3714_123456_ -> 3714_0123456_
     NSString *newInput = @"3714 0123456 ";
     XCTAssertEqualObjects([WPYNumberFieldModel reformatNumber:newInput position:5 isDeleted:NO], @"3714 012345 6", @"It should reformat padding.");
+}
+
+- (void)testDigitInsertedAfterSpaceToDinersNumber
+{
+    // 3852_123456_ -> 3852_0123456_
+    NSString *newInput = @"3852 0123456 ";
+    XCTAssertEqualObjects([WPYNumberFieldModel reformatNumber:newInput position:5 isDeleted:NO], @"3852 012345 6", @"It should reformat padding.");
 }
 
 - (void)testDigitRemovedAfterSpaceFromVisaNumber
@@ -165,6 +222,13 @@ static NSString *const kMasterCardNumber = @"5105105105105100";
     XCTAssertEqualObjects([WPYNumberFieldModel reformatNumber:newInput position:5 isDeleted:YES], @"3714 23456", @"It should reformat.");
 }
 
+- (void)testDigitRemovedAfterSpaceFromDinersNumber
+{
+    // 3852_123456_ -> 3852_23456_
+    NSString *newInput = @"3852 23456 ";
+    XCTAssertEqualObjects([WPYNumberFieldModel reformatNumber:newInput position:5 isDeleted:YES], @"3852 23456", @"It should reformat.");
+}
+
 - (void)testSpaceRemovedFromVisaNumber
 {
     // 4242_42 -> 424242
@@ -179,6 +243,13 @@ static NSString *const kMasterCardNumber = @"5105105105105100";
     XCTAssertEqualObjects([WPYNumberFieldModel reformatNumber:newInput position:4 isDeleted:YES], @"3711 23456", @"It should remove number before space and reformat.");
 }
 
+- (void)testSpaceRemovedFromDinersNumber
+{
+    // 3852_123456_ -> 3852123456_
+    NSString *newInput = @"3852123456 ";
+    XCTAssertEqualObjects([WPYNumberFieldModel reformatNumber:newInput position:4 isDeleted:YES], @"3851 23456", @"It should remove number before space and reformat.");
+}
+
 - (void)testDigitRemovedBeforeSpaceFromVisaNumber
 {
     // 4242_42 -> 424_42
@@ -190,9 +261,15 @@ static NSString *const kMasterCardNumber = @"5105105105105100";
 {
     // 3714_123456_ -> 371_123456_
     NSString *newInput = @"371 123456 ";
-    XCTAssertEqualObjects([WPYNumberFieldModel reformatNumber:newInput position:3 isDeleted:YES], @"3711 23456", @"It should remove reformat.");
+    XCTAssertEqualObjects([WPYNumberFieldModel reformatNumber:newInput position:3 isDeleted:YES], @"3711 23456", @"It should reformat.");
 }
 
+- (void)testDigitRemovedBeforeSpaceFromDinersNumber
+{
+    // 3852_123456_ -> 385_123456_
+    NSString *newInput = @"385 123456 ";
+    XCTAssertEqualObjects([WPYNumberFieldModel reformatNumber:newInput position:3 isDeleted:YES], @"3851 23456", @"It should reformat.");
+}
 
 
 #pragma mark isDigitAfterSpace:position:
@@ -311,7 +388,7 @@ static NSString *const kMasterCardNumber = @"5105105105105100";
 #pragma mark canInsertNewNumber
 - (void)testAmexNumber
 {
-    XCTAssertTrue([_model canInsertNewValue:kAmexNumber], @"15 digits amex is a valid length.");
+    XCTAssertTrue([_model canInsertNewValue:kAmexNumber], @"15 digits amex number is a valid length.");
 }
 
 - (void)textTooLongAmexNumber
@@ -327,6 +404,16 @@ static NSString *const kMasterCardNumber = @"5105105105105100";
 - (void)testTooLongMasterCardNumber
 {
     XCTAssertFalse([_model canInsertNewValue:@"55555555555544441"], @"17 digits non-amex card is not valid.");
+}
+
+- (void)testDinersNumber
+{
+    XCTAssertTrue([_model canInsertNewValue:kDinersNumber], @"14 digits diners number is a valid length.");
+}
+
+- (void)testTooLongDinersNumber
+{
+    XCTAssertFalse([_model canInsertNewValue:@"385200000232371"], @"15 digits diners number is not valid.");
 }
 
 
