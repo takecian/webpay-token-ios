@@ -21,6 +21,7 @@
 #import "WPYNameField.h"
 
 #import "WPYAbstractFieldModel.h"
+#import "WPYConstants.h"
 
 
 @interface WPYCardFormView () <UITableViewDataSource,UITableViewDelegate>
@@ -58,7 +59,11 @@ static float const WPYCellHeight = 50.0f;
         _tableView.delegate = self;
         [self addSubview:_tableView];
         
-        _titles = @[@"Number", @"Expiry", @"CVC", @"Name"];
+        _titles = @[NSLocalizedStringFromTable(@"Number", WPYLocalizedStringTable, nil),
+                    NSLocalizedStringFromTable(@"Expiry", WPYLocalizedStringTable, nil),
+                    NSLocalizedStringFromTable(@"CVC", WPYLocalizedStringTable, nil),
+                    NSLocalizedStringFromTable(@"Name", WPYLocalizedStringTable, nil)
+                    ];
         
         // contentViews
         CGRect fieldFrame = CGRectMake(WPYFieldLeftMargin, WPYFieldTopMargin, WPYFieldWidth, WPYFieldHeight);
