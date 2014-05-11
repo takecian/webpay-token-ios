@@ -12,9 +12,12 @@ Tested on iOS6+.
 You can either install using cocoapods(recommended) or copying files manually.
 
 ### 1. Cocoapods
+In your Podfile, add a line
 ```
 pod 'WebPay', '1.0'
 ```
+then, run `pod install`.
+
 
 ### 2. copy files manually
 
@@ -39,7 +42,7 @@ to reuse or make on your own.
 
 ## How to use
 
-### Initialization(required for any component)
+### Initialization(required for every components)
 ``` objective-c
 #import "Webpay.h"
 
@@ -47,7 +50,7 @@ to reuse or make on your own.
 ```
 
 ### WPYTokenizer (Model)
-If you are creating your own view, create token with WPYTokenizer.
+If you are creating your own view, create token using WPYTokenizer.
 
 ```
 #import "Webpay.h"
@@ -75,7 +78,7 @@ card.name = @"Yohei Okada";
 ```
 
 ### WPYCardFormView (View)
-WPYCardFormView is a credit card form view that calls delegate method when filled in card info is valid. It handles padding credit card number, masking security code, and validation on each field.
+WPYCardFormView is a credit card form view that calls delegate method when card form is valid. It handles padding credit card number, masking security code, and validation on each field.
 
 ```
 // create view
@@ -103,7 +106,7 @@ WPYPaymentViewController *paymentViewController = [[WPYPaymentViewController all
     //post token to your server
     
     // when transaction is complete
-    [viewController setPayButtonComplete]; // this will change the button color to green and title to checkmark
+    [viewController setPayButtonComplete]; // this will change the button color to green and its title to checkmark
     [viewController dismissAfterDelay: 2.0f];
   }
   else
@@ -114,6 +117,9 @@ WPYPaymentViewController *paymentViewController = [[WPYPaymentViewController all
     
 [self.navigationController pushViewController:paymentViewController animated:YES];
 ```
+
+If you want the card form to be populated with card data, use `initWithTitle:card:callback:` instead.
+
 
 ### Other classes
 #### WPYCreditCard
