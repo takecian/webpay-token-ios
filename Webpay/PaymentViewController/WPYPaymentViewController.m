@@ -210,7 +210,7 @@ static UIImage *imageFromColor(UIColor *color)
 
 
 #pragma mark WPYCardFormDelegate
-- (void)invalidFieldName:(NSString *)fieldName error:(NSError *)error
+- (void)invalidFormWithError:(NSError *)error
 {
     [self.payButton setEnabled:NO];
 }
