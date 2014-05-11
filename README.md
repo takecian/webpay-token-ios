@@ -100,7 +100,7 @@ cardForm.delegate = self;
 WPYPaymentViewController is a combination of WPYTokenizer and WPYPaymentVIewController. If you just want a viewcontroller for `pushViewController:animated` or `presentViewController:animated:completion:`, this is what you want.
 
 ```
-WPYPaymentViewController *paymentViewController = [[WPYPaymentViewController alloc] initWithButtonTitle:@"Pay" callback:^(WPYPaymentViewController *paymentViewController, WPYToken *token, NSError *error){
+WPYPaymentViewController *paymentViewController = [[WPYPaymentViewController alloc] initWithCallback:^(WPYPaymentViewController *paymentViewController, WPYToken *token, NSError *error){
   if(token)
   {
     //post token to your server
