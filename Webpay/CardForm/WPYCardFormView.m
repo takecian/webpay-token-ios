@@ -20,7 +20,6 @@
 #import "WPYCvcField.h"
 #import "WPYNameField.h"
 
-#import "WPYAbstractFieldModel.h"
 #import "WPYConstants.h"
 
 
