@@ -23,6 +23,8 @@ typedef void (^WPYPaymentViewCallback)(WPYPaymentViewController *paymentViewCont
 - (instancetype)initWithButtonTitle:(NSString *)title
                            callback:(WPYPaymentViewCallback)callback;
 
+- (instancetype)initWithCallback:(WPYPaymentViewCallback)callback;
+
 - (void)setPayButtonComplete;
 - (void)dismissAfterDelay:(NSTimeInterval)delay;
 - (void)popAfterDelay:(NSTimeInterval)delay;

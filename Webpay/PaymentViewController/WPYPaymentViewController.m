@@ -69,6 +69,12 @@ static UIImage *imageFromColor(UIColor *color)
     return [self initWithButtonTitle:title card:card callback:callback];
 }
 
+- (instancetype)initWithCallback:(WPYPaymentViewCallback)callback
+{
+    WPYCreditCard *card = [[WPYCreditCard alloc] init];
+    return [self initWithButtonTitle:nil card:card callback:callback];
+}
+
 // override designated initializer of super
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
