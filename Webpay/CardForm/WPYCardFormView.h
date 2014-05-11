@@ -11,7 +11,11 @@
 @class WPYCreditCard;
 @protocol WPYCardFormViewDelegate <NSObject>
 @optional
-// called when the whole form is valid
+// validation is called every time card value changes.
+// card value changes when the textfield is edited
+- (void)invalidFormWithError:(NSError *)error;
+
+// called only when the whole form is valid
 - (void)validFormWithCard:(WPYCreditCard *)creditCard;
 @end
 

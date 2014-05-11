@@ -135,9 +135,14 @@ static float const WPYCellHeight = 50.0f;
 
 - (void)validate
 {
-    if ([self.creditCard validate: nil])
+    NSError *error = nil;
+    if ([self.creditCard validate: &error])
     {
         [self notifyDelegateValidForm:self.creditCard];
+    }
+    else
+    {
+        [self notifyDelegateError:error];
     }
 }
 
@@ -197,6 +202,14 @@ static float const WPYCellHeight = 50.0f;
     if (self.delegate && [self.delegate respondsToSelector:@selector(validFormWithCard:)])
     {
         [self.delegate validFormWithCard:creditCard];
+    }
+}
+
+- (void)notifyDelegateError:(NSError *)error
+{
+    if (self.delegate && [self.delegate respondsToSelector:@selector(invalidFormWithError:)])
+    {
+        [self.delegate invalidFormWithError:error];
     }
 }
 
