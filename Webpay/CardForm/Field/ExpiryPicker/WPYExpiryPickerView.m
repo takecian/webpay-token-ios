@@ -16,8 +16,6 @@
 @interface WPYExpiryPickerView () <UIPickerViewDelegate, UIPickerViewDataSource>
 @property(nonatomic, strong) NSArray *months;
 @property(nonatomic, strong) NSArray *years;
-@property(nonatomic, copy) NSString *selectedMonth;
-@property(nonatomic, copy) NSString *selectedYear;
 @end
 
 @implementation WPYExpiryPickerView
@@ -36,9 +34,6 @@ typedef NS_ENUM(NSInteger, WPYComponents)
     {
         _months = @[@"01", @"02", @"03", @"04", @"05", @"06", @"07", @"08", @"09", @"10", @"11", @"12"];
         _years = [self years];
-        
-        _selectedMonth = @"";
-        _selectedYear = @"";
         
         self.backgroundColor = [UIColor whiteColor];
         
@@ -67,13 +62,22 @@ typedef NS_ENUM(NSInteger, WPYComponents)
 #pragma mark public method
 - (NSString *)selectedExpiry
 {
-    NSInteger selectedMonthRow = [self selectedRowInComponent:WPYExpiryPickerMonth];
-    NSString *month = self.months[selectedMonthRow];
-    
+    return [NSString stringWithFormat:@"%@ / %@", [self selectedMonth], [self selectedYear]];
+}
+
+
+
+#pragma mark getter
+- (NSString *)selectedYear
+{
     NSInteger selectedYearRow = [self selectedRowInComponent:WPYExpiryPickerYear];
-    NSString *year = self.years[selectedYearRow];
-    
-    return [NSString stringWithFormat:@"%@ / %@", month, year];
+    return self.years[selectedYearRow];
+}
+
+- (NSString *)selectedMonth
+{
+    NSInteger selectedMonthRow = [self selectedRowInComponent:WPYExpiryPickerMonth];
+    return self.months[selectedMonthRow];
 }
 
 
@@ -83,7 +87,7 @@ typedef NS_ENUM(NSInteger, WPYComponents)
 {
     if (self.expiryDelegate && [self.expiryDelegate respondsToSelector:@selector(didSelectExpiryYear:month:)])
     {
-        [self.expiryDelegate didSelectExpiryYear:self.selectedYear month:self.selectedMonth];
+        [self.expiryDelegate didSelectExpiryYear:[self selectedYear] month:[self selectedMonth]];
     }
 }
 
@@ -104,21 +108,6 @@ typedef NS_ENUM(NSInteger, WPYComponents)
 
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
 {
-    switch (component)
-    {
-        case WPYExpiryPickerMonth:
-        {
-            self.selectedMonth = [self.months objectAtIndex:[pickerView selectedRowInComponent:WPYExpiryPickerMonth]];
-            break;
-        }
-            
-        case WPYExpiryPickerYear:
-        {
-            self.selectedYear = [self.years objectAtIndex:[pickerView selectedRowInComponent:WPYExpiryPickerYear]];
-            break;
-        }
-    }
-    
     [self notifyDelegate];
 }
 
