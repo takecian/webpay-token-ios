@@ -55,7 +55,7 @@ static UIImage *imageFromColor(UIColor *color)
     if (self = [super initWithNibName:nil bundle:nil])
     {
         _callback = callback;
-        _buttonTitle = title ? title : NSLocalizedString(@"Confirm Payment", nil);
+        _buttonTitle = title ? title : NSLocalizedStringFromTable(@"Confirm Payment", WPYLocalizedStringTable, nil);
         _card = card;
     }
     
