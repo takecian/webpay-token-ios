@@ -42,6 +42,9 @@ static NSString *const JCBCardNumber      = @"3530111333300000";
 static NSString *const dinersCardNumber   = @"30569309025904";
 static NSString *const unknownCardNumber  = @"9876543210123456";
 
+static NSString *const spacedVisaNumber = @"4242 4242 4242 4242";
+static NSString *const hyphenedVisaNumber = @"4242-4242-4242-4242";
+
 
 - (void)setUp
 {
@@ -62,13 +65,13 @@ static NSString *const unknownCardNumber  = @"9876543210123456";
 #pragma mark setter
 - (void)testSetNumberRemovesAllWhitespaces
 {
-    _creditCard.number = @"4242 4242 4242 4242";
+    _creditCard.number = spacedVisaNumber;
     XCTAssertEqualObjects(_creditCard.number, @"4242424242424242", @"It should remove all whitespaces when set.");
 }
 
 - (void)testSetNumberRemovesAllHyphens
 {
-    _creditCard.number = @"4242-4242-4242-4242";
+    _creditCard.number = hyphenedVisaNumber;
     XCTAssertEqualObjects(_creditCard.number, @"4242424242424242", @"It should remove all hyphens when set.");
 }
 
@@ -125,14 +128,14 @@ static NSString *const unknownCardNumber  = @"9876543210123456";
 
 - (void)testBrandNameDicernsVisaNumberWithHyphens
 {
-    NSString *number = @"4242-4242-4242-4242";
+    NSString *number = hyphenedVisaNumber;
     _creditCard.number = number;
     XCTAssertEqualObjects([_creditCard brandName], @"Visa", @"It should be recognized as visa.");
 }
 
 - (void)testBrandNameDicernsVisaNumberWithWhiteSpaces
 {
-    NSString *number = @"4242 4242 4242 4242";
+    NSString *number = spacedVisaNumber;
     _creditCard.number = number;
     XCTAssertEqualObjects([_creditCard brandName], @"Visa", @"It should be recognized as visa.");
 }
@@ -429,20 +432,20 @@ static NSString *const unknownCardNumber  = @"9876543210123456";
 
 - (void)testNumberWithSpaces
 {
-    NSString *number = @"4111 1111 1111 1111";
+    NSString *number = spacedVisaNumber;
     XCTAssertTrue([_creditCard validateNumber:&number error:nil], @"It should validate valid card number with spaces.");
 }
 
 - (void)testNumberWithHyphens
 {
-    NSString *number = @"4111-1111-1111-1111";
+    NSString *number = hyphenedVisaNumber;
     XCTAssertTrue([_creditCard validateNumber:&number error:nil], @"It should validate valid card number with hyphens.");
 }
 
 - (void)testValidNumberDoesNotReturnError
 {
     NSError *error = nil;
-    NSString *number = @"4111 1111 1111 1111";
+    NSString *number = spacedVisaNumber;
     [_creditCard validateNumber:&number error:&error];
     XCTAssertNil(error, @"Valid number should not cause the method to populate error object.");
 }
