@@ -95,12 +95,14 @@ cardForm.delegate = self;
 }
 ```
 
+If you want more granular control, use subclasses of `WPYAbstractCardField`.
+
 
 ### WPYPaymentViewController
-WPYPaymentViewController is a combination of WPYTokenizer and WPYCardFormView. If you just want a viewcontroller for `pushViewController:animated` or `presentViewController:animated:completion:`, this is what you want.
+If you just want a viewcontroller for `pushViewController:animated` or `presentViewController:animated:completion:`, this is what you want.
 
 ```
-WPYPaymentViewController *paymentViewController = [[WPYPaymentViewController alloc] initWithCallback:^(WPYPaymentViewController *paymentViewController, WPYToken *token, NSError *error){
+WPYPaymentViewController *paymentViewController = [[WPYPaymentViewController alloc] initWithPriceTag:@"$23.67" callback:^(WPYPaymentViewController *paymentViewController, WPYToken *token, NSError *error){
   if(token)
   {
     //post token to your server
@@ -118,7 +120,7 @@ WPYPaymentViewController *paymentViewController = [[WPYPaymentViewController all
 [self.navigationController pushViewController:paymentViewController animated:YES];
 ```
 
-If you want the card form to be populated with card data, use `initWithTitle:card:callback:` instead.
+If you want the card form to be populated with card data, use `initWithPriceTag:card:callback:` instead.
 
 
 ### Other classes
