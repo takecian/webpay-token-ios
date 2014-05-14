@@ -255,7 +255,7 @@ static UIImage *imageFromColor(UIColor *color)
 {
     UIView *priceView = [[UIView alloc] initWithFrame: CGRectMake(0.0f, 0.0f, self.tableView.bounds.size.width, WPYPriceViewHeight)];
     
-    UIColor *priceColor = [UIColor colorWithRed:0.31 green:0.75 blue:0.99 alpha:1.0f];
+    UIColor *priceColor = [UIColor colorWithRed:0.2 green:0.29 blue:0.37 alpha:1.0f];
     
     UILabel *leftLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, 30, 60, 44)];
     leftLabel.text = NSLocalizedStringFromTable(@"TOTAL", WPYLocalizedStringTable, nil);

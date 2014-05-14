@@ -23,15 +23,16 @@
     {
         // cell
         self.selectionStyle = UITableViewCellSelectionStyleNone;
-        self.backgroundColor = [UIColor clearColor];
+        self.backgroundColor = [UIColor whiteColor];
         
         // text label
         _titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, 1, 80, 48)];
+        _titleLabel.backgroundColor = [UIColor clearColor];
         _titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
         _titleLabel.numberOfLines = 0;
         _titleLabel.text = title;
         _titleLabel.textColor = [UIColor colorWithRed:0 green:0.478 blue:1.0 alpha:1.0];
-        _titleLabel.font = [UIFont fontWithName:@"Verdana" size:14.0f];
+        _titleLabel.font = [UIFont fontWithName:@"Helvetica Neue" size:14.0f];
         [self.contentView addSubview:_titleLabel];
         
         [self.contentView addSubview: contentView];
