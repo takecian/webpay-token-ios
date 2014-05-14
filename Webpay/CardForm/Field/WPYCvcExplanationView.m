@@ -35,7 +35,7 @@ static float const WPYOverlayOpacity = 0.7f;
 
 + (void)showOverlay:(WPYCvcExplanationView *)overlay
 {
-    [[UIApplication sharedApplication].keyWindow.rootViewController.view addSubview: overlay];
+    [[UIApplication sharedApplication].keyWindow addSubview: overlay];
     overlay.layer.opacity = 0.0f;
     
     [UIView animateWithDuration:WPYAnimationDuration delay:0 options:UIViewAnimationOptionCurveEaseOut
