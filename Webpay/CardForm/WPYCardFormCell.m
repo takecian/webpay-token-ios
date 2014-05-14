@@ -32,7 +32,7 @@
         _titleLabel.numberOfLines = 0;
         _titleLabel.text = title;
         _titleLabel.textColor = [UIColor colorWithRed:0 green:0.478 blue:1.0 alpha:1.0];
-        _titleLabel.font = [UIFont fontWithName:@"Helvetica Neue" size:14.0f];
+        _titleLabel.font = [UIFont fontWithName:@"Avenir-Roman" size:16.0f];
         [self.contentView addSubview:_titleLabel];
         
         [self.contentView addSubview: contentView];

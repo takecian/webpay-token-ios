@@ -42,7 +42,7 @@ static float const WPYNavBarHeight = 64.0f;
 
 static float const WPYKeyboardScrollAnimatinDuration = 0.3f;
 
-static float const WPYPriceViewHeight = 100.0f;
+static float const WPYPriceViewHeight = 130.0f;
 
 static float const WPYFieldRightMargin = 10.0f; // for leaving right margin to rightview
 static float const WPYFieldLeftMargin = 100.0f;
@@ -257,14 +257,14 @@ static UIImage *imageFromColor(UIColor *color)
     
     UIColor *priceColor = [UIColor colorWithRed:0.2 green:0.29 blue:0.37 alpha:1.0f];
     
-    UILabel *leftLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, 30, 60, 44)];
+    UILabel *leftLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, 45, 60, 44)];
     leftLabel.text = NSLocalizedStringFromTable(@"TOTAL", WPYLocalizedStringTable, nil);
     leftLabel.textColor = priceColor;
     leftLabel.font = [UIFont fontWithName:@"Avenir-Roman" size:14.0f];
     leftLabel.backgroundColor = [UIColor clearColor];
     [priceView addSubview:leftLabel];
     
-    UILabel *priceLabel = [[UILabel alloc] initWithFrame:CGRectMake(60, 25, 200, 50)];
+    UILabel *priceLabel = [[UILabel alloc] initWithFrame:CGRectMake(60, 40, 200, 50)];
     priceLabel.text = self.priceTag;
     priceLabel.textColor = priceColor;
     priceLabel.font = [UIFont fontWithName:@"Avenir-Roman" size:53.0f];
