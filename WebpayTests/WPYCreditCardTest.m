@@ -45,6 +45,7 @@ static NSString *const unknownCardNumber  = @"9876543210123456";
 static NSString *const spacedVisaNumber = @"4242 4242 4242 4242";
 static NSString *const hyphenedVisaNumber = @"4242-4242-4242-4242";
 
+static NSString *const validName = @"Test Test";
 
 - (void)setUp
 {
@@ -286,14 +287,14 @@ static NSString *const hyphenedVisaNumber = @"4242-4242-4242-4242";
 - (void)testValidName
 {
     NSError *error = nil;
-    NSString *name = @"Yohei Okada";
+    NSString *name = validName;
     XCTAssertTrue([_creditCard validateName:&name error:&error], @"It should validate name.");
 }
 
 - (void)testValidNameDoesNotReturnError
 {
     NSError *error = nil;
-    NSString *name = @"Yohei Okada";
+    NSString *name = validName;
     [_creditCard validateName:&name error:&error];
     XCTAssertNil(error, @"Error object should be nil.");
 }
@@ -824,7 +825,7 @@ static NSString *const hyphenedVisaNumber = @"4242-4242-4242-4242";
 
 - (void)testValidateWithInvalidNumber
 {
-    _creditCard.name = @"Yohei Okada";
+    _creditCard.name = validName;
     _creditCard.number = @"4111111111111112";
     _creditCard.cvc = @"123";
     _creditCard.expiryYear = 2014;
@@ -844,7 +845,7 @@ static NSString *const hyphenedVisaNumber = @"4242-4242-4242-4242";
 
 - (void)testValidateWithInvalidCvc
 {
-    _creditCard.name = @"Yohei Okada";
+    _creditCard.name = validName;
     _creditCard.number = visaCardNumber;
     _creditCard.cvc = @"1234";
     _creditCard.expiryYear = 2014;
@@ -864,7 +865,7 @@ static NSString *const hyphenedVisaNumber = @"4242-4242-4242-4242";
 
 - (void)testValidateWithInvalidExpiryMonth
 {
-    _creditCard.name = @"Yohei Okada";
+    _creditCard.name = validName;
     _creditCard.number = visaCardNumber;
     _creditCard.cvc = @"123";
     _creditCard.expiryYear = 2014;
@@ -884,7 +885,7 @@ static NSString *const hyphenedVisaNumber = @"4242-4242-4242-4242";
 
 - (void)testValidateWithInvalidExpiry
 {
-    _creditCard.name = @"Yohei Okada";
+    _creditCard.name = validName;
     _creditCard.number = visaCardNumber;
     _creditCard.cvc = @"123";
     _creditCard.expiryYear = 2010;
@@ -905,7 +906,7 @@ static NSString *const hyphenedVisaNumber = @"4242-4242-4242-4242";
 
 - (void)testValidateWithUnsupportedBrand
 {
-    _creditCard.name = @"Yohei Okada";
+    _creditCard.name = validName;
     _creditCard.number = discoverCardNumber;
     _creditCard.cvc = @"123";
     _creditCard.expiryYear = 2014;
@@ -925,7 +926,7 @@ static NSString *const hyphenedVisaNumber = @"4242-4242-4242-4242";
 
 - (void)testValidateWithSupportedBrand
 {
-    _creditCard.name = @"Yohei Okada";
+    _creditCard.name = validName;
     _creditCard.number = dinersCardNumber;
     _creditCard.cvc = @"123";
     _creditCard.expiryYear = 2014;
