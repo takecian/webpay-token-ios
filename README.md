@@ -39,8 +39,9 @@ webpay-token-ios consists of 3 components.
 2. WPYCardFormView(view)
 3. WPYPaymentViewController(view controller)
 
-Each component is independent, which leaves a flexible option on which component
-to reuse or make on your own.
+WPYTokenizer is a model that creates a token from credit card information.
+WPYCardFormView is a card form.
+WPYPaymentViewController is a controller that displays the card form and creates a token when 'confirm payment' is tapped.
 
 ## How to use
 
