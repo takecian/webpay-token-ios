@@ -17,7 +17,8 @@
 #import "WPYToken.h"
 #import "WPYErrors.h"
 
-static NSString *const publicKey = @"public key";
+// this is a public key for test purpose
+static NSString *const publicKey = @"test_public_a";
 static NSString *const apiURL = @"https://api.webpay.jp/v1/tokens";
 
 static NSString *const tokenJSONString = @"{"
@@ -95,6 +96,23 @@ static NSString *const errorJSONString = @"{"
     XCTAssertThrows([WPYTokenizer createTokenFromCard:_creditCard
                                       completionBlock:^(WPYToken *token, NSError *error){
     }], @"It should throw exception if public key is nil.");
+}
+
+- (void)testCallingCreateTokenWithInvalidPublicKeyRaisesException
+{
+    [WPYTokenizer setPublicKey:@"live_secret_a"];
+    XCTAssertThrows([WPYTokenizer createTokenFromCard:_creditCard
+                                      completionBlock:^(WPYToken *token, NSError *error){
+    }], @"It should throw exception if public key is invalid.");
+}
+
+- (void)testCallingCreateTokenWithValidPublicKeyDoesNotRaiseException
+{
+    [WPYTokenizer setPublicKey:@"live_public_a"];
+    XCTAssertNoThrow([WPYTokenizer createTokenFromCard:_invalidCard
+                                       completionBlock:^(WPYToken *token, NSError *error){
+                                           
+    }], @"It should not throw exception if public key is valid.");
 }
 
 - (void)testCallingCreateTokenWithoutCardRaisesException

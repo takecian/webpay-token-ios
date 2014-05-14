@@ -53,10 +53,19 @@ static NSString *publicKey = nil;
     return publicKey;
 }
 
++ (void)validatePublicKey
+{
+    BOOL isValidKey = [publicKey hasPrefix:@"test_public_"] || [publicKey hasPrefix:@"live_public_"];
+    if (!isValidKey)
+    {
+        [NSException raise:@"InvalidPublicKey" format:@"You are using an invalid public key."];
+    }
+}
+
 + (void)createTokenFromCard:(WPYCreditCard *)card
             completionBlock:(WPYTokenizerCompletionBlock)completionBlock
 {
-    NSParameterAssert(publicKey);
+    [self validatePublicKey];
     NSParameterAssert(card);
     NSParameterAssert(completionBlock);
     
