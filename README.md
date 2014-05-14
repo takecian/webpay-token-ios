@@ -2,7 +2,6 @@
 
 webpay-token-ios is an ios library for creating a token from a credit card.
 
-<img src='https://raw.github.com/webpay/webpay-token-ios/screenshot/screenshots/card_form.png' alt='card_form' width=320 />
 <img src='https://raw.github.com/webpay/webpay-token-ios/screenshot/screenshots/filled_card_form.png' alt='filled_card_form' width=320 />
 
 ## Requirements
@@ -103,6 +102,8 @@ If you want more granular control, use subclasses of `WPYAbstractCardField`.
 
 ### WPYPaymentViewController
 If you just want a viewcontroller for `pushViewController:animated` or `presentViewController:animated:completion:`, this is what you want.
+
+<img src='https://raw.github.com/webpay/webpay-token-ios/screenshot/screenshots/card_form.png' alt='card_form' width=320 />
 
 ```
 WPYPaymentViewController *paymentViewController = [[WPYPaymentViewController alloc] initWithPriceTag:@"$23.67" callback:^(WPYPaymentViewController *paymentViewController, WPYToken *token, NSError *error){
