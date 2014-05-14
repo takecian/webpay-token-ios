@@ -21,6 +21,7 @@
 static NSString *const publicKey = @"test_public_a";
 static NSString *const apiURL = @"https://api.webpay.jp/v1/tokens";
 
+// This is actual json response from api when using test card & test public key.
 static NSString *const tokenJSONString = @"{"
     @"\"card\":{"
         @"\"last4\": \"4111\","
@@ -48,6 +49,11 @@ static NSString *const errorJSONString = @"{"
         @"\"type\": \"card_error\""
     @"}"
 @"}";
+
+static NSString *const validName = @"Test Test";
+static NSString *const dinersNumber   = @"30569309025904";
+static NSString *const invalidVisaNumber   = @"4111111111111112";
+
 @interface WPYTokenCreationTest : XCTestCase
 
 @end
@@ -65,15 +71,15 @@ static NSString *const errorJSONString = @"{"
     [WPYTokenizer setPublicKey:publicKey];
     
     _creditCard = [[WPYCreditCard alloc] init];
-    _creditCard.name = @"Yohei Okada";
-    _creditCard.number = @"30569309025904";
+    _creditCard.name = validName;
+    _creditCard.number = dinersNumber;
     _creditCard.cvc = @"123";
     _creditCard.expiryYear = 2014;
     _creditCard.expiryMonth = 12;
     
     _invalidCard = [[WPYCreditCard alloc] init];
-    _invalidCard.name = @"Yohei Okada";
-    _invalidCard.number = @"4111111111111112";
+    _invalidCard.name = validName;
+    _invalidCard.number = invalidVisaNumber;
     _invalidCard.cvc = @"123";
     _invalidCard.expiryYear = 2014;
     _invalidCard.expiryMonth = 12;
