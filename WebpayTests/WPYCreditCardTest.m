@@ -34,6 +34,10 @@
     WPYCreditCard *_creditCard;
 }
 
+// These card numbers are not real numbers.
+// All these test purpose numbers are from the link below.
+// https://webpay.jp/docs/mock_cards
+
 static NSString *const visaCardNumber     = @"4111111111111111";
 static NSString *const amexCardNumber     = @"378282246310005";
 static NSString *const masterCardNumber   = @"5555555555554444";
