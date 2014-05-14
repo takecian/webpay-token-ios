@@ -21,14 +21,14 @@ pod 'WebPay', '1.0'
 then, run `pod install`.
 
 
-### 2. copy files manually
+### 2. Copy files manually
 
-1. clone this repository
-2. add files under Webpay directory to your project
+1. Clone this repository
+2. Add files under Webpay directory to your project
 
 
 ### Check if installed correctly
-add `#import 'Webpay.h'` in one of your files, and see if your target builds without error.
+Add `#import 'Webpay.h'` in one of your files, and see if your target builds without error.
 
 
 ## Overview
@@ -81,7 +81,7 @@ card.name = @"Yohei Okada";
 ```
 
 ### WPYCardFormView (View)
-WPYCardFormView is a credit card form view that calls delegate method when card form is valid. It handles padding credit card number, masking security code, and validation on each field.
+WPYCardFormView is a credit card form view that calls its delegate method when the form is valid. It handles padding credit card number, masking security code, and validating each field.
 
 ```
 // create view
