@@ -137,28 +137,22 @@ static NSString *const invalidVisaNumber   = @"4111111111111112";
 
 - (void)testCallingCreateTokenWithInvalidCardReturnsNil
 {
-    TRVSMonitor *monitor = [TRVSMonitor monitor];
     __block WPYToken *returnedToken = nil;
     [WPYTokenizer createTokenFromCard:_invalidCard
                       completionBlock:^(WPYToken *token, NSError *error){
                           returnedToken = token;
-                          [monitor signal];
                       }];
-    [monitor wait];
     
     XCTAssertNil(returnedToken, @"It should return nil if invalid card is passed.");
 }
 
 - (void)testCallingCreateTokenWithInvalidCardReturnsExpectedError
 {
-    TRVSMonitor *monitor = [TRVSMonitor monitor];
     __block NSError *returnedError = nil;
     [WPYTokenizer createTokenFromCard:_invalidCard
                       completionBlock:^(WPYToken *token, NSError *error){
                           returnedError = error;
-                          [monitor signal];
                       }];
-    [monitor wait];
     
     XCTAssertNotNil(returnedError, @"It should not be nil.");
     XCTAssertEqualObjects([returnedError domain], WPYErrorDomain, @"It should be WPYErrorDomain");
