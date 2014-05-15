@@ -256,8 +256,9 @@ static UIImage *imageFromColor(UIColor *color)
     UIView *priceView = [[UIView alloc] initWithFrame: CGRectMake(0.0f, 0.0f, self.tableView.bounds.size.width, WPYPriceViewHeight)];
     
     UIColor *priceColor = [UIColor colorWithRed:0.2 green:0.29 blue:0.37 alpha:1.0f];
-    
-    UILabel *leftLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, 45, 60, 44)];
+   
+    float x = isiOS7() ? 15 : 20;
+    UILabel *leftLabel = [[UILabel alloc] initWithFrame:CGRectMake(x, 45, 60, 44)];
     leftLabel.text = NSLocalizedStringFromTable(@"TOTAL", WPYLocalizedStringTable, nil);
     leftLabel.textColor = priceColor;
     leftLabel.font = [UIFont fontWithName:@"Avenir-Roman" size:14.0f];

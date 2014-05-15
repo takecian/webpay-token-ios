@@ -8,6 +8,7 @@
 
 #import "WPYCardFormCell.h"
 
+#import "WPYConstants.h"
 #import "WPYDeviceSettings.h"
 
 @interface WPYCardFormCell ()
@@ -28,13 +29,21 @@
         self.backgroundColor = [UIColor whiteColor];
         
         // text label
-        _titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, 1, 80, 48)];
+        float x = isiOS7() ? 15 : 10;
+        _titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(x, 1, 80, 48)];
         _titleLabel.backgroundColor = [UIColor clearColor];
         _titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
         _titleLabel.numberOfLines = 0;
-        _titleLabel.text = title;
         _titleLabel.textColor = [UIColor colorWithRed:0 green:0.478 blue:1.0 alpha:1.0];
         _titleLabel.font = [self textFont];
+        
+        // adjust line height
+        NSMutableParagraphStyle *paragrahStyle = [[NSMutableParagraphStyle alloc] init];
+        [paragrahStyle setLineSpacing:5];
+        NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:title];
+        [attributedString addAttribute:NSParagraphStyleAttributeName value:paragrahStyle range:NSMakeRange(0, [title length])];
+        _titleLabel.attributedText = attributedString;
+        
         [self.contentView addSubview:_titleLabel];
         
         [self.contentView addSubview: contentView];
