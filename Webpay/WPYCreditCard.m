@@ -221,7 +221,7 @@ static NSString *reverseString(NSString *string)
 {
     if (*ioValue == nil)
     {
-        handleValidationError(outError, WPYInvalidNumber, @"Number should not be nil.");
+        handleValidationError(outError, WPYIncorrectNumber, @"Number should not be nil.");
         return NO;
     }
     
@@ -229,19 +229,19 @@ static NSString *reverseString(NSString *string)
     
     if (!(isNumericOnlyString(cleansedStr)))
     {
-        handleValidationError(outError, WPYInvalidNumber, @"Number should be numeric only.");
+        handleValidationError(outError, WPYIncorrectNumber, @"Number should be numeric only.");
         return NO;
     }
     
     if (cleansedStr.length < 13 || cleansedStr.length > 16)
     {
-        handleValidationError(outError, WPYInvalidNumber, @"Number should be 13 digits to 16 digits.");
+        handleValidationError(outError, WPYIncorrectNumber, @"Number should be 13 digits to 16 digits.");
         return NO;
     }
     
     if (!isLuhnValidString(cleansedStr))
     {
-        handleValidationError(outError, WPYInvalidNumber, @"This number is not Luhn valid string.");
+        handleValidationError(outError, WPYIncorrectNumber, @"This number is not Luhn valid string.");
         return NO;
     }
     
@@ -339,7 +339,7 @@ static NSString *reverseString(NSString *string)
 
     if (!([now compare: expiryDate] == NSOrderedAscending))
     {
-        handleValidationError(error, WPYInvalidExpiry, @"This card is expired.");
+        handleValidationError(error, WPYIncorrectCvc, @"This card is expired.");
         return NO;
     }
     return YES;
@@ -349,7 +349,7 @@ static NSString *reverseString(NSString *string)
 {
     if (![self.class isSupportedBrand:brand])
     {
-        handleValidationError(error, WPYInvalidNumber, @"This brand is not supported by Webpay.");
+        handleValidationError(error, WPYIncorrectCvc, @"This brand is not supported by Webpay.");
         return NO;
     }
     return YES;
