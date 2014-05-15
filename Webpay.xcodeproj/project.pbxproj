@@ -69,6 +69,7 @@
 		47D9BC1718CFBF080020BF55 /* WPYCreditCard.m in Sources */ = {isa = PBXBuildFile; fileRef = 47D9BC1618CFBF080020BF55 /* WPYCreditCard.m */; };
 		47D9BC1818CFBF080020BF55 /* WPYCreditCard.m in Sources */ = {isa = PBXBuildFile; fileRef = 47D9BC1618CFBF080020BF55 /* WPYCreditCard.m */; };
 		47ED710A1900EA6C006F9B54 /* WPYAbstractCardField.m in Sources */ = {isa = PBXBuildFile; fileRef = 47ED71091900EA6C006F9B54 /* WPYAbstractCardField.m */; };
+		47F7A46B1925646700859C9A /* WebpayiOSTokenizer.strings in Resources */ = {isa = PBXBuildFile; fileRef = 47F7A4691925646700859C9A /* WebpayiOSTokenizer.strings */; };
 		47FB9F291916FD3100C5586B /* check_white@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 47FB9F281916FD3100C5586B /* check_white@2x.png */; };
 		47FB9F2D1917011800C5586B /* WPYTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 47FB9F2C1917011800C5586B /* WPYTextField.m */; };
 /* End PBXBuildFile section */
@@ -170,6 +171,8 @@
 		47D9BC1618CFBF080020BF55 /* WPYCreditCard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WPYCreditCard.m; path = Webpay/WPYCreditCard.m; sourceTree = "<group>"; };
 		47ED71081900EA6C006F9B54 /* WPYAbstractCardField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WPYAbstractCardField.h; path = Webpay/CardForm/Field/WPYAbstractCardField.h; sourceTree = "<group>"; };
 		47ED71091900EA6C006F9B54 /* WPYAbstractCardField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WPYAbstractCardField.m; path = Webpay/CardForm/Field/WPYAbstractCardField.m; sourceTree = "<group>"; };
+		47F7A46A1925646700859C9A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/WebpayiOSTokenizer.strings; sourceTree = "<group>"; };
+		47F7A46C1925647100859C9A /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/WebpayiOSTokenizer.strings; sourceTree = "<group>"; };
 		47FB9F281916FD3100C5586B /* check_white@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "check_white@2x.png"; path = "Resources/check_white@2x.png"; sourceTree = "<group>"; };
 		47FB9F2B1917011800C5586B /* WPYTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WPYTextField.h; path = Webpay/CardForm/Field/WPYTextField.h; sourceTree = "<group>"; };
 		47FB9F2C1917011800C5586B /* WPYTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WPYTextField.m; path = Webpay/CardForm/Field/WPYTextField.m; sourceTree = "<group>"; };
@@ -419,6 +422,15 @@
 			name = SuperClass;
 			sourceTree = "<group>";
 		};
+		47C8E0F819255D130042EFD1 /* Localization */ = {
+			isa = PBXGroup;
+			children = (
+				47F7A4691925646700859C9A /* WebpayiOSTokenizer.strings */,
+			);
+			name = Localization;
+			path = Webpay/Localization;
+			sourceTree = "<group>";
+		};
 		47D6AB6A1916DDEC00D55910 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -435,6 +447,7 @@
 		47D9BC1418CFBEE70020BF55 /* Webpay */ = {
 			isa = PBXGroup;
 			children = (
+				47C8E0F819255D130042EFD1 /* Localization */,
 				474D779018F4BD96000D3426 /* Webpay.h */,
 				47D9BC1518CFBF080020BF55 /* WPYCreditCard.h */,
 				47D9BC1618CFBF080020BF55 /* WPYCreditCard.m */,
@@ -527,6 +540,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				ja,
 			);
 			mainGroup = 4764A06C18C7EB04006C9E4E;
 			productRefGroup = 4764A07618C7EB04006C9E4E /* Products */;
@@ -553,6 +567,7 @@
 				476A9E5B191D901200FF14AB /* checkmark@2x.png in Resources */,
 				4760E119191CD1040072D0CC /* AmericanExpress@2x.png in Resources */,
 				4760E121191CD4AF0072D0CC /* cvcamex@2x.png in Resources */,
+				47F7A46B1925646700859C9A /* WebpayiOSTokenizer.strings in Resources */,
 				479CE1CF1916E12F00F4870E /* Diners@2x.png in Resources */,
 				479CE1C21916E03700F4870E /* Visa@2x.png in Resources */,
 				47FB9F291916FD3100C5586B /* check_white@2x.png in Resources */,
@@ -687,6 +702,15 @@
 				47B8514418CA7D86003A1ECA /* en */,
 			);
 			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		47F7A4691925646700859C9A /* WebpayiOSTokenizer.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				47F7A46A1925646700859C9A /* en */,
+				47F7A46C1925647100859C9A /* ja */,
+			);
+			name = WebpayiOSTokenizer.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
