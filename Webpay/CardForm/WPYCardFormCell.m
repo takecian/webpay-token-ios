@@ -55,7 +55,7 @@
 {
     if ([WPYDeviceSettings isJapanese])
     {
-        return [UIFont fontWithName:@"HiraKakuProN-W3" size:12.5f];
+        return [UIFont fontWithName:@"HiraKakuProN-W3" size:13.0f];
     }
     else
     {
