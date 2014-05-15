@@ -15,43 +15,35 @@
 NSString *const WPYErrorDomain = @"com.webpay.webpay-token-ios";
 
 
-// TODO match with messages return from API
 NSString * WPYLocalizedDescriptionFromErrorCode(WPYErrorCode errorCode)
 {
     switch (errorCode)
     {
         case WPYIncorrectNumber:
-            return NSLocalizedStringFromTable(@"", WPYLocalizedStringTable, nil);
+            return NSLocalizedStringFromTable(@"The card number is incorrect. Make sure you entered the correct card number.", WPYLocalizedStringTable, nil);
             
         case WPYInvalidName:
-            return NSLocalizedStringFromTable(@"Card error: invalid name.", WPYLocalizedStringTable, nil);
+            return NSLocalizedStringFromTable(@"The name provided is invalid. Make sure the name entered matches your credit card.", WPYLocalizedStringTable, nil);
             
         case WPYInvalidExpiryMonth:
-            return NSLocalizedStringFromTable(@"Card error: invalid expiry month.", WPYLocalizedStringTable, nil);
+            return NSLocalizedStringFromTable(@"The expiry month provided is invalid. Make sure the expiry month entered matches your credit card.", WPYLocalizedStringTable, nil);
             
         case WPYInvalidExpiryYear:
-            return NSLocalizedStringFromTable(@"Card error: invalid expiry year.", WPYLocalizedStringTable, nil);
+            return NSLocalizedStringFromTable(@"The expiry year provided is invalid. Make sure the expiry year entered matches your credit card.", WPYLocalizedStringTable, nil);
             
         case WPYIncorrectExpiry:
-            return NSLocalizedStringFromTable(@"", WPYLocalizedStringTable, nil);
+            return NSLocalizedStringFromTable(@"The card's expiry is incorrect. Make sure you entered the correct expiration date.", WPYLocalizedStringTable, nil);
             
         case WPYInvalidCvc:
-            return NSLocalizedStringFromTable(@"Card error: invalid cvc.", WPYLocalizedStringTable, nil);
+            return NSLocalizedStringFromTable(@"The security code provided is invalid. For Visa, MasterCard, JCB, and Diners Club, enter the last 3 digits on the back of your card. For American Express, enter the 4 digits printed above your number.", WPYLocalizedStringTable, nil);
             
         case WPYIncorrectCvc:
-            return NSLocalizedStringFromTable(@"", WPYLocalizedStringTable, nil);
-            
         case WPYCardDeclined:
-            return NSLocalizedStringFromTable(@"", WPYLocalizedStringTable, nil);
-            
         case WPYProcessingError:
-            return NSLocalizedStringFromTable(@"", WPYLocalizedStringTable, nil);
-            
         case WPYInvalidRequestError:
-            return NSLocalizedStringFromTable(@"", WPYLocalizedStringTable, nil);
-            
         case WPYAPIError:
-            return NSLocalizedStringFromTable(@"", WPYLocalizedStringTable, nil);
+            // errors return from server. use error message in http response.
+            return nil;
             
     }
 }
