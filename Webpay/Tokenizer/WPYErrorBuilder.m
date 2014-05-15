@@ -63,16 +63,15 @@ static WPYErrorCode errorCodeFromTypeAndCode(NSString *type, NSString *code)
 
 
 
-- (NSError *)buildErrorFromData:(NSData *)data
+- (NSError *)buildErrorFromData:(NSData *)data error:(NSError * __autoreleasing *)outError
 {
-    NSError *serializeError = nil;
     id object = [NSJSONSerialization JSONObjectWithData:data
                                                 options:0
-                                                  error:&serializeError];
+                                                  error:outError];
     
     if (object == nil)
     {
-        return serializeError;
+        return nil;
     }
     
     if ([object isKindOfClass:[NSDictionary class]])
@@ -85,7 +84,11 @@ static WPYErrorCode errorCodeFromTypeAndCode(NSString *type, NSString *code)
         NSString *code = errorDic[@"code"];
         WPYErrorCode errorCode = errorCodeFromTypeAndCode(type, code);
         
-        return WPYCreateNSError(errorCode, nil);
+        NSString *errorMessage = errorDic[@"message"];
+        NSMutableDictionary *userInfo = [NSMutableDictionary dictionaryWithObject:errorMessage
+                                                                           forKey:NSLocalizedDescriptionKey];
+        
+        return [[NSError alloc] initWithDomain:WPYErrorDomain code:errorCode userInfo:userInfo];
     }
     
     return nil;
