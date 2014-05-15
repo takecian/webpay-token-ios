@@ -8,6 +8,8 @@
 
 #import "WPYCardFormCell.h"
 
+#import "WPYDeviceSettings.h"
+
 @interface WPYCardFormCell ()
 @property(nonatomic, strong) UILabel *titleLabel;// default textlabel of cell has weird behaviors with frame size.
 @end
@@ -32,12 +34,24 @@
         _titleLabel.numberOfLines = 0;
         _titleLabel.text = title;
         _titleLabel.textColor = [UIColor colorWithRed:0 green:0.478 blue:1.0 alpha:1.0];
-        _titleLabel.font = [UIFont fontWithName:@"Avenir-Roman" size:16.0f];
+        _titleLabel.font = [self textFont];
         [self.contentView addSubview:_titleLabel];
         
         [self.contentView addSubview: contentView];
     }
     return self;
+}
+
+- (UIFont *)textFont
+{
+    if ([WPYDeviceSettings isJapanese])
+    {
+        return [UIFont fontWithName:@"HiraKakuProN-W3" size:12.5f];
+    }
+    else
+    {
+        return [UIFont fontWithName:@"Avenir-Roman" size:16.0f];
+    }
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
