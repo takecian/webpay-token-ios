@@ -50,9 +50,20 @@ static NSString *const errorJSONString = @"{"
     @"}"
 @"}";
 
+static NSString *const errorJSONStringInJapanese = @"{"
+    @"\"error\": {"
+        @"\"param\": \"exp_year\","
+        @"\"code\": \"invalid_expiry_year\","
+        @"\"message\": \"JAPANESE\","
+        @"\"type\": \"card_error\""
+    @"}"
+@"}";
+
 static NSString *const validName = @"Test Test";
 static NSString *const dinersNumber   = @"30569309025904";
 static NSString *const invalidVisaNumber   = @"4111111111111112";
+
+static NSString *const acceptLanguage = @"en";
 
 @interface WPYTokenCreationTest : XCTestCase
 
@@ -100,6 +111,7 @@ static NSString *const invalidVisaNumber   = @"4111111111111112";
 {
     [WPYTokenizer setPublicKey:nil];
     XCTAssertThrows([WPYTokenizer createTokenFromCard:_creditCard
+                                       acceptLanguage:acceptLanguage
                                       completionBlock:^(WPYToken *token, NSError *error){
     }], @"It should throw exception if public key is nil.");
 }
@@ -108,6 +120,7 @@ static NSString *const invalidVisaNumber   = @"4111111111111112";
 {
     [WPYTokenizer setPublicKey:@"live_secret_a"];
     XCTAssertThrows([WPYTokenizer createTokenFromCard:_creditCard
+                                       acceptLanguage:acceptLanguage
                                       completionBlock:^(WPYToken *token, NSError *error){
     }], @"It should throw exception if public key is invalid.");
 }
@@ -116,6 +129,7 @@ static NSString *const invalidVisaNumber   = @"4111111111111112";
 {
     [WPYTokenizer setPublicKey:@"live_public_a"];
     XCTAssertNoThrow([WPYTokenizer createTokenFromCard:_invalidCard
+                                       acceptLanguage:acceptLanguage
                                        completionBlock:^(WPYToken *token, NSError *error){
                                            
     }], @"It should not throw exception if public key is valid.");
@@ -124,6 +138,7 @@ static NSString *const invalidVisaNumber   = @"4111111111111112";
 - (void)testCallingCreateTokenWithoutCardRaisesException
 {
     XCTAssertThrows([WPYTokenizer createTokenFromCard:nil
+                                       acceptLanguage:acceptLanguage
                                       completionBlock:^(WPYToken *token, NSError *error){
     }], @"It should throw exception if card is nil.");
 }
@@ -131,6 +146,7 @@ static NSString *const invalidVisaNumber   = @"4111111111111112";
 - (void)testCallingCreateTokenWithoutCompletionBlockRaisesException
 {
     XCTAssertThrows([WPYTokenizer createTokenFromCard:_creditCard
+                                       acceptLanguage:acceptLanguage
                                       completionBlock:nil],
                      @"It should throw exception if completion block is nil.");
 }
@@ -139,6 +155,7 @@ static NSString *const invalidVisaNumber   = @"4111111111111112";
 {
     __block WPYToken *returnedToken = nil;
     [WPYTokenizer createTokenFromCard:_invalidCard
+                       acceptLanguage:acceptLanguage
                       completionBlock:^(WPYToken *token, NSError *error){
                           returnedToken = token;
                       }];
@@ -150,6 +167,7 @@ static NSString *const invalidVisaNumber   = @"4111111111111112";
 {
     __block NSError *returnedError = nil;
     [WPYTokenizer createTokenFromCard:_invalidCard
+                       acceptLanguage:acceptLanguage
                       completionBlock:^(WPYToken *token, NSError *error){
                           returnedError = error;
                       }];
@@ -184,6 +202,7 @@ static NSString *const invalidVisaNumber   = @"4111111111111112";
     TRVSMonitor *monitor = [TRVSMonitor monitor];
     __block WPYToken *returnedToken = nil;
     [WPYTokenizer createTokenFromCard:_invalidCard
+                       acceptLanguage:acceptLanguage
                       completionBlock:^(WPYToken *token, NSError *error){
                           returnedToken = token;
                           [monitor signal];
@@ -213,6 +232,7 @@ static NSString *const invalidVisaNumber   = @"4111111111111112";
     
     __block NSError *returnedError = nil;
     [WPYTokenizer createTokenFromCard:_creditCard
+                       acceptLanguage:acceptLanguage
                       completionBlock:^(WPYToken *token, NSError *error){
                           returnedError = error;
                           [monitor signal];
@@ -244,6 +264,7 @@ static NSString *const invalidVisaNumber   = @"4111111111111112";
     __block WPYToken *returnedToken = nil;
 
     [WPYTokenizer createTokenFromCard:_creditCard
+                       acceptLanguage:acceptLanguage
                       completionBlock:^(WPYToken *token, NSError *error){
                           returnedToken = token;
                           [monitor signal];
@@ -288,6 +309,7 @@ static NSString *const invalidVisaNumber   = @"4111111111111112";
     __block NSError *returnedError = nil;
 
     [WPYTokenizer createTokenFromCard:_creditCard
+                       acceptLanguage:acceptLanguage
                       completionBlock:^(WPYToken *token, NSError *error){
                           returnedError = error;
                           [monitor signal];
@@ -317,6 +339,7 @@ static NSString *const invalidVisaNumber   = @"4111111111111112";
     __block WPYToken *returnedToken = nil;
 
     [WPYTokenizer createTokenFromCard:_creditCard
+                       acceptLanguage:acceptLanguage
                       completionBlock:^(WPYToken *token, NSError *error){
                           returnedToken = token;
                           [monitor signal];
@@ -346,6 +369,7 @@ static NSString *const invalidVisaNumber   = @"4111111111111112";
     __block NSError *returnedError = nil;
 
     [WPYTokenizer createTokenFromCard:_creditCard
+                       acceptLanguage:acceptLanguage
                       completionBlock:^(WPYToken *token, NSError *error){
                           returnedError = error;
                           [monitor signal];
@@ -356,5 +380,51 @@ static NSString *const invalidVisaNumber   = @"4111111111111112";
     XCTAssertEqualObjects([returnedError domain], WPYErrorDomain, @"It should be WPYErrorDomain.");
     XCTAssertEqual([returnedError code], WPYInvalidExpiryYear, @"It should be WPYInvalidExpiryYear.");
 }
+
+
+
+#pragma mark test accept language
+- (void)testAcceptLanguage
+{
+    [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+        NSString *urlString = [request.URL absoluteString];
+        if ([urlString isEqualToString:apiURL])
+        {
+            return YES;
+        }
+        return NO;
+    } withStubResponse:^OHHTTPStubsResponse*(NSURLRequest *request) {
+        NSString *acceptLanguage = [request valueForHTTPHeaderField:@"Accept-Language"];
+        if ([acceptLanguage isEqualToString:@"ja"])
+        {
+            return [OHHTTPStubsResponse responseWithData:[errorJSONStringInJapanese dataUsingEncoding:NSUTF8StringEncoding]
+                                          statusCode:402
+                                             headers:nil];
+        }
+        else
+        {
+            return [OHHTTPStubsResponse responseWithData:[errorJSONString dataUsingEncoding:NSUTF8StringEncoding]
+                                          statusCode:402
+                                             headers:nil];
+        }
+
+    }];
+
+    TRVSMonitor *monitor = [TRVSMonitor monitor];
+    
+    __block NSError *returnedError = nil;
+
+    [WPYTokenizer createTokenFromCard:_creditCard
+                       acceptLanguage:@"ja"
+                      completionBlock:^(WPYToken *token, NSError *error){
+                          returnedError = error;
+                          [monitor signal];
+                      }];
+    [monitor wait];
+    
+    XCTAssertEqual([returnedError code], WPYInvalidExpiryYear, @"It should be WPYInvalidExpiryYear.");
+    XCTAssertEqualObjects([returnedError localizedDescription], @"JAPANESE", @"It should return error message in japanese.");
+}
+
 
 @end

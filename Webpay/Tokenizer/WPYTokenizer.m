@@ -42,7 +42,7 @@
 
 static NSString *publicKey = nil;
 
-#pragma mark setters
+#pragma mark public key
 + (void)setPublicKey:(NSString *)key
 {
     publicKey = key;
@@ -62,7 +62,28 @@ static NSString *publicKey = nil;
     }
 }
 
+
+
+#pragma mark accept language
++ (NSString *)preferredLanguage
+{
+    return  [[[NSLocale preferredLanguages] objectAtIndex:0] substringToIndex:2];
+}
+
+
+
+#pragma mark tokenizer
 + (void)createTokenFromCard:(WPYCreditCard *)card
+            completionBlock:(WPYTokenizerCompletionBlock)completionBlock
+{
+    NSString *acceptLanguage = [[self preferredLanguage] isEqualToString:@"ja"] ? @"ja" : @"en";
+    [self createTokenFromCard:card
+               acceptLanguage:acceptLanguage
+              completionBlock:completionBlock];
+}
+
++ (void)createTokenFromCard:(WPYCreditCard *)card
+             acceptLanguage:(NSString *)acceptLanguage
             completionBlock:(WPYTokenizerCompletionBlock)completionBlock
 {
     [self validatePublicKey];
@@ -79,13 +100,13 @@ static NSString *publicKey = nil;
     WPYCommunicator *communicator = [[WPYCommunicator alloc] init];
     [communicator requestTokenWithPublicKey:publicKey
                                        card:card
+                             acceptLanguage:acceptLanguage
                             completionBlock:^(NSURLResponse *response, NSData *data, NSError *networkError){
                                             if (networkError)
                                             {
                                                 completionBlock(nil, networkError);
                                                 return;
                                             }
-                                
                                 
                                             NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
                                             if (httpResponse.statusCode == 201)
@@ -98,10 +119,18 @@ static NSString *publicKey = nil;
                                             else
                                             {
                                                 WPYErrorBuilder *errorBuilder = [[WPYErrorBuilder alloc] init];
-                                                NSError *buildError = [errorBuilder buildErrorFromData:data];
-                                                completionBlock(nil, buildError);
+                                                NSError *buildError = nil;
+                                                NSError *error = [errorBuilder buildErrorFromData:data error:&error];
+                                                if (error)
+                                                {
+                                                    completionBlock(nil, error);
+                                                }
+                                                else
+                                                {
+                                                    completionBlock(nil, buildError);
+                                                }
                                             }
     }];
+    
 }
-
 @end
