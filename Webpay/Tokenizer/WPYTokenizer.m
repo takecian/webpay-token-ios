@@ -69,7 +69,7 @@ static NSString *publicKey = nil;
 + (void)createTokenFromCard:(WPYCreditCard *)card
             completionBlock:(WPYTokenizerCompletionBlock)completionBlock
 {
-    NSString *acceptLanguage = [[WPYDeviceSettings preferredLanguage] isEqualToString:@"ja"] ? @"ja" : @"en";
+    NSString *acceptLanguage = [WPYDeviceSettings isJapanese] ? @"ja" : @"en";
     [self createTokenFromCard:card
                acceptLanguage:acceptLanguage
               completionBlock:completionBlock];
