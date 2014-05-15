@@ -35,17 +35,14 @@ static WPYErrorCode errorCodeFromTypeAndCode(NSString *type, NSString *code)
     {
         NSDictionary *errorCodeIdentifiers =
         @{
-            @"invalid_number"      : @(WPYInvalidNumber),
             @"incorrect_number"    : @(WPYIncorrectNumber),
             @"invalid_name"        : @(WPYInvalidName),
             @"invalid_expiry_month": @(WPYInvalidExpiryMonth),
             @"invalid_expiry_year" : @(WPYInvalidExpiryYear),
-            @"invalid_expiry"      : @(WPYInvalidExpiry),
             @"incorrect_expiry"    : @(WPYIncorrectExpiry),
             @"invalid_cvc"         : @(WPYInvalidCvc),
             @"incorrect_cvc"       : @(WPYIncorrectCvc),
             @"card_declined"       : @(WPYCardDeclined),
-            @"missing"             : @(WPYMissing),
             @"processing_error"    : @(WPYProcessingError)
         };
         
