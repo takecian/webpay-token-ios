@@ -10,4 +10,5 @@
 
 @interface WPYDeviceSettings : NSObject
 + (NSString *)preferredLanguage;
++ (BOOL)isJapanese;
 @end

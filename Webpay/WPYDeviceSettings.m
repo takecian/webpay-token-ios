@@ -13,4 +13,9 @@
 {
     return  [[[NSLocale preferredLanguages] objectAtIndex:0] substringToIndex:2];
 }
+
++ (BOOL)isJapanese
+{
+    return [[WPYDeviceSettings preferredLanguage] isEqualToString:@"ja"];
+}
 @end
