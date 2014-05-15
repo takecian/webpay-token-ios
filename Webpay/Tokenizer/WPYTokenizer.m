@@ -35,6 +35,7 @@
 #import "WPYToken.h"
 #import "WPYErrorBuilder.h"
 
+#import "WPYDeviceSettings.h"
 
 
 
@@ -64,19 +65,11 @@ static NSString *publicKey = nil;
 
 
 
-#pragma mark accept language
-+ (NSString *)preferredLanguage
-{
-    return  [[[NSLocale preferredLanguages] objectAtIndex:0] substringToIndex:2];
-}
-
-
-
 #pragma mark tokenizer
 + (void)createTokenFromCard:(WPYCreditCard *)card
             completionBlock:(WPYTokenizerCompletionBlock)completionBlock
 {
-    NSString *acceptLanguage = [[self preferredLanguage] isEqualToString:@"ja"] ? @"ja" : @"en";
+    NSString *acceptLanguage = [[WPYDeviceSettings preferredLanguage] isEqualToString:@"ja"] ? @"ja" : @"en";
     [self createTokenFromCard:card
                acceptLanguage:acceptLanguage
               completionBlock:completionBlock];
