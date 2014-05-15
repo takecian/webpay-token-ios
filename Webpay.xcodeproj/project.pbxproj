@@ -70,6 +70,7 @@
 		47D9BC1818CFBF080020BF55 /* WPYCreditCard.m in Sources */ = {isa = PBXBuildFile; fileRef = 47D9BC1618CFBF080020BF55 /* WPYCreditCard.m */; };
 		47ED710A1900EA6C006F9B54 /* WPYAbstractCardField.m in Sources */ = {isa = PBXBuildFile; fileRef = 47ED71091900EA6C006F9B54 /* WPYAbstractCardField.m */; };
 		47F7A46B1925646700859C9A /* WebpayiOSTokenizer.strings in Resources */ = {isa = PBXBuildFile; fileRef = 47F7A4691925646700859C9A /* WebpayiOSTokenizer.strings */; };
+		47F7A46F1925660700859C9A /* WPYDeviceSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 47F7A46E1925660700859C9A /* WPYDeviceSettings.m */; };
 		47FB9F291916FD3100C5586B /* check_white@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 47FB9F281916FD3100C5586B /* check_white@2x.png */; };
 		47FB9F2D1917011800C5586B /* WPYTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 47FB9F2C1917011800C5586B /* WPYTextField.m */; };
 /* End PBXBuildFile section */
@@ -173,6 +174,8 @@
 		47ED71091900EA6C006F9B54 /* WPYAbstractCardField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WPYAbstractCardField.m; path = Webpay/CardForm/Field/WPYAbstractCardField.m; sourceTree = "<group>"; };
 		47F7A46A1925646700859C9A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/WebpayiOSTokenizer.strings; sourceTree = "<group>"; };
 		47F7A46C1925647100859C9A /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/WebpayiOSTokenizer.strings; sourceTree = "<group>"; };
+		47F7A46D1925660700859C9A /* WPYDeviceSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WPYDeviceSettings.h; path = Webpay/WPYDeviceSettings.h; sourceTree = "<group>"; };
+		47F7A46E1925660700859C9A /* WPYDeviceSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WPYDeviceSettings.m; path = Webpay/WPYDeviceSettings.m; sourceTree = "<group>"; };
 		47FB9F281916FD3100C5586B /* check_white@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "check_white@2x.png"; path = "Resources/check_white@2x.png"; sourceTree = "<group>"; };
 		47FB9F2B1917011800C5586B /* WPYTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WPYTextField.h; path = Webpay/CardForm/Field/WPYTextField.h; sourceTree = "<group>"; };
 		47FB9F2C1917011800C5586B /* WPYTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WPYTextField.m; path = Webpay/CardForm/Field/WPYTextField.m; sourceTree = "<group>"; };
@@ -461,6 +464,8 @@
 				470AEB3A1901CDF900017A5C /* PaymentViewController */,
 				47D6AB6A1916DDEC00D55910 /* Resources */,
 				47581DE018FD47910058FBD1 /* FormView */,
+				47F7A46D1925660700859C9A /* WPYDeviceSettings.h */,
+				47F7A46E1925660700859C9A /* WPYDeviceSettings.m */,
 			);
 			name = Webpay;
 			sourceTree = "<group>";
@@ -641,6 +646,7 @@
 				4764A08918C7EB04006C9E4E /* AppDelegate.m in Sources */,
 				47D9BC1718CFBF080020BF55 /* WPYCreditCard.m in Sources */,
 				4764A08518C7EB04006C9E4E /* main.m in Sources */,
+				47F7A46F1925660700859C9A /* WPYDeviceSettings.m in Sources */,
 				4727391518D8FE8B0003D759 /* WPYErrors.m in Sources */,
 				474378CD18FE5D36004ECE34 /* WPYCardFormCell.m in Sources */,
 				477BF386190AFB7B001694C3 /* WPYExpiryAccessoryView.m in Sources */,
