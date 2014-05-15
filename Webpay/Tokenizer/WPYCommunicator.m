@@ -93,6 +93,7 @@ static BOOL isTrustedHost(NSString *host)
 #pragma mark public method
 - (void)requestTokenWithPublicKey:(NSString *)publicKey
                              card:(WPYCreditCard *)card
+                   acceptLanguage:(NSString *)acceptLanguage
                   completionBlock:(WPYCommunicatorCompBlock)compBlock
 {
     self.receivedData = [[NSMutableData alloc] init];
@@ -108,6 +109,8 @@ static BOOL isTrustedHost(NSString *host)
     NSString *base64EncodedCredentials = base64Encode(credentials);
     [request addValue:[NSString stringWithFormat:@"Basic %@", base64EncodedCredentials]
    forHTTPHeaderField:@"Authorization"];
+    
+    [request addValue:acceptLanguage forHTTPHeaderField:@"Accept-Language"];
     
     // set body
     NSDictionary *cardInfo = dictionaryFromCard(card);
