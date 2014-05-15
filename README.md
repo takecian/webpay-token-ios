@@ -34,13 +34,9 @@ Add `#import 'Webpay.h'` in one of your files, and see if your target builds wit
 
 webpay-token-ios consists of 3 components.
 
-1. WPYTokenizer(model)
-2. WPYCardFormView(view)
+1. WPYTokenizer(model that creates a token)
+2. WPYCardFormView(card form view)
 3. WPYPaymentViewController(view controller)
-
-WPYTokenizer is a model that creates a token from credit card information.
-WPYCardFormView is a card form.
-WPYPaymentViewController is a controller that displays the card form and creates a token when 'confirm payment' is tapped.
 
 ## How to use
 
