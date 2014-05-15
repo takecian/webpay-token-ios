@@ -339,7 +339,7 @@ static NSString *reverseString(NSString *string)
 
     if (!([now compare: expiryDate] == NSOrderedAscending))
     {
-        handleValidationError(error, WPYIncorrectCvc, @"This card is expired.");
+        handleValidationError(error, WPYIncorrectExpiry, @"This card is expired.");
         return NO;
     }
     return YES;
@@ -349,7 +349,7 @@ static NSString *reverseString(NSString *string)
 {
     if (![self.class isSupportedBrand:brand])
     {
-        handleValidationError(error, WPYIncorrectCvc, @"This brand is not supported by Webpay.");
+        handleValidationError(error, WPYIncorrectNumber, @"This brand is not supported by Webpay.");
         return NO;
     }
     return YES;
