@@ -157,7 +157,7 @@ static NSString *const invalidVisaNumber   = @"4111111111111112";
     XCTAssertNotNil(returnedError, @"It should not be nil.");
     XCTAssertEqualObjects([returnedError domain], WPYErrorDomain, @"It should be WPYErrorDomain");
     XCTAssertEqual([returnedError code], WPYIncorrectNumber, @"Error code should be WPYIncorrectNumber.");
-    XCTAssertEqualObjects([returnedError localizedDescription], @"Card error: invalid number.", @"It should return expected localized description.");
+    XCTAssertEqualObjects([returnedError localizedDescription], @"The card number is incorrect. Make sure you entered the correct card number.", @"It should return expected localized description.");
     NSDictionary *userInfo = [returnedError userInfo];
     NSString *failureReason = [userInfo objectForKey:NSLocalizedFailureReasonErrorKey];
     XCTAssertEqualObjects(failureReason, @"This number is not Luhn valid string.", @"It should return expected failure reason.");
