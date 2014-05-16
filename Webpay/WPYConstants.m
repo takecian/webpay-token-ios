@@ -8,8 +8,6 @@
 
 #import "WPYConstants.h"
 
-NSString *const WPYLocalizedStringTable = @"WebpayiOSTokenizer";
-
 BOOL isiOS7(void)
 {
     return floor(NSFoundationVersionNumber) > NSFoundationVersionNumber_iOS_6_1;

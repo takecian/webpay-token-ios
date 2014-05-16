@@ -8,6 +8,10 @@
 
 #import <Foundation/Foundation.h>
 
-@interface WPYBundleManager : NSObject
+FOUNDATION_EXPORT NSString *const WPYLocalizedStringTable;
 
+
+@interface WPYBundleManager : NSObject
++ (NSBundle *)localizationBundle;
++ (UIImage *)imageNamed:(NSString *)name;
 @end
