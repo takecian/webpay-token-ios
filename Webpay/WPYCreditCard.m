@@ -182,7 +182,7 @@ static NSString *reverseString(NSString *string)
             *stop = YES;
         }
     }];
-    return brandName ? brandName : @"Unknown";
+    return brandName ? brandName : WPYUnknown;
 }
 
 - (NSString *)expiryInString
@@ -265,7 +265,7 @@ static NSString *reverseString(NSString *string)
     }
     
     NSString *brand = [self brandName];
-    BOOL isAmex = [brand isEqualToString:@"American Express"];
+    BOOL isAmex = [brand isEqualToString:WPYAmex];
     
     if (!brand)
     {
