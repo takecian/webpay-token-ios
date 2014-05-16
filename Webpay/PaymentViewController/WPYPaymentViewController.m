@@ -20,7 +20,7 @@
 #import "WPYCardFormCell.h"
 
 #import "WPYBundleManager.h"
-#import "WPYConstants.h"
+#import "WPYDeviceSettings.h"
 
 
 @interface WPYPaymentViewController ()<UITableViewDataSource, UITableViewDelegate>
@@ -94,8 +94,9 @@ static UIImage *imageFromColor(UIColor *color)
         
         // contentViews
         // for pre ios7, area of tableviewcell is smaller
-        float x = isiOS7() ? WPYFieldLeftMargin : WPYFieldLeftMargin - 10;
-        float width = isiOS7() ? WPYFieldWidth : WPYFieldWidth - 10;
+        BOOL isiOS7 = [WPYDeviceSettings isiOS7];
+        float x = isiOS7 ? WPYFieldLeftMargin : WPYFieldLeftMargin - 10;
+        float width = isiOS7 ? WPYFieldWidth : WPYFieldWidth - 10;
         CGRect fieldFrame = CGRectMake(x, WPYFieldTopMargin, width, WPYFieldHeight);
         
         WPYAbstractCardField *numberField = [[WPYNumberField alloc] initWithFrame:fieldFrame card:_card];
@@ -178,7 +179,7 @@ static UIImage *imageFromColor(UIColor *color)
     
     [self subscribeToKeyboardNotification];
     
-    if (isiOS7())
+    if ([WPYDeviceSettings isiOS7])
     {
         self.navigationController.navigationBar.translucent = NO;
         self.edgesForExtendedLayout = UIRectEdgeNone;
@@ -259,7 +260,7 @@ static UIImage *imageFromColor(UIColor *color)
     
     UIColor *priceColor = [UIColor colorWithRed:0.2 green:0.29 blue:0.37 alpha:1.0f];
    
-    float x = isiOS7() ? 15 : 20;
+    float x = [WPYDeviceSettings isiOS7] ? 15 : 20;
     UILabel *leftLabel = [[UILabel alloc] initWithFrame:CGRectMake(x, 45, 60, 44)];
     leftLabel.text = NSLocalizedStringFromTableInBundle(@"TOTAL", WPYLocalizedStringTable, [WPYBundleManager localizationBundle], nil);
     leftLabel.textColor = priceColor;
@@ -369,7 +370,7 @@ static UIImage *imageFromColor(UIColor *color)
     if (!self.isKeyboardDisplayed)
     {
         // there is a top margin for tableview in pre ios7
-        float height = isiOS7() ? -WPYPriceViewHeight : -WPYPriceViewHeight - 10;
+        float height = [WPYDeviceSettings isiOS7] ? -WPYPriceViewHeight : -WPYPriceViewHeight - 10;
         [UIView animateWithDuration:WPYKeyboardScrollAnimatinDuration animations:^{
             self.view.frame = CGRectOffset(self.view.frame, 0, height);
         }];
@@ -382,7 +383,7 @@ static UIImage *imageFromColor(UIColor *color)
 {
     if (self.isKeyboardDisplayed)
     {
-        float height = isiOS7() ? WPYPriceViewHeight : WPYPriceViewHeight + 10;
+        float height = [WPYDeviceSettings isiOS7] ? WPYPriceViewHeight : WPYPriceViewHeight + 10;
         [UIView animateWithDuration:WPYKeyboardScrollAnimatinDuration animations:^{
             self.view.frame = CGRectOffset(self.view.frame, 0, height);
         }];

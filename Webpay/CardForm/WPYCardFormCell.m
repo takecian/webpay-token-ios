@@ -8,7 +8,6 @@
 
 #import "WPYCardFormCell.h"
 
-#import "WPYConstants.h"
 #import "WPYDeviceSettings.h"
 
 @interface WPYCardFormCell ()
@@ -29,7 +28,7 @@
         self.backgroundColor = [UIColor whiteColor];
         
         // text label
-        float x = isiOS7() ? 15 : 10;
+        float x = [WPYDeviceSettings isiOS7] ? 15 : 10;
         _titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(x, 1, 80, 48)];
         _titleLabel.backgroundColor = [UIColor clearColor];
         _titleLabel.lineBreakMode = NSLineBreakByWordWrapping;

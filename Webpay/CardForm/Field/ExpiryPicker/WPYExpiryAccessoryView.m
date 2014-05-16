@@ -8,7 +8,7 @@
 
 #import "WPYExpiryAccessoryView.h"
 
-#import "WPYConstants.h"
+#import "WPYDeviceSettings.h"
 
 @interface WPYExpiryAccessoryView ()
 @end
@@ -23,7 +23,7 @@
         UIToolbar *toolbar = [[UIToolbar alloc] initWithFrame:frame];
         toolbar.backgroundColor = [UIColor colorWithRed:0.97 green:0.97 blue:0.97 alpha:1];
         
-        if (isiOS7())
+        if ([WPYDeviceSettings isiOS7])
         {
             CALayer *bottomBorder = [CALayer layer];
             bottomBorder.frame = CGRectMake(0.0f, frame.size.height - 0.5, frame.size.width, 0.5f);
