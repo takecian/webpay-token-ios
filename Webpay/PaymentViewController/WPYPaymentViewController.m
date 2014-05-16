@@ -147,7 +147,7 @@ static UIImage *imageFromColor(UIColor *color)
 {
     [self.payButton setTitle:@" " forState:UIControlStateNormal];
     [self.payButton setBackgroundImage:imageFromColor([UIColor colorWithRed:0.18 green:0.8 blue:0.44 alpha:1]) forState:UIControlStateNormal];
-    [self.payButton setImage:[UIImage imageNamed:@"check_white"] forState:UIControlStateNormal];
+    [self.payButton setImage:[WPYBundleManager imageNamed:@"check_white"] forState:UIControlStateNormal];
 }
 
 - (void)dismissAfterDelay:(NSTimeInterval)delay
