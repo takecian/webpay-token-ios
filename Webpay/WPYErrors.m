@@ -43,7 +43,7 @@ NSString * WPYLocalizedDescriptionFromErrorCode(WPYErrorCode errorCode)
         case WPYProcessingError:
         case WPYInvalidRequestError:
         case WPYAPIError:
-            // errors return from server. use error message in http response.
+            // errors that will return from server. Use error message in http response.
             return nil;
             
     }
