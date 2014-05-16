@@ -12,7 +12,6 @@
 #import "WPYExpiryAccessoryView.h"
 #import "WPYMenuDisabledTextField.h"
 #import "WPYExpiryFieldModel.h"
-#import "WPYConstants.h"
 #import "WPYBundleManager.h"
 
 @interface WPYExpiryField () <UITextFieldDelegate, WPYExpiryPickerViewDelegate, WPYExpiryAccessoryViewDelegate>
