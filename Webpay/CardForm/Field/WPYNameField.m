@@ -10,6 +10,7 @@
 
 #import "WPYTextField.h"
 #import "WPYNameFieldModel.h"
+#import "WPYBundleManager.h"
 
 @interface WPYNameField () <UITextFieldDelegate>
 @property(nonatomic, strong) WPYNameFieldModel *model;
@@ -33,7 +34,7 @@
 - (UIImageView *)createRightView
 {
     UIImageView *checkMarkView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 40, 40)];
-    [checkMarkView setImage:[UIImage imageNamed:@"checkmark"]];
+    [checkMarkView setImage:[WPYBundleManager imageNamed:@"checkmark"]];
     checkMarkView.hidden = YES;
     
     return checkMarkView;

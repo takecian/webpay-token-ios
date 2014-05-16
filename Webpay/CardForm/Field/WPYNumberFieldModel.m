@@ -9,6 +9,7 @@
 #import "WPYNumberFieldModel.h"
 
 #import "WPYCreditCard.h"
+#import "WPYBundleManager.h"
 
 static NSUInteger const WPYNonAmexNumberMaxLength = 16;
 static NSUInteger const WPYAmexNumberMaxLength = 15;
@@ -122,7 +123,7 @@ static NSString *addPaddingToNumber(NSString *number)
     {
         return nil;
     }
-    return [UIImage imageNamed:removeAllWhitespaces(brand)];
+    return [WPYBundleManager imageNamed:removeAllWhitespaces(brand)];
 }
 
 + (NSString *)reformatNumber:(NSString *)number position:(NSUInteger)position isDeleted:(BOOL)isDeleted

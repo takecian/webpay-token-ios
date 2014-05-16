@@ -11,6 +11,7 @@
 #import "WPYTextField.h"
 #import "WPYCvcExplanationView.h"
 #import "WPYCvcFieldModel.h"
+#import "WPYBundleManager.h"
 
 @interface WPYCvcField () <UITextFieldDelegate>
 @property(nonatomic, strong) WPYCvcFieldModel *model;
@@ -110,13 +111,13 @@
 
 - (void)showCheckMark
 {
-    [self.rightView setImage:[UIImage imageNamed:@"checkmark"]];
+    [self.rightView setImage:[WPYBundleManager imageNamed:@"checkmark"]];
     self.transparentButton.enabled = NO;
 }
 
 - (void)showQuestionIcon
 {
-    [self.rightView setImage:[UIImage imageNamed:@"question"]];
+    [self.rightView setImage:[WPYBundleManager imageNamed:@"question"]];
     self.transparentButton.enabled = YES;
 }
 

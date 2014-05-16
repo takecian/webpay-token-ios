@@ -9,6 +9,8 @@
 
 #import "WPYCvcExplanationView.h"
 
+#import "WPYBundleManager.h"
+
 static float const WPYAnimationDuration = 0.2f;
 static float const WPYOverlayOpacity = 0.7f;
 
@@ -22,14 +24,14 @@ static float const WPYOverlayOpacity = 0.7f;
 + (void)showAmexCvcExplanation
 {
     WPYCvcExplanationView *cvcView = [self sharedView];
-    [cvcView.imageView setImage:[UIImage imageNamed:@"cvcamex"]];
+    [cvcView.imageView setImage:[WPYBundleManager imageNamed:@"cvcamex"]];
     [self showOverlay:cvcView];
 }
 
 + (void)showNonAmexCvcExplanation
 {
     WPYCvcExplanationView *cvcView = [self sharedView];
-    [cvcView.imageView setImage:[UIImage imageNamed:@"cvc"]];
+    [cvcView.imageView setImage:[WPYBundleManager imageNamed:@"cvc"]];
     [self showOverlay:cvcView];
 }
 

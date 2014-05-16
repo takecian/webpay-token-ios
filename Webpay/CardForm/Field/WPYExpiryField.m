@@ -13,6 +13,7 @@
 #import "WPYMenuDisabledTextField.h"
 #import "WPYExpiryFieldModel.h"
 #import "WPYConstants.h"
+#import "WPYBundleManager.h"
 
 @interface WPYExpiryField () <UITextFieldDelegate, WPYExpiryPickerViewDelegate, WPYExpiryAccessoryViewDelegate>
 @property(nonatomic, strong) WPYExpiryFieldModel *model;
@@ -46,7 +47,7 @@
 - (UIImageView *)createRightView
 {
     UIImageView *checkMarkView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 40, 40)];
-    [checkMarkView setImage:[UIImage imageNamed:@"checkmark"]];
+    [checkMarkView setImage:[WPYBundleManager imageNamed:@"checkmark"]];
     checkMarkView.hidden = YES;
     
     return checkMarkView;
