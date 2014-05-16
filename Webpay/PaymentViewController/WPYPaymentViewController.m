@@ -290,7 +290,7 @@ static UIImage *imageFromColor(UIColor *color)
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
     
     float buttonHeight = 50.0f;
-    float y = [[UIScreen mainScreen] bounds].size.height - WPYNavBarHeight - buttonHeight + 5;
+    float y = [[UIScreen mainScreen] bounds].size.height - WPYNavBarHeight - buttonHeight + 3;
     button.frame = CGRectMake(0, y, 320, buttonHeight);
     
     button.titleLabel.font = [UIFont fontWithName:@"Avenir-Roman" size:20.0f];
