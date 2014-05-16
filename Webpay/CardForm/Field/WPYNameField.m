@@ -78,5 +78,4 @@
     self.rightView.hidden = !valid;
 }
 
-
 @end
