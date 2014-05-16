@@ -13,8 +13,16 @@
 
     #import "WPYCreditCard.h"
     #import "WPYToken.h"
-    #import "WPYConstants.h"
     #import "WPYErrors.h"
+
     #import "WPYTokenizer.h"
+
+    #import "WPYCardFormView.h"
+    #import "WPYAbstractCardField.h"
+    #import "WPYNumberField.h"
+    #import "WPYExpiryField.h"
+    #import "WPYCvcField.h"
+    #import "WPYNameField.h"
+
     #import "WPYPaymentViewController.h"
 #endif
