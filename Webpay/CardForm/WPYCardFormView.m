@@ -20,7 +20,7 @@
 #import "WPYCvcField.h"
 #import "WPYNameField.h"
 
-#import "WPYConstants.h"
+#import "WPYBundleManager.h"
 
 
 @interface WPYCardFormView () <UITableViewDataSource,UITableViewDelegate>
@@ -58,10 +58,11 @@ static float const WPYCellHeight = 50.0f;
         _tableView.delegate = self;
         [self addSubview:_tableView];
         
-        _titles = @[NSLocalizedStringFromTable(@"Number", WPYLocalizedStringTable, nil),
-                    NSLocalizedStringFromTable(@"Expiry", WPYLocalizedStringTable, nil),
-                    NSLocalizedStringFromTable(@"CVC", WPYLocalizedStringTable, nil),
-                    NSLocalizedStringFromTable(@"Name", WPYLocalizedStringTable, nil)
+        NSBundle *bundle = [WPYBundleManager localizationBundle];
+        _titles = @[NSLocalizedStringFromTableInBundle(@"Number", WPYLocalizedStringTable, bundle, nil),
+                    NSLocalizedStringFromTableInBundle(@"Expiry", WPYLocalizedStringTable, bundle, nil),
+                    NSLocalizedStringFromTableInBundle(@"CVC", WPYLocalizedStringTable, bundle, nil),
+                    NSLocalizedStringFromTableInBundle(@"Name", WPYLocalizedStringTable, bundle, nil)
                     ];
         
         // contentViews

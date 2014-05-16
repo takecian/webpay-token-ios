@@ -19,6 +19,7 @@
 
 #import "WPYCardFormCell.h"
 
+#import "WPYBundleManager.h"
 #import "WPYConstants.h"
 
 
@@ -84,10 +85,11 @@ static UIImage *imageFromColor(UIColor *color)
         
         _isKeyboardDisplayed = NO;
         
-        _titles = @[NSLocalizedStringFromTable(@"Number", WPYLocalizedStringTable, nil),
-                    NSLocalizedStringFromTable(@"Expiry", WPYLocalizedStringTable, nil),
-                    NSLocalizedStringFromTable(@"CVC", WPYLocalizedStringTable, nil),
-                    NSLocalizedStringFromTable(@"Name", WPYLocalizedStringTable, nil)
+        NSBundle *bundle = [WPYBundleManager localizationBundle];
+        _titles = @[NSLocalizedStringFromTableInBundle(@"Number", WPYLocalizedStringTable, bundle, nil),
+                    NSLocalizedStringFromTableInBundle(@"Expiry", WPYLocalizedStringTable, bundle, nil),
+                    NSLocalizedStringFromTableInBundle(@"CVC", WPYLocalizedStringTable, bundle, nil),
+                    NSLocalizedStringFromTableInBundle(@"Name", WPYLocalizedStringTable, bundle, nil)
                     ];
         
         // contentViews
@@ -259,7 +261,7 @@ static UIImage *imageFromColor(UIColor *color)
    
     float x = isiOS7() ? 15 : 20;
     UILabel *leftLabel = [[UILabel alloc] initWithFrame:CGRectMake(x, 45, 60, 44)];
-    leftLabel.text = NSLocalizedStringFromTable(@"TOTAL", WPYLocalizedStringTable, nil);
+    leftLabel.text = NSLocalizedStringFromTableInBundle(@"TOTAL", WPYLocalizedStringTable, [WPYBundleManager localizationBundle], nil);
     leftLabel.textColor = priceColor;
     leftLabel.font = [UIFont fontWithName:@"Avenir-Roman" size:14.0f];
     leftLabel.backgroundColor = [UIColor clearColor];
@@ -293,7 +295,7 @@ static UIImage *imageFromColor(UIColor *color)
     button.titleLabel.font = [UIFont fontWithName:@"Avenir-Roman" size:20.0f];
     
     // normal
-    [button setTitle:NSLocalizedStringFromTable(@"Confirm Payment", WPYLocalizedStringTable, nil) forState:UIControlStateNormal];
+    [button setTitle:NSLocalizedStringFromTableInBundle(@"Confirm Payment", WPYLocalizedStringTable, [WPYBundleManager localizationBundle], nil) forState:UIControlStateNormal];
     [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [button setBackgroundImage:imageFromColor([UIColor colorWithRed:0 green:0.478 blue:1.0 alpha:0.8]) forState:UIControlStateNormal];
     
