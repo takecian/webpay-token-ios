@@ -105,6 +105,7 @@ static BOOL isTrustedHost(NSString *host)
     request.HTTPMethod = @"POST";
 
     // set header
+    // TODO: use bearer authentication
     NSString *credentials = [NSString stringWithFormat:@"%@:", publicKey];
     NSString *base64EncodedCredentials = base64Encode(credentials);
     [request addValue:[NSString stringWithFormat:@"Basic %@", base64EncodedCredentials]
@@ -175,6 +176,5 @@ static BOOL isTrustedHost(NSString *host)
         }
     }
 }
-
 
 @end
