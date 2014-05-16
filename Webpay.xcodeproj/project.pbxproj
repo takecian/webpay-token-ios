@@ -53,7 +53,6 @@
 		4787AE6418EE1A2F0092A097 /* WPYCommunicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 4787AE6218EE1A2F0092A097 /* WPYCommunicator.m */; };
 		4795D4DB18F913750050542E /* ItemDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4795D4DA18F913750050542E /* ItemDetailViewController.m */; };
 		4795D4DE18F913F20050542E /* WPYPaymentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4795D4DD18F913F20050542E /* WPYPaymentViewController.m */; };
-		479A9DE819087FB900E467CB /* WPYConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 479A9DE719087FB900E467CB /* WPYConstants.m */; };
 		47B8514518CA7D86003A1ECA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 47B8514318CA7D86003A1ECA /* InfoPlist.strings */; };
 		47B967891918547B00753459 /* WPYCvcFieldModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 47B967881918547B00753459 /* WPYCvcFieldModel.m */; };
 		47B9678C191856AA00753459 /* WPYAbstractFieldModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 47B9678B191856AA00753459 /* WPYAbstractFieldModel.m */; };
@@ -144,8 +143,6 @@
 		4795D4DA18F913750050542E /* ItemDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ItemDetailViewController.m; path = WebpayExample/ItemDetailViewController.m; sourceTree = SOURCE_ROOT; };
 		4795D4DC18F913F20050542E /* WPYPaymentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WPYPaymentViewController.h; path = Webpay/PaymentViewController/WPYPaymentViewController.h; sourceTree = "<group>"; };
 		4795D4DD18F913F20050542E /* WPYPaymentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WPYPaymentViewController.m; path = Webpay/PaymentViewController/WPYPaymentViewController.m; sourceTree = "<group>"; };
-		479A9DE619087FB900E467CB /* WPYConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WPYConstants.h; path = Webpay/WPYConstants.h; sourceTree = "<group>"; };
-		479A9DE719087FB900E467CB /* WPYConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WPYConstants.m; path = Webpay/WPYConstants.m; sourceTree = "<group>"; };
 		47B8514418CA7D86003A1ECA /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = InfoPlist.strings; sourceTree = "<group>"; };
 		47B967871918547B00753459 /* WPYCvcFieldModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WPYCvcFieldModel.h; path = Webpay/CardForm/Field/WPYCvcFieldModel.h; sourceTree = "<group>"; };
 		47B967881918547B00753459 /* WPYCvcFieldModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WPYCvcFieldModel.m; path = Webpay/CardForm/Field/WPYCvcFieldModel.m; sourceTree = "<group>"; };
@@ -423,8 +420,6 @@
 				47D9BC1618CFBF080020BF55 /* WPYCreditCard.m */,
 				474E602218F0B2DB0006EF46 /* WPYToken.h */,
 				474E602318F0B2DB0006EF46 /* WPYToken.m */,
-				479A9DE619087FB900E467CB /* WPYConstants.h */,
-				479A9DE719087FB900E467CB /* WPYConstants.m */,
 				4727391318D8FE8B0003D759 /* WPYErrors.h */,
 				4727391418D8FE8B0003D759 /* WPYErrors.m */,
 				47B86F6C18FDEC3A001C6B3A /* Tokenizer */,
@@ -585,7 +580,6 @@
 				4795D4DE18F913F20050542E /* WPYPaymentViewController.m in Sources */,
 				472526A21917385F008FC227 /* WPYNumberFieldModel.m in Sources */,
 				474378CA18FE43E7004ECE34 /* WPYCardFormView.m in Sources */,
-				479A9DE819087FB900E467CB /* WPYConstants.m in Sources */,
 				474378D518FE6253004ECE34 /* WPYExpiryField.m in Sources */,
 				474378D818FE676C004ECE34 /* WPYCvcField.m in Sources */,
 				474378D118FE6026004ECE34 /* WPYNumberField.m in Sources */,
