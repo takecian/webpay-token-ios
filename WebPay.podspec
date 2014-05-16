@@ -12,7 +12,7 @@ Pod::Spec.new do |s|
   s.author       = { "yohei okada" => "okada.yohei@gmail.com" }
   s.platform     = :ios
   s.ios.deployment_target = "6.0"
-  s.source       = { :git => "https://github.com/webpay/webpay-token-ios.git", :branch => "cocoapods" }
+  s.source       = { :git => "https://github.com/webpay/webpay-token-ios.git", :tag => '1.0.0' }
   s.source_files  = "Webpay/**/*.{h,m}"
   s.resources = "Webpay/Resources/WebPay.bundle"
   s.frameworks = "Foundation", "UIKit", "QuartzCore"
