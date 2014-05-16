@@ -730,7 +730,7 @@ static NSString *const validName = @"Test Test";
     XCTAssertNotNil(error, @"Error object should not be nil.");
     XCTAssertEqual([error domain], WPYErrorDomain, @"Error domain should be WPYErrorDomain.");
     XCTAssertEqual([error code], WPYInvalidExpiryYear, @"Error code should be WPYInvalidExpiryYear.");
-    XCTAssertEqual([error localizedDescription], @"The expiry year provided is invalid. Make sure the expiry year entered matches your credit card.", @"It should return expected localized description.");
+    XCTAssertEqualObjects([error localizedDescription], @"The expiry year provided is invalid. Make sure the expiry year entered matches your credit card.", @"It should return expected localized description.");
     NSDictionary *userInfo = [error userInfo];
     NSString *failureReason = [userInfo objectForKey:NSLocalizedFailureReasonErrorKey];
     XCTAssertEqual(failureReason, @"Expiry year should not be nil.", @"It should return expected failure reason.");
