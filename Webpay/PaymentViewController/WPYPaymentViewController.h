@@ -9,13 +9,21 @@
 #import <UIKit/UIKit.h>
 
 @class WPYToken;
-typedef void (^WPYPaymentViewCallback)(WPYToken *, NSError *);
+@class WPYCreditCard;
+@interface WPYPaymentViewController : UITableViewController
 
-
-@interface WPYPaymentViewController : UIViewController
+typedef void (^WPYPaymentViewCallback)(WPYPaymentViewController *paymentViewController, WPYToken *token, NSError *error);
 
 // designated initializer
-// default button title is 'Confirm Payment'
-- (instancetype)initWithButtonTitle:(NSString *)title
-                           callback:(WPYPaymentViewCallback)callback;
+- (instancetype)initWithPriceTag:(NSString *)priceTag // price tag should include currency unit. i.e) $1.00
+                            card:(WPYCreditCard *)card // card properties will be used to populate textfield
+                        callback:(WPYPaymentViewCallback)callback;
+
+// If you don't need to provide initial values for form fields, use this initializer
+- (instancetype)initWithPriceTag:(NSString *)priceTag
+                        callback:(WPYPaymentViewCallback)callback;
+
+- (void)setPayButtonComplete;
+- (void)dismissAfterDelay:(NSTimeInterval)delay;
+- (void)popAfterDelay:(NSTimeInterval)delay;
 @end

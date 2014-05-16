@@ -11,15 +11,19 @@
 @class WPYCreditCard;
 @protocol WPYCardFormViewDelegate <NSObject>
 @optional
-// called when a field is invalid
-- (void)invalidFieldName:(NSString *)fieldName error:(NSError *)error;
+// validation is called every time card value changes.
+// card value changes when the textfield is edited
+- (void)invalidFormWithError:(NSError *)error;
 
-// called when the whole form is valid
+// called only when the whole form is valid
 - (void)validFormWithCard:(WPYCreditCard *)creditCard;
 @end
 
 
 @interface WPYCardFormView : UIView
 @property(nonatomic, weak) id <WPYCardFormViewDelegate> delegate;
-- (void)setFocusToFirstField;
+// designated initializer
+// pass card to prefill the fields
+- (instancetype)initWithFrame:(CGRect)frame card:(WPYCreditCard *)card;
+- (void)setFocusToFirstNotfilledField;
 @end

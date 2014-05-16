@@ -8,50 +8,74 @@
 
 #import "WPYNameField.h"
 
-#import "WPYCreditCard.h"
+#import "WPYTextField.h"
+#import "WPYNameFieldModel.h"
+#import "WPYBundleManager.h"
 
 @interface WPYNameField () <UITextFieldDelegate>
+@property(nonatomic, strong) WPYNameFieldModel *model;
 @end
 
 @implementation WPYNameField
 
-#pragma mark initialization
-- (id)initWithFrame:(CGRect)frame
+#pragma mark override methods: initialization
+- (UITextField *)createTextFieldWithFrame:(CGRect)frame
 {
-    self = [super initWithFrame:frame];
-    if (self)
-    {
-        _textField = [[UITextField alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
-        _textField.placeholder = @"Taro Yamada";
-        _textField.keyboardType = UIKeyboardTypeASCIICapable;
-        _textField.autocorrectionType = UITextAutocorrectionTypeNo;
-        _textField.delegate = self;
-        
-        [self addSubview:_textField];
-    }
-    return self;
-}
-
-
-#pragma mark
-- (WPYFieldKey)key
-{
-    return WPYNameFieldKey;
-}
-
-- (BOOL)shouldValidate
-{
-    NSString *name = self.textField.text;
-    return name.length != 0; // don't valididate if length is 0
-}
-
-- (BOOL)validate:(NSError * __autoreleasing *)error
-{
-    NSString *name = self.textField.text;
-    WPYCreditCard *creditCard = [[WPYCreditCard alloc] init];
+    UITextField *textField = [[WPYTextField alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
+    textField.placeholder = @"Taro Yamada";
+    textField.keyboardType = UIKeyboardTypeASCIICapable;
+    textField.autocorrectionType = UITextAutocorrectionTypeNo;
+    [textField addTarget:self action:@selector(textFieldDidChanged:) forControlEvents: UIControlEventEditingChanged];
+    textField.delegate = self;
     
-    return [creditCard validateName:&name error:error];
+    return textField;
 }
 
+- (UIImageView *)createRightView
+{
+    UIImageView *checkMarkView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 40, 40)];
+    [checkMarkView setImage:[WPYBundleManager imageNamed:@"checkmark"]];
+    checkMarkView.hidden = YES;
+    
+    return checkMarkView;
+}
+
+- (void)setupWithCard:(WPYCreditCard *)card
+{
+    self.model = [[WPYNameFieldModel alloc] initWithCard:card];
+    [self setText: [self.model initialValueForTextField]];
+}
+
+
+
+#pragma mark override methods: textfield
+- (void)textFieldDidFocus
+{
+    self.rightView.hidden = YES;
+}
+
+- (void)textFieldValueChanged
+{
+    [self.model setCardValue:self.textField.text];
+}
+
+- (void)textFieldWillLoseFocus
+{
+    if (![self.model shouldValidateOnFocusLost])
+    {
+        return;
+    }
+    
+    NSError *error = nil;
+    BOOL isValid = [self.model validate:&error];
+    
+    [self updateViewToValidity:isValid];
+    [self toggleCheckMark:isValid];
+}
+
+- (void)toggleCheckMark:(BOOL)valid
+{
+    self.rightView.hidden = !valid;
+}
 
 @end

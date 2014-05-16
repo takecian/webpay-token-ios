@@ -6,30 +6,35 @@
 //  Copyright (c) 2014 yohei, YasuLab. All rights reserved.
 //
 
+// This class acts as a view & a controller.
+
 #import <UIKit/UIKit.h>
 
-typedef NS_ENUM(NSInteger, WPYFieldKey)
-{
-    WPYNumberFieldKey,
-    WPYExpiryFieldKey,
-    WPYCvcFieldKey,
-    WPYNameFieldKey
-};
 
-@protocol WPYCardFieldDelegate <NSObject>
-@optional
-- (void)validValue:(NSString *)value forKey:(WPYFieldKey)key;
-- (void)invalidValue:(NSString *)value forKey:(WPYFieldKey)key error:(NSError *)error;
-@end
+@class WPYCreditCard;
+@class WPYAbstractFieldModel;
 
-@interface WPYAbstractCardField : UIView
-{
-    // protected
-    UITextField *_textField;
-}
-@property(nonatomic, weak) id <WPYCardFieldDelegate> delegate;
+@interface WPYAbstractCardField : UIView <UITextFieldDelegate>
+@property(nonatomic, strong) UITextField *textField;
+@property(nonatomic, strong) UIImageView *rightView;
+
+//designated initializer
+- (instancetype)initWithFrame:(CGRect)frame card:(WPYCreditCard *)card;
+
+// abstract class methods(common procedures)
 - (void)setFocus:(BOOL)focus;
-- (void)notifySuccess;
-- (void)notifyError:(NSError *)error;
+- (void)setText:(NSString *)text;
+- (void)textFieldDidChanged:(UITextField *)textField;
+- (void)updateViewToValidity:(BOOL)valid;
 
+// methods expected to be overridden by subclass
+// initialization
+- (UITextField *)createTextFieldWithFrame:(CGRect)frame;
+- (UIImageView *)createRightView;
+- (void)setupWithCard:(WPYCreditCard *)card;
+
+// template methods
+- (void)textFieldDidFocus;
+- (void)textFieldValueChanged;
+- (void)textFieldWillLoseFocus;
 @end

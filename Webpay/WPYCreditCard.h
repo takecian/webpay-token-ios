@@ -8,6 +8,14 @@
 
 #import <Foundation/Foundation.h>
 
+FOUNDATION_EXPORT NSString *const WPYVisa;
+FOUNDATION_EXPORT NSString *const WPYMasterCard;
+FOUNDATION_EXPORT NSString *const WPYAmex;
+FOUNDATION_EXPORT NSString *const WPYDiscover;
+FOUNDATION_EXPORT NSString *const WPYJCB;
+FOUNDATION_EXPORT NSString *const WPYDiners;
+FOUNDATION_EXPORT NSString *const WPYUnknown;
+
 typedef NS_ENUM(NSUInteger, WPYMonth) {
     WPYJanuary = 1,
     WPYFebruary,
@@ -31,7 +39,11 @@ typedef NS_ENUM(NSUInteger, WPYMonth) {
 @property(nonatomic, assign) WPYMonth expiryMonth;
 @property(nonatomic, assign) NSUInteger expiryYear;
 
++ (NSString *)brandNameFromPartialNumber:(NSString *)number;
++ (BOOL)isSupportedBrand:(NSString *)brand;
+
 - (NSString *)brandName;
+- (NSString *)expiryInString;
 
 // validate each property
 - (BOOL)validateName:(id *)ioValue error:(NSError * __autoreleasing *)outError;

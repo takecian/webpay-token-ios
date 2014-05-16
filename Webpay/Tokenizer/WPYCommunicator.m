@@ -65,8 +65,8 @@ static NSDictionary *dictionaryFromCard(WPYCreditCard *card)
                 @"name"     : card.name,
                 @"number"   : card.number,
                 @"cvc"      : card.cvc,
-                @"exp_month": [NSString stringWithFormat:@"%u", card.expiryMonth],
-                @"exp_year" : [NSString stringWithFormat:@"%u", card.expiryYear]
+                @"exp_month": [@(card.expiryMonth) stringValue],
+                @"exp_year" : [@(card.expiryYear) stringValue]
            };
 }
 
@@ -93,6 +93,7 @@ static BOOL isTrustedHost(NSString *host)
 #pragma mark public method
 - (void)requestTokenWithPublicKey:(NSString *)publicKey
                              card:(WPYCreditCard *)card
+                   acceptLanguage:(NSString *)acceptLanguage
                   completionBlock:(WPYCommunicatorCompBlock)compBlock
 {
     self.receivedData = [[NSMutableData alloc] init];
@@ -104,10 +105,13 @@ static BOOL isTrustedHost(NSString *host)
     request.HTTPMethod = @"POST";
 
     // set header
+    // TODO: use bearer authentication
     NSString *credentials = [NSString stringWithFormat:@"%@:", publicKey];
     NSString *base64EncodedCredentials = base64Encode(credentials);
     [request addValue:[NSString stringWithFormat:@"Basic %@", base64EncodedCredentials]
    forHTTPHeaderField:@"Authorization"];
+    
+    [request addValue:acceptLanguage forHTTPHeaderField:@"Accept-Language"];
     
     // set body
     NSDictionary *cardInfo = dictionaryFromCard(card);
@@ -172,6 +176,5 @@ static BOOL isTrustedHost(NSString *host)
         }
     }
 }
-
 
 @end

@@ -35,6 +35,7 @@
 #import "WPYToken.h"
 #import "WPYErrorBuilder.h"
 
+#import "WPYDeviceSettings.h"
 
 
 
@@ -42,7 +43,7 @@
 
 static NSString *publicKey = nil;
 
-#pragma mark setters
+#pragma mark public key
 + (void)setPublicKey:(NSString *)key
 {
     publicKey = key;
@@ -53,10 +54,32 @@ static NSString *publicKey = nil;
     return publicKey;
 }
 
++ (void)validatePublicKey
+{
+    BOOL isValidKey = [publicKey hasPrefix:@"test_public_"] || [publicKey hasPrefix:@"live_public_"];
+    if (!isValidKey)
+    {
+        [NSException raise:@"InvalidPublicKey" format:@"You are using an invalid public key."];
+    }
+}
+
+
+
+#pragma mark tokenizer
 + (void)createTokenFromCard:(WPYCreditCard *)card
             completionBlock:(WPYTokenizerCompletionBlock)completionBlock
 {
-    NSParameterAssert(publicKey);
+    NSString *acceptLanguage = [WPYDeviceSettings isJapanese] ? @"ja" : @"en";
+    [self createTokenFromCard:card
+               acceptLanguage:acceptLanguage
+              completionBlock:completionBlock];
+}
+
++ (void)createTokenFromCard:(WPYCreditCard *)card
+             acceptLanguage:(NSString *)acceptLanguage
+            completionBlock:(WPYTokenizerCompletionBlock)completionBlock
+{
+    [self validatePublicKey];
     NSParameterAssert(card);
     NSParameterAssert(completionBlock);
     
@@ -70,13 +93,13 @@ static NSString *publicKey = nil;
     WPYCommunicator *communicator = [[WPYCommunicator alloc] init];
     [communicator requestTokenWithPublicKey:publicKey
                                        card:card
+                             acceptLanguage:acceptLanguage
                             completionBlock:^(NSURLResponse *response, NSData *data, NSError *networkError){
                                             if (networkError)
                                             {
                                                 completionBlock(nil, networkError);
                                                 return;
                                             }
-                                
                                 
                                             NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
                                             if (httpResponse.statusCode == 201)
@@ -89,10 +112,18 @@ static NSString *publicKey = nil;
                                             else
                                             {
                                                 WPYErrorBuilder *errorBuilder = [[WPYErrorBuilder alloc] init];
-                                                NSError *buildError = [errorBuilder buildErrorFromData:data];
-                                                completionBlock(nil, buildError);
+                                                NSError *buildError = nil;
+                                                NSError *error = [errorBuilder buildErrorFromData:data error:&error];
+                                                if (error)
+                                                {
+                                                    completionBlock(nil, error);
+                                                }
+                                                else
+                                                {
+                                                    completionBlock(nil, buildError);
+                                                }
                                             }
     }];
+    
 }
-
 @end

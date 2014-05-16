@@ -8,25 +8,52 @@
 
 #import "WPYPaymentViewController.h"
 
-#import "WPYCardFormView.h"
 #import "WPYTokenizer.h"
+#import "WPYCreditCard.h"
+
+#import "WPYAbstractCardField.h"
+#import "WPYNumberField.h"
+#import "WPYExpiryField.h"
+#import "WPYCvcField.h"
+#import "WPYNameField.h"
+
+#import "WPYCardFormCell.h"
+
+#import "WPYBundleManager.h"
+#import "WPYDeviceSettings.h"
 
 
-
-@interface WPYPaymentViewController ()<WPYCardFormViewDelegate>
+@interface WPYPaymentViewController ()<UITableViewDataSource, UITableViewDelegate>
 @property(nonatomic, strong) WPYCreditCard *card;
-@property(nonatomic, strong) WPYCardFormView *cardForm;
 
-@property(nonatomic, copy) NSString *buttonTitle;
+@property(nonatomic, copy) NSString *priceTag;
 @property(nonatomic, copy) WPYPaymentViewCallback callback;
+
+@property(nonatomic) BOOL isKeyboardDisplayed;
+@property(nonatomic, strong) NSArray *titles;
+@property(nonatomic, strong) NSArray *contentViews;
 
 @property(nonatomic, strong) UIButton *payButton;
 @property(nonatomic, strong) UIActivityIndicatorView *indicator;
 @end
 
 
+// internal constants
+static float const WPYNavBarHeight = 64.0f;
 
-static float const WPYCardFormViewHeight = 300.0f; // for covering up non keyboard & expiry picker area.
+static float const WPYKeyboardScrollAnimatinDuration = 0.3f;
+
+static float const WPYPriceViewHeight = 130.0f;
+
+static float const WPYFieldRightMargin = 10.0f; // for leaving right margin to rightview
+static float const WPYFieldLeftMargin = 100.0f;
+static float const WPYFieldTopMargin = 4.0f;
+static float const WPYFieldWidth = 320.0f - WPYFieldLeftMargin - WPYFieldRightMargin;
+static float const WPYFieldHeight = 45.0f;
+
+static float const WPYCellHeight = 50.0f;
+
+
 
 static UIImage *imageFromColor(UIColor *color)
 {
@@ -43,88 +70,254 @@ static UIImage *imageFromColor(UIColor *color)
     return image;
 }
 
+
 @implementation WPYPaymentViewController
 #pragma mark initializer
-- (instancetype)initWithButtonTitle:(NSString *)title
-                           callback:(WPYPaymentViewCallback)callback
+- (instancetype)initWithPriceTag:(NSString *)priceTag
+                            card:(WPYCreditCard *)card
+                        callback:(WPYPaymentViewCallback)callback;
 {
-    if (self = [super initWithNibName:nil bundle:nil])
+    if (self = [super initWithStyle:UITableViewStyleGrouped])
     {
+        _priceTag = priceTag;
+        _card = card;
         _callback = callback;
-        _buttonTitle = title ? title : NSLocalizedString(@"Confirm Payment", nil);
+        
+        _isKeyboardDisplayed = NO;
+        
+        NSBundle *bundle = [WPYBundleManager localizationBundle];
+        _titles = @[NSLocalizedStringFromTableInBundle(@"Number", WPYLocalizedStringTable, bundle, nil),
+                    NSLocalizedStringFromTableInBundle(@"Expiry", WPYLocalizedStringTable, bundle, nil),
+                    NSLocalizedStringFromTableInBundle(@"CVC", WPYLocalizedStringTable, bundle, nil),
+                    NSLocalizedStringFromTableInBundle(@"Name", WPYLocalizedStringTable, bundle, nil)
+                    ];
+        
+        // contentViews
+        // for pre ios7, area of tableviewcell is smaller
+        BOOL isiOS7 = [WPYDeviceSettings isiOS7];
+        float x = isiOS7 ? WPYFieldLeftMargin : WPYFieldLeftMargin - 10;
+        float width = isiOS7 ? WPYFieldWidth : WPYFieldWidth - 10;
+        CGRect fieldFrame = CGRectMake(x, WPYFieldTopMargin, width, WPYFieldHeight);
+        
+        WPYAbstractCardField *numberField = [[WPYNumberField alloc] initWithFrame:fieldFrame card:_card];
+        WPYAbstractCardField *expiryField = [[WPYExpiryField alloc] initWithFrame:fieldFrame card:_card];
+        WPYAbstractCardField *cvcField = [[WPYCvcField alloc] initWithFrame:fieldFrame card:_card];
+        WPYAbstractCardField *nameField = [[WPYNameField alloc] initWithFrame:fieldFrame card:_card];
+        
+        _contentViews = @[numberField, expiryField, cvcField, nameField];
+        
+        [self subscribeToCardChange];
     }
     
     return self;
 }
 
-// override designated initializer of super
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+- (instancetype)initWithPriceTag:(NSString *)priceTag
+                        callback:(WPYPaymentViewCallback)callback
 {
-    return [self initWithButtonTitle:nil callback:nil];
+    WPYCreditCard *card = [[WPYCreditCard alloc] init];
+    return [self initWithPriceTag:priceTag card:card callback:callback];
+}
+
+// override designated initializer of super
+- (id)initWithStyle:(UITableViewStyle)style
+{
+    WPYCreditCard *card = [[WPYCreditCard alloc] init];
+    return [self initWithPriceTag:@" " card:card callback:nil];
+}
+
+
+
+#pragma mark memory management
+- (void)dealloc
+{
+    [self unsubscribeToCardChange];
+    [self unsubscribeToKeyboardNotification];
+}
+
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+}
+
+
+
+#pragma mark public methods: compeletion
+- (void)setPayButtonComplete
+{
+    [self.payButton setTitle:@" " forState:UIControlStateNormal];
+    [self.payButton setBackgroundImage:imageFromColor([UIColor colorWithRed:0.18 green:0.8 blue:0.44 alpha:1]) forState:UIControlStateNormal];
+    [self.payButton setImage:[WPYBundleManager imageNamed:@"check_white"] forState:UIControlStateNormal];
+}
+
+- (void)dismissAfterDelay:(NSTimeInterval)delay
+{
+    [self performSelector:@selector(dismiss) withObject:nil afterDelay:delay];
+}
+
+- (void)dismiss
+{
+    [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)popAfterDelay:(NSTimeInterval)delay
+{
+    [self performSelector:@selector(pop) withObject:nil afterDelay:delay];
+}
+
+- (void)pop
+{
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 
 
 #pragma mark view lifecycle
-- (void)loadView
-{
-	[super loadView];
-	UIView *theView = [[UIView alloc]initWithFrame:[[UIScreen mainScreen]bounds]];
-	theView.backgroundColor = [UIColor whiteColor];
-	self.view = theView;
-}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
-    self.cardForm = [[WPYCardFormView alloc] initWithFrame:CGRectMake(0, 0, 320, WPYCardFormViewHeight)];
-    self.cardForm.delegate = self;
-    [self.view addSubview: self.cardForm];
+    [self subscribeToKeyboardNotification];
     
+    if ([WPYDeviceSettings isiOS7])
+    {
+        self.navigationController.navigationBar.translucent = NO;
+        self.edgesForExtendedLayout = UIRectEdgeNone;
+        self.navigationController.navigationBar.barTintColor  = [UIColor colorWithRed:0.99 green:0.99 blue:0.99 alpha:1.0];
+        self.tableView.backgroundColor = [UIColor whiteColor];
+    }
+    else
+    {
+        // default background of uitableview in ios6 is stripe.
+        // change the background to white to match the color with ios7.
+        UIView *backgroundView = [[UIView alloc] init];
+        backgroundView.backgroundColor = [UIColor colorWithRed:0.99 green:0.99 blue:0.99 alpha:1.0];
+        [self.tableView setBackgroundView:backgroundView];
+    }
+    
+    // price view
+    UIView *priceView = [self createPriceView];
+    self.tableView.tableHeaderView = priceView;
+    
+    // pay button
     self.payButton = [self createPayButton];
+    [self.payButton setEnabled:NO];
     
     self.indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
-    [self.indicator setCenter:CGPointMake(120, 22)];
+    [self.indicator setCenter:CGPointMake(160, 25)];
     [self.payButton addSubview:self.indicator];
     
     [self.view addSubview:self.payButton];
+    
+    
+    // listen to tap outside of textfield to dismiss keyboard
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]
+                                   initWithTarget:self
+                                   action:@selector(dismissKeyboard)];
+    [self.view addGestureRecognizer:tap];
 }
 
-- (void)viewDidAppear:(BOOL)animated
+
+
+#pragma mark tableview
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    [super viewDidAppear:animated];
-    [self.cardForm setFocusToFirstField];
+    return 1;
 }
+
+- (NSInteger)tableView:(UITableView*)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return self.titles.count;
+}
+
+- (WPYCardFormCell*)tableView:(UITableView*)tableView cellForRowAtIndexPath:(NSIndexPath*)indexPath
+{
+    static NSString *CellIdentifier = @"Cell";
+    WPYCardFormCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    if (cell == nil)
+    {
+        cell = [[WPYCardFormCell alloc] initWithStyle:UITableViewCellStyleValue1
+                                      reuseIdentifier:CellIdentifier
+                                          contentView:self.contentViews[indexPath.row]
+                                                title:self.titles[indexPath.row]];
+                
+    }
+    
+    return cell;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return WPYCellHeight;
+}
+
+
+
+#pragma mark price view
+- (UIView *)createPriceView
+{
+    UIView *priceView = [[UIView alloc] initWithFrame: CGRectMake(0.0f, 0.0f, self.tableView.bounds.size.width, WPYPriceViewHeight)];
+    
+    UIColor *priceColor = [UIColor colorWithRed:0.2 green:0.29 blue:0.37 alpha:1.0f];
+   
+    float x = [WPYDeviceSettings isiOS7] ? 15 : 20;
+    UILabel *leftLabel = [[UILabel alloc] initWithFrame:CGRectMake(x, 45, 60, 44)];
+    leftLabel.text = NSLocalizedStringFromTableInBundle(@"TOTAL", WPYLocalizedStringTable, [WPYBundleManager localizationBundle], nil);
+    leftLabel.textColor = priceColor;
+    leftLabel.font = [UIFont fontWithName:@"Avenir-Roman" size:14.0f];
+    leftLabel.backgroundColor = [UIColor clearColor];
+    [priceView addSubview:leftLabel];
+    
+    UILabel *priceLabel = [[UILabel alloc] initWithFrame:CGRectMake(60, 40, 200, 50)];
+    priceLabel.text = self.priceTag;
+    priceLabel.textColor = priceColor;
+    priceLabel.font = [UIFont fontWithName:@"Avenir-Roman" size:53.0f];
+    priceLabel.backgroundColor = [UIColor clearColor];
+    priceLabel.adjustsFontSizeToFitWidth = YES;
+    priceLabel.minimumScaleFactor = 0.5;
+    priceLabel.textAlignment = NSTextAlignmentCenter;
+    priceLabel.numberOfLines = 0; // vertical align
+    [priceView addSubview:priceLabel];
+    
+    return priceView;
+}
+
 
 
 #pragma mark pay button
 - (UIButton *)createPayButton
 {
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-    button.frame = CGRectMake(40, 320, 240, 44);
-    button.layer.cornerRadius = 2;
-    button.layer.masksToBounds = YES;
     
-    [button setTitle:self.buttonTitle forState:UIControlStateNormal];
-    [button setTitle:@" " forState:UIControlStateSelected];
+    float buttonHeight = 50.0f;
+    float y = [[UIScreen mainScreen] bounds].size.height - WPYNavBarHeight - buttonHeight + 3;
+    button.frame = CGRectMake(0, y, 320, buttonHeight);
     
+    button.titleLabel.font = [UIFont fontWithName:@"Avenir-Roman" size:20.0f];
+    
+    // normal
+    [button setTitle:NSLocalizedStringFromTableInBundle(@"Confirm Payment", WPYLocalizedStringTable, [WPYBundleManager localizationBundle], nil) forState:UIControlStateNormal];
+    [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [button setBackgroundImage:imageFromColor([UIColor colorWithRed:0 green:0.478 blue:1.0 alpha:0.8]) forState:UIControlStateNormal];
+    
+    // highlighted
+    [button setTitle:@" " forState:UIControlStateSelected];
     [button setBackgroundImage:imageFromColor([UIColor colorWithRed:0 green:0.478 blue:1.0 alpha:1]) forState:UIControlStateHighlighted];
     
     [button addTarget:self
-                       action:@selector(payButtonPushed:)
-             forControlEvents:UIControlEventTouchUpInside];
+               action:@selector(payButtonPushed:)
+     forControlEvents:UIControlEventTouchUpInside];
     
     return button;
 }
 
 - (void)payButtonPushed:(id)sender
 {
-    if (self.card == nil)
+    NSError *error = nil;
+    if (![self.card validate:&error])
     {
         [[[UIAlertView alloc] initWithTitle:@"Error"
-                                    message:@"Please fill in card info."
+                                    message:[error localizedDescription]
                                    delegate:nil
                           cancelButtonTitle:@"dismiss"
                           otherButtonTitles:nil, nil] show];
@@ -132,14 +325,12 @@ static UIImage *imageFromColor(UIColor *color)
     }
     
     [self startIndicator];
-    WPYTokenizerCompletionBlock compBlock = ^(WPYToken *token, NSError *error)
-    {
+    
+    [WPYTokenizer createTokenFromCard:self.card completionBlock:^(WPYToken *token, NSError *error){
         [self stopIndicator];
-        self.callback(token, error);
-    };
-    [WPYTokenizer createTokenFromCard:self.card completionBlock: compBlock];
+        self.callback(self, token, error);
+    }];
 }
-
 
 - (void)startIndicator
 {
@@ -154,21 +345,129 @@ static UIImage *imageFromColor(UIColor *color)
 }
 
 
-#pragma mark WPYCardFormDelegate
-- (void)invalidFieldName:(NSString *)fieldName error:(NSError *)error
+
+#pragma mark keyboard
+- (void)subscribeToKeyboardNotification
 {
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillShow:)
+                                                 name:UIKeyboardWillShowNotification
+                                               object:self.view.window];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillHide:)
+                                                 name:UIKeyboardWillHideNotification
+                                               object:self.view.window];
 }
 
-- (void)validFormWithCard:(WPYCreditCard *)creditCard
+- (void)unsubscribeToKeyboardNotification
 {
-    self.card = creditCard;
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+- (void)keyboardWillShow:(NSNotification *)notification
+{
+    if (!self.isKeyboardDisplayed)
+    {
+        // there is a top margin for tableview in pre ios7
+        float height = [WPYDeviceSettings isiOS7] ? -WPYPriceViewHeight : -WPYPriceViewHeight - 10;
+        [UIView animateWithDuration:WPYKeyboardScrollAnimatinDuration animations:^{
+            self.view.frame = CGRectOffset(self.view.frame, 0, height);
+        }];
+    }
+    
+    self.isKeyboardDisplayed = YES;
+}
+
+- (void)keyboardWillHide:(NSNotification *)notification
+{
+    if (self.isKeyboardDisplayed)
+    {
+        float height = [WPYDeviceSettings isiOS7] ? WPYPriceViewHeight : WPYPriceViewHeight + 10;
+        [UIView animateWithDuration:WPYKeyboardScrollAnimatinDuration animations:^{
+            self.view.frame = CGRectOffset(self.view.frame, 0, height);
+        }];
+    }
+    
+    self.isKeyboardDisplayed = NO;
+}
+
+- (void)dismissKeyboard
+{
+    [self.contentViews enumerateObjectsUsingBlock:^(WPYAbstractCardField *field, NSUInteger idx, BOOL *stop){
+        [field setFocus:NO];
+    }];
 }
 
 
-#pragma mark memory management
-- (void)didReceiveMemoryWarning
+
+#pragma mark cardfield change
+- (void)subscribeToCardChange
 {
-    [super didReceiveMemoryWarning];
+    [self.card addObserver:self
+                      forKeyPath:NSStringFromSelector(@selector(name))
+                         options:NSKeyValueObservingOptionInitial
+                         context:nil];
+    
+    [self.card addObserver:self
+                      forKeyPath:NSStringFromSelector(@selector(number))
+                         options:NSKeyValueObservingOptionInitial
+                         context:nil];
+    
+    [self.card addObserver:self
+                      forKeyPath:NSStringFromSelector(@selector(cvc))
+                         options:NSKeyValueObservingOptionInitial
+                         context:nil];
+    
+    [self.card addObserver:self
+                      forKeyPath:NSStringFromSelector(@selector(expiryMonth))
+                         options:NSKeyValueObservingOptionInitial
+                         context:nil];
+    
+    [self.card addObserver:self
+                      forKeyPath:NSStringFromSelector(@selector(expiryYear))
+                         options:NSKeyValueObservingOptionInitial
+                         context:nil];
+}
+
+- (void)unsubscribeToCardChange
+{
+    [self.card removeObserver:self forKeyPath:NSStringFromSelector(@selector(name))];
+    [self.card removeObserver:self forKeyPath:NSStringFromSelector(@selector(number))];
+    [self.card removeObserver:self forKeyPath:NSStringFromSelector(@selector(cvc))];
+    [self.card removeObserver:self forKeyPath:NSStringFromSelector(@selector(expiryMonth))];
+    [self.card removeObserver:self forKeyPath:NSStringFromSelector(@selector(expiryYear))];
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath
+                      ofObject:(id)object
+                        change:(NSDictionary *)change
+                       context:(void *)context
+{
+    [self validate];
+}
+
+- (void)validate
+{
+    NSError *error = nil;
+    if ([self.card validate: &error])
+    {
+        [self validForm];
+    }
+    else
+    {
+        [self invalidFormWithError:error];
+    }
+}
+
+- (void)validForm
+{
+    [self.payButton setEnabled:YES];
+}
+
+- (void)invalidFormWithError:(NSError *)error
+{
+    [self.payButton setEnabled:NO];
 }
 
 @end

@@ -13,5 +13,5 @@
 #import <Foundation/Foundation.h>
 
 @interface WPYErrorBuilder : NSObject
-- (NSError *)buildErrorFromData:(NSData *)data;
+- (NSError *)buildErrorFromData:(NSData *)data error:(NSError * __autoreleasing *)outError;
 @end

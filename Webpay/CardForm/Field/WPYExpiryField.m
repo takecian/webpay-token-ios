@@ -11,69 +11,95 @@
 #import "WPYExpiryPickerView.h"
 #import "WPYExpiryAccessoryView.h"
 #import "WPYMenuDisabledTextField.h"
-#import "WPYCreditCard.h"
+#import "WPYExpiryFieldModel.h"
+#import "WPYBundleManager.h"
 
 @interface WPYExpiryField () <UITextFieldDelegate, WPYExpiryPickerViewDelegate, WPYExpiryAccessoryViewDelegate>
-- (void)didSelectExpiryYear:(NSString *)year month:(NSString *)month;
+@property(nonatomic, strong) WPYExpiryFieldModel *model;
+@property(nonatomic, strong) WPYExpiryPickerView *expiryPickerView;
 @end
 
 @implementation WPYExpiryField
 
-#pragma mark initialization
-- (id)initWithFrame:(CGRect)frame
+
+
+#pragma mark override methods: initialization
+- (UITextField *)createTextFieldWithFrame:(CGRect)frame
 {
-    self = [super initWithFrame:frame];
-    if (self)
+    self.expiryPickerView = [[WPYExpiryPickerView alloc] initWithFrame:CGRectMake(0, 0, 320, 200)];
+    self.expiryPickerView.expiryDelegate = self;
+        
+    WPYExpiryAccessoryView *accessoryView = [[WPYExpiryAccessoryView alloc] initWithFrame:CGRectMake(0, 0, [[UIScreen mainScreen]bounds].size.width, 44)];
+    accessoryView.delegate = self;
+        
+    UITextField *textField = [[WPYMenuDisabledTextField alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
+    textField.placeholder = @"01 / 2018";
+    
+    textField.inputView = self.expiryPickerView;
+    textField.inputAccessoryView = accessoryView;
+    
+    textField.delegate = self;
+        
+    return textField;
+}
+
+- (UIImageView *)createRightView
+{
+    UIImageView *checkMarkView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 40, 40)];
+    [checkMarkView setImage:[WPYBundleManager imageNamed:@"checkmark"]];
+    checkMarkView.hidden = YES;
+    
+    return checkMarkView;
+}
+
+- (void)setupWithCard:(WPYCreditCard *)card
+{
+    self.model = [[WPYExpiryFieldModel alloc] initWithCard:card];
+    
+    [self setText:[self.model initialValueForTextField]];
+}
+
+
+
+#pragma mark override methods: textfield
+- (void)textFieldDidFocus
+{
+    self.rightView.hidden = YES;
+}
+
+- (void)textFieldValueChanged
+{
+    [self.model setCardValue:self.textField.text];
+}
+
+- (void)textFieldWillLoseFocus
+{
+    [self setText:[self.expiryPickerView selectedExpiry]];
+    
+    if (![self.model shouldValidateOnFocusLost])
     {
-        WPYExpiryPickerView *expiryPicker = [[WPYExpiryPickerView alloc] initWithFrame:CGRectMake(0, 0, 320, 200)];
-        expiryPicker.expiryDelegate = self;
-        
-        WPYExpiryAccessoryView *accessoryView = [[WPYExpiryAccessoryView alloc] initWithFrame:CGRectMake(0, 0, [[UIScreen mainScreen]bounds].size.width, 44)];
-        accessoryView.delegate = self;
-        
-        _textField = [[WPYMenuDisabledTextField alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
-        _textField.placeholder = @"01 / 15";
-        _textField.tintColor = [UIColor clearColor]; // hide cursor
-        _textField.inputView = expiryPicker;
-        _textField.inputAccessoryView = accessoryView;
-        _textField.delegate = self;
-        
-        [self addSubview:_textField];
+        return;
     }
-    return self;
-}
-
-
-
-#pragma mark
-- (WPYFieldKey)key
-{
-    return WPYExpiryFieldKey;
-}
-
-- (BOOL)shouldValidate
-{
-    NSString *expiry = self.textField.text;
-    return expiry.length == 9; // don't valid if both not selected
-}
-
-- (BOOL)validate:(NSError * __autoreleasing *)error
-{
-    NSString *expiry = self.textField.text;
-    NSInteger month = [[expiry substringToIndex:2] integerValue];
-    NSInteger year = [[expiry substringFromIndex:5] integerValue];
     
-    WPYCreditCard *creditCard = [[WPYCreditCard alloc] init];
+    NSError *error = nil;
+    BOOL isValid = [self.model validate:&error];
     
-    return [creditCard validateExpiryYear:year month:month error:error];
+    [self updateViewToValidity:isValid];
+    [self toggleCheckMark:isValid];
 }
+
+- (void)toggleCheckMark:(BOOL)valid
+{
+    self.rightView.hidden = !valid;
+}
+
 
 
 #pragma mark expiry picker delegate
 - (void)didSelectExpiryYear:(NSString *)year month:(NSString *)month
 {
     NSString *expiry = [NSString stringWithFormat:@"%@ / %@", month, year];
-    self.textField.text = expiry;
+    [self setText:expiry];
 }
 
 
@@ -81,7 +107,9 @@
 #pragma mark expiry accessory view delegate
 - (void)doneButtonTapped
 {
+    [self setText:[self.expiryPickerView selectedExpiry]];
     [self.textField resignFirstResponder];
 }
+
 
 @end

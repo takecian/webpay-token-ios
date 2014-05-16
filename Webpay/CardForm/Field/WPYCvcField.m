@@ -8,60 +8,132 @@
 
 #import "WPYCvcField.h"
 
-#import "WPYCreditCard.h"
+#import "WPYTextField.h"
+#import "WPYCvcExplanationView.h"
+#import "WPYCvcFieldModel.h"
+#import "WPYBundleManager.h"
 
 @interface WPYCvcField () <UITextFieldDelegate>
+@property(nonatomic, strong) WPYCvcFieldModel *model;
+@property(nonatomic, strong) UIButton *transparentButton;
 @end
 
-static NSInteger const WPYCvcMaxValue = 4;
-
 @implementation WPYCvcField
-#pragma mark initialization
-- (id)initWithFrame:(CGRect)frame
+
+
+#pragma mark override methods: initialization
+- (UITextField *)createTextFieldWithFrame:(CGRect)frame
 {
-    self = [super initWithFrame:frame];
-    if (self)
-    {
-        _textField = [[UITextField alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
-        _textField.placeholder = @"123";
-        _textField.secureTextEntry = YES;
-        _textField.keyboardType = UIKeyboardTypeNumberPad;
-        _textField.delegate = self;
-        
-        [self addSubview:_textField];
-    }
-    return self;
-}
-
-
-
-#pragma mark
-- (WPYFieldKey)key
-{
-    return WPYCvcFieldKey;
-}
-
-- (BOOL)shouldValidate
-{
-    NSString *cvc = self.textField.text;
-    return cvc.length != 0; // don't validiate if length is 0
-}
-
-- (BOOL)validate:(NSError * __autoreleasing *)error
-{
-    NSString *cvc = self.textField.text;
-    WPYCreditCard *creditCard = [[WPYCreditCard alloc] init];
+    UITextField *textField = [[WPYTextField alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
+    textField.placeholder = @"123";
+    textField.keyboardType = UIKeyboardTypeNumberPad;
+    textField.clearsOnBeginEditing = NO;
+    [textField addTarget:self action:@selector(textFieldDidChanged:) forControlEvents: UIControlEventEditingChanged];
+    textField.delegate = self;
     
-    return [creditCard validateCvc:&cvc error:error];
+    return textField;
+}
+
+- (UIImageView *)createRightView
+{
+    UIImageView *rightView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 40, 40)];
+    rightView.userInteractionEnabled = YES;
+    return rightView;
+}
+
+- (void)setupWithCard:(WPYCreditCard *)card
+{
+    self.model = [[WPYCvcFieldModel alloc] initWithCard:card];
+    [self setText:[self.model initialValueForTextField]];
+    
+    self.transparentButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.transparentButton.frame = CGRectMake(170, 0, 40, 44);
+    [self.transparentButton addTarget:self action:@selector(showCvcInfoView) forControlEvents:UIControlEventTouchUpInside];
+    [self addSubview:self.transparentButton];
+    
+    [self showQuestionIcon];
 }
 
 
-#pragma mark textfield delegate
+
+
+#pragma mark textField
+- (void)textFieldDidFocus
+{
+    [self showQuestionIcon];
+    
+    // avoid firing textFieldDidChange
+    self.textField.text = [self.model rawCardValue];
+}
+
+- (void)textFieldValueChanged
+{
+    [self.model setCardValue:self.textField.text];
+}
+
+- (void)textFieldWillLoseFocus
+{
+    // avoid firing textFieldDidChange so that masks will not be assigned to card value.
+    self.textField.text = [self.model maskedCvc];
+    
+    if (![self.model shouldValidateOnFocusLost])
+    {
+        return;
+    }
+    
+    NSError *error = nil;
+    BOOL isValid = [self.model validate:&error];
+    
+    [self updateViewToValidity:isValid];
+    [self toggleRightView:isValid];
+}
+
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)replacementString
 {
     NSString *newValue = [textField.text stringByReplacingCharactersInRange:range withString:replacementString];
-    return newValue.length <= WPYCvcMaxValue;
+    return [self.model canInsertNewValue:newValue];
 }
 
+
+
+#pragma mark right view
+- (void)toggleRightView:(BOOL)valid
+{
+    if (valid)
+    {
+        [self showCheckMark];
+    }
+    else
+    {
+        [self showQuestionIcon];
+    }
+}
+
+- (void)showCheckMark
+{
+    [self.rightView setImage:[WPYBundleManager imageNamed:@"checkmark"]];
+    self.transparentButton.enabled = NO;
+}
+
+- (void)showQuestionIcon
+{
+    [self.rightView setImage:[WPYBundleManager imageNamed:@"question"]];
+    self.transparentButton.enabled = YES;
+}
+
+
+
+#pragma mark cvc info
+- (void)showCvcInfoView
+{
+    if ([self.model isAmex])
+    {
+        [WPYCvcExplanationView showAmexCvcExplanation];
+    }
+    else
+    {
+        [WPYCvcExplanationView showNonAmexCvcExplanation];
+    }
+}
 
 @end

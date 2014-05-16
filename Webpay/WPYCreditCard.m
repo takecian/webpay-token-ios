@@ -9,8 +9,15 @@
 #import "WPYCreditCard.h"
 #import "WPYErrors.h"
 
-@implementation WPYCreditCard
+NSString *const WPYVisa = @"Visa";
+NSString *const WPYMasterCard = @"MasterCard";
+NSString *const WPYAmex = @"American Express";
+NSString *const WPYDiscover = @"Discover";
+NSString *const WPYJCB = @"JCB";
+NSString *const WPYDiners = @"Diners";
+NSString *const WPYUnknown = @"Unknown";
 
+@implementation WPYCreditCard
 
 #pragma mark helpers
 static void handleValidationError(NSError * __autoreleasing * error, WPYErrorCode errorCode, NSString *failureReason)
@@ -92,6 +99,56 @@ static NSString *reverseString(NSString *string)
 
 
 
+#pragma mark class methods
++ (NSString *)brandNameFromPartialNumber:(NSString *)number
+{
+    if (number == nil || number.length < 2)
+    {
+        return WPYUnknown;
+    }
+    
+    NSInteger prefix = [[number substringWithRange:NSMakeRange(0, 2)] integerValue];
+    
+    if (40 <= prefix && prefix < 50)
+    {
+        return WPYVisa;
+    }
+    
+    if (50 <= prefix && prefix <= 55)
+    {
+        return WPYMasterCard;
+    }
+    
+    if (prefix == 34 || prefix == 37)
+    {
+        return WPYAmex;
+    }
+    
+    if (prefix == 30 || prefix == 36 || prefix == 38 || prefix == 39)
+    {
+        return WPYDiners;
+    }
+    
+    if (prefix == 35)
+    {
+        return WPYJCB;
+    }
+    
+    if (prefix == 60 || prefix == 62 || prefix == 64 || prefix == 65)
+    {
+        return WPYDiscover;
+    }
+    
+    return WPYUnknown;
+}
+
++ (BOOL)isSupportedBrand:(NSString *)brand
+{
+    NSArray *supportedBrands = @[WPYVisa, WPYAmex, WPYMasterCard, WPYJCB, WPYDiners];
+    return [supportedBrands containsObject:brand];
+}
+
+
 #pragma mark public methods
 - (void)setNumber:(NSString *)number
 {
@@ -108,12 +165,12 @@ static NSString *reverseString(NSString *string)
     
     NSDictionary *brandIdentifiers =
     @{
-        @"Visa"            : @"4[0-9]{12}(?:[0-9]{3})?",
-        @"American Express": @"3[47][0-9]{13}",
-        @"MasterCard"      : @"5[1-5][0-9]{14}",
-        @"Discover"        : @"6(?:011|5[0-9]{2})[0-9]{12}",
-        @"JCB"             : @"(?:2131|1800|35\\d{3})\\d{11}",
-        @"Diners"          : @"3(?:0[0-5]|[68][0-9])[0-9]{11}"
+        WPYVisa            : @"4[0-9]{12}(?:[0-9]{3})?",
+        WPYAmex            : @"3[47][0-9]{13}",
+        WPYMasterCard      : @"5[1-5][0-9]{14}",
+        WPYDiscover        : @"6(?:011|5[0-9]{2})[0-9]{12}",
+        WPYJCB             : @"(?:2131|1800|35\\d{3})\\d{11}",
+        WPYDiners          : @"3(?:0[0-5]|[68][0-9])[0-9]{11}"
     };
     
     __block NSString *brandName = nil;
@@ -125,8 +182,20 @@ static NSString *reverseString(NSString *string)
             *stop = YES;
         }
     }];
-    return brandName ? brandName : @"Unknown";
+    return brandName ? brandName : WPYUnknown;
 }
+
+- (NSString *)expiryInString
+{
+    if (self.expiryYear && self.expiryMonth)
+    {
+        return [NSString stringWithFormat:@"%02u / %@", self.expiryMonth, @(self.expiryYear)];
+    }
+    
+    return nil;
+}
+
+
 
 #pragma mark validation methods
 - (BOOL)validateName:(__autoreleasing id *)ioValue error:(NSError *__autoreleasing *)outError
@@ -152,7 +221,7 @@ static NSString *reverseString(NSString *string)
 {
     if (*ioValue == nil)
     {
-        handleValidationError(outError, WPYInvalidNumber, @"Number should not be nil.");
+        handleValidationError(outError, WPYIncorrectNumber, @"Number should not be nil.");
         return NO;
     }
     
@@ -160,19 +229,19 @@ static NSString *reverseString(NSString *string)
     
     if (!(isNumericOnlyString(cleansedStr)))
     {
-        handleValidationError(outError, WPYInvalidNumber, @"Number should be numeric only.");
+        handleValidationError(outError, WPYIncorrectNumber, @"Number should be numeric only.");
         return NO;
     }
     
     if (cleansedStr.length < 13 || cleansedStr.length > 16)
     {
-        handleValidationError(outError, WPYInvalidNumber, @"Number should be 13 digits to 16 digits.");
+        handleValidationError(outError, WPYIncorrectNumber, @"Number should be 13 digits to 16 digits.");
         return NO;
     }
     
     if (!isLuhnValidString(cleansedStr))
     {
-        handleValidationError(outError, WPYInvalidNumber, @"This number is not Luhn valid string.");
+        handleValidationError(outError, WPYIncorrectNumber, @"This number is not Luhn valid string.");
         return NO;
     }
     
@@ -196,7 +265,7 @@ static NSString *reverseString(NSString *string)
     }
     
     NSString *brand = [self brandName];
-    BOOL isAmex = [brand isEqualToString:@"American Express"];
+    BOOL isAmex = [brand isEqualToString:WPYAmex];
     
     if (!brand)
     {
@@ -270,7 +339,7 @@ static NSString *reverseString(NSString *string)
 
     if (!([now compare: expiryDate] == NSOrderedAscending))
     {
-        handleValidationError(error, WPYInvalidExpiry, @"This card is expired.");
+        handleValidationError(error, WPYIncorrectExpiry, @"This card is expired.");
         return NO;
     }
     return YES;
@@ -278,9 +347,9 @@ static NSString *reverseString(NSString *string)
 
 - (BOOL)validateBrand:(NSString *)brand error:(NSError * __autoreleasing *)error
 {
-    if (!brand || [brand isEqualToString:@"Discover"] || [brand isEqualToString:@"Unknown"])
+    if (![self.class isSupportedBrand:brand])
     {
-        handleValidationError(error, WPYInvalidNumber, @"This brand is not supported by Webpay.");
+        handleValidationError(error, WPYIncorrectNumber, @"This brand is not supported by Webpay.");
         return NO;
     }
     return YES;
