@@ -25,7 +25,6 @@
 
 #import "WPYAbstractCardFieldSubclass.h"
 
-#import "WPYAbstractFieldModel.h"
 
 
 static float const WPYShakeWidth = 1.0f;
