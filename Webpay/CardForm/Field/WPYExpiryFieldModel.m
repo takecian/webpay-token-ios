@@ -39,7 +39,7 @@ static NSString *removeAllWhitespaces(NSString *string)
 
 
 #pragma mark textfield
-- (NSString *)initialValueForTextField
+- (NSString *)formattedTextFieldValue
 {
     return [self rawCardValue];
 }

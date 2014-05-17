@@ -64,7 +64,7 @@ static NSString *const kMasterCardNumber = @"5105105105105100";
 - (void)testInitialCvc
 {
     _model.card.cvc = @"123";
-    XCTAssertEqualObjects([_model initialValueForTextField], @"123", @"It should return cvc as is.");
+    XCTAssertEqualObjects([_model formattedTextFieldValue], @"●●●", @"It should mask cvc.");
 }
 
 

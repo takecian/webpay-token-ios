@@ -40,9 +40,14 @@
 {
     self.model = [[WPYNumberFieldModel alloc] initWithCard:card];
     
-    [self setText:[self.model initialValueForTextField]];
+    [self assignText:[self.model formattedTextFieldValue]];
 }
 
+- (void)setText:(NSString *)text
+{
+    [self.model setCardValue:text];
+    [self assignText:[self.model formattedTextFieldValue]];
+}
 
 
 #pragma mark textfield
@@ -60,7 +65,7 @@
     NSUInteger location = range.location;
     if ([self.model canInsertNewValue:newValue])
     {
-        [self setText:[WPYNumberFieldModel reformatNumber:newValue position:location isDeleted:isDigitDeleted]];
+        [self updateText:[WPYNumberFieldModel reformatNumber:newValue position:location isDeleted:isDigitDeleted]];
         
         
         // adjust cursor position when a characted added or deleted from the middle of text

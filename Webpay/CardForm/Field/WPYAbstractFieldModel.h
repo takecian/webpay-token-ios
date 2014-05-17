@@ -19,7 +19,7 @@
 - (void)setCardValue:(NSString *)value;
 - (NSString *)rawCardValue;
 
-- (NSString *)initialValueForTextField;
+- (NSString *)formattedTextFieldValue;
 - (BOOL)canInsertNewValue:(NSString *)newValue;
 
 - (BOOL)shouldValidateOnFocusLost;

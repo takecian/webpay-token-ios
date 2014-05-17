@@ -23,9 +23,8 @@
 // 3. change validity view
 // 4. if error show error animation
 
-#import "WPYAbstractCardField.h"
+#import "WPYAbstractCardFieldSubclass.h"
 
-#import "WPYAbstractFieldModel.h"
 
 
 static float const WPYShakeWidth = 1.0f;
@@ -69,16 +68,6 @@ static NSInteger const WPYMaxShakes = 8;
     }
 }
 
-- (void)setText:(NSString *)text
-{
-    if (text)
-    {
-        self.textField.text = text;
-        // assigning text directly does NOT fire textFieldDidChange, so fire manually
-        [self textFieldValueChanged];
-    }
-}
-
 - (void)updateViewToValidity:(BOOL)valid
 {
     if (valid)
@@ -89,6 +78,27 @@ static NSInteger const WPYMaxShakes = 8;
     {
         [self setErrorColor];
         [self startErrorAnimation];
+    }
+}
+
+
+
+#pragma mark protected method
+- (void)updateText:(NSString *)text
+{
+    if (text)
+    {
+        self.textField.text = text;
+        // assigning text directly does NOT fire textFieldDidChange, so fire manually
+        [self textFieldValueChanged];
+    }
+}
+
+- (void)assignText:(NSString *)text
+{
+    if (text)
+    {
+        self.textField.text = text;
     }
 }
 
@@ -113,6 +123,13 @@ static NSInteger const WPYMaxShakes = 8;
 - (void)setupWithCard:(WPYCreditCard *)card
 {
 
+}
+
+- (void)setText:(NSString *)text
+{
+    @throw [NSException exceptionWithName:NSInternalInconsistencyException
+                                   reason:[NSString stringWithFormat:@"You must override %@ in a subclass", NSStringFromSelector(_cmd)]
+                                 userInfo:nil];
 }
 
 

@@ -368,19 +368,19 @@ static NSString *const kMasterCardNumber = @"5105105105105100";
 - (void)testInitialNumberWithNilNumber
 {
     _model.card.number = nil;
-    XCTAssertNil([_model initialValueForTextField], @"It should return nil if number is nil.");
+    XCTAssertNil([_model formattedTextFieldValue], @"It should return nil if number is nil.");
 }
 
 - (void)testAmexNumberAsInitialNumber
 {
     _model.card.number = kAmexNumber;
-    XCTAssertEqualObjects([_model initialValueForTextField], @"3714 496353 98431", @"It should be padded");
+    XCTAssertEqualObjects([_model formattedTextFieldValue], @"3714 496353 98431", @"It should be padded");
 }
 
 - (void)testMasterCardAsInitialNumber
 {
     _model.card.number = kMasterCardNumber;
-    XCTAssertEqualObjects([_model initialValueForTextField], @"5105 1051 0510 5100", @"It should be padded");
+    XCTAssertEqualObjects([_model formattedTextFieldValue], @"5105 1051 0510 5100", @"It should be padded");
 }
 
 

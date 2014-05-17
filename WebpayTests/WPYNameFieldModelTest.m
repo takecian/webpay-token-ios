@@ -54,6 +54,6 @@
 - (void)testInitialExpiry
 {
     _model.card.name = @"Yohei";
-    XCTAssertEqualObjects([_model initialValueForTextField], @"Yohei", @"It should return card.name.");
+    XCTAssertEqualObjects([_model formattedTextFieldValue], @"Yohei", @"It should return card.name.");
 }
 @end

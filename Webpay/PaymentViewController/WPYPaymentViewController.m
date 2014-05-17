@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 yohei, YasuLab. All rights reserved.
 //
 
-#import "WPYPaymentViewController.h"
+#import "WPYPaymentViewControllerSubclass.h"
 
 #import "WPYTokenizer.h"
 #import "WPYCreditCard.h"
@@ -24,17 +24,6 @@
 
 
 @interface WPYPaymentViewController ()<UITableViewDataSource, UITableViewDelegate>
-@property(nonatomic, strong) WPYCreditCard *card;
-
-@property(nonatomic, copy) NSString *priceTag;
-@property(nonatomic, copy) WPYPaymentViewCallback callback;
-
-@property(nonatomic) BOOL isKeyboardDisplayed;
-@property(nonatomic, strong) NSArray *titles;
-@property(nonatomic, strong) NSArray *contentViews;
-
-@property(nonatomic, strong) UIButton *payButton;
-@property(nonatomic, strong) UIActivityIndicatorView *indicator;
 @end
 
 
@@ -72,6 +61,15 @@ static UIImage *imageFromColor(UIColor *color)
 
 
 @implementation WPYPaymentViewController
+@synthesize card = _card;
+@synthesize callback = _callback;
+@synthesize isKeyboardDisplayed = _isKeyboardDisplayed;
+@synthesize titles = _titles;
+@synthesize contentViews = _contentViews;
+@synthesize priceTag = _priceTag;
+@synthesize payButton = _payButton;
+@synthesize indicator = _indicator;
+
 #pragma mark initializer
 - (instancetype)initWithPriceTag:(NSString *)priceTag
                             card:(WPYCreditCard *)card
@@ -93,18 +91,14 @@ static UIImage *imageFromColor(UIColor *color)
                     ];
         
         // contentViews
-        // for pre ios7, area of tableviewcell is smaller
-        BOOL isiOS7 = [WPYDeviceSettings isiOS7];
-        float x = isiOS7 ? WPYFieldLeftMargin : WPYFieldLeftMargin - 10;
-        float width = isiOS7 ? WPYFieldWidth : WPYFieldWidth - 10;
-        CGRect fieldFrame = CGRectMake(x, WPYFieldTopMargin, width, WPYFieldHeight);
+        CGRect fieldFrame = [self fieldFrame];
         
         WPYAbstractCardField *numberField = [[WPYNumberField alloc] initWithFrame:fieldFrame card:_card];
         WPYAbstractCardField *expiryField = [[WPYExpiryField alloc] initWithFrame:fieldFrame card:_card];
         WPYAbstractCardField *cvcField = [[WPYCvcField alloc] initWithFrame:fieldFrame card:_card];
         WPYAbstractCardField *nameField = [[WPYNameField alloc] initWithFrame:fieldFrame card:_card];
         
-        _contentViews = @[numberField, expiryField, cvcField, nameField];
+        _contentViews = [NSMutableArray arrayWithArray:@[numberField, expiryField, cvcField, nameField]];
         
         [self subscribeToCardChange];
     }
@@ -168,6 +162,18 @@ static UIImage *imageFromColor(UIColor *color)
 - (void)pop
 {
     [self.navigationController popViewControllerAnimated:YES];
+}
+
+
+
+#pragma mark protected method
+- (CGRect)fieldFrame
+{
+    // for pre ios7, area of tableviewcell is smaller
+    BOOL isiOS7 = [WPYDeviceSettings isiOS7];
+    float x = isiOS7 ? WPYFieldLeftMargin : WPYFieldLeftMargin - 10;
+    float width = isiOS7 ? WPYFieldWidth : WPYFieldWidth - 10;
+    return CGRectMake(x, WPYFieldTopMargin, width, WPYFieldHeight);
 }
 
 

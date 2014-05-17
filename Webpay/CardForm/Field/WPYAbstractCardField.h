@@ -23,7 +23,6 @@
 
 // abstract class methods(common procedures)
 - (void)setFocus:(BOOL)focus;
-- (void)setText:(NSString *)text;
 - (void)textFieldDidChanged:(UITextField *)textField;
 - (void)updateViewToValidity:(BOOL)valid;
 
@@ -32,6 +31,7 @@
 - (UITextField *)createTextFieldWithFrame:(CGRect)frame;
 - (UIImageView *)createRightView;
 - (void)setupWithCard:(WPYCreditCard *)card;
+- (void)setText:(NSString *)text;
 
 // template methods
 - (void)textFieldDidFocus;
