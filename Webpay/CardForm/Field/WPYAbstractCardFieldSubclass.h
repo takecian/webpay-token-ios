@@ -10,5 +10,7 @@
 
 @interface WPYAbstractCardField ()
 // protected setter
+// setText is for client setting value
+// updateText is protected & common procedure for setting text.
 - (void)updateText:(NSString *)text;
 @end
