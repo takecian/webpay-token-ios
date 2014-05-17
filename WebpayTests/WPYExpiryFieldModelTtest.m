@@ -81,7 +81,7 @@
 {
     _model.card.expiryYear = 2018;
     _model.card.expiryMonth = 2;
-    XCTAssertEqualObjects([_model initialValueForTextField], @"02 / 2018", @"It should format expiry as MM / YYYY.");
+    XCTAssertEqualObjects([_model formattedTextFieldValue], @"02 / 2018", @"It should format expiry as MM / YYYY.");
 }
 
 @end
