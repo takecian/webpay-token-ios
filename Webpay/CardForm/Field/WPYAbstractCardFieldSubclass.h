@@ -9,8 +9,10 @@
 #import "WPYAbstractCardField.h"
 
 @interface WPYAbstractCardField ()
-// protected setter
-// setText is for client setting value
-// updateText is protected & common procedure for setting text.
+// setText: setter for client.
+// udpateText: setter for subclasses. It calls textFieldValueChanged
 - (void)updateText:(NSString *)text;
+
+// assignText: setter for subclasses. It just sets text
+- (void)assignText:(NSString *)text;
 @end

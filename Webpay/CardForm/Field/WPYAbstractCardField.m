@@ -94,6 +94,14 @@ static NSInteger const WPYMaxShakes = 8;
     }
 }
 
+- (void)assignText:(NSString *)text
+{
+    if (text)
+    {
+        self.textField.text = text;
+    }
+}
+
 
 
 #pragma mark expected to overriden in subclass
