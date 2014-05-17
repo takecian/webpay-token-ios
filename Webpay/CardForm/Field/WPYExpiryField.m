@@ -55,10 +55,14 @@
 - (void)setupWithCard:(WPYCreditCard *)card
 {
     self.model = [[WPYExpiryFieldModel alloc] initWithCard:card];
-    
-    [self setText:[self.model initialValueForTextField]];
+    [self assignText:[self.model formattedTextFieldValue]];
 }
 
+- (void)setText:(NSString *)text
+{
+    [self.model setCardValue:text];
+    [self assignText:[self.model formattedTextFieldValue]];
+}
 
 
 #pragma mark override methods: textfield

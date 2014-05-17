@@ -44,7 +44,7 @@
 - (void)setupWithCard:(WPYCreditCard *)card
 {
     self.model = [[WPYCvcFieldModel alloc] initWithCard:card];
-    [self setText:[self.model initialValueForTextField]];
+    [self assignText:[self.model formattedTextFieldValue]];
     
     self.transparentButton = [UIButton buttonWithType:UIButtonTypeCustom];
     self.transparentButton.frame = CGRectMake(170, 0, 40, 44);
@@ -54,6 +54,11 @@
     [self showQuestionIcon];
 }
 
+- (void)setText:(NSString *)text
+{
+    [self.model setCardValue:text];
+    [self assignText:[self.model formattedTextFieldValue]];
+}
 
 
 
@@ -74,7 +79,7 @@
 - (void)textFieldWillLoseFocus
 {
     // avoid firing textFieldDidChange so that masks will not be assigned to card value.
-    self.textField.text = [self.model maskedCvc];
+    [self assignText:[self.model maskedCvc]];
     
     if (![self.model shouldValidateOnFocusLost])
     {
