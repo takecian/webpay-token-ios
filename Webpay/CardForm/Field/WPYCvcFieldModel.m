@@ -49,7 +49,7 @@ static NSUInteger const WPYValidNonAmexCvcLength = 3;
 
 
 #pragma mark textfield
-- (NSString *)initialValueForTextField
+- (NSString *)formattedTextFieldValue
 {
     return [self rawCardValue];
 }

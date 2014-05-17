@@ -220,7 +220,7 @@ static NSString *addPaddingToNumber(NSString *number)
 
 
 #pragma mark textfield
-- (NSString *)initialValueForTextField
+- (NSString *)formattedTextFieldValue
 {
     if (self.card.number)
     {
