@@ -152,6 +152,7 @@
 		47CE70DE18E8C7D500E4B4B8 /* WPYTokenizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WPYTokenizer.m; path = Webpay/Tokenizer/WPYTokenizer.m; sourceTree = "<group>"; };
 		47D9BC1518CFBF080020BF55 /* WPYCreditCard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WPYCreditCard.h; path = Webpay/WPYCreditCard.h; sourceTree = "<group>"; };
 		47D9BC1618CFBF080020BF55 /* WPYCreditCard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WPYCreditCard.m; path = Webpay/WPYCreditCard.m; sourceTree = "<group>"; };
+		47E75372192739E700FEBD47 /* WPYPaymentViewControllerSubclass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WPYPaymentViewControllerSubclass.h; path = Webpay/PaymentViewController/WPYPaymentViewControllerSubclass.h; sourceTree = "<group>"; };
 		47ED71081900EA6C006F9B54 /* WPYAbstractCardField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WPYAbstractCardField.h; path = Webpay/CardForm/Field/WPYAbstractCardField.h; sourceTree = "<group>"; };
 		47ED71091900EA6C006F9B54 /* WPYAbstractCardField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WPYAbstractCardField.m; path = Webpay/CardForm/Field/WPYAbstractCardField.m; sourceTree = "<group>"; };
 		47F7A46D1925660700859C9A /* WPYDeviceSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WPYDeviceSettings.h; path = Webpay/WPYDeviceSettings.h; sourceTree = "<group>"; };
@@ -192,6 +193,7 @@
 			isa = PBXGroup;
 			children = (
 				4795D4DC18F913F20050542E /* WPYPaymentViewController.h */,
+				47E75372192739E700FEBD47 /* WPYPaymentViewControllerSubclass.h */,
 				4795D4DD18F913F20050542E /* WPYPaymentViewController.m */,
 			);
 			name = PaymentViewController;

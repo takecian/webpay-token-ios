@@ -10,9 +10,25 @@
 
 @class WPYToken;
 @class WPYCreditCard;
-@interface WPYPaymentViewController : UITableViewController
-
+@class WPYPaymentViewController;
 typedef void (^WPYPaymentViewCallback)(WPYPaymentViewController *paymentViewController, WPYToken *token, NSError *error);
+
+
+@interface WPYPaymentViewController : UITableViewController
+{
+    WPYCreditCard *_card;
+    WPYPaymentViewCallback _callback;
+
+    BOOL _isKeyboardDisplayed;
+    NSArray *_titles;
+    NSMutableArray *_contentViews;
+
+    NSString *_priceTag;
+    
+    UIButton *_payButton;
+    UIActivityIndicatorView *_indicator;
+}
+
 
 // designated initializer
 - (instancetype)initWithPriceTag:(NSString *)priceTag // price tag should include currency unit. i.e) $1.00
