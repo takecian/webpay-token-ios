@@ -40,6 +40,8 @@ static float const WPYFieldHeight = 45.0f;
 
 static float const WPYCellHeight = 50.0f;
 
+static float const WPYKeyboardAnimationDuration = 0.3f;
+
 
 
 static UIImage *imageFromColor(UIColor *color)
@@ -389,7 +391,9 @@ static UIImage *imageFromColor(UIColor *color)
     {
         // there is a top margin for tableview in pre ios7
         float height = [WPYDeviceSettings isiOS7] ? WPYPriceViewHeight : WPYPriceViewHeight + 10;
-        [self.tableView setContentOffset:CGPointMake(0, height) animated:YES];
+        [UIView animateWithDuration:WPYKeyboardAnimationDuration animations:^(){
+            [self.tableView setContentOffset:CGPointMake(0, height) animated:NO];
+        }];
     }
     
     self.isKeyboardDisplayed = YES;
@@ -399,7 +403,9 @@ static UIImage *imageFromColor(UIColor *color)
 {
     if (self.isKeyboardDisplayed)
     {
-        [self.tableView setContentOffset:CGPointMake(0, 0) animated:YES];
+        [UIView animateWithDuration:WPYKeyboardAnimationDuration animations:^(){
+            [self.tableView setContentOffset:CGPointMake(0, 0) animated:NO];
+        }];
     }
     
     self.isKeyboardDisplayed = NO;
