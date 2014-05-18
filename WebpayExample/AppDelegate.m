@@ -11,7 +11,7 @@
 #import "Webpay.h"
 #import "ItemDetailViewController.h"
 
-static NSString *const publicKey = @"test_public_9vOf4MbGPeLcb5V9Fg4zrbOh";
+static NSString *const publicKey = @"test_public_19DdUs78k2lV8PO8ZCaYX3JT";
 
 @implementation AppDelegate
 
