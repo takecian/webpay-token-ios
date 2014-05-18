@@ -14,13 +14,14 @@
 typedef void (^WPYPaymentViewCallback)(WPYPaymentViewController *paymentViewController, WPYToken *token, NSError *error);
 
 
-@interface WPYPaymentViewController : UITableViewController
+@interface WPYPaymentViewController : UIViewController
 {
     WPYCreditCard *_card;
     WPYPaymentViewCallback _callback;
 
     BOOL _isKeyboardDisplayed;
     NSArray *_titles;
+    UITableView *_tableView;
     NSMutableArray *_contentViews;
 
     NSString *_priceTag;

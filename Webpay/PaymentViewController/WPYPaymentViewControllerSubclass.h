@@ -16,6 +16,7 @@
 
 @property(nonatomic) BOOL isKeyboardDisplayed;
 @property(nonatomic, strong) NSArray *titles;
+@property(nonatomic, strong) UITableView *tableView;
 @property(nonatomic, strong) NSMutableArray *contentViews;
 
 @property(nonatomic, strong) UIButton *payButton;
