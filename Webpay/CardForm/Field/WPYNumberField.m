@@ -47,6 +47,7 @@
 {
     [self.model setCardValue:text];
     [self assignText:[self.model formattedTextFieldValue]];
+    [self updateBrand];
 }
 
 
