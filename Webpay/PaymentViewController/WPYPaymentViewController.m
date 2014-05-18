@@ -400,6 +400,7 @@ static UIImage *imageFromColor(UIColor *color)
         [UIView animateWithDuration:WPYKeyboardAnimationDuration animations:^(){
             [self.tableView setContentOffset:CGPointMake(0, height) animated:NO];
         }];
+        self.tableView.scrollEnabled = NO;
     }
     
     self.isKeyboardDisplayed = YES;
@@ -412,6 +413,7 @@ static UIImage *imageFromColor(UIColor *color)
         [UIView animateWithDuration:WPYKeyboardAnimationDuration animations:^(){
             [self.tableView setContentOffset:CGPointMake(0, 0) animated:NO];
         }];
+        self.tableView.scrollEnabled = YES;
     }
     
     self.isKeyboardDisplayed = NO;
