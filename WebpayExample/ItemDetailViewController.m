@@ -47,10 +47,10 @@
     {
         if (token)
         {
-            [[[UIAlertView alloc] initWithTitle:@"success!"
+            [[[UIAlertView alloc] initWithTitle:@"Success!"
                                         message:[NSString stringWithFormat:@"token:%@", token.tokenId]
                                        delegate:nil
-                              cancelButtonTitle:@"ok"
+                              cancelButtonTitle:@"dismiss"
                               otherButtonTitles:nil, nil]
              show];
             [paymentViewController setPayButtonComplete];
@@ -58,10 +58,10 @@
         }
         else
         {
-            [[[UIAlertView alloc] initWithTitle:@"error"
+            [[[UIAlertView alloc] initWithTitle:@"Error"
                                         message:[error localizedDescription]
                                        delegate:nil
-                              cancelButtonTitle:@"ok"
+                              cancelButtonTitle:@"dismiss"
                               otherButtonTitles:nil, nil]
              show];
         }
