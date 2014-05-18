@@ -30,7 +30,7 @@
 // internal constants
 static float const WPYNavBarHeight = 64.0f;
 
-static float const WPYKeyboardScrollAnimatinDuration = 0.3f;
+static float const WPYTableViewHeight = 350.0f;
 
 static float const WPYPriceViewHeight = 130.0f;
 
@@ -41,6 +41,8 @@ static float const WPYFieldWidth = 320.0f - WPYFieldLeftMargin - WPYFieldRightMa
 static float const WPYFieldHeight = 45.0f;
 
 static float const WPYCellHeight = 50.0f;
+
+static float const WPYKeyboardAnimationDuration = 0.3f;
 
 
 
@@ -65,6 +67,7 @@ static UIImage *imageFromColor(UIColor *color)
 @synthesize callback = _callback;
 @synthesize isKeyboardDisplayed = _isKeyboardDisplayed;
 @synthesize titles = _titles;
+@synthesize tableView = _tableView;
 @synthesize contentViews = _contentViews;
 @synthesize priceTag = _priceTag;
 @synthesize payButton = _payButton;
@@ -75,7 +78,7 @@ static UIImage *imageFromColor(UIColor *color)
                             card:(WPYCreditCard *)card
                         callback:(WPYPaymentViewCallback)callback;
 {
-    if (self = [super initWithStyle:UITableViewStyleGrouped])
+    if (self = [super initWithNibName:nil bundle:nil])
     {
         _priceTag = priceTag;
         _card = card;
@@ -89,6 +92,12 @@ static UIImage *imageFromColor(UIColor *color)
                     NSLocalizedStringFromTableInBundle(@"CVC", WPYLocalizedStringTable, bundle, nil),
                     NSLocalizedStringFromTableInBundle(@"Name", WPYLocalizedStringTable, bundle, nil)
                     ];
+        
+        CGRect tableViewFrame = [WPYDeviceSettings isiOS7] ? CGRectMake(0, WPYNavBarHeight, [[UIScreen mainScreen] bounds].size.width,  WPYTableViewHeight) : CGRectMake(0, 0, [[UIScreen mainScreen] bounds].size.width,  WPYTableViewHeight);
+        _tableView = [[UITableView alloc] initWithFrame:tableViewFrame style:UITableViewStyleGrouped];
+        _tableView.delegate = self;
+        _tableView.dataSource = self;
+        [self.view addSubview:_tableView];
         
         // contentViews
         CGRect fieldFrame = [self fieldFrame];
@@ -179,6 +188,14 @@ static UIImage *imageFromColor(UIColor *color)
 
 
 #pragma mark view lifecycle
+- (void)loadView
+{
+	[super loadView];
+	UIView *theView = [[UIView alloc]initWithFrame:[[UIScreen mainScreen]bounds]];
+	theView.backgroundColor = [UIColor whiteColor];
+	self.view = theView;
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -188,7 +205,6 @@ static UIImage *imageFromColor(UIColor *color)
     if ([WPYDeviceSettings isiOS7])
     {
         self.navigationController.navigationBar.translucent = NO;
-        self.edgesForExtendedLayout = UIRectEdgeNone;
         self.navigationController.navigationBar.barTintColor  = [UIColor colorWithRed:0.99 green:0.99 blue:0.99 alpha:1.0];
         self.tableView.backgroundColor = [UIColor whiteColor];
     }
@@ -296,7 +312,11 @@ static UIImage *imageFromColor(UIColor *color)
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
     
     float buttonHeight = 50.0f;
-    float y = [[UIScreen mainScreen] bounds].size.height - WPYNavBarHeight - buttonHeight + 3;
+    float y = self.view.frame.size.height - WPYNavBarHeight - buttonHeight + 3;
+    if ([WPYDeviceSettings isiOS7])
+    {
+        y+= WPYNavBarHeight;
+    }
     button.frame = CGRectMake(0, y, 320, buttonHeight);
     
     button.titleLabel.font = [UIFont fontWithName:@"Avenir-Roman" size:20.0f];
@@ -376,10 +396,11 @@ static UIImage *imageFromColor(UIColor *color)
     if (!self.isKeyboardDisplayed)
     {
         // there is a top margin for tableview in pre ios7
-        float height = [WPYDeviceSettings isiOS7] ? -WPYPriceViewHeight : -WPYPriceViewHeight - 10;
-        [UIView animateWithDuration:WPYKeyboardScrollAnimatinDuration animations:^{
-            self.view.frame = CGRectOffset(self.view.frame, 0, height);
+        float height = [WPYDeviceSettings isiOS7] ? WPYPriceViewHeight : WPYPriceViewHeight + 10;
+        [UIView animateWithDuration:WPYKeyboardAnimationDuration animations:^(){
+            [self.tableView setContentOffset:CGPointMake(0, height) animated:NO];
         }];
+        self.tableView.scrollEnabled = NO;
     }
     
     self.isKeyboardDisplayed = YES;
@@ -389,10 +410,10 @@ static UIImage *imageFromColor(UIColor *color)
 {
     if (self.isKeyboardDisplayed)
     {
-        float height = [WPYDeviceSettings isiOS7] ? WPYPriceViewHeight : WPYPriceViewHeight + 10;
-        [UIView animateWithDuration:WPYKeyboardScrollAnimatinDuration animations:^{
-            self.view.frame = CGRectOffset(self.view.frame, 0, height);
+        [UIView animateWithDuration:WPYKeyboardAnimationDuration animations:^(){
+            [self.tableView setContentOffset:CGPointMake(0, 0) animated:NO];
         }];
+        self.tableView.scrollEnabled = YES;
     }
     
     self.isKeyboardDisplayed = NO;
