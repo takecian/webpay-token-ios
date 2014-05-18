@@ -30,6 +30,8 @@
 // internal constants
 static float const WPYNavBarHeight = 64.0f;
 
+static float const WPYTableViewHeight = 350.0f;
+
 static float const WPYPriceViewHeight = 130.0f;
 
 static float const WPYFieldRightMargin = 10.0f; // for leaving right margin to rightview
@@ -91,7 +93,7 @@ static UIImage *imageFromColor(UIColor *color)
                     NSLocalizedStringFromTableInBundle(@"Name", WPYLocalizedStringTable, bundle, nil)
                     ];
         
-        CGRect tableViewFrame = [WPYDeviceSettings isiOS7] ? CGRectMake(0, WPYNavBarHeight, [[UIScreen mainScreen] bounds].size.width,  [[UIScreen mainScreen] bounds].size.height) : [[UIScreen mainScreen] bounds];
+        CGRect tableViewFrame = [WPYDeviceSettings isiOS7] ? CGRectMake(0, WPYNavBarHeight, [[UIScreen mainScreen] bounds].size.width,  WPYTableViewHeight) : CGRectMake(0, 0, [[UIScreen mainScreen] bounds].size.width,  WPYTableViewHeight);
         _tableView = [[UITableView alloc] initWithFrame:tableViewFrame style:UITableViewStyleGrouped];
         _tableView.delegate = self;
         _tableView.dataSource = self;
@@ -310,7 +312,11 @@ static UIImage *imageFromColor(UIColor *color)
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
     
     float buttonHeight = 50.0f;
-    float y = [[UIScreen mainScreen] bounds].size.height - WPYNavBarHeight - buttonHeight + 3;
+    float y = self.view.frame.size.height - WPYNavBarHeight - buttonHeight + 3;
+    if ([WPYDeviceSettings isiOS7])
+    {
+        y+= WPYNavBarHeight;
+    }
     button.frame = CGRectMake(0, y, 320, buttonHeight);
     
     button.titleLabel.font = [UIFont fontWithName:@"Avenir-Roman" size:20.0f];
