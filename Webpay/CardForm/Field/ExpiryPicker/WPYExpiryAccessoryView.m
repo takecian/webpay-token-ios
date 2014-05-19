@@ -8,6 +8,7 @@
 
 #import "WPYExpiryAccessoryView.h"
 
+#import "WPYBundleManager.h"
 #import "WPYDeviceSettings.h"
 
 @interface WPYExpiryAccessoryView ()
@@ -32,7 +33,8 @@
             [toolbar.layer addSublayer:bottomBorder];
         }
         
-        UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStyleDone target:self action:@selector(doneTapped:)];
+        NSString *title = NSLocalizedStringFromTableInBundle(@"Done", WPYLocalizedStringTable, [WPYBundleManager localizationBundle], nil);
+        UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithTitle:title style:UIBarButtonItemStyleDone target:self action:@selector(doneTapped:)];
         UIBarButtonItem *flex = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
         NSArray *items = @[flex, doneButton];
         
