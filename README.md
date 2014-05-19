@@ -80,7 +80,8 @@ WPYCardFormView is a credit card form view that calls its delegate method when t
 
 ```
 // create view
-WPYCardFormView *cardForm = [[WPYCardFormView alloc] initWithFrame:CGRectMake(0, 0, 320, 300)];
+WPYCreditCard *card = [[WPYCreditCard alloc] init];
+WPYCardFormView *cardForm = [[WPYCardFormView alloc] initWithFrame:CGRectMake(0, 0, 320, 300) card:card];
 cardForm.delegate = self;
 [self.view addSubview: cardForm];
 
@@ -102,7 +103,7 @@ If you just want a viewcontroller for `pushViewController:animated` or `presentV
 ![card_form](https://raw.github.com/webpay/webpay-token-ios/screenshot/screenshots/card_form.png)
 
 ```
-WPYPaymentViewController *paymentViewController = [[WPYPaymentViewController alloc] initWithPriceTag:@"$23.67" callback:^(WPYPaymentViewController *paymentViewController, WPYToken *token, NSError *error){
+WPYPaymentViewController *paymentViewController = [[WPYPaymentViewController alloc] initWithPriceTag:@"$23.67" callback:^(WPYPaymentViewController *viewController, WPYToken *token, NSError *error){
   if(token)
   {
     //post token to your server
