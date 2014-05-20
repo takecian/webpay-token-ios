@@ -4,6 +4,11 @@ webpay-token-ios is an ios library for creating a token from a credit card.
 
 ![filled_card_form](https://raw.github.com/webpay/webpay-token-ios/screenshot/screenshots/filled_card_form.png)
 
+
+## Sample App Using Card.io
+There is a [sample app](git@github.com:webpay/webpay-token-ios-sample-card.io.git) using [card.io](https://www.card.io/)
+
+
 ## Requirements
 webpay-token-ios supports iOS 6 and above.
 
