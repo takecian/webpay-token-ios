@@ -57,7 +57,7 @@ static NSString *publicKey = nil;
 
 + (void)validatePublicKey
 {
-    BOOL isValidKey = [publicKey hasPrefix:@"test_public_"] || [publicKey hasPrefix:@"live_public_"];
+    BOOL isValidKey = [[self publicKey] hasPrefix:@"test_public_"] || [[self publicKey] hasPrefix:@"live_public_"];
     if (!isValidKey)
     {
         [NSException raise:@"InvalidPublicKey" format:@"You are using an invalid public key."];
@@ -91,7 +91,7 @@ static NSString *publicKey = nil;
         return;
     }
     
-    WPYCommunicator *communicator = [[WPYCommunicator alloc] initWithPublicKey:publicKey];
+    WPYCommunicator *communicator = [[WPYCommunicator alloc] initWithPublicKey:[self publicKey]];
     [communicator requestTokenWithCard:card
                         acceptLanguage:acceptLanguage
                        completionBlock:^(NSURLResponse *response, NSData *data, NSError *networkError){
