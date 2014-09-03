@@ -13,6 +13,7 @@
 
 @interface WPYCommunicator () <NSURLConnectionDelegate, NSURLConnectionDataDelegate>
 @property(nonatomic, copy) WPYCommunicatorCompBlock completionBlock;
+@property(nonatomic, copy) NSString *pubKey;
 
 @property(nonatomic, strong) NSURLConnection *connection;
 @property (nonatomic, strong) NSMutableData *receivedData;
@@ -21,8 +22,7 @@
 
 @implementation WPYCommunicator
 
-static NSString *const apiURL = @"https://api.webpay.jp/v1/tokens";
-
+static NSString *const baseURL = @"https://api.webpay.jp/v1/";
 
 #pragma mark helpers
 static NSString *base64EncodedStringFromData(NSData *data)
@@ -91,22 +91,30 @@ static BOOL isTrustedHost(NSString *host)
 
 
 #pragma mark public method
-- (void)requestTokenWithPublicKey:(NSString *)publicKey
-                             card:(WPYCreditCard *)card
-                   acceptLanguage:(NSString *)acceptLanguage
-                  completionBlock:(WPYCommunicatorCompBlock)compBlock
+- (instancetype)initWithPublicKey:(NSString *)publicKey
 {
-    self.receivedData = [[NSMutableData alloc] init];
+    if (self = [super init])
+    {
+        _pubKey = publicKey;
+        _receivedData = [[NSMutableData alloc] init];
+    }
+    return self;
+}
+
+- (void)requestTokenWithCard:(WPYCreditCard *)card
+              acceptLanguage:(NSString *)acceptLanguage
+             completionBlock:(WPYCommunicatorCompBlock)compBlock
+{
     self.completionBlock = compBlock;
     
-    NSURL *url = [NSURL URLWithString:apiURL];
+    NSURL *url = [NSURL URLWithString:[baseURL stringByAppendingString:@"tokens"]];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
     
     request.HTTPMethod = @"POST";
 
     // set header
     // TODO: use bearer authentication
-    NSString *credentials = [NSString stringWithFormat:@"%@:", publicKey];
+    NSString *credentials = [NSString stringWithFormat:@"%@:", self.pubKey];
     NSString *base64EncodedCredentials = base64Encode(credentials);
     [request addValue:[NSString stringWithFormat:@"Basic %@", base64EncodedCredentials]
    forHTTPHeaderField:@"Authorization"];
@@ -116,6 +124,24 @@ static BOOL isTrustedHost(NSString *host)
     // set body
     NSDictionary *cardInfo = dictionaryFromCard(card);
     request.HTTPBody = requestParametersFromDictionary(cardInfo);
+    
+    self.connection = [NSURLConnection connectionWithRequest:request delegate:self];
+}
+
+- (void)fetchAvailabilityWithCompletionBlock:(WPYCommunicatorCompBlock)compBlock
+{
+    self.completionBlock = compBlock;
+    NSURL *url = [NSURL URLWithString:[baseURL stringByAppendingString:@"account/availability"]];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
+    
+    request.HTTPMethod = @"GET";
+
+    // set header
+    // TODO: use bearer authentication
+    NSString *credentials = [NSString stringWithFormat:@"%@:", self.pubKey];
+    NSString *base64EncodedCredentials = base64Encode(credentials);
+    [request addValue:[NSString stringWithFormat:@"Basic %@", base64EncodedCredentials]
+   forHTTPHeaderField:@"Authorization"];
     
     self.connection = [NSURLConnection connectionWithRequest:request delegate:self];
 }

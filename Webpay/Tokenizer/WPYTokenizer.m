@@ -33,6 +33,7 @@
 #import "WPYCommunicator.h"
 #import "WPYTokenBuilder.h"
 #import "WPYToken.h"
+#import "WPYAvailabilityBuilder.h"
 #import "WPYErrorBuilder.h"
 
 #import "WPYDeviceSettings.h"
@@ -90,40 +91,85 @@ static NSString *publicKey = nil;
         return;
     }
     
-    WPYCommunicator *communicator = [[WPYCommunicator alloc] init];
-    [communicator requestTokenWithPublicKey:publicKey
-                                       card:card
-                             acceptLanguage:acceptLanguage
-                            completionBlock:^(NSURLResponse *response, NSData *data, NSError *networkError){
-                                            if (networkError)
-                                            {
-                                                completionBlock(nil, networkError);
-                                                return;
-                                            }
-                                
-                                            NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
-                                            if (httpResponse.statusCode == 201)
-                                            {
-                                                WPYTokenBuilder *tokenBuilder = [[WPYTokenBuilder alloc] init];
-                                                NSError *tokenBuildError = nil;
-                                                WPYToken *token = [tokenBuilder buildTokenFromData:data error:&tokenBuildError];
-                                                completionBlock(token, tokenBuildError);
-                                            }
-                                            else
-                                            {
-                                                WPYErrorBuilder *errorBuilder = [[WPYErrorBuilder alloc] init];
-                                                NSError *buildError = nil;
-                                                NSError *error = [errorBuilder buildErrorFromData:data error:&error];
-                                                if (error)
-                                                {
-                                                    completionBlock(nil, error);
-                                                }
-                                                else
-                                                {
-                                                    completionBlock(nil, buildError);
-                                                }
-                                            }
+    WPYCommunicator *communicator = [[WPYCommunicator alloc] initWithPublicKey:publicKey];
+    [communicator requestTokenWithCard:card
+                        acceptLanguage:acceptLanguage
+                       completionBlock:^(NSURLResponse *response, NSData *data, NSError *networkError){
+                           if (networkError)
+                           {
+                               completionBlock(nil, networkError);
+                               return;
+                           }
+                           
+                           NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
+                           if (httpResponse.statusCode == 201)
+                           {
+                               WPYTokenBuilder *tokenBuilder = [[WPYTokenBuilder alloc] init];
+                               NSError *tokenBuildError = nil;
+                               WPYToken *token = [tokenBuilder buildTokenFromData:data error:&tokenBuildError];
+                               completionBlock(token, tokenBuildError);
+                           }
+                           else
+                           {
+                               WPYErrorBuilder *errorBuilder = [[WPYErrorBuilder alloc] init];
+                               NSError *buildError = nil;
+                               NSError *error = [errorBuilder buildErrorFromData:data error:&error];
+                               if (error)
+                               {
+                                   completionBlock(nil, error);
+                               }
+                               else
+                               {
+                                   completionBlock(nil, buildError);
+                               }
+                           }
     }];
     
 }
+
++ (void)fetchSupportedCardBrandsWithCompletionBlock:(WPYSupportedCardBrandsCompletionBlock)completionBlock
+{
+    [self validatePublicKey];
+    NSParameterAssert(completionBlock);
+    
+    WPYCommunicator *communicator = [[WPYCommunicator alloc] initWithPublicKey: [self publicKey]];
+    [communicator fetchAvailabilityWithCompletionBlock:^(NSURLResponse *response, NSData *data, NSError *networkError){
+        if (networkError)
+        {
+            completionBlock(nil, networkError);
+            return;
+        }
+        
+        NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
+        if (httpResponse.statusCode == 200)
+        {
+            WPYAvailabilityBuilder *builder = [[WPYAvailabilityBuilder alloc] init];
+            NSError *availabilityBuildError = nil;
+            NSDictionary *availability = [builder buildAvailabilityFromData:data error:&availabilityBuildError];
+            if (availability)
+            {
+                completionBlock(availability[@"card_types_supported"], nil);
+            }
+            else
+            {
+                completionBlock(nil, availabilityBuildError);
+            }
+        }
+        else
+        {
+            WPYErrorBuilder *errorBuilder = [[WPYErrorBuilder alloc] init];
+            NSError *buildError = nil;
+            NSError *error = [errorBuilder buildErrorFromData:data error:&buildError];
+            if (error)
+            {
+                completionBlock(nil, error);
+            }
+            else
+            {
+                completionBlock(nil, buildError);
+            }
+        }
+    }];
+}
+
 @end
