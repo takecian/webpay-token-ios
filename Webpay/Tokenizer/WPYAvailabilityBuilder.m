@@ -10,7 +10,7 @@
 
 @implementation WPYAvailabilityBuilder
 - (NSDictionary *)buildAvailabilityFromData:(NSData *)data
-                                 error:(NSError * __autoreleasing *)outError
+                                      error:(NSError * __autoreleasing *)outError
 {
     NSError *serializeError = nil;
     id object = [NSJSONSerialization JSONObjectWithData:data
