@@ -22,7 +22,7 @@
 
 @implementation WPYCommunicator
 
-static NSString *const baseURL = @"https://api.webpay.jp/v1/";
+static NSString *const baseURL = @"https://api.webpay.jp/v1";
 
 #pragma mark helpers
 // stringByAddingPercentEscapesUsingEncoding won't encode '&'
@@ -69,6 +69,18 @@ static BOOL isTrustedHost(NSString *host)
     return [trustedHosts containsObject:host];
 }
 
+static NSMutableURLRequest *templateRequest(NSString *endPoint, NSString *publicKey)
+{
+    NSURL *url = [NSURL URLWithString:[baseURL stringByAppendingString:endPoint]];
+    NSMutableURLRequest *templateRequest = [[NSMutableURLRequest alloc] initWithURL:url];
+    
+    [templateRequest addValue:[NSString stringWithFormat:@"Bearer %@", publicKey]
+   forHTTPHeaderField:@"Authorization"];
+    
+    return templateRequest;
+}
+
+
 
 #pragma mark public method
 - (instancetype)initWithPublicKey:(NSString *)publicKey
@@ -87,14 +99,10 @@ static BOOL isTrustedHost(NSString *host)
 {
     self.completionBlock = compBlock;
     
-    NSURL *url = [NSURL URLWithString:[baseURL stringByAppendingString:@"tokens"]];
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
-    
+    NSMutableURLRequest *request = templateRequest(@"/tokens", self.pubKey);
     request.HTTPMethod = @"POST";
-
+    
     // set header
-    [request addValue:[NSString stringWithFormat:@"Bearer %@", self.pubKey]
-   forHTTPHeaderField:@"Authorization"];
     [request addValue:acceptLanguage forHTTPHeaderField:@"Accept-Language"];
     
     // set body
@@ -107,18 +115,11 @@ static BOOL isTrustedHost(NSString *host)
 - (void)fetchAvailabilityWithCompletionBlock:(WPYCommunicatorCompBlock)compBlock
 {
     self.completionBlock = compBlock;
-    NSURL *url = [NSURL URLWithString:[baseURL stringByAppendingString:@"account/availability"]];
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
-    
+    NSMutableURLRequest *request = templateRequest(@"/account/availability", self.pubKey);
     request.HTTPMethod = @"GET";
-
-    // set header
-    [request addValue:[NSString stringWithFormat:@"Bearer %@", self.pubKey]
-   forHTTPHeaderField:@"Authorization"];
     
     self.connection = [NSURLConnection connectionWithRequest:request delegate:self];
 }
-
 
 
 #pragma mark NSURLConnection/Data Delegate - Download
