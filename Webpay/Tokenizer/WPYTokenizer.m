@@ -44,6 +44,11 @@
 
 static NSString *publicKey = nil;
 
+typedef NS_ENUM(NSInteger, WPYHTTPStatusCode) {
+    WPYHTTPStatusCodeOK200 = 200,
+    WPYHTTPStatusCodeCreated201 = 201
+};
+
 #pragma mark public key
 + (void)setPublicKey:(NSString *)key
 {
@@ -102,7 +107,7 @@ static NSString *publicKey = nil;
                            }
                            
                            NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
-                           if (httpResponse.statusCode == 201)
+                           if (httpResponse.statusCode == WPYHTTPStatusCodeCreated201)
                            {
                                WPYTokenBuilder *tokenBuilder = [[WPYTokenBuilder alloc] init];
                                NSError *tokenBuildError = nil;
@@ -141,7 +146,7 @@ static NSString *publicKey = nil;
         }
         
         NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
-        if (httpResponse.statusCode == 200)
+        if (httpResponse.statusCode == WPYHTTPStatusCodeOK200)
         {
             WPYAvailabilityBuilder *builder = [[WPYAvailabilityBuilder alloc] init];
             NSError *availabilityBuildError = nil;
