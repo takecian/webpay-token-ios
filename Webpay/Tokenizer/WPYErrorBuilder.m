@@ -63,15 +63,16 @@ static WPYErrorCode errorCodeFromTypeAndCode(NSString *type, NSString *code)
 
 
 
-- (NSError *)buildErrorFromData:(NSData *)data error:(NSError * __autoreleasing *)outError
+- (NSError *)buildErrorFromData:(NSData *)data
 {
+    NSError *jsonError = nil;
     id object = [NSJSONSerialization JSONObjectWithData:data
                                                 options:0
-                                                  error:outError];
+                                                  error:&jsonError];
     
-    if (object == nil)
+    if (object == nil || jsonError)
     {
-        return nil;
+        return jsonError;
     }
     
     if ([object isKindOfClass:[NSDictionary class]])

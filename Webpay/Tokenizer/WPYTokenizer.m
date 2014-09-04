@@ -117,16 +117,8 @@ typedef NS_ENUM(NSInteger, WPYHTTPStatusCode) {
                            else
                            {
                                WPYErrorBuilder *errorBuilder = [[WPYErrorBuilder alloc] init];
-                               NSError *buildError = nil;
-                               NSError *error = [errorBuilder buildErrorFromData:data error:&error];
-                               if (error)
-                               {
-                                   completionBlock(nil, error);
-                               }
-                               else
-                               {
-                                   completionBlock(nil, buildError);
-                               }
+                               NSError *error = [errorBuilder buildErrorFromData:data];
+                               completionBlock(nil, error);
                            }
     }];
     
@@ -163,16 +155,8 @@ typedef NS_ENUM(NSInteger, WPYHTTPStatusCode) {
         else
         {
             WPYErrorBuilder *errorBuilder = [[WPYErrorBuilder alloc] init];
-            NSError *buildError = nil;
-            NSError *error = [errorBuilder buildErrorFromData:data error:&buildError];
-            if (error)
-            {
-                completionBlock(nil, error);
-            }
-            else
-            {
-                completionBlock(nil, buildError);
-            }
+            NSError *error = [errorBuilder buildErrorFromData:data];
+            completionBlock(nil, error);
         }
     }];
 }
