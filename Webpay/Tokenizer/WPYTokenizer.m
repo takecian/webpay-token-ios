@@ -143,14 +143,8 @@ typedef NS_ENUM(NSInteger, WPYHTTPStatusCode) {
             WPYAvailabilityBuilder *builder = [[WPYAvailabilityBuilder alloc] init];
             NSError *availabilityBuildError = nil;
             NSDictionary *availability = [builder buildAvailabilityFromData:data error:&availabilityBuildError];
-            if (availability)
-            {
-                completionBlock(availability[@"card_types_supported"], nil);
-            }
-            else
-            {
-                completionBlock(nil, availabilityBuildError);
-            }
+            NSArray *supportedBrands = availability ? availability[@"card_types_supported"] : nil;
+            completionBlock(supportedBrands, availabilityBuildError);
         }
         else
         {
