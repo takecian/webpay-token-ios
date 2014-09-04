@@ -25,26 +25,6 @@
 static NSString *const baseURL = @"https://api.webpay.jp/v1/";
 
 #pragma mark helpers
-static NSString *base64EncodedStringFromData(NSData *data)
-{
-    if ([data respondsToSelector:@selector(base64EncodedStringWithOptions:)])
-    {
-        //ios 7
-        return [data base64EncodedStringWithOptions:0];
-    }
-    else
-    {
-        // pre ios 7
-        return [data base64Encoding];
-    }
-}
-
-static NSString *base64Encode(NSString *string)
-{
-    NSData *data = [string dataUsingEncoding:NSUTF8StringEncoding];
-    return base64EncodedStringFromData(data);
-}
-
 // stringByAddingPercentEscapesUsingEncoding won't encode '&'
 // https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/URLLoadingSystem/WorkingwithURLEncoding/WorkingwithURLEncoding.html#//apple_ref/doc/uid/10000165i-CH12-SW1
 static NSString *urlEncode(NSString *string)
@@ -113,12 +93,8 @@ static BOOL isTrustedHost(NSString *host)
     request.HTTPMethod = @"POST";
 
     // set header
-    // TODO: use bearer authentication
-    NSString *credentials = [NSString stringWithFormat:@"%@:", self.pubKey];
-    NSString *base64EncodedCredentials = base64Encode(credentials);
-    [request addValue:[NSString stringWithFormat:@"Basic %@", base64EncodedCredentials]
+    [request addValue:[NSString stringWithFormat:@"Bearer %@", self.pubKey]
    forHTTPHeaderField:@"Authorization"];
-    
     [request addValue:acceptLanguage forHTTPHeaderField:@"Accept-Language"];
     
     // set body
@@ -137,10 +113,7 @@ static BOOL isTrustedHost(NSString *host)
     request.HTTPMethod = @"GET";
 
     // set header
-    // TODO: use bearer authentication
-    NSString *credentials = [NSString stringWithFormat:@"%@:", self.pubKey];
-    NSString *base64EncodedCredentials = base64Encode(credentials);
-    [request addValue:[NSString stringWithFormat:@"Basic %@", base64EncodedCredentials]
+    [request addValue:[NSString stringWithFormat:@"Bearer %@", self.pubKey]
    forHTTPHeaderField:@"Authorization"];
     
     self.connection = [NSURLConnection connectionWithRequest:request delegate:self];
