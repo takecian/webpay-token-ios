@@ -22,7 +22,7 @@
 
 @implementation WPYCommunicator
 
-static NSString *const baseURL = @"https://api.webpay.jp/v1";
+static NSString *const WPYBaseURL = @"https://api.webpay.jp/v1";
 
 #pragma mark helpers
 // stringByAddingPercentEscapesUsingEncoding won't encode '&'
@@ -71,7 +71,7 @@ static BOOL isTrustedHost(NSString *host)
 
 static NSMutableURLRequest *templateRequest(NSString *endPoint, NSString *publicKey)
 {
-    NSURL *url = [NSURL URLWithString:[baseURL stringByAppendingString:endPoint]];
+    NSURL *url = [NSURL URLWithString:[WPYBaseURL stringByAppendingString:endPoint]];
     NSMutableURLRequest *templateRequest = [[NSMutableURLRequest alloc] initWithURL:url];
     
     [templateRequest addValue:[NSString stringWithFormat:@"Bearer %@", publicKey]
