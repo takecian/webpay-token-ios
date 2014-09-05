@@ -75,7 +75,7 @@ static NSMutableURLRequest *templateRequest(NSString *endPoint, NSString *public
     NSMutableURLRequest *templateRequest = [[NSMutableURLRequest alloc] initWithURL:url];
     
     [templateRequest addValue:[NSString stringWithFormat:@"Bearer %@", publicKey]
-   forHTTPHeaderField:@"Authorization"];
+           forHTTPHeaderField:@"Authorization"];
     
     return templateRequest;
 }
