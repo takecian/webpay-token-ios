@@ -31,13 +31,13 @@
 - (void)stopIndicator;
 
 - (void)subscribeToKeyboardNotification;
-- (void)unsubscribeToKeyboardNotification;
+- (void)unsubscribeFromKeyboardNotification;
 - (void)keyboardWillShow:(NSNotification *)notification;
 - (void)keyboardWillHide:(NSNotification *)notification;
 - (void)dismissKeyboard;
 
 - (void)subscribeToCardChange;
-- (void)unsubscribeToCardChange;
+- (void)unsubscribeFromCardChange;
 - (void)observeValueForKeyPath:(NSString *)keyPath
                       ofObject:(id)object
                         change:(NSDictionary *)change

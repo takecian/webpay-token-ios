@@ -134,8 +134,8 @@ static UIImage *imageFromColor(UIColor *color)
 #pragma mark memory management
 - (void)dealloc
 {
-    [self unsubscribeToCardChange];
-    [self unsubscribeToKeyboardNotification];
+    [self unsubscribeFromCardChange];
+    [self unsubscribeFromKeyboardNotification];
 }
 
 - (void)didReceiveMemoryWarning
@@ -386,7 +386,7 @@ static UIImage *imageFromColor(UIColor *color)
                                                object:self.view.window];
 }
 
-- (void)unsubscribeToKeyboardNotification
+- (void)unsubscribeFromKeyboardNotification
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
@@ -457,7 +457,7 @@ static UIImage *imageFromColor(UIColor *color)
                          context:nil];
 }
 
-- (void)unsubscribeToCardChange
+- (void)unsubscribeFromCardChange
 {
     [self.card removeObserver:self forKeyPath:NSStringFromSelector(@selector(name))];
     [self.card removeObserver:self forKeyPath:NSStringFromSelector(@selector(number))];
