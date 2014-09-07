@@ -14,6 +14,7 @@
 @interface WPYCommunicator () <NSURLConnectionDelegate, NSURLConnectionDataDelegate>
 @property(nonatomic, copy) WPYCommunicatorCompBlock completionBlock;
 @property(nonatomic, copy) NSString *pubKey;
+@property(nonatomic, copy) NSString *acceptLanguage;
 
 @property(nonatomic, strong) NSURLConnection *connection;
 @property (nonatomic, strong) NSMutableData *receivedData;
@@ -69,13 +70,15 @@ static BOOL isTrustedHost(NSString *host)
     return [trustedHosts containsObject:host];
 }
 
-static NSMutableURLRequest *templateRequest(NSString *endPoint, NSString *publicKey)
+static NSMutableURLRequest *templateRequest(NSString *endPoint, NSString *publicKey, NSString *acceptLanguage)
 {
     NSURL *url = [NSURL URLWithString:[WPYBaseURL stringByAppendingString:endPoint]];
     NSMutableURLRequest *templateRequest = [[NSMutableURLRequest alloc] initWithURL:url];
     
     [templateRequest addValue:[NSString stringWithFormat:@"Bearer %@", publicKey]
            forHTTPHeaderField:@"Authorization"];
+    
+    [templateRequest addValue:acceptLanguage forHTTPHeaderField:@"Accept-Language"];
     
     return templateRequest;
 }
@@ -84,26 +87,25 @@ static NSMutableURLRequest *templateRequest(NSString *endPoint, NSString *public
 
 #pragma mark public method
 - (instancetype)initWithPublicKey:(NSString *)publicKey
+                   acceptLanguage:(NSString *)acceptLanguage
 {
     if (self = [super init])
     {
         _pubKey = publicKey;
+        _acceptLanguage = acceptLanguage;
+        
         _receivedData = [[NSMutableData alloc] init];
     }
     return self;
 }
 
 - (void)requestTokenWithCard:(WPYCreditCard *)card
-              acceptLanguage:(NSString *)acceptLanguage
              completionBlock:(WPYCommunicatorCompBlock)compBlock
 {
     self.completionBlock = compBlock;
     
-    NSMutableURLRequest *request = templateRequest(@"/tokens", self.pubKey);
+    NSMutableURLRequest *request = templateRequest(@"/tokens", self.pubKey, self.acceptLanguage);
     request.HTTPMethod = @"POST";
-    
-    // set header
-    [request addValue:acceptLanguage forHTTPHeaderField:@"Accept-Language"];
     
     // set body
     NSDictionary *cardInfo = dictionaryFromCard(card);
@@ -115,7 +117,7 @@ static NSMutableURLRequest *templateRequest(NSString *endPoint, NSString *public
 - (void)fetchAvailabilityWithCompletionBlock:(WPYCommunicatorCompBlock)compBlock
 {
     self.completionBlock = compBlock;
-    NSMutableURLRequest *request = templateRequest(@"/account/availability", self.pubKey);
+    NSMutableURLRequest *request = templateRequest(@"/account/availability", self.pubKey, self.acceptLanguage);
     request.HTTPMethod = @"GET";
     
     self.connection = [NSURLConnection connectionWithRequest:request delegate:self];

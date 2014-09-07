@@ -14,9 +14,11 @@
 typedef void (^WPYCommunicatorCompBlock)(NSURLResponse *, NSData *, NSError *);
 
 @interface WPYCommunicator : NSObject
-- (instancetype)initWithPublicKey:(NSString *)publicKey;
+
+- (instancetype)initWithPublicKey:(NSString *)publicKey
+                   acceptLanguage:(NSString *)acceptLanguage;
+
 - (void)requestTokenWithCard:(WPYCreditCard *)card
-              acceptLanguage:(NSString *)acceptLanguage
              completionBlock:(WPYCommunicatorCompBlock)compBlock;
 
 - (void)fetchAvailabilityWithCompletionBlock:(WPYCommunicatorCompBlock)compBlock;

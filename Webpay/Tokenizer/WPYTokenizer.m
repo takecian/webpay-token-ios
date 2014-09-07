@@ -96,10 +96,10 @@ typedef NS_ENUM(NSInteger, WPYHTTPStatusCode) {
         return;
     }
     
-    WPYCommunicator *communicator = [[WPYCommunicator alloc] initWithPublicKey:[self publicKey]];
+    WPYCommunicator *communicator = [[WPYCommunicator alloc] initWithPublicKey:[self publicKey]
+                                                                acceptLanguage:acceptLanguage];
     [communicator requestTokenWithCard:card
-                        acceptLanguage:acceptLanguage
-                       completionBlock:^(NSURLResponse *response, NSData *data, NSError *networkError){
+                       completionBlock:^(NSURLResponse *response, NSData *data, NSError *networkError) {
                            if (networkError)
                            {
                                completionBlock(nil, networkError);
@@ -124,13 +124,23 @@ typedef NS_ENUM(NSInteger, WPYHTTPStatusCode) {
     
 }
 
+#pragma mark supported card brands
 + (void)fetchSupportedCardBrandsWithCompletionBlock:(WPYSupportedCardBrandsCompletionBlock)completionBlock
+{
+    NSString *acceptLanguage = [WPYDeviceSettings isJapanese] ? @"ja" : @"en";
+    [self fetchSupportedCardBrandsWithAcceptLanguage:acceptLanguage
+                                     completionBlock:completionBlock];
+}
+
++ (void)fetchSupportedCardBrandsWithAcceptLanguage:(NSString *)acceptLanguage
+                                   completionBlock:(WPYSupportedCardBrandsCompletionBlock)completionBlock
 {
     [self validatePublicKey];
     NSParameterAssert(completionBlock);
     
-    WPYCommunicator *communicator = [[WPYCommunicator alloc] initWithPublicKey: [self publicKey]];
-    [communicator fetchAvailabilityWithCompletionBlock:^(NSURLResponse *response, NSData *data, NSError *networkError){
+    WPYCommunicator *communicator = [[WPYCommunicator alloc] initWithPublicKey:[self publicKey]
+                                                                acceptLanguage:acceptLanguage];
+    [communicator fetchAvailabilityWithCompletionBlock:^(NSURLResponse *response, NSData *data, NSError *networkError) {
         if (networkError)
         {
             completionBlock(nil, networkError);
@@ -154,5 +164,4 @@ typedef NS_ENUM(NSInteger, WPYHTTPStatusCode) {
         }
     }];
 }
-
 @end

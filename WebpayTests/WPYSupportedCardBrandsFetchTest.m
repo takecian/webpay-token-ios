@@ -15,6 +15,7 @@
 
 static NSString *const publicKey = @"test_public_a";
 static NSString *const apiURL = @"https://api.webpay.jp/v1/account/availability";
+static NSString *const acceptLanguage = @"en";
 
 static NSString *const availabilityJSONString = @"{"
     @"\"currencies_supported\":["
@@ -63,33 +64,39 @@ static NSString *const nonJSONString = @"nonJSONString";
 - (void)testFetchSupportedCardBrandsWithoutSettingPublicKeyRaisesException
 {
     [WPYTokenizer setPublicKey:nil];
-    XCTAssertThrows([WPYTokenizer fetchSupportedCardBrandsWithCompletionBlock:^(NSArray *supportedCardBrands, NSError *error){
+    XCTAssertThrows([WPYTokenizer fetchSupportedCardBrandsWithAcceptLanguage:acceptLanguage
+                                                             completionBlock:^(NSArray *supportedCardBrands, NSError *error) {
     }], @"It should throw exception if public key is nil.");
 }
 
 - (void)testFetchSupportedCardBrandsWithInvalidPublicKeyRaisesException
 {
     [WPYTokenizer setPublicKey:@"live_secret_a"];
-    XCTAssertThrows([WPYTokenizer fetchSupportedCardBrandsWithCompletionBlock:^(NSArray *supportedCardBrands, NSError *error){
+    XCTAssertThrows([WPYTokenizer fetchSupportedCardBrandsWithAcceptLanguage:acceptLanguage
+                                                             completionBlock:^(NSArray *supportedCardBrands, NSError *error) {
     }], @"It should throw exception if public key is invalid.");
 }
 
 - (void)testFetchSupportedCardBrandsWithValidPublicKeyDoesNotRaiseException
 {
     [WPYTokenizer setPublicKey:publicKey];
-    XCTAssertNoThrow([WPYTokenizer fetchSupportedCardBrandsWithCompletionBlock:^(NSArray *supportedCardBrands, NSError *error){
+    XCTAssertNoThrow([WPYTokenizer fetchSupportedCardBrandsWithAcceptLanguage:acceptLanguage
+                                                              completionBlock:^(NSArray *supportedCardBrands, NSError *error) {
     }], @"It should not throw exception if public key is valid.");
 }
 
 #pragma mark completion block
 - (void)testFetchSupportedCardBrandsWithoutCompletionBlockRaisesException
 {
-    XCTAssertThrows([WPYTokenizer fetchSupportedCardBrandsWithCompletionBlock: nil], @"It should raise exception if completion block is nil.");
+    XCTAssertThrows([WPYTokenizer fetchSupportedCardBrandsWithAcceptLanguage:acceptLanguage
+                                                             completionBlock:nil], @"It should raise exception if completion block is nil.");
 }
 
 - (void)testFetchSupportedCardBrandsWithCompletionBlockDoesntRaiseException
 {
-    XCTAssertNoThrow([WPYTokenizer fetchSupportedCardBrandsWithCompletionBlock:^(NSArray *supportedCardBrands, NSError *error){}], @"It should not raise exception if completin block is provided.");
+    XCTAssertNoThrow([WPYTokenizer fetchSupportedCardBrandsWithAcceptLanguage:acceptLanguage
+                                                              completionBlock:^(NSArray *supportedCardBrands, NSError *error) {
+                                                              }], @"It should not raise exception if completin block is provided.");
 }
 
 #pragma mark network error
@@ -114,7 +121,8 @@ static NSString *const nonJSONString = @"nonJSONString";
     
     __block NSArray *returnedArray = nil;
     __block NSError *returnedError = nil;
-    [WPYTokenizer fetchSupportedCardBrandsWithCompletionBlock:^(NSArray *supportedCardBrands, NSError *error) {
+    [WPYTokenizer fetchSupportedCardBrandsWithAcceptLanguage:acceptLanguage
+                                             completionBlock:^(NSArray *supportedCardBrands, NSError *error) {
         returnedArray = supportedCardBrands;
         returnedError = error;
         [monitor signal];
@@ -149,7 +157,8 @@ static NSString *const nonJSONString = @"nonJSONString";
     
     __block NSArray *returnedArray = nil;
     __block NSError *returnedError = nil;
-    [WPYTokenizer fetchSupportedCardBrandsWithCompletionBlock:^(NSArray *supportedCardBrands, NSError *error) {
+    [WPYTokenizer fetchSupportedCardBrandsWithAcceptLanguage:acceptLanguage
+                                             completionBlock:^(NSArray *supportedCardBrands, NSError *error) {
         returnedArray = supportedCardBrands;
         returnedError = error;
         [monitor signal];
@@ -180,7 +189,8 @@ static NSString *const nonJSONString = @"nonJSONString";
     
     __block NSArray *returnedArray = nil;
     __block NSError *returnedError = nil;
-    [WPYTokenizer fetchSupportedCardBrandsWithCompletionBlock:^(NSArray *supportedCardBrands, NSError *error){
+    [WPYTokenizer fetchSupportedCardBrandsWithAcceptLanguage:acceptLanguage
+                                             completionBlock:^(NSArray *supportedCardBrands, NSError *error) {
         returnedArray = supportedCardBrands;
         [monitor signal];
     }];
@@ -213,7 +223,8 @@ static NSString *const nonJSONString = @"nonJSONString";
     __block NSArray *returnedArray = nil;
     __block NSError *returnedError = nil;
     
-    [WPYTokenizer fetchSupportedCardBrandsWithCompletionBlock:^(NSArray *supportedCardBrands, NSError *error) {
+    [WPYTokenizer fetchSupportedCardBrandsWithAcceptLanguage:acceptLanguage
+                                             completionBlock:^(NSArray *supportedCardBrands, NSError *error) {
         returnedArray = supportedCardBrands;
         returnedError = error;
         [monitor signal];
@@ -244,7 +255,8 @@ static NSString *const nonJSONString = @"nonJSONString";
     __block NSArray *returnedArray = nil;
     __block NSError *returnedError = nil;
     
-    [WPYTokenizer fetchSupportedCardBrandsWithCompletionBlock:^(NSArray *supportedCardBrands, NSError *error) {
+    [WPYTokenizer fetchSupportedCardBrandsWithAcceptLanguage:acceptLanguage
+                                             completionBlock:^(NSArray *supportedCardBrands, NSError *error) {
         returnedArray = supportedCardBrands;
         returnedError = error;
         [monitor signal];

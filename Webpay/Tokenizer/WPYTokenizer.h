@@ -31,4 +31,6 @@ typedef void (^WPYSupportedCardBrandsCompletionBlock)(NSArray *supportedCardBran
             completionBlock:(WPYTokenizerCompletionBlock)completionBlock;
 
 + (void)fetchSupportedCardBrandsWithCompletionBlock:(WPYSupportedCardBrandsCompletionBlock)completionBlock;
++ (void)fetchSupportedCardBrandsWithAcceptLanguage:(NSString *)acceptLanguage
+                                   completionBlock:(WPYSupportedCardBrandsCompletionBlock)completionBlock;
 @end
