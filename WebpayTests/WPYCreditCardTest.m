@@ -122,7 +122,7 @@ static NSString *const validName = @"Test Test";
 - (void)testBrandNameDiscernsDiners
 {
     _creditCard.number = dinersCardNumber;
-    XCTAssertEqualObjects([_creditCard brandName], @"Diners", @"It should be recognized as diners.");
+    XCTAssertEqualObjects([_creditCard brandName], @"Diners Club", @"It should be recognized as diners.");
 }
 
 - (void)testBrandNameDicernsUnknown
@@ -205,7 +205,7 @@ static NSString *const validName = @"Test Test";
 
 - (void)testPatialNumberWithDinersPrefix
 {
-    XCTAssertEqualObjects(@"Diners", [WPYCreditCard brandNameFromPartialNumber:@"3000"], @"It should be recognized as Diners.");
+    XCTAssertEqualObjects(@"Diners Club", [WPYCreditCard brandNameFromPartialNumber:@"3000"], @"It should be recognized as Diners.");
 }
 
 - (void)testPatialNumberWithJCBPrefix
@@ -940,6 +940,5 @@ static NSString *const validName = @"Test Test";
     XCTAssertTrue([_creditCard validate:&error], @"It should validate card with supported brand.");
     XCTAssertNil(error, @"Error object should be nil.");
 }
-
 
 @end

@@ -14,7 +14,7 @@ NSString *const WPYMasterCard = @"MasterCard";
 NSString *const WPYAmex = @"American Express";
 NSString *const WPYDiscover = @"Discover";
 NSString *const WPYJCB = @"JCB";
-NSString *const WPYDiners = @"Diners";
+NSString *const WPYDiners = @"Diners Club";
 NSString *const WPYUnknown = @"Unknown";
 
 @implementation WPYCreditCard
