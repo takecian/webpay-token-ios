@@ -10,6 +10,7 @@
 
 @interface WPYPaymentViewController ()
 @property(nonatomic, strong) WPYCreditCard *card;
+@property(nonatomic, copy) NSArray *supportedBrands;
 @property(nonatomic, copy) WPYPaymentViewCallback callback;
 
 @property(nonatomic, copy) NSString *priceTag;

@@ -9,10 +9,11 @@
 #import "ItemDetailViewController.h"
 
 #import "WPYPaymentViewController.h"
+#import "WPYTokenizer.h"
 #import "WPYToken.h"
 
 @interface ItemDetailViewController ()
-
+@property(nonatomic, copy) NSArray *supportedBrands;
 @end
 
 @implementation ItemDetailViewController
@@ -29,6 +30,10 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    [WPYTokenizer fetchSupportedCardBrandsWithCompletionBlock:^(NSArray *supportedCardBrands, NSError *error) {
+        self.supportedBrands = supportedCardBrands;
+    }];
     
     UIButton *payButton = [UIButton buttonWithType:UIButtonTypeCustom];
     payButton.frame = CGRectMake(40, 280, 240, 44);
@@ -67,7 +72,9 @@
         }
     };
     
-    WPYPaymentViewController *paymentViewController = [[WPYPaymentViewController alloc] initWithPriceTag:@"¥350" callback:callback];
+    WPYPaymentViewController *paymentViewController = [[WPYPaymentViewController alloc] initWithPriceTag:@"¥350"
+                                                                                         supportedBrands:self.supportedBrands
+                                                                                                callback:callback];
     paymentViewController.title = @"Payment Info";
     
     [self.navigationController pushViewController:paymentViewController animated:YES];
