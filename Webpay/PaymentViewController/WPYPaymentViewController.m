@@ -321,7 +321,8 @@ static UIImage *imageFromColor(UIColor *color)
     UILabel *priceField = [[UILabel alloc] initWithFrame:CGRectMake(60, 40, 200, 50)];
     priceField.text = self.priceTag;
     priceField.textColor = priceColor;
-    priceField.font = [UIFont fontWithName:WPYFont size:53.0f];
+    float fontSize = [WPYDeviceSettings isiOS7] ? 48.0f : 36.0f;
+    priceField.font = [UIFont fontWithName:WPYFont size:fontSize];
     priceField.backgroundColor = [UIColor clearColor];
     priceField.adjustsFontSizeToFitWidth = YES;
     priceField.minimumScaleFactor = 0.5;
@@ -330,8 +331,9 @@ static UIImage *imageFromColor(UIColor *color)
     [priceView addSubview:priceField];
     
     UILabel *supportedBrandLabel = [[UILabel alloc] initWithFrame:CGRectMake(x, 100, WPYSupportedBrandLabelWidth, 20)];
-    supportedBrandLabel.font = [UIFont fontWithName:WPYFont size:12.0f];
     supportedBrandLabel.text = NSLocalizedStringFromTableInBundle(@"We Accept", WPYLocalizedStringTable, [WPYBundleManager localizationBundle], nil);
+    supportedBrandLabel.textColor = [UIColor colorWithRed:0.58 green:0.58 blue:0.58 alpha:1.0];
+    supportedBrandLabel.font = [UIFont fontWithName:WPYFont size:12.0f];
     [priceView addSubview:supportedBrandLabel];
     
     void (^addSupportedBrandsToView)(NSArray *) = ^(NSArray *brands) {
