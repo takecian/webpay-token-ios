@@ -2,7 +2,7 @@
 
 webpay-token-ios is an ios library for creating a token from a credit card.
 
-![filled_card_form](https://raw.github.com/webpay/webpay-token-ios/screenshot/screenshots/filled_card_form.png)
+<img src="https://raw.github.com/webpay/webpay-token-ios/screenshot/screenshots/filled_card_form.png" width="300px;" />
 
 
 ## Sample App Using Card.io
@@ -20,7 +20,7 @@ You can either install using cocoapods(recommended) or copying files manually.
 ### 1. Cocoapods
 In your Podfile, add a line
 ```
-pod 'WebPay', '~> 1.0.4'
+pod 'WebPay', '~> 1.1.0'
 ```
 then, run `pod install`.
 
@@ -64,8 +64,8 @@ card.number = @"4242424242424242";
 card.expiryYear = 2015;
 card.expiryMonth = 12;
 card.cvc = @"123";
-card.name = @"Yohei Okada";
-    
+card.name = @"Sample Name";
+
 // pass card instance and a callback
 [WPYTokenizer createTokenFromCard:card completionBlock:^(WPYToken *token, NSError *error)
 {
@@ -105,24 +105,24 @@ If you want more granular control, use subclasses of `WPYAbstractCardField`.
 ### WPYPaymentViewController
 If you just want a viewcontroller for `pushViewController:animated` or `presentViewController:animated:completion:`, this is what you want.
 
-![card_form](https://raw.github.com/webpay/webpay-token-ios/screenshot/screenshots/card_form.png)
+<img src="https://raw.github.com/webpay/webpay-token-ios/screenshot/screenshots/card_form.png" width="300px;" />
 
 ```
 WPYPaymentViewController *paymentViewController = [[WPYPaymentViewController alloc] initWithPriceTag:@"$23.67" callback:^(WPYPaymentViewController *viewController, WPYToken *token, NSError *error){
   if(token)
   {
     //post token to your server
-    
+
     // when transaction is complete
     [viewController setPayButtonComplete]; // this will change the button color to green and its title to checkmark
     [viewController dismissAfterDelay: 2.0f];
   }
   else
-  { 
+  {
     NSLog(@"error:%@", [error localizedDescription]);
   }
 }];
-    
+
 [self.navigationController pushViewController:paymentViewController animated:YES];
 ```
 
