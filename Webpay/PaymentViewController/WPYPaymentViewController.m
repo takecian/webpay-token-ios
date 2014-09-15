@@ -378,7 +378,7 @@ static UIImage *imageFromColor(UIColor *color)
     }
     button.frame = CGRectMake(0, y, 320, buttonHeight);
     
-    button.titleLabel.font = [UIFont fontWithName:WPYFont size:20.0f];
+    button.titleLabel.font = [UIFont fontWithName:WPYFont size:16.0f];
     
     // normal
     [button setTitle:NSLocalizedStringFromTableInBundle(@"Confirm Payment", WPYLocalizedStringTable, [WPYBundleManager localizationBundle], nil) forState:UIControlStateNormal];
