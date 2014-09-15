@@ -13,6 +13,8 @@
 
 @interface WPYCommunicator () <NSURLConnectionDelegate, NSURLConnectionDataDelegate>
 @property(nonatomic, copy) WPYCommunicatorCompBlock completionBlock;
+@property(nonatomic, copy) NSString *pubKey;
+@property(nonatomic, copy) NSString *acceptLanguage;
 
 @property(nonatomic, strong) NSURLConnection *connection;
 @property (nonatomic, strong) NSMutableData *receivedData;
@@ -21,30 +23,9 @@
 
 @implementation WPYCommunicator
 
-static NSString *const apiURL = @"https://api.webpay.jp/v1/tokens";
-
+static NSString *const WPYBaseURL = @"https://api.webpay.jp/v1";
 
 #pragma mark helpers
-static NSString *base64EncodedStringFromData(NSData *data)
-{
-    if ([data respondsToSelector:@selector(base64EncodedStringWithOptions:)])
-    {
-        //ios 7
-        return [data base64EncodedStringWithOptions:0];
-    }
-    else
-    {
-        // pre ios 7
-        return [data base64Encoding];
-    }
-}
-
-static NSString *base64Encode(NSString *string)
-{
-    NSData *data = [string dataUsingEncoding:NSUTF8StringEncoding];
-    return base64EncodedStringFromData(data);
-}
-
 // stringByAddingPercentEscapesUsingEncoding won't encode '&'
 // https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/URLLoadingSystem/WorkingwithURLEncoding/WorkingwithURLEncoding.html#//apple_ref/doc/uid/10000165i-CH12-SW1
 static NSString *urlEncode(NSString *string)
@@ -89,29 +70,42 @@ static BOOL isTrustedHost(NSString *host)
     return [trustedHosts containsObject:host];
 }
 
+static NSMutableURLRequest *templateRequest(NSString *endPoint, NSString *publicKey, NSString *acceptLanguage)
+{
+    NSURL *url = [NSURL URLWithString:[WPYBaseURL stringByAppendingString:endPoint]];
+    NSMutableURLRequest *templateRequest = [[NSMutableURLRequest alloc] initWithURL:url];
+    
+    [templateRequest addValue:[NSString stringWithFormat:@"Bearer %@", publicKey]
+           forHTTPHeaderField:@"Authorization"];
+    
+    [templateRequest addValue:acceptLanguage forHTTPHeaderField:@"Accept-Language"];
+    
+    return templateRequest;
+}
+
+
 
 #pragma mark public method
-- (void)requestTokenWithPublicKey:(NSString *)publicKey
-                             card:(WPYCreditCard *)card
+- (instancetype)initWithPublicKey:(NSString *)publicKey
                    acceptLanguage:(NSString *)acceptLanguage
-                  completionBlock:(WPYCommunicatorCompBlock)compBlock
 {
-    self.receivedData = [[NSMutableData alloc] init];
+    if (self = [super init])
+    {
+        _pubKey = publicKey;
+        _acceptLanguage = acceptLanguage;
+        
+        _receivedData = [[NSMutableData alloc] init];
+    }
+    return self;
+}
+
+- (void)requestTokenWithCard:(WPYCreditCard *)card
+             completionBlock:(WPYCommunicatorCompBlock)compBlock
+{
     self.completionBlock = compBlock;
     
-    NSURL *url = [NSURL URLWithString:apiURL];
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
-    
+    NSMutableURLRequest *request = templateRequest(@"/tokens", self.pubKey, self.acceptLanguage);
     request.HTTPMethod = @"POST";
-
-    // set header
-    // TODO: use bearer authentication
-    NSString *credentials = [NSString stringWithFormat:@"%@:", publicKey];
-    NSString *base64EncodedCredentials = base64Encode(credentials);
-    [request addValue:[NSString stringWithFormat:@"Basic %@", base64EncodedCredentials]
-   forHTTPHeaderField:@"Authorization"];
-    
-    [request addValue:acceptLanguage forHTTPHeaderField:@"Accept-Language"];
     
     // set body
     NSDictionary *cardInfo = dictionaryFromCard(card);
@@ -120,6 +114,14 @@ static BOOL isTrustedHost(NSString *host)
     self.connection = [NSURLConnection connectionWithRequest:request delegate:self];
 }
 
+- (void)fetchAvailabilityWithCompletionBlock:(WPYCommunicatorCompBlock)compBlock
+{
+    self.completionBlock = compBlock;
+    NSMutableURLRequest *request = templateRequest(@"/account/availability", self.pubKey, self.acceptLanguage);
+    request.HTTPMethod = @"GET";
+    
+    self.connection = [NSURLConnection connectionWithRequest:request delegate:self];
+}
 
 
 #pragma mark NSURLConnection/Data Delegate - Download

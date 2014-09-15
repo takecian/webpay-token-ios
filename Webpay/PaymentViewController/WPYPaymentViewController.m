@@ -44,6 +44,8 @@ static float const WPYCellHeight = 50.0f;
 
 static float const WPYKeyboardAnimationDuration = 0.3f;
 
+static float const WPYSupportedBrandLabelWidth = 80.0f;
+static NSString *const WPYFont = @"Avenir-Roman";
 
 
 static UIImage *imageFromColor(UIColor *color)
@@ -64,6 +66,7 @@ static UIImage *imageFromColor(UIColor *color)
 
 @implementation WPYPaymentViewController
 @synthesize card = _card;
+@synthesize supportedBrands = _supportedBrands;
 @synthesize callback = _callback;
 @synthesize isKeyboardDisplayed = _isKeyboardDisplayed;
 @synthesize titles = _titles;
@@ -76,12 +79,15 @@ static UIImage *imageFromColor(UIColor *color)
 #pragma mark initializer
 - (instancetype)initWithPriceTag:(NSString *)priceTag
                             card:(WPYCreditCard *)card
-                        callback:(WPYPaymentViewCallback)callback;
+                 supportedBrands:(NSArray *)brands
+                        callback:(WPYPaymentViewCallback)callback
 {
+
     if (self = [super initWithNibName:nil bundle:nil])
     {
         _priceTag = priceTag;
         _card = card;
+        _supportedBrands = brands;
         _callback = callback;
         
         _isKeyboardDisplayed = NO;
@@ -114,19 +120,41 @@ static UIImage *imageFromColor(UIColor *color)
     
     return self;
 }
+- (instancetype)initWithPriceTag:(NSString *)priceTag
+                            card:(WPYCreditCard *)card
+                        callback:(WPYPaymentViewCallback)callback;
+{
+    return [self initWithPriceTag:priceTag
+                             card:card
+                  supportedBrands:nil
+                         callback:callback];
+}
+
+- (instancetype)initWithPriceTag:(NSString *)priceTag
+                 supportedBrands:(NSArray *)brands
+                        callback:(WPYPaymentViewCallback)callback
+{
+    return [self initWithPriceTag:priceTag
+                             card:[[WPYCreditCard alloc] init]
+                  supportedBrands:brands
+                         callback:callback];
+}
 
 - (instancetype)initWithPriceTag:(NSString *)priceTag
                         callback:(WPYPaymentViewCallback)callback
 {
-    WPYCreditCard *card = [[WPYCreditCard alloc] init];
-    return [self initWithPriceTag:priceTag card:card callback:callback];
+    return [self initWithPriceTag:priceTag
+                             card:[[WPYCreditCard alloc] init]
+                  supportedBrands:nil
+                         callback:callback];
 }
 
 // override designated initializer of super
 - (id)initWithStyle:(UITableViewStyle)style
 {
-    WPYCreditCard *card = [[WPYCreditCard alloc] init];
-    return [self initWithPriceTag:@" " card:card callback:nil];
+    return [self initWithPriceTag:@" "
+                             card:[[WPYCreditCard alloc] init]
+                         callback:nil];
 }
 
 
@@ -134,8 +162,8 @@ static UIImage *imageFromColor(UIColor *color)
 #pragma mark memory management
 - (void)dealloc
 {
-    [self unsubscribeToCardChange];
-    [self unsubscribeToKeyboardNotification];
+    [self unsubscribeFromCardChange];
+    [self unsubscribeFromKeyboardNotification];
 }
 
 - (void)didReceiveMemoryWarning
@@ -278,28 +306,61 @@ static UIImage *imageFromColor(UIColor *color)
 #pragma mark price view
 - (UIView *)createPriceView
 {
+    UIColor *priceColor = [UIColor colorWithRed:0.2 green:0.29 blue:0.37 alpha:1.0f];
+    float x = [WPYDeviceSettings isiOS7] ? 15 : 20;
+    
     UIView *priceView = [[UIView alloc] initWithFrame: CGRectMake(0.0f, 0.0f, self.tableView.bounds.size.width, WPYPriceViewHeight)];
     
-    UIColor *priceColor = [UIColor colorWithRed:0.2 green:0.29 blue:0.37 alpha:1.0f];
-   
-    float x = [WPYDeviceSettings isiOS7] ? 15 : 20;
-    UILabel *leftLabel = [[UILabel alloc] initWithFrame:CGRectMake(x, 45, 60, 44)];
-    leftLabel.text = NSLocalizedStringFromTableInBundle(@"TOTAL", WPYLocalizedStringTable, [WPYBundleManager localizationBundle], nil);
-    leftLabel.textColor = priceColor;
-    leftLabel.font = [UIFont fontWithName:@"Avenir-Roman" size:14.0f];
-    leftLabel.backgroundColor = [UIColor clearColor];
-    [priceView addSubview:leftLabel];
-    
-    UILabel *priceLabel = [[UILabel alloc] initWithFrame:CGRectMake(60, 40, 200, 50)];
-    priceLabel.text = self.priceTag;
+    UILabel *priceLabel = [[UILabel alloc] initWithFrame:CGRectMake(x, 45, 60, 44)];
+    priceLabel.text = NSLocalizedStringFromTableInBundle(@"TOTAL", WPYLocalizedStringTable, [WPYBundleManager localizationBundle], nil);
     priceLabel.textColor = priceColor;
-    priceLabel.font = [UIFont fontWithName:@"Avenir-Roman" size:53.0f];
+    priceLabel.font = [UIFont fontWithName:WPYFont size:14.0f];
     priceLabel.backgroundColor = [UIColor clearColor];
-    priceLabel.adjustsFontSizeToFitWidth = YES;
-    priceLabel.minimumScaleFactor = 0.5;
-    priceLabel.textAlignment = NSTextAlignmentCenter;
-    priceLabel.numberOfLines = 0; // vertical align
     [priceView addSubview:priceLabel];
+    
+    UILabel *priceField = [[UILabel alloc] initWithFrame:CGRectMake(60, 40, 200, 50)];
+    priceField.text = self.priceTag;
+    priceField.textColor = priceColor;
+    float fontSize = [WPYDeviceSettings isiOS7] ? 48.0f : 36.0f;
+    priceField.font = [UIFont fontWithName:WPYFont size:fontSize];
+    priceField.backgroundColor = [UIColor clearColor];
+    priceField.adjustsFontSizeToFitWidth = YES;
+    priceField.minimumScaleFactor = 0.5;
+    priceField.textAlignment = NSTextAlignmentCenter;
+    priceField.numberOfLines = 0; // vertical align
+    [priceView addSubview:priceField];
+    
+    UILabel *supportedBrandLabel = [[UILabel alloc] initWithFrame:CGRectMake(x, 100, WPYSupportedBrandLabelWidth, 20)];
+    supportedBrandLabel.text = NSLocalizedStringFromTableInBundle(@"We Accept", WPYLocalizedStringTable, [WPYBundleManager localizationBundle], nil);
+    supportedBrandLabel.textColor = [UIColor colorWithRed:0.58 green:0.58 blue:0.58 alpha:1.0];
+    supportedBrandLabel.font = [UIFont fontWithName:WPYFont size:12.0f];
+    [priceView addSubview:supportedBrandLabel];
+    
+    void (^addSupportedBrandsToView)(NSArray *) = ^(NSArray *brands) {
+        [brands enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+            NSString *brand = (NSString *)obj;
+            NSString *imageFileName = [NSString stringWithFormat:@"Small%@", [brand stringByReplacingOccurrencesOfString:@" " withString:@""]];
+            UIImage *brandImage = [WPYBundleManager imageNamed:imageFileName];
+            UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(x + WPYSupportedBrandLabelWidth + (brandImage.size.width + 10) * idx + 5, 100, brandImage.size.width, brandImage.size.height)];
+            imageView.image = brandImage;
+            [priceView addSubview:imageView];
+        }];
+    
+    };
+    
+    if (self.supportedBrands)
+    {
+        addSupportedBrandsToView(self.supportedBrands);
+    }
+    else
+    {
+        [WPYTokenizer fetchSupportedCardBrandsWithCompletionBlock:^(NSArray *supportedCardBrands, NSError *error) {
+            if (!error)
+            {
+                addSupportedBrandsToView(supportedCardBrands);
+            }
+        }];
+    }
     
     return priceView;
 }
@@ -319,7 +380,7 @@ static UIImage *imageFromColor(UIColor *color)
     }
     button.frame = CGRectMake(0, y, 320, buttonHeight);
     
-    button.titleLabel.font = [UIFont fontWithName:@"Avenir-Roman" size:20.0f];
+    button.titleLabel.font = [UIFont fontWithName:WPYFont size:16.0f];
     
     // normal
     [button setTitle:NSLocalizedStringFromTableInBundle(@"Confirm Payment", WPYLocalizedStringTable, [WPYBundleManager localizationBundle], nil) forState:UIControlStateNormal];
@@ -386,7 +447,7 @@ static UIImage *imageFromColor(UIColor *color)
                                                object:self.view.window];
 }
 
-- (void)unsubscribeToKeyboardNotification
+- (void)unsubscribeFromKeyboardNotification
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
@@ -457,7 +518,7 @@ static UIImage *imageFromColor(UIColor *color)
                          context:nil];
 }
 
-- (void)unsubscribeToCardChange
+- (void)unsubscribeFromCardChange
 {
     [self.card removeObserver:self forKeyPath:NSStringFromSelector(@selector(name))];
     [self.card removeObserver:self forKeyPath:NSStringFromSelector(@selector(number))];

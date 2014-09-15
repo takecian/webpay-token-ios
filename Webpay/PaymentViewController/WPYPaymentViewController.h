@@ -17,6 +17,7 @@ typedef void (^WPYPaymentViewCallback)(WPYPaymentViewController *paymentViewCont
 @interface WPYPaymentViewController : UIViewController
 {
     WPYCreditCard *_card;
+    NSArray *_supportedBrands;
     WPYPaymentViewCallback _callback;
 
     BOOL _isKeyboardDisplayed;
@@ -34,6 +35,15 @@ typedef void (^WPYPaymentViewCallback)(WPYPaymentViewController *paymentViewCont
 // designated initializer
 - (instancetype)initWithPriceTag:(NSString *)priceTag // price tag should include currency unit. i.e) $1.00
                             card:(WPYCreditCard *)card // card properties will be used to populate textfield
+                 supportedBrands:(NSArray *)brands // if you've prefetched supported brands, pass them here
+                        callback:(WPYPaymentViewCallback)callback;
+
+- (instancetype)initWithPriceTag:(NSString *)priceTag
+                            card:(WPYCreditCard *)card
+                        callback:(WPYPaymentViewCallback)callback;
+
+- (instancetype)initWithPriceTag:(NSString *)priceTag
+                 supportedBrands:(NSArray *)brands
                         callback:(WPYPaymentViewCallback)callback;
 
 // If you don't need to provide initial values for form fields, use this initializer

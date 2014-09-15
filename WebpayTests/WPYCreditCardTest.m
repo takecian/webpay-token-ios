@@ -122,7 +122,7 @@ static NSString *const validName = @"Test Test";
 - (void)testBrandNameDiscernsDiners
 {
     _creditCard.number = dinersCardNumber;
-    XCTAssertEqualObjects([_creditCard brandName], @"Diners", @"It should be recognized as diners.");
+    XCTAssertEqualObjects([_creditCard brandName], @"Diners Club", @"It should be recognized as diners.");
 }
 
 - (void)testBrandNameDicernsUnknown
@@ -175,47 +175,47 @@ static NSString *const validName = @"Test Test";
 #pragma mark brandNameFromPartialNumber
 - (void)testNilPartialNumber
 {
-    XCTAssertEqualObjects(@"Unknown", [WPYCreditCard brandNameFromPartialNumber:nil], @"nil partial number will be identified as unknown.");
+    XCTAssertEqualObjects(WPYUnknown, [WPYCreditCard brandNameFromPartialNumber:nil], @"nil partial number will be identified as unknown.");
 }
 
 - (void)testNonNumericPartialNumber
 {
-    XCTAssertEqualObjects(@"Unknown", [WPYCreditCard brandNameFromPartialNumber:@"abc"], @"Non numeric value wil be recognized as unknown.");
+    XCTAssertEqualObjects(WPYUnknown, [WPYCreditCard brandNameFromPartialNumber:@"abc"], @"Non numeric value wil be recognized as unknown.");
 }
 
 - (void)testTooShortPartialNumber
 {
-    XCTAssertEqualObjects(@"Unknown", [WPYCreditCard brandNameFromPartialNumber:@"1"], @"1 digit number will be identified as unknown.");
+    XCTAssertEqualObjects(WPYUnknown, [WPYCreditCard brandNameFromPartialNumber:@"1"], @"1 digit number will be identified as unknown.");
 }
 
 - (void)testPatialNumberWithVisaPrefix
 {
-    XCTAssertEqualObjects(@"Visa", [WPYCreditCard brandNameFromPartialNumber:@"42"], @"It should be recognized as visa.");
+    XCTAssertEqualObjects(WPYVisa, [WPYCreditCard brandNameFromPartialNumber:@"42"], @"It should be recognized as visa.");
 }
 
 - (void)testPatialNumberWithMasterCardPrefix
 {
-    XCTAssertEqualObjects(@"MasterCard", [WPYCreditCard brandNameFromPartialNumber:@"5111 1"], @"It should be recognized as Master Card.");
+    XCTAssertEqualObjects(WPYMasterCard, [WPYCreditCard brandNameFromPartialNumber:@"5111 1"], @"It should be recognized as Master Card.");
 }
 
 - (void)testPatialNumberWithAmericanExpressPrefix
 {
-    XCTAssertEqualObjects(@"American Express", [WPYCreditCard brandNameFromPartialNumber:@"340"], @"It should be recognized as American Express.");
+    XCTAssertEqualObjects(WPYAmex, [WPYCreditCard brandNameFromPartialNumber:@"340"], @"It should be recognized as American Express.");
 }
 
 - (void)testPatialNumberWithDinersPrefix
 {
-    XCTAssertEqualObjects(@"Diners", [WPYCreditCard brandNameFromPartialNumber:@"3000"], @"It should be recognized as Diners.");
+    XCTAssertEqualObjects(WPYDiners, [WPYCreditCard brandNameFromPartialNumber:@"3000"], @"It should be recognized as Diners.");
 }
 
 - (void)testPatialNumberWithJCBPrefix
 {
-    XCTAssertEqualObjects(@"JCB", [WPYCreditCard brandNameFromPartialNumber:@"3501"], @"It should be recognized as JCB.");
+    XCTAssertEqualObjects(WPYJCB, [WPYCreditCard brandNameFromPartialNumber:@"3501"], @"It should be recognized as JCB.");
 }
 
 - (void)testPatialNumberWithDiscoverPrefix
 {
-    XCTAssertEqualObjects(@"Discover", [WPYCreditCard brandNameFromPartialNumber:@"6590"], @"It should be recognized as Discover.");
+    XCTAssertEqualObjects(WPYDiscover, [WPYCreditCard brandNameFromPartialNumber:@"6590"], @"It should be recognized as Discover.");
 }
 
 
@@ -234,8 +234,8 @@ static NSString *const validName = @"Test Test";
 
 - (void)testUnsupportedBrand
 {
-    XCTAssertFalse([WPYCreditCard isSupportedBrand:@"Discover"], @"Discover is not supported.");
-    XCTAssertFalse([WPYCreditCard isSupportedBrand:@"Unknown"], @"Unknown is not supported.");
+    XCTAssertFalse([WPYCreditCard isSupportedBrand:WPYDiscover], @"Discover is not supported.");
+    XCTAssertFalse([WPYCreditCard isSupportedBrand:WPYUnknown], @"Unknown is not supported.");
 }
 
 
@@ -940,6 +940,5 @@ static NSString *const validName = @"Test Test";
     XCTAssertTrue([_creditCard validate:&error], @"It should validate card with supported brand.");
     XCTAssertNil(error, @"Error object should be nil.");
 }
-
 
 @end

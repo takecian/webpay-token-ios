@@ -53,26 +53,22 @@ static NSString *const nonJSONString = @"Not JSON";
 
 - (void)testNilDataRaisesException
 {
-    NSError *buildError = nil;
-    XCTAssertThrows([_builder buildErrorFromData:nil error:&buildError], @"It should raise exception when data is nil.");
+    XCTAssertThrows([_builder buildErrorFromData:nil], @"It should raise exception when data is nil.");
 }
 
 - (void)testNonJSONReturnsExpectedError
 {
-    NSError *buildError = nil;
-    NSError *error = [_builder buildErrorFromData:_nonJSONData error:&buildError];
-    XCTAssertNil(error, @"It should return nil.");
-    XCTAssertEqualObjects([buildError domain], NSCocoaErrorDomain, @"It should be a json serialization error.");
+    NSError *error = [_builder buildErrorFromData:_nonJSONData];
+    XCTAssertNotNil(error, @"It should return error object.");
+    XCTAssertEqualObjects([error domain], NSCocoaErrorDomain, @"It should be a json serialization error.");
 }
 
 - (void)testErrorJSONReturnsExpectedError
 {
-    NSError *buildError = nil;
-    NSError *error = [_builder buildErrorFromData:_errorJSONData error:&buildError];
+    NSError *error = [_builder buildErrorFromData:_errorJSONData];
     XCTAssertEqualObjects([error domain], WPYErrorDomain, @"It should be WPYErrorDomain.");
     XCTAssertEqual([error code], WPYInvalidExpiryYear, @"It should be the same as json");
     XCTAssertEqualObjects([error localizedDescription], @"You must provide the card which is not expired", @"It should be the same as message field in json.");
-    XCTAssertNil(buildError, @"It should stay as nil.");
 }
 
 @end

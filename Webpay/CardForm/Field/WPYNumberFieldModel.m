@@ -109,7 +109,7 @@ static NSString *addPaddingToNumber(NSString *number)
 + (UIImage *)brandLogoFromNumber:(NSString *)number
 {
     NSString *brandName = [self brandFromNumber:number];
-    return [WPYNumberFieldModel imageOfBrand:brandName];
+    return [self imageOfBrand:brandName];
 }
 
 + (NSString *)brandFromNumber:(NSString *)number

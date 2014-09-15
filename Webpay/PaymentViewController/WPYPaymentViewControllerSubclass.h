@@ -10,6 +10,7 @@
 
 @interface WPYPaymentViewController ()
 @property(nonatomic, strong) WPYCreditCard *card;
+@property(nonatomic, copy) NSArray *supportedBrands;
 @property(nonatomic, copy) WPYPaymentViewCallback callback;
 
 @property(nonatomic, copy) NSString *priceTag;
@@ -31,13 +32,13 @@
 - (void)stopIndicator;
 
 - (void)subscribeToKeyboardNotification;
-- (void)unsubscribeToKeyboardNotification;
+- (void)unsubscribeFromKeyboardNotification;
 - (void)keyboardWillShow:(NSNotification *)notification;
 - (void)keyboardWillHide:(NSNotification *)notification;
 - (void)dismissKeyboard;
 
 - (void)subscribeToCardChange;
-- (void)unsubscribeToCardChange;
+- (void)unsubscribeFromCardChange;
 - (void)observeValueForKeyPath:(NSString *)keyPath
                       ofObject:(id)object
                         change:(NSDictionary *)change

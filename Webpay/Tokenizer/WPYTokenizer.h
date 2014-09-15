@@ -14,6 +14,7 @@
 @interface WPYTokenizer : NSObject
 
 typedef void (^WPYTokenizerCompletionBlock)(WPYToken *token, NSError *error);
+typedef void (^WPYSupportedCardBrandsCompletionBlock)(NSArray *supportedCardBrands, NSError *error);
 
 + (void)setPublicKey:(NSString *)key;
 + (NSString *)publicKey;
@@ -29,5 +30,7 @@ typedef void (^WPYTokenizerCompletionBlock)(WPYToken *token, NSError *error);
              acceptLanguage:(NSString *)acceptLanguage
             completionBlock:(WPYTokenizerCompletionBlock)completionBlock;
 
-
++ (void)fetchSupportedCardBrandsWithCompletionBlock:(WPYSupportedCardBrandsCompletionBlock)completionBlock;
++ (void)fetchSupportedCardBrandsWithAcceptLanguage:(NSString *)acceptLanguage
+                                   completionBlock:(WPYSupportedCardBrandsCompletionBlock)completionBlock;
 @end

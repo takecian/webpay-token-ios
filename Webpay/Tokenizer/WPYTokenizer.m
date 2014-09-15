@@ -33,6 +33,7 @@
 #import "WPYCommunicator.h"
 #import "WPYTokenBuilder.h"
 #import "WPYToken.h"
+#import "WPYAvailabilityBuilder.h"
 #import "WPYErrorBuilder.h"
 
 #import "WPYDeviceSettings.h"
@@ -42,6 +43,11 @@
 @implementation WPYTokenizer
 
 static NSString *publicKey = nil;
+
+typedef NS_ENUM(NSInteger, WPYHTTPStatusCode) {
+    WPYHTTPStatusCodeOK200 = 200,
+    WPYHTTPStatusCodeCreated201 = 201
+};
 
 #pragma mark public key
 + (void)setPublicKey:(NSString *)key
@@ -56,7 +62,7 @@ static NSString *publicKey = nil;
 
 + (void)validatePublicKey
 {
-    BOOL isValidKey = [publicKey hasPrefix:@"test_public_"] || [publicKey hasPrefix:@"live_public_"];
+    BOOL isValidKey = [[self publicKey] hasPrefix:@"test_public_"] || [[self publicKey] hasPrefix:@"live_public_"];
     if (!isValidKey)
     {
         [NSException raise:@"InvalidPublicKey" format:@"You are using an invalid public key."];
@@ -90,40 +96,72 @@ static NSString *publicKey = nil;
         return;
     }
     
-    WPYCommunicator *communicator = [[WPYCommunicator alloc] init];
-    [communicator requestTokenWithPublicKey:publicKey
-                                       card:card
-                             acceptLanguage:acceptLanguage
-                            completionBlock:^(NSURLResponse *response, NSData *data, NSError *networkError){
-                                            if (networkError)
-                                            {
-                                                completionBlock(nil, networkError);
-                                                return;
-                                            }
-                                
-                                            NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
-                                            if (httpResponse.statusCode == 201)
-                                            {
-                                                WPYTokenBuilder *tokenBuilder = [[WPYTokenBuilder alloc] init];
-                                                NSError *tokenBuildError = nil;
-                                                WPYToken *token = [tokenBuilder buildTokenFromData:data error:&tokenBuildError];
-                                                completionBlock(token, tokenBuildError);
-                                            }
-                                            else
-                                            {
-                                                WPYErrorBuilder *errorBuilder = [[WPYErrorBuilder alloc] init];
-                                                NSError *buildError = nil;
-                                                NSError *error = [errorBuilder buildErrorFromData:data error:&error];
-                                                if (error)
-                                                {
-                                                    completionBlock(nil, error);
-                                                }
-                                                else
-                                                {
-                                                    completionBlock(nil, buildError);
-                                                }
-                                            }
+    WPYCommunicator *communicator = [[WPYCommunicator alloc] initWithPublicKey:[self publicKey]
+                                                                acceptLanguage:acceptLanguage];
+    [communicator requestTokenWithCard:card
+                       completionBlock:^(NSURLResponse *response, NSData *data, NSError *networkError) {
+                           if (networkError)
+                           {
+                               completionBlock(nil, networkError);
+                               return;
+                           }
+                           
+                           NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
+                           if (httpResponse.statusCode == WPYHTTPStatusCodeCreated201)
+                           {
+                               WPYTokenBuilder *tokenBuilder = [[WPYTokenBuilder alloc] init];
+                               NSError *tokenBuildError = nil;
+                               WPYToken *token = [tokenBuilder buildTokenFromData:data error:&tokenBuildError];
+                               completionBlock(token, tokenBuildError);
+                           }
+                           else
+                           {
+                               WPYErrorBuilder *errorBuilder = [[WPYErrorBuilder alloc] init];
+                               NSError *error = [errorBuilder buildErrorFromData:data];
+                               completionBlock(nil, error);
+                           }
     }];
     
+}
+
+#pragma mark supported card brands
++ (void)fetchSupportedCardBrandsWithCompletionBlock:(WPYSupportedCardBrandsCompletionBlock)completionBlock
+{
+    NSString *acceptLanguage = [WPYDeviceSettings isJapanese] ? @"ja" : @"en";
+    [self fetchSupportedCardBrandsWithAcceptLanguage:acceptLanguage
+                                     completionBlock:completionBlock];
+}
+
++ (void)fetchSupportedCardBrandsWithAcceptLanguage:(NSString *)acceptLanguage
+                                   completionBlock:(WPYSupportedCardBrandsCompletionBlock)completionBlock
+{
+    [self validatePublicKey];
+    NSParameterAssert(completionBlock);
+    
+    WPYCommunicator *communicator = [[WPYCommunicator alloc] initWithPublicKey:[self publicKey]
+                                                                acceptLanguage:acceptLanguage];
+    [communicator fetchAvailabilityWithCompletionBlock:^(NSURLResponse *response, NSData *data, NSError *networkError) {
+        if (networkError)
+        {
+            completionBlock(nil, networkError);
+            return;
+        }
+        
+        NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
+        if (httpResponse.statusCode == WPYHTTPStatusCodeOK200)
+        {
+            WPYAvailabilityBuilder *builder = [[WPYAvailabilityBuilder alloc] init];
+            NSError *availabilityBuildError = nil;
+            NSDictionary *availability = [builder buildAvailabilityFromData:data error:&availabilityBuildError];
+            NSArray *supportedBrands = availability ? availability[@"card_types_supported"] : nil;
+            completionBlock(supportedBrands, availabilityBuildError);
+        }
+        else
+        {
+            WPYErrorBuilder *errorBuilder = [[WPYErrorBuilder alloc] init];
+            NSError *error = [errorBuilder buildErrorFromData:data];
+            completionBlock(nil, error);
+        }
+    }];
 }
 @end
