@@ -1,6 +1,6 @@
 # webpay-token-ios [![Build Status](https://travis-ci.org/webpay/webpay-token-ios.svg?branch=master)](https://travis-ci.org/webpay/webpay-token-ios)
 
-webpay-token-ios is an ios library for creating a token from a credit card.
+webpay-token-ios is an iOS library for creating a WebPay token from a credit card.
 
 <img src="https://raw.github.com/webpay/webpay-token-ios/screenshot/screenshots/filled_card_form.png" width="300px;" />
 
@@ -17,7 +17,7 @@ webpay-token-ios supports iOS 6 and above.
 
 You can either install using cocoapods(recommended) or copying files manually.
 
-### 1. Cocoapods
+### 1. Cocoapods(Recommended)
 In your Podfile, add a line
 ```
 pod 'WebPay', '~> 1.1.0'
@@ -31,31 +31,90 @@ then, run `pod install`.
 2. Add files under Webpay directory to your project
 
 
-### Check if installed correctly
+### For objective-c projects
 Add `#import 'Webpay.h'` in one of your files, and see if your target builds without error.
+
+
+### For swift projects
+You need to create a bridging header and add `#import "Webpay.h"` to the header to use the library in swift code.
+For instruction on how to create a bridging header, please refer to [Apple's documentation](https://developer.apple.com/library/ios/documentation/swift/conceptual/buildingcocoaapps/MixandMatch.html).
 
 
 ## Overview
 
 webpay-token-ios consists of 3 components.
 
-1. WPYTokenizer(model that creates a token)
-2. WPYCardFormView(card form view)
-3. WPYPaymentViewController(view controller)
+1. WPYPaymentViewController(view controller)
+2. WPYTokenizer(model that creates a token)
+3. WPYCardFormView(card form view)
+
+If you want a view controller to drop in, WPYPaymentViewController is the way to go.
+WPYTokenizer is for developers planning to create their own view & view controller from scratch. It provides API for accessing
+WebPay API. WPYCardFormView offers a form with validation.
 
 ## How to use
 
-### Initialization(required for every components)
+### Initialization
+Initialization is required for using any components from this library.
+
 ``` objective-c
 #import "Webpay.h"
-
+// replace test_public_YOUR_PUBLIC_KEY with your WebPay publishable key
 [WPYTokenizer setPublicKey:@"test_public_YOUR_PUBLIC_KEY"];
 ```
+
+```swift
+// replace test_public_YOUR_PUBLIC_KEY with your WebPay publishable key
+WPYTokenizer.setPublicKey("test_public_YOUR_PUBLIC_KEY")
+```
+
+### WPYPaymentViewController
+If you just want a viewcontroller for `pushViewController:animated` or `presentViewController:animated:completion:`, this is what you want.
+
+<img src="https://raw.github.com/webpay/webpay-token-ios/screenshot/screenshots/card_form.png" width="300px;" />
+
+```objective-c
+WPYPaymentViewController *paymentViewController = [[WPYPaymentViewController alloc] initWithPriceTag:@"$23.67" callback:^(WPYPaymentViewController *viewController, WPYToken *token, NSError *error) {
+  if (error)
+  {
+    NSLog(@"error:%@", [error localizedDescription]);
+  }
+  else
+  {
+    //post token to your server
+
+    // when transaction is complete
+    [viewController setPayButtonComplete]; // this will change the button color to green and its title to checkmark
+    [viewController dismissAfterDelay: 2.0f];
+  }
+}];
+
+[self.navigationController pushViewController:paymentViewController animated:YES];
+```
+
+```swift
+let paymentViewController = WPYPaymentViewController(priceTag: "$23.67", callback: { viewController, token, error in
+  if let newError = error {
+    println("error:\(error.localizedDescription)")
+  } else {
+    //post token to your server
+
+    // when transaction is complete
+    viewController.setPayButtonComplete()
+    viewController.dismissAfterDelay(2.0)
+  }
+})
+
+self.navigationController?.pushViewController(paymentViewController, animated: true)
+```
+
+If you want the card form to be populated with card data, use `initWithPriceTag:card:callback:` instead.
+
 
 ### WPYTokenizer (Model)
 If you are creating your own view, create token using WPYTokenizer.
 
-```
+```objective-c
 #import "Webpay.h"
 
 // create a credit card model and populate with data
@@ -67,23 +126,42 @@ card.cvc = @"123";
 card.name = @"Sample Name";
 
 // pass card instance and a callback
-[WPYTokenizer createTokenFromCard:card completionBlock:^(WPYToken *token, NSError *error)
-{
-  if (token)
-  {
-    NSLog(@"token:%@", token.tokenId);
-  }
-  else
+[WPYTokenizer createTokenFromCard:card
+                  completionBlock:^(WPYToken *token, NSError *error) {
+  if (error)
   {
     NSLog(@"error:%@", [error localizedDescription]);
   }
+  else
+  {
+    NSLog(@"token:%@", token.tokenId);
+  }
 }];
+```
+
+```swift
+// create a credit card model and populate with data
+let card = WPYCreditCard()
+card.number = "4242424242424242"
+card.expiryYear = 2015
+card.expiryMonth = WPYMonth.December
+card.cvc = "123"
+card.name = "Sample Name"
+
+// pass card instance and a callback
+WPYTokenizer.createTokenFromCard(card, completionBlock: {token, error in
+  if let newError = error {
+    println("\(error)")
+  } else {
+    println("\(token.tokenId)")
+  }
+})
 ```
 
 ### WPYCardFormView (View)
 WPYCardFormView is a credit card form view that calls its delegate method when the form is valid. It handles padding credit card number, masking security code, and validating each field.
 
-```
+```objective-c
 // create view
 WPYCreditCard *card = [[WPYCreditCard alloc] init];
 WPYCardFormView *cardForm = [[WPYCardFormView alloc] initWithFrame:CGRectMake(0, 0, 320, 300) card:card];
@@ -93,47 +171,31 @@ cardForm.delegate = self;
 // WPYCardFormDelegate methods
 - (void)validFormWithCard:(WPYCreditCard *)creditCard
 {
-  // called when the form is valid.  
-  self.card = creditCard;
-  self.button.enabled = YES;
+  // called when the form is valid.
+}
+```
+
+```swift
+// create view
+let card = WPYCreditCard()
+let form = WPYCardFormView(frame: CGRect(x: 0, y: 0, width: 320, height: 320), card: card)
+form.delegate = self
+self.view.addSubview(form)
+
+// WPYCardFormDelegate methods
+func validFormWithCard(creditCard: WPYCreditCard!) {
+  // called when the form is valid.
 }
 ```
 
 If you want more granular control, use subclasses of `WPYAbstractCardField`.
 
 
-### WPYPaymentViewController
-If you just want a viewcontroller for `pushViewController:animated` or `presentViewController:animated:completion:`, this is what you want.
-
-<img src="https://raw.github.com/webpay/webpay-token-ios/screenshot/screenshots/card_form.png" width="300px;" />
-
-```
-WPYPaymentViewController *paymentViewController = [[WPYPaymentViewController alloc] initWithPriceTag:@"$23.67" callback:^(WPYPaymentViewController *viewController, WPYToken *token, NSError *error){
-  if(token)
-  {
-    //post token to your server
-
-    // when transaction is complete
-    [viewController setPayButtonComplete]; // this will change the button color to green and its title to checkmark
-    [viewController dismissAfterDelay: 2.0f];
-  }
-  else
-  {
-    NSLog(@"error:%@", [error localizedDescription]);
-  }
-}];
-
-[self.navigationController pushViewController:paymentViewController animated:YES];
-```
-
-If you want the card form to be populated with card data, use `initWithPriceTag:card:callback:` instead.
-
-
 ### Other classes
 #### WPYCreditCard
 WPYCreditCard offers various validation methods.
 For validating the whole card, use `- (BOOL)validate:`
-```
+```objective-c
 NSError *cardError = nil;
 if (![card validate:&cardError])
 {
@@ -141,8 +203,15 @@ if (![card validate:&cardError])
 }
 ```
 
-For validating each property, use `- (BOOL)validatePROPERTY:error:`
+```swift
+var cardError: NSError?
+if !card.validate(&cardError) {
+  println("error:\(cardError.localizedDescription)")
+}
 ```
+
+For validating each property, use `- (BOOL)validatePROPERTY:error:`
+```objective-c
 NSString *number = @"4242424242424242";
 NSError *cardError = nil;
 WPYCreditCard *card = [[WPYCreditCard alloc] init];
@@ -152,9 +221,22 @@ if (![card validateNumber:&number error:&cardError])
 }
 ```
 
-For checking brand from partial numbers
+```swift
+var number: AnyObject? = "4242424242424242"
+var cardError: NSError?
+let card = WPYCreditCard()
+if !card.validateNumber(&number, error:&cardError) {
+  println("error:\(cardError.localizedDescription)")
+}
 ```
+
+For checking brand from partial numbers
+```objective-c
 [WPYCreditCard brandNameFromPartialNumber:@"42"];
+```
+
+```swift
+WPYCreditCard.brandNameFromPartialNumber("42")
 ```
 
 #### WPYToken
