@@ -81,7 +81,7 @@ If you just want a viewcontroller for `pushViewController:animated` or `presentV
 ```objective-c
 // objective-c
 
-WPYPaymentViewController *paymentViewController = [[WPYPaymentViewController alloc] initWithPriceTag:@"$23.67" callback:^(WPYPaymentViewController *viewController, WPYToken *token, NSError *error) {
+WPYPaymentViewController *paymentViewController = [[WPYPaymentViewController alloc] initWithPriceTag:@"¥350" callback:^(WPYPaymentViewController *viewController, WPYToken *token, NSError *error) {
   if (error)
   {
     NSLog(@"error:%@", [error localizedDescription]);
@@ -134,7 +134,7 @@ card.number = @"4242424242424242";
 card.expiryYear = 2015;
 card.expiryMonth = 12;
 card.cvc = @"123";
-card.name = @"Sample Name";
+card.name = @"TARO YAMADA";
 
 // pass card instance and a callback
 [WPYTokenizer createTokenFromCard:card
