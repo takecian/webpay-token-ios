@@ -102,7 +102,7 @@ WPYPaymentViewController *paymentViewController = [[WPYPaymentViewController all
 ```swift
 // swift
 
-let paymentViewController = WPYPaymentViewController(priceTag: "$23.67", callback: { viewController, token, error in
+let paymentViewController = WPYPaymentViewController(priceTag: "¥350", callback: { viewController, token, error in
   if let newError = error {
     println("error:\(error.localizedDescription)")
   } else {
@@ -159,7 +159,7 @@ card.number = "4242424242424242"
 card.expiryYear = 2015
 card.expiryMonth = WPYMonth.December
 card.cvc = "123"
-card.name = "Sample Name"
+card.name = "TARO YAMADA"
 
 // pass card instance and a callback
 WPYTokenizer.createTokenFromCard(card, completionBlock: {token, error in
