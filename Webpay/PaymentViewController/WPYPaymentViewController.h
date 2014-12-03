@@ -15,22 +15,6 @@ typedef void (^WPYPaymentViewCallback)(WPYPaymentViewController *paymentViewCont
 
 
 @interface WPYPaymentViewController : UIViewController
-{
-    WPYCreditCard *_card;
-    NSArray *_supportedBrands;
-    WPYPaymentViewCallback _callback;
-
-    BOOL _isKeyboardDisplayed;
-    NSArray *_titles;
-    UITableView *_tableView;
-    NSMutableArray *_contentViews;
-
-    NSString *_priceTag;
-    
-    UIButton *_payButton;
-    UIActivityIndicatorView *_indicator;
-}
-
 
 // designated initializer
 - (instancetype)initWithPriceTag:(NSString *)priceTag // price tag should include currency unit. i.e) $1.00

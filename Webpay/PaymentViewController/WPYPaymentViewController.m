@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 yohei, YasuLab. All rights reserved.
 //
 
-#import "WPYPaymentViewControllerSubclass.h"
+#import "WPYPaymentViewController.h"
 
 #import "WPYTokenizer.h"
 #import "WPYCreditCard.h"
@@ -24,6 +24,19 @@
 
 
 @interface WPYPaymentViewController ()<UITableViewDataSource, UITableViewDelegate>
+@property(nonatomic, strong) WPYCreditCard *card;
+@property(nonatomic, copy) NSArray *supportedBrands;
+@property(nonatomic, copy) WPYPaymentViewCallback callback;
+
+@property(nonatomic, copy) NSString *priceTag;
+
+@property(nonatomic) BOOL isKeyboardDisplayed;
+@property(nonatomic, strong) NSArray *titles;
+@property(nonatomic, strong) UITableView *tableView;
+@property(nonatomic, strong) NSMutableArray *contentViews;
+
+@property(nonatomic, strong) UIButton *payButton;
+@property(nonatomic, strong) UIActivityIndicatorView *indicator;
 @end
 
 
@@ -65,16 +78,6 @@ static UIImage *imageFromColor(UIColor *color)
 
 
 @implementation WPYPaymentViewController
-@synthesize card = _card;
-@synthesize supportedBrands = _supportedBrands;
-@synthesize callback = _callback;
-@synthesize isKeyboardDisplayed = _isKeyboardDisplayed;
-@synthesize titles = _titles;
-@synthesize tableView = _tableView;
-@synthesize contentViews = _contentViews;
-@synthesize priceTag = _priceTag;
-@synthesize payButton = _payButton;
-@synthesize indicator = _indicator;
 
 #pragma mark initializer
 - (instancetype)initWithPriceTag:(NSString *)priceTag
