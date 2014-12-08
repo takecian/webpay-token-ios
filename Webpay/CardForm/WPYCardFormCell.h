@@ -11,8 +11,6 @@
 @interface WPYCardFormCell : UITableViewCell
 
 // designated initializer
-- (id)initWithStyle:(UITableViewCellStyle)style
-    reuseIdentifier:(NSString *)reuseIdentifier
-        contentView:(UIView *)contentView
-              title:(NSString *)title;
+- (void)setTitle:(NSString *)title;
+- (void)addField:(UIView *)field;
 @end
