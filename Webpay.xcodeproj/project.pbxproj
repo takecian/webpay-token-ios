@@ -26,8 +26,10 @@
 		47362A0B1918BC7100ED7692 /* WPYExpiryFieldModelTtest.m in Sources */ = {isa = PBXBuildFile; fileRef = 47362A0A1918BC7100ED7692 /* WPYExpiryFieldModelTtest.m */; };
 		47362A0D1918C15B00ED7692 /* WPYNameFieldModelTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 47362A0C1918C15B00ED7692 /* WPYNameFieldModelTest.m */; };
 		47362A0F1918C2EE00ED7692 /* WPYCvcFieldModelTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 47362A0E1918C2EE00ED7692 /* WPYCvcFieldModelTest.m */; };
+		473672E61A2FDCDB007FBC33 /* WPYSupportedBrandsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 473672E51A2FDCDB007FBC33 /* WPYSupportedBrandsView.m */; };
 		47406D1419B5297000E4D16E /* WPYAvailabilityBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = 47406D1319B5297000E4D16E /* WPYAvailabilityBuilder.m */; };
 		47413D2818FF46CF00DA7626 /* WPYMenuDisabledTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 47413D2718FF46CF00DA7626 /* WPYMenuDisabledTextField.m */; };
+		4741D1231A2FB1A000197629 /* WebPay.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4741D1221A2FB1A000197629 /* WebPay.storyboard */; };
 		474378CA18FE43E7004ECE34 /* WPYCardFormView.m in Sources */ = {isa = PBXBuildFile; fileRef = 474378C918FE43E7004ECE34 /* WPYCardFormView.m */; };
 		474378CD18FE5D36004ECE34 /* WPYCardFormCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 474378CC18FE5D36004ECE34 /* WPYCardFormCell.m */; };
 		474378D118FE6026004ECE34 /* WPYNumberField.m in Sources */ = {isa = PBXBuildFile; fileRef = 474378D018FE6026004ECE34 /* WPYNumberField.m */; };
@@ -105,10 +107,13 @@
 		47362A0A1918BC7100ED7692 /* WPYExpiryFieldModelTtest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WPYExpiryFieldModelTtest.m; path = WebpayTests/WPYExpiryFieldModelTtest.m; sourceTree = SOURCE_ROOT; };
 		47362A0C1918C15B00ED7692 /* WPYNameFieldModelTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WPYNameFieldModelTest.m; path = WebpayTests/WPYNameFieldModelTest.m; sourceTree = SOURCE_ROOT; };
 		47362A0E1918C2EE00ED7692 /* WPYCvcFieldModelTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WPYCvcFieldModelTest.m; path = WebpayTests/WPYCvcFieldModelTest.m; sourceTree = SOURCE_ROOT; };
+		473672E41A2FDCDB007FBC33 /* WPYSupportedBrandsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WPYSupportedBrandsView.h; path = Webpay/PaymentViewController/WPYSupportedBrandsView.h; sourceTree = "<group>"; };
+		473672E51A2FDCDB007FBC33 /* WPYSupportedBrandsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WPYSupportedBrandsView.m; path = Webpay/PaymentViewController/WPYSupportedBrandsView.m; sourceTree = "<group>"; };
 		47406D1219B5297000E4D16E /* WPYAvailabilityBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WPYAvailabilityBuilder.h; path = Webpay/Tokenizer/WPYAvailabilityBuilder.h; sourceTree = "<group>"; };
 		47406D1319B5297000E4D16E /* WPYAvailabilityBuilder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WPYAvailabilityBuilder.m; path = Webpay/Tokenizer/WPYAvailabilityBuilder.m; sourceTree = "<group>"; };
 		47413D2618FF46CF00DA7626 /* WPYMenuDisabledTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WPYMenuDisabledTextField.h; path = Webpay/CardForm/Field/WPYMenuDisabledTextField.h; sourceTree = "<group>"; };
 		47413D2718FF46CF00DA7626 /* WPYMenuDisabledTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WPYMenuDisabledTextField.m; path = Webpay/CardForm/Field/WPYMenuDisabledTextField.m; sourceTree = "<group>"; };
+		4741D1221A2FB1A000197629 /* WebPay.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = WebPay.storyboard; path = Webpay/Resources/WebPay.storyboard; sourceTree = "<group>"; };
 		474378C818FE43E7004ECE34 /* WPYCardFormView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WPYCardFormView.h; path = Webpay/CardForm/WPYCardFormView.h; sourceTree = "<group>"; };
 		474378C918FE43E7004ECE34 /* WPYCardFormView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WPYCardFormView.m; path = Webpay/CardForm/WPYCardFormView.m; sourceTree = "<group>"; };
 		474378CB18FE5D36004ECE34 /* WPYCardFormCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WPYCardFormCell.h; path = Webpay/CardForm/WPYCardFormCell.h; sourceTree = "<group>"; };
@@ -199,6 +204,8 @@
 			children = (
 				4795D4DC18F913F20050542E /* WPYPaymentViewController.h */,
 				4795D4DD18F913F20050542E /* WPYPaymentViewController.m */,
+				473672E41A2FDCDB007FBC33 /* WPYSupportedBrandsView.h */,
+				473672E51A2FDCDB007FBC33 /* WPYSupportedBrandsView.m */,
 			);
 			name = PaymentViewController;
 			sourceTree = "<group>";
@@ -416,6 +423,7 @@
 		47D6AB6A1916DDEC00D55910 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				4741D1221A2FB1A000197629 /* WebPay.storyboard */,
 				4703D6D81925C78500A7805F /* WebPay.bundle */,
 			);
 			name = Resources;
@@ -533,6 +541,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4741D1231A2FB1A000197629 /* WebPay.storyboard in Resources */,
 				4764A08318C7EB04006C9E4E /* InfoPlist.strings in Resources */,
 				4764A08B18C7EB04006C9E4E /* Images.xcassets in Resources */,
 				4703D6D91925C78500A7805F /* WebPay.bundle in Resources */,
@@ -601,6 +610,7 @@
 				474378D518FE6253004ECE34 /* WPYExpiryField.m in Sources */,
 				474378D818FE676C004ECE34 /* WPYCvcField.m in Sources */,
 				474378D118FE6026004ECE34 /* WPYNumberField.m in Sources */,
+				473672E61A2FDCDB007FBC33 /* WPYSupportedBrandsView.m in Sources */,
 				4795D4DB18F913750050542E /* ItemDetailViewController.m in Sources */,
 				47B967891918547B00753459 /* WPYCvcFieldModel.m in Sources */,
 				4764A08918C7EB04006C9E4E /* AppDelegate.m in Sources */,
@@ -757,6 +767,7 @@
 				INFOPLIST_FILE = "WebpayExample/Webpay-Info.plist";
 				PRODUCT_NAME = Webpay;
 				PROVISIONING_PROFILE = "";
+				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -773,6 +784,7 @@
 				INFOPLIST_FILE = "WebpayExample/Webpay-Info.plist";
 				PRODUCT_NAME = Webpay;
 				PROVISIONING_PROFILE = "";
+				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
