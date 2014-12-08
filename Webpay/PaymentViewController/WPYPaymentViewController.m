@@ -190,7 +190,6 @@ static UIImage *imageFromColor(UIColor *color)
     
     [self subscribeToKeyboardNotification];
     
-    [self setupTableView];
     [self setupPayButton];
     [self setupPriceView];
     [self setupFields];
@@ -200,12 +199,6 @@ static UIImage *imageFromColor(UIColor *color)
                                    initWithTarget:self
                                    action:@selector(dismissKeyboard)];
     [self.view addGestureRecognizer:tap];
-}
-
-- (void)setupTableView
-{
-    self.tableView.delegate = self;
-    self.tableView.dataSource = self;
 }
 
 - (void)setupPayButton
