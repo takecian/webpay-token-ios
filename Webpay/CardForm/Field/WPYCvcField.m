@@ -13,13 +13,14 @@
 #import "WPYCvcFieldModel.h"
 #import "WPYBundleManager.h"
 
+static const float WPYImageSide = 40.0f;
+
 @interface WPYCvcField () <UITextFieldDelegate>
 @property(nonatomic, strong) WPYCvcFieldModel *model;
 @property(nonatomic, strong) UIButton *transparentButton;
 @end
 
 @implementation WPYCvcField
-
 
 #pragma mark override methods: initialization
 - (UITextField *)createTextFieldWithFrame:(CGRect)frame
@@ -36,7 +37,7 @@
 
 - (UIImageView *)createRightView
 {
-    UIImageView *rightView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 40, 40)];
+    UIImageView *rightView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, WPYImageSide, WPYImageSide)];
     rightView.userInteractionEnabled = YES;
     return rightView;
 }
@@ -47,7 +48,7 @@
     [self assignText:[self.model formattedTextFieldValue]];
     
     self.transparentButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.transparentButton.frame = CGRectMake(170, 0, 40, 44);
+    self.transparentButton.frame = CGRectMake(self.frame.size.width - WPYImageSide, 0, WPYImageSide, WPYImageSide + 4);
     [self.transparentButton addTarget:self action:@selector(showCvcInfoView) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:self.transparentButton];
     
