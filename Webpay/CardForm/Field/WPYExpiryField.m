@@ -26,7 +26,7 @@
 #pragma mark override methods: initialization
 - (UITextField *)createTextFieldWithFrame:(CGRect)frame
 {
-    self.expiryPickerView = [[WPYExpiryPickerView alloc] initWithFrame:CGRectMake(0, 0, 320, 200)];
+    self.expiryPickerView = [[WPYExpiryPickerView alloc] initWithFrame:CGRectMake(0, 0, [[UIScreen mainScreen]bounds].size.width, 200)];
     self.expiryPickerView.expiryDelegate = self;
         
     WPYExpiryAccessoryView *accessoryView = [[WPYExpiryAccessoryView alloc] initWithFrame:CGRectMake(0, 0, [[UIScreen mainScreen]bounds].size.width, 44)];
