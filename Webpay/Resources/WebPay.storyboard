@@ -134,23 +134,7 @@
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="S1o-QE-c02" id="wco-N7-TPg">
                                             <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VVy-8P-M8s">
-                                                    <rect key="frame" x="20" y="9" width="39" height="25.5"/>
-                                                    <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="16"/>
-                                                    <color key="textColor" red="0.0" green="0.47843137254901957" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstItem="VVy-8P-M8s" firstAttribute="top" secondItem="wco-N7-TPg" secondAttribute="topMargin" constant="1" id="Ep7-HW-k2B"/>
-                                                <constraint firstAttribute="bottomMargin" secondItem="VVy-8P-M8s" secondAttribute="bottom" constant="1" id="Y9q-AZ-93g"/>
-                                                <constraint firstItem="VVy-8P-M8s" firstAttribute="leading" secondItem="wco-N7-TPg" secondAttribute="leadingMargin" constant="12" id="yP3-Bz-voB"/>
-                                            </constraints>
                                         </tableViewCellContentView>
-                                        <connections>
-                                            <outlet property="titleLabel" destination="VVy-8P-M8s" id="reN-0j-5XS"/>
-                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                                 <connections>

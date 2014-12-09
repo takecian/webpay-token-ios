@@ -11,18 +11,38 @@
 #import "WPYDeviceSettings.h"
 
 @interface WPYCardFormCell ()
-@property(nonatomic, weak) IBOutlet UILabel *titleLabel;// default textlabel of cell has weird behaviors with frame size.
+@property(nonatomic, strong) UILabel *titleLabel;// default textlabel of cell has weird behaviors with frame size.
 @property(nonatomic, strong) UIView *field;
 @end
 
+static const float WPYLabelX = 20.0f;
+static const float WPYLabelY = 12.0f;
+
 @implementation WPYCardFormCell
 
+// created from storyboard
 - (void)awakeFromNib
 {
-    if ([WPYDeviceSettings isJapanese])
+    [self addTitleLabel];
+}
+
+//created from code
+- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
+{
+    if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier])
     {
-        self.titleLabel.font = [UIFont fontWithName:@"HiraKakuProN-W3" size:13.0f];
+        [self addTitleLabel];
     }
+    return self;
+}
+
+- (void)addTitleLabel
+{
+    self.titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(WPYLabelX, WPYLabelY, 80, 26)];
+    self.titleLabel.font = [WPYDeviceSettings isJapanese] ? [UIFont fontWithName:@"HiraKakuProN-W3" size:13.0f] : [UIFont fontWithName:@"Avenir-Roman" size:16.0f];
+    self.titleLabel.textColor = [UIColor colorWithRed:0 green:0.48 blue:1.0 alpha:1.0];
+    self.titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
+    [self.contentView addSubview:self.titleLabel];
 }
 
 - (void)setTitle:(NSString *)title
