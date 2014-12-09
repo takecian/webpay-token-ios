@@ -36,7 +36,6 @@
 static float const WPYFieldRightMargin = 10.0f; // for leaving right margin to rightview
 static float const WPYFieldLeftMargin = 100.0f;
 static float const WPYFieldTopMargin = 4.0f;
-static float const WPYFieldWidth = 320.0f - WPYFieldLeftMargin - WPYFieldRightMargin;
 static float const WPYFieldHeight = 45.0f;
 
 static float const WPYCellHeight = 50.0f;
@@ -50,8 +49,8 @@ static float const WPYCellHeight = 50.0f;
     {
         _creditCard = card ? card : [[WPYCreditCard alloc] init];
         
-        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, 320, 200) style:UITableViewStylePlain];
-        _tableView.tableHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, self.tableView.bounds.size.width, 0.01f)];
+        _tableView = [[UITableView alloc] initWithFrame:frame style:UITableViewStylePlain];
+        _tableView.tableHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, _tableView.bounds.size.width, 0.01f)];
         _tableView.backgroundColor = [UIColor clearColor];
         _tableView.backgroundView = nil;
         _tableView.dataSource = self;
@@ -66,7 +65,7 @@ static float const WPYCellHeight = 50.0f;
                     ];
         
         // contentViews
-        CGRect fieldFrame = CGRectMake(WPYFieldLeftMargin, WPYFieldTopMargin, WPYFieldWidth, WPYFieldHeight);
+        CGRect fieldFrame = CGRectMake(WPYFieldLeftMargin, WPYFieldTopMargin, self.frame.size.width - WPYFieldLeftMargin - WPYFieldRightMargin, WPYFieldHeight);
         WPYAbstractCardField *numberField = [[WPYNumberField alloc] initWithFrame:fieldFrame card:_creditCard];
         WPYAbstractCardField *expiryField = [[WPYExpiryField alloc] initWithFrame:fieldFrame card:_creditCard];
         WPYAbstractCardField *cvcField = [[WPYCvcField alloc] initWithFrame:fieldFrame card:_creditCard];
@@ -185,10 +184,9 @@ static float const WPYCellHeight = 50.0f;
     if (cell == nil)
     {
         cell = [[WPYCardFormCell alloc] initWithStyle:UITableViewCellStyleValue1
-                                      reuseIdentifier:CellIdentifier
-                                          contentView:self.contentViews[indexPath.row]
-                                                title:self.titles[indexPath.row]];
-                
+                                      reuseIdentifier:CellIdentifier];
+        [cell setTitle:self.titles[indexPath.row]];
+        [cell addField:self.contentViews[indexPath.row]];
     }
     
     return cell;
