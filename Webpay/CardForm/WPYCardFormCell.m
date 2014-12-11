@@ -15,8 +15,8 @@
 @property(nonatomic, strong) UIView *field;
 @end
 
-static const float WPYLabelX = 20.0f;
-static const float WPYLabelY = 12.0f;
+static const float WPYLabelX = 15.0f;
+static const float WPYLabelY = 1.0f;
 
 @implementation WPYCardFormCell
 
@@ -38,10 +38,11 @@ static const float WPYLabelY = 12.0f;
 
 - (void)addTitleLabel
 {
-    self.titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(WPYLabelX, WPYLabelY, 80, 26)];
+    self.titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(WPYLabelX, WPYLabelY, 80, 48)];
     self.titleLabel.font = [WPYDeviceSettings isJapanese] ? [UIFont fontWithName:@"HiraKakuProN-W3" size:13.0f] : [UIFont fontWithName:@"Avenir-Roman" size:16.0f];
     self.titleLabel.textColor = [UIColor colorWithRed:0 green:0.48 blue:1.0 alpha:1.0];
     self.titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
+    self.titleLabel.numberOfLines = 0;
     [self.contentView addSubview:self.titleLabel];
 }
 

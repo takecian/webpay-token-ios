@@ -49,7 +49,7 @@
 
 // internal constants
 static float const WPYPriceViewHeight = 100.0f;
-static float const WPYFieldLeftMargin = 100.0f;
+static float const WPYFieldLeftMargin = 105.0f;
 static float const WPYFieldRightMargin = 10.0f;
 static float const WPYFieldTopMargin = 4.0f;
 static float const WPYKeyboardAnimationDuration = 0.3f;
