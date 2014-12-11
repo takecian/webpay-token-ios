@@ -79,48 +79,25 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="g6Y-lR-r7s" customClass="WPYSupportedBrandsView">
-                                            <rect key="frame" x="85" y="75" width="200" height="21"/>
-                                            <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="WebPay.bundle/Images/SmallVisa.png" translatesAutoresizingMaskIntoConstraints="NO" id="26R-Ds-AeL">
-                                                    <rect key="frame" x="17" y="1" width="20" height="20"/>
-                                                </imageView>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="WebPay.bundle/Images/SmallMasterCard.png" translatesAutoresizingMaskIntoConstraints="NO" id="rHr-cM-g9M">
-                                                    <rect key="frame" x="49" y="1" width="20" height="20"/>
-                                                </imageView>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="WebPay.bundle/Images/SmallAmericanExpress.png" translatesAutoresizingMaskIntoConstraints="NO" id="2ap-ur-dqO">
-                                                    <rect key="frame" x="81" y="1" width="20" height="20"/>
-                                                </imageView>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="WebPay.bundle/Images/SmallJCB.png" translatesAutoresizingMaskIntoConstraints="NO" id="8aa-6G-svo">
-                                                    <rect key="frame" x="112" y="1" width="20" height="20"/>
-                                                </imageView>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="WebPay.bundle/Images/SmallDinersClub.png" translatesAutoresizingMaskIntoConstraints="NO" id="IXg-xU-Qvd">
-                                                    <rect key="frame" x="145" y="1" width="20" height="20"/>
-                                                </imageView>
-                                            </subviews>
+                                            <rect key="frame" x="90" y="75" width="200" height="21"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="21" id="1ng-tV-Gwn"/>
                                                 <constraint firstAttribute="width" constant="200" id="Q9S-6i-fMp"/>
                                             </constraints>
-                                            <connections>
-                                                <outlet property="amexImage" destination="2ap-ur-dqO" id="3uY-99-aw1"/>
-                                                <outlet property="dinersImage" destination="IXg-xU-Qvd" id="IUB-CR-v6S"/>
-                                                <outlet property="jcbImage" destination="8aa-6G-svo" id="SiH-6x-XxG"/>
-                                                <outlet property="masterCardImage" destination="rHr-cM-g9M" id="Qoa-5R-SSw"/>
-                                                <outlet property="visaImage" destination="26R-Ds-AeL" id="Nfb-BK-Yar"/>
-                                            </connections>
                                         </view>
                                     </subviews>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <constraints>
                                         <constraint firstAttribute="centerX" secondItem="g6Y-lR-r7s" secondAttribute="centerX" id="46Z-Om-oU3"/>
                                         <constraint firstItem="63t-fP-F8o" firstAttribute="top" secondItem="gB4-pL-HlF" secondAttribute="top" constant="25" id="BVa-Z6-P4G"/>
-                                        <constraint firstItem="bng-jq-y3g" firstAttribute="leading" secondItem="gB4-pL-HlF" secondAttribute="leading" constant="20" id="R6w-tf-GHQ"/>
-                                        <constraint firstItem="6uu-Jt-WXu" firstAttribute="leading" secondItem="gB4-pL-HlF" secondAttribute="leading" constant="20" id="Tat-Ki-b4c"/>
+                                        <constraint firstItem="bng-jq-y3g" firstAttribute="leading" secondItem="gB4-pL-HlF" secondAttribute="leading" constant="15" id="R6w-tf-GHQ"/>
+                                        <constraint firstItem="6uu-Jt-WXu" firstAttribute="leading" secondItem="gB4-pL-HlF" secondAttribute="leading" constant="15" id="Tat-Ki-b4c"/>
                                         <constraint firstAttribute="bottom" secondItem="g6Y-lR-r7s" secondAttribute="bottom" constant="4" id="Wlf-dK-qI7"/>
+                                        <constraint firstAttribute="height" constant="100" id="XHv-fX-5JJ"/>
                                         <constraint firstAttribute="centerX" secondItem="63t-fP-F8o" secondAttribute="centerX" id="mgV-8G-n61"/>
                                         <constraint firstAttribute="bottom" secondItem="6uu-Jt-WXu" secondAttribute="bottom" constant="5" id="qR7-QQ-LR8"/>
                                         <constraint firstItem="bng-jq-y3g" firstAttribute="top" secondItem="gB4-pL-HlF" secondAttribute="top" constant="30" id="wwq-Eg-Sgw"/>
-                                        <constraint firstItem="g6Y-lR-r7s" firstAttribute="leading" secondItem="gB4-pL-HlF" secondAttribute="leading" constant="85" id="yKi-PH-Wch"/>
+                                        <constraint firstItem="g6Y-lR-r7s" firstAttribute="leading" secondItem="gB4-pL-HlF" secondAttribute="leading" constant="90" id="yKi-PH-Wch"/>
                                     </constraints>
                                     <variation key="default">
                                         <mask key="constraints">
@@ -178,11 +155,4 @@
             <point key="canvasLocation" x="599" y="379"/>
         </scene>
     </scenes>
-    <resources>
-        <image name="WebPay.bundle/Images/SmallAmericanExpress.png" width="20" height="20"/>
-        <image name="WebPay.bundle/Images/SmallDinersClub.png" width="20" height="20"/>
-        <image name="WebPay.bundle/Images/SmallJCB.png" width="20" height="20"/>
-        <image name="WebPay.bundle/Images/SmallMasterCard.png" width="20" height="20"/>
-        <image name="WebPay.bundle/Images/SmallVisa.png" width="20" height="20"/>
-    </resources>
 </document>
