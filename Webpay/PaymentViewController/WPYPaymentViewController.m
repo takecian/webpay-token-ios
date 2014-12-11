@@ -53,6 +53,8 @@ static float const WPYFieldLeftMargin = 105.0f;
 static float const WPYFieldRightMargin = 10.0f;
 static float const WPYFieldTopMargin = 4.0f;
 static float const WPYKeyboardAnimationDuration = 0.3f;
+static float const WPYIphone4SHeight = 480.0f;
+static float const WPYSuggestionBarHeight = 36.0f;
 static NSString *const WPYFont = @"Avenir-Roman";
 
 
@@ -325,6 +327,7 @@ static UIImage *imageFromColor(UIColor *color)
                                              selector:@selector(keyboardWillHide:)
                                                  name:UIKeyboardWillHideNotification
                                                object:self.view.window];
+    
 }
 
 - (void)unsubscribeFromKeyboardNotification
@@ -334,13 +337,28 @@ static UIImage *imageFromColor(UIColor *color)
 
 - (void)keyboardWillShow:(NSNotification *)notification
 {
+    float height = [WPYDeviceSettings isiOS8] ? WPYPriceViewHeight - 8 : WPYPriceViewHeight;
     if (!self.isKeyboardDisplayed)
     {
-        float height = [WPYDeviceSettings isiOS8] ? WPYPriceViewHeight - 8 : WPYPriceViewHeight;
         [UIView animateWithDuration:WPYKeyboardAnimationDuration animations:^() {
             [self.tableView setContentOffset:CGPointMake(0, height) animated:NO];
         }];
         self.tableView.scrollEnabled = NO;
+    }
+    else
+    {
+        // called when keyboard is flick keyboard and suggestion bar is about to be displayed
+        // On iphone4S, flick keyboard will hide namefield with suggestion bar
+        // Scroll when iphone4s && namefield focused && suggestion bar shown
+        WPYAbstractCardField *nameField = self.contentViews[3];
+        if (self.view.frame.size.height <= WPYIphone4SHeight && [nameField.textField isFirstResponder])
+        {
+            [self.tableView setContentOffset:CGPointMake(0, height + WPYSuggestionBarHeight) animated:YES];
+            [[NSNotificationCenter defaultCenter] addObserver:self
+                                                     selector:@selector(nameFieldDoneEditing)
+                                                         name:UITextFieldTextDidEndEditingNotification
+                                                       object:nameField.textField];
+        }
     }
     
     self.isKeyboardDisplayed = YES;
@@ -366,6 +384,22 @@ static UIImage *imageFromColor(UIColor *color)
     }];
 }
 
+- (void)nameFieldDoneEditing
+{
+    float height = [WPYDeviceSettings isiOS8] ? WPYPriceViewHeight - 8 : WPYPriceViewHeight;
+    
+    // When keyboard is returned, keyboardWillHide will be called first, setting height to 0
+    // Restore only if contentOffset is height + bar height
+    if (self.tableView.contentOffset.y == (height + WPYSuggestionBarHeight))
+    {
+        [self.tableView setContentOffset:CGPointMake(0, height) animated:YES];
+    }
+    
+    WPYAbstractCardField *nameField = self.contentViews[3];
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:UITextFieldTextDidEndEditingNotification
+                                                  object:nameField.textField];
+}
 
 
 #pragma mark cardfield change
