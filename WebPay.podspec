@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "WebPay"
-  s.version      = "1.1.1"
+  s.version      = "2.0"
   s.summary      = "Tokenizer library for WebPay.jp"
   s.description  = <<-DESC
                    WebPay.jp is an API for accepting online payments in Japan.
@@ -11,8 +11,8 @@ Pod::Spec.new do |s|
   s.license      = { :type => "MIT", :file => "LICENSE" }
   s.author       = { "yohei okada" => "okada.yohei@gmail.com" }
   s.platform     = :ios
-  s.source       = { :git => "https://github.com/webpay/webpay-token-ios.git", :tag => '1.1.1' }
   s.ios.deployment_target = "7.0"
+  s.source       = { :git => "https://github.com/webpay/webpay-token-ios.git", :tag => '2.0' }
   s.source_files  = "Webpay/**/*.{h,m}"
   s.resources = ["Webpay/Resources/WebPay.bundle", "Webpay/Resources/*.{storyboard}"]
   s.frameworks = "Foundation", "UIKit", "QuartzCore"
