@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0510"
+   LastUpgradeVersion = "0610"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -9,28 +9,14 @@
          <BuildActionEntry
             buildForTesting = "YES"
             buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "CE8D232B67ACD75D236C3543"
-               BuildableName = "libPods-WebpayTests.a"
-               BlueprintName = "Pods-WebpayTests"
-               ReferencedContainer = "container:Pods/Pods.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "4764A07418C7EB04006C9E4E"
-               BuildableName = "Webpay.app"
-               BlueprintName = "Webpay"
+               BlueprintIdentifier = "4764A08F18C7EB04006C9E4E"
+               BuildableName = "WebpayTests.xctest"
+               BlueprintName = "WebpayTests"
                ReferencedContainer = "container:Webpay.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -53,6 +39,15 @@
             </BuildableReference>
          </TestableReference>
       </Testables>
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "4764A08F18C7EB04006C9E4E"
+            BuildableName = "WebpayTests.xctest"
+            BlueprintName = "WebpayTests"
+            ReferencedContainer = "container:Webpay.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
    </TestAction>
    <LaunchAction
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
@@ -63,15 +58,15 @@
       ignoresPersistentStateOnLaunch = "NO"
       debugDocumentVersioning = "YES"
       allowLocationSimulation = "YES">
-      <BuildableProductRunnable>
+      <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "4764A07418C7EB04006C9E4E"
-            BuildableName = "Webpay.app"
-            BlueprintName = "Webpay"
+            BlueprintIdentifier = "4764A08F18C7EB04006C9E4E"
+            BuildableName = "WebpayTests.xctest"
+            BlueprintName = "WebpayTests"
             ReferencedContainer = "container:Webpay.xcodeproj">
          </BuildableReference>
-      </BuildableProductRunnable>
+      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>
@@ -81,6 +76,15 @@
       useCustomWorkingDirectory = "NO"
       buildConfiguration = "Release"
       debugDocumentVersioning = "YES">
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "4764A08F18C7EB04006C9E4E"
+            BuildableName = "WebpayTests.xctest"
+            BlueprintName = "WebpayTests"
+            ReferencedContainer = "container:Webpay.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">
