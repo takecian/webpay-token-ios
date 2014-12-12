@@ -14,7 +14,7 @@ Pod::Spec.new do |s|
   s.ios.deployment_target = "6.0"
   s.source       = { :git => "https://github.com/webpay/webpay-token-ios.git", :tag => '1.1.1' }
   s.source_files  = "Webpay/**/*.{h,m}"
-  s.resources = "Webpay/Resources/WebPay.bundle"
+  s.resources = ["Webpay/Resources/WebPay.bundle", "Webpay/Resources/*.{storyboard}"]
   s.frameworks = "Foundation", "UIKit", "QuartzCore"
   s.requires_arc = true
 end
