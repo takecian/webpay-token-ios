@@ -72,11 +72,11 @@
         }
     };
     
-    WPYPaymentViewController *paymentViewController = [[WPYPaymentViewController alloc] initWithPriceTag:@"¥350"
-                                                                                         supportedBrands:self.supportedBrands
-                                                                                                callback:callback];
-    paymentViewController.title = @"Payment Info";
+    WPYPaymentViewController *paymentViewController = [WPYPaymentViewController paymentViewControllerWithPriceTag:@"¥350"
+                                                                                                  supportedBrands:self.supportedBrands
+                                                                                                         callback:callback];
     
+    paymentViewController.title = @"Payment Info";
     [self.navigationController pushViewController:paymentViewController animated:YES];
 }
 
