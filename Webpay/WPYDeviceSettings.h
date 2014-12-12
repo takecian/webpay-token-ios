@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 @interface WPYDeviceSettings : NSObject
++ (BOOL)isiOS8;
 + (BOOL)isiOS7;
 + (NSString *)preferredLanguage;
 + (BOOL)isJapanese;

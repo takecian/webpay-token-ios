@@ -9,10 +9,17 @@
 #import "WPYDeviceSettings.h"
 
 @implementation WPYDeviceSettings
+
++ (BOOL)isiOS8
+{
+    return floor(NSFoundationVersionNumber) > NSFoundationVersionNumber_iOS_7_1;
+}
+
 + (BOOL)isiOS7
 {
     return floor(NSFoundationVersionNumber) > NSFoundationVersionNumber_iOS_6_1;
 }
+
 + (NSString *)preferredLanguage
 {
     return  [[[NSLocale preferredLanguages] objectAtIndex:0] substringToIndex:2];

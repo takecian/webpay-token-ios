@@ -12,53 +12,55 @@
 
 @interface WPYCardFormCell ()
 @property(nonatomic, strong) UILabel *titleLabel;// default textlabel of cell has weird behaviors with frame size.
+@property(nonatomic, strong) UIView *field;
 @end
 
+static const float WPYLabelX = 15.0f;
+static const float WPYLabelY = 1.0f;
+
 @implementation WPYCardFormCell
-- (id)initWithStyle:(UITableViewCellStyle)style
-    reuseIdentifier:(NSString *)reuseIdentifier
-        contentView:(UIView *)contentView
-              title:(NSString *)title
+
+// created from storyboard
+- (void)awakeFromNib
 {
-    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
-    if (self)
+    [self addTitleLabel];
+}
+
+//created from code
+- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
+{
+    if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier])
     {
-        // cell
-        self.selectionStyle = UITableViewCellSelectionStyleNone;
-        self.backgroundColor = [UIColor whiteColor];
-        
-        // text label
-        float x = [WPYDeviceSettings isiOS7] ? 15 : 10;
-        _titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(x, 1, 80, 48)];
-        _titleLabel.backgroundColor = [UIColor clearColor];
-        _titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
-        _titleLabel.numberOfLines = 0;
-        _titleLabel.textColor = [UIColor colorWithRed:0 green:0.478 blue:1.0 alpha:1.0];
-        _titleLabel.font = [self textFont];
-        
-        // adjust line height
-        NSMutableParagraphStyle *paragrahStyle = [[NSMutableParagraphStyle alloc] init];
-        [paragrahStyle setLineSpacing:5];
-        NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:title];
-        [attributedString addAttribute:NSParagraphStyleAttributeName value:paragrahStyle range:NSMakeRange(0, [title length])];
-        _titleLabel.attributedText = attributedString;
-        
-        [self.contentView addSubview:_titleLabel];
-        
-        [self.contentView addSubview: contentView];
+        [self addTitleLabel];
     }
     return self;
 }
 
-- (UIFont *)textFont
+- (void)addTitleLabel
 {
-    if ([WPYDeviceSettings isJapanese])
+    self.titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(WPYLabelX, WPYLabelY, 80, 48)];
+    self.titleLabel.font = [WPYDeviceSettings isJapanese] ? [UIFont fontWithName:@"HiraKakuProN-W3" size:13.0f] : [UIFont fontWithName:@"Avenir-Roman" size:16.0f];
+    self.titleLabel.textColor = [UIColor colorWithRed:0 green:0.48 blue:1.0 alpha:1.0];
+    self.titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
+    self.titleLabel.numberOfLines = 0;
+    [self.contentView addSubview:self.titleLabel];
+}
+
+- (void)setTitle:(NSString *)title
+{
+    NSMutableParagraphStyle *paragrahStyle = [[NSMutableParagraphStyle alloc] init];
+    [paragrahStyle setLineSpacing:5];
+    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:title];
+    [attributedString addAttribute:NSParagraphStyleAttributeName value:paragrahStyle range:NSMakeRange(0, [title length])];
+    self.titleLabel.attributedText = attributedString;
+}
+
+- (void)addField:(UIView *)field
+{
+    if (!self.field)
     {
-        return [UIFont fontWithName:@"HiraKakuProN-W3" size:13.0f];
-    }
-    else
-    {
-        return [UIFont fontWithName:@"Avenir-Roman" size:16.0f];
+        self.field = field;
+        [self.contentView addSubview: field];
     }
 }
 

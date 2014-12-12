@@ -10,7 +10,7 @@ There is a [sample app](https://github.com/webpay/webpay-token-ios-sample-card.i
 
 
 ## Requirements
-webpay-token-ios supports iOS 6 and above.
+webpay-token-ios supports iOS 7 and above.
 
 
 ## Installation
@@ -20,7 +20,7 @@ You can either install using cocoapods(recommended) or copying files manually.
 ### 1. Cocoapods(Recommended)
 In your Podfile, add a line
 ```
-pod 'WebPay', '~> 1.1.1'
+pod 'WebPay', '~> 2.0'
 ```
 then, run `pod install`.
 
@@ -80,7 +80,25 @@ If you just want a viewcontroller for `pushViewController:animated` or `presentV
 
 ```objective-c
 // objective-c
+// version 2.x
+WPYPaymentViewController *paymentViewController = [WPYPaymentViewController paymentViewControllerWithPriceTag:@"¥350" callback:^(WPYPaymentViewController *viewController, WPYToken *token, NSError *error) {
+  if (error)
+  {
+    NSLog(@"error:%@", [error localizedDescription]);
+  }
+  else
+  {
+    //post token to your server
 
+    // when transaction is complete
+    [viewController setPayButtonComplete]; // this will change the button color to green and its title to checkmark
+    [viewController dismissAfterDelay: 2.0f];
+  }
+}];
+
+[self.navigationController pushViewController:paymentViewController animated:YES];
+
+// version 1.x
 WPYPaymentViewController *paymentViewController = [[WPYPaymentViewController alloc] initWithPriceTag:@"¥350" callback:^(WPYPaymentViewController *viewController, WPYToken *token, NSError *error) {
   if (error)
   {

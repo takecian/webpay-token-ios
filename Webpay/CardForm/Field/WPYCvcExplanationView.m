@@ -13,6 +13,8 @@
 
 static float const WPYAnimationDuration = 0.2f;
 static float const WPYOverlayOpacity = 0.7f;
+static float const WPYImageViewWidth = 280.0f;
+static float const WPYImageViewHeight = 168.0f;
 
 @interface WPYCvcExplanationView ()
 @property(nonatomic, strong) UIImageView *imageView;
@@ -83,8 +85,10 @@ static float const WPYOverlayOpacity = 0.7f;
     if (self = [super initWithFrame:frame])
     {
         self.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:WPYOverlayOpacity];
-        
-        self.imageView = [[UIImageView alloc] initWithFrame:CGRectMake(20, 130, 280, 168)];
+       
+        CGFloat x = (self.frame.size.width - WPYImageViewWidth) / 2;
+        CGFloat y = ((self.frame.size.height - WPYImageViewHeight) / 2) - 50.0f;
+        self.imageView = [[UIImageView alloc] initWithFrame:CGRectMake(x, y, WPYImageViewWidth, WPYImageViewHeight)];
         [self addSubview:self.imageView];
         
         // add gesture
