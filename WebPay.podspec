@@ -11,8 +11,8 @@ Pod::Spec.new do |s|
   s.license      = { :type => "MIT", :file => "LICENSE" }
   s.author       = { "yohei okada" => "okada.yohei@gmail.com" }
   s.platform     = :ios
-  s.ios.deployment_target = "6.0"
   s.source       = { :git => "https://github.com/webpay/webpay-token-ios.git", :tag => '1.1.1' }
+  s.ios.deployment_target = "7.0"
   s.source_files  = "Webpay/**/*.{h,m}"
   s.resources = ["Webpay/Resources/WebPay.bundle", "Webpay/Resources/*.{storyboard}"]
   s.frameworks = "Foundation", "UIKit", "QuartzCore"
