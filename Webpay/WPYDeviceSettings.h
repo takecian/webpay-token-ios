@@ -13,4 +13,6 @@
 + (BOOL)isiOS7;
 + (NSString *)preferredLanguage;
 + (BOOL)isJapanese;
++ (NSString *)osVersion;
++ (NSString *)device;
 @end

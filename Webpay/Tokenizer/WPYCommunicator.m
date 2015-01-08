@@ -9,7 +9,9 @@
 #import "WPYCommunicator.h"
 
 #import "WPYCreditCard.h"
+#import "WPYConstants.h"
 #import "WPYErrors.h"
+#import "WPYDeviceSettings.h"
 
 @interface WPYCommunicator () <NSURLConnectionDelegate, NSURLConnectionDataDelegate>
 @property(nonatomic, copy) WPYCommunicatorCompBlock completionBlock;
@@ -77,9 +79,11 @@ static NSMutableURLRequest *templateRequest(NSString *endPoint, NSString *public
     
     [templateRequest addValue:[NSString stringWithFormat:@"Bearer %@", publicKey]
            forHTTPHeaderField:@"Authorization"];
-    
     [templateRequest addValue:acceptLanguage forHTTPHeaderField:@"Accept-Language"];
     
+    NSString *userAgent = [NSString stringWithFormat:@"WebPayTokeniOS/%@ %@/%@", WPYSDKVersion, [WPYDeviceSettings device], [WPYDeviceSettings osVersion]];
+    [templateRequest addValue:userAgent forHTTPHeaderField:@"User-Agent"];
+
     return templateRequest;
 }
 

@@ -29,4 +29,14 @@
 {
     return [[WPYDeviceSettings preferredLanguage] isEqualToString:@"ja"];
 }
+
++ (NSString *)osVersion
+{
+    return [UIDevice currentDevice].systemVersion;
+}
+
++ (NSString *)device
+{
+    return UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ? @"iPad" : @"iPhone";
+}
 @end
