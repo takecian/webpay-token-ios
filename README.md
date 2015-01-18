@@ -1,8 +1,4 @@
-# webpay-token-ios
-[![Travis](https://img.shields.io/travis/webpay/webpay-token-ios.svg?style=flat)]()
-[![CocoaPods](https://img.shields.io/cocoapods/v/WebPay.svg?style=flat)]()
-[![CocoaPods](https://img.shields.io/cocoapods/p/WebPay.svg?style=flat)]()
-[![CocoaPods](https://img.shields.io/cocoapods/l/WebPay.svg?style=flat)]()
+# webpay-token-ios [![Travis](https://img.shields.io/travis/webpay/webpay-token-ios.svg?style=flat)]() [![CocoaPods](https://img.shields.io/cocoapods/v/WebPay.svg?style=flat)]() [![CocoaPods](https://img.shields.io/cocoapods/p/WebPay.svg?style=flat)]() [![CocoaPods](https://img.shields.io/cocoapods/l/WebPay.svg?style=flat)]()
 
 webpay-token-ios is an iOS library for creating a WebPay token from a credit card.
 
