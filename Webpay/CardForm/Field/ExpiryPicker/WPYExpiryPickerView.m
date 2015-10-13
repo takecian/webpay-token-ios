@@ -137,7 +137,7 @@ typedef NS_ENUM(NSInteger, WPYComponents)
 - (NSInteger)currentYear
 {
     NSDate *now = [NSDate date];
-    NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+    NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
     NSDateComponents *comps = [calendar components:NSCalendarUnitYear fromDate:now];
     return comps.year;
 }
