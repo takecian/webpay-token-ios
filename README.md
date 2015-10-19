@@ -122,7 +122,7 @@ WPYPaymentViewController *paymentViewController = [[WPYPaymentViewController all
 
 let paymentViewController = WPYPaymentViewController(priceTag: "¥350", callback: { viewController, token, error in
   if let newError = error {
-    print("error:\(error.localizedDescription)")
+    print("error:\(newError.localizedDescription)")
   } else {
     //post token to your server
 
@@ -182,7 +182,7 @@ card.name = "TARO YAMADA"
 // pass card instance and a callback
 WPYTokenizer.createTokenFromCard(card, completionBlock: {token, error in
   if let newError = error {
-    print("\(error)")
+    print("error: \(newError)")
   } else {
     print("\(token.tokenId)")
   }
