@@ -333,7 +333,12 @@ static NSString *reverseString(NSString *string)
     [dateComps setMonth:month + 1];
     [dateComps setDay: 1];
 
-    NSCalendar *gregorianCal = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+    NSCalendar *gregorianCal;
+#ifdef __IPHONE_8_0
+    gregorianCal = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
+#else
+    gregorianCal = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+#endif
     NSDate *expiryDate = [gregorianCal dateFromComponents:dateComps];
     NSDate *now = [NSDate date];
 
