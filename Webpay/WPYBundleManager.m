@@ -16,7 +16,7 @@ NSString *const WPYBundleName = @"WebPay";
 @implementation WPYBundleManager
 + (NSBundle *)sharedBundle
 {
-    NSString *path = [[NSBundle mainBundle] pathForResource:@"WebPay" ofType:@"bundle"];
+    NSString *path = [[NSBundle bundleForClass:[WPYBundleManager class]] pathForResource:@"WebPay" ofType:@"bundle"];
     return [NSBundle bundleWithPath:path];
 }
 
