@@ -32,7 +32,7 @@ then, run `pod install`.
 
 
 ### For objective-c projects
-Add `#import 'Webpay.h'` in one of your files, and see if your target builds without error.
+Add `#import "Webpay.h"` in one of your files, and see if your target builds without error.
 
 
 ### For swift projects
